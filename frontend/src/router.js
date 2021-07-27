@@ -4,7 +4,7 @@ import Home from './views/Home.vue'
 import LookAtMe from './views/LookAtMe.vue'
 import Wanted from './views/Wanted.vue'
 import Features from './views/Features';
-import Mypage from './views/Mypage.vue';
+import MyPage from './views/MyPage.vue';
 
 Vue.use(Router)
 
@@ -35,7 +35,7 @@ export default new Router({
     {
       path: '/mypage',
       name: 'mypage',
-      component: Mypage
+      component: MyPage
     }
   ]
 })

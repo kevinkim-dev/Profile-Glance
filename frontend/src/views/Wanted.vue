@@ -70,11 +70,11 @@
 <script>
     import { mapState } from 'vuex';
 
-    import PriceFilter from '@/components/shop/PriceFilter.vue';
-    import CategoryFilter from '@/components/shop/CategoryFilter.vue';
-    import ColorFilter from '@/components/shop/ColorFilter.vue';
+    import PriceFilter from '@/components/wanted/PriceFilter.vue';
+    import CategoryFilter from '@/components/wanted/CategoryFilter.vue';
+    import ColorFilter from '@/components/wanted/ColorFilter.vue';
 
-    import ProductList from '@/components/shop/ProductList.vue';
+    import ProductList from '@/components/wanted/ProductList.vue';
 
     export default {
         computed: {

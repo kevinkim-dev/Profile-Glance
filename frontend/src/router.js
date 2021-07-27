@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import LookAtMe from './views/LookAtMe.vue'
 import Shop from './views/Shop.vue'
 import Features from './views/Features';
 
@@ -14,6 +15,11 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home
+    },
+    {
+      path: '/lookatme',
+      name: 'lookatme',
+      component: LookAtMe
     },
     {
       path: '/shop',

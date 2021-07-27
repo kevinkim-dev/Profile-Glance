@@ -1,13 +1,19 @@
 <template>
   <div id="app">
-    <Header />
-    <router-view />
-    <Footer />
+    <div v-if="isLogin">
+      <Header />
+      <router-view />
+      <Footer />
+    </div>
+    <div v-else>
+      <Home />
+    </div>
   </div>
 </template>
 <script>
   import Header from '@/components/Header.vue';
   import Footer from '@/components/Footer.vue';
+  import Home from '@/views/Home.vue';
 
   export default {
     mounted() {;
@@ -15,7 +21,13 @@
     },
     components: {
       Header,
-      Footer
+      Footer,
+      Home
+    },
+    computed: {
+      isLogin: function() {
+        return true
+      }
     }
   }
 </script>

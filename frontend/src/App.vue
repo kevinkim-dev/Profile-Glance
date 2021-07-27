@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <v-app>
     <div v-if="isLogin">
       <Header />
       <router-view />
@@ -8,26 +8,37 @@
     <div v-else>
       <Home />
     </div>
-  </div>
-</template>
-<script>
-  import Header from '@/components/Header.vue';
-  import Footer from '@/components/Footer.vue';
-  import Home from '@/views/Home.vue';
 
-  export default {
-    mounted() {;
-      $.initialize();
-    },
-    components: {
-      Header,
-      Footer,
-      Home
-    },
-    computed: {
-      isLogin: function() {
-        return true
-      }
+
+    <!-- <v-main>
+      <HelloWorld/>
+    </v-main> -->
+  </v-app>
+</template>
+
+<script>
+import Header from '@/components/Header.vue';
+import Footer from '@/components/Footer.vue';
+import Home from '@/views/Home.vue';
+
+
+export default {
+  name: 'App',
+
+  components: {
+    Header,
+    Footer,
+    Home
+  },
+
+  data: () => ({
+    //
+  }),
+  computed: {
+    isLogin: function() {
+      return true
     }
   }
+
+};
 </script>

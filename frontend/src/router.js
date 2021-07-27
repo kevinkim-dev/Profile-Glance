@@ -2,8 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import LookAtMe from './views/LookAtMe.vue'
-import Shop from './views/Shop.vue'
+import Wanted from './views/Wanted.vue'
 import Features from './views/Features';
+import Mypage from './views/Mypage.vue';
 
 Vue.use(Router)
 
@@ -22,14 +23,19 @@ export default new Router({
       component: LookAtMe
     },
     {
-      path: '/shop',
-      name: 'shop',
-      component: Shop
+      path: '/wanted',
+      name: 'wanted',
+      component: Wanted
     },
     {
       path: '/features',
       name: 'features',
       component: Features
+    },
+    {
+      path: '/mypage',
+      name: 'mypage',
+      component: Mypage
     }
   ]
 })

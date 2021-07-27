@@ -14,8 +14,8 @@
                             <router-link :to="{name: 'lookatme'}" tag="li" active-class="sale-noti" exact>
                                 <a>룩앳미</a>
                             </router-link>
-                            <router-link :to="{name: 'shop'}" tag="li" active-class="sale-noti" exact>
-                                <a>기업홍보관</a>
+                            <router-link :to="{name: 'wanted'}" tag="li" active-class="sale-noti" exact>
+                                <a>원티드</a>
                             </router-link>
                             <router-link :to="{name: 'features'}" tag="li" active-class="sale-not" exact>
                                 <a>커뮤니티</a>
@@ -25,7 +25,7 @@
                 </div>
                 <!-- Header Icon -->
                 <div class="header-icons">
-                    <router-link :to="{name: 'profile'}" tag="li" active-class="sale-not" exact>
+                    <router-link :to="{name: 'mypage'}" tag="li" active-class="sale-not" exact>
                         <a href="#" class="header-wrapicon1 dis-block">
                             <img src="images/icons/icon-header-01.png" class="header-icon1" alt="ICON">
                         </a>

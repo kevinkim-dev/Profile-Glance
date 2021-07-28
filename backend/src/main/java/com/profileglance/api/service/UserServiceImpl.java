@@ -1,0 +1,51 @@
+package com.profileglance.api.service;
+
+import com.profileglance.db.entity.User;
+import com.profileglance.db.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+public class UserServiceImpl implements UserService{
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Override
+    public User createUser(User user) {
+
+        return userRepository.save(User.builder()
+                .userName(user.getUserName())
+                .userEmail(user.getUserEmail())
+                .userNickname(user.getUserNickname())
+                .userPassword(passwordEncoder.encode(user.getUserPassword()))
+                .major1(user.getMajor1())
+                .major2(user.getMajor2())
+                .userPhone(user.getUserPhone())
+                .companyLike(0l)
+                .userImg("")
+                .birth(user.getBirth())
+                .build());
+    }
+
+    @Override
+    public User getUserByUserId(String userId) {
+        return null;
+    }
+
+    @Override
+    public Optional<User> updateUser(User userUpdateInfo, String userId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean deleteUser(String userId) {
+        return false;
+    }
+}

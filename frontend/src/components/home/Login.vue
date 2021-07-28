@@ -24,7 +24,9 @@
         </v-row>
         <v-row class="text-center mb-1">
           <v-col cols="6">
-            <v-btn class="login-button rounded-0 mb-5"
+            <v-btn class="rounded-0 mb-5"
+              :disabled="login_button_disable"
+              :style="login_button_style"
               block
               x-large
               color="white"
@@ -62,6 +64,33 @@ export default {
     return {
       user_email: '',
       user_password: '',
+      // login_button_style: {
+      //   background: '#439474'
+      // }
+    }
+  },
+  computed: {
+    login_button_style() {
+      if (!this.user_email.includes('.') || 
+      !this.user_email.includes('@') ||
+      !this.user_password) {
+        return {
+          background: '#a2e2c8'
+        }
+      } else {
+        return {
+          background: '#439474'
+        }
+      }
+    },
+    login_button_disable() {
+      if (!this.user_email.includes('.') || 
+      !this.user_email.includes('@') ||
+      !this.user_password) {
+        return true
+      } else {
+        return false
+      }
     }
   },
   methods: {
@@ -76,6 +105,11 @@ export default {
       return this.$emit('signup')
     },
     clickLogin() {
+      if (!this.user_email) {
+        return alert('이메일을 입력해주세요.')
+      } else if (!this.user_password) {
+        return alert('비밀번호를 입력해주세요.')
+      }
       const body = {
         user_email: this.user_email, 
         user_password: this.user_password
@@ -86,13 +120,6 @@ export default {
       } else {
         return alert('로그인 실패')
       }
-      // store.dispatch('requestLogin', body)
-      // .then(function (result) {
-      //   localStorage.setItem('user_token', result.jwt)
-      // })
-      // .catch(function (err) {
-      //   console.log(err)
-      // })
     }
   }
 }
@@ -101,6 +128,7 @@ export default {
 <style>
 .login-button {
   background: #439474;
+  /* background: #a2e2c8; */
 }
 
 .close-button {

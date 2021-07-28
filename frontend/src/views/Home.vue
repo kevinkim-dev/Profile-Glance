@@ -16,20 +16,13 @@
           Open Dialog
         </v-btn>
       </template>
-      <login @close="isLoginViewd=false" @signup="isSigUpViewd=true;isLoginViewd=false"/>
-    </v-dialog>
-    <v-dialog
-      v-model="isLoginViewd"
-      persistent
-      max-width="600px"
-    >
-      <login @close="isLoginViewd=false" />
+      <login @close="closeLogin" @signup="openSignUp"/>
     </v-dialog>
     <v-dialog
       v-model="isSignUpViewd"
       persistent
       max-width="600px"
-    > <sign-up @close="isSignUpViewd=false" />
+    > <sign-up @close="closeSignUp" @login="openLogin" />
     </v-dialog>
   </v-row>
 </template>
@@ -48,6 +41,22 @@ export default {
             isSignUpViewd: false,
         }
     },
+    methods: {
+      openLogin() {
+        this.isLoginViewd = true
+        this.isSignUpViewd = false
+      },
+      closeLogin() {
+        this.isLoginViewd = false
+      },
+      openSignUp() {
+        this.isSignUpViewd = true
+        this.isLoginViewd = false
+      },
+      closeSignUp() {
+        this.isSignUpViewd = false
+      },
+    }
   }
 </script>
 

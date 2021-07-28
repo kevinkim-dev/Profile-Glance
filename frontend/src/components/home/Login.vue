@@ -1,113 +1,152 @@
 <template>
-<v-card>
-        <v-card-title>
-          <span class="text-h5">User Profile</span>
-        </v-card-title>
-        <v-card-text>
-          <v-container>
-            <v-row>
-              <v-col
-                cols="12"
-                sm="6"
-                md="4"
-              >
-                <v-text-field
-                  label="Legal first name*"
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-                md="4"
-              >
-                <v-text-field
-                  label="Legal middle name"
-                  hint="example of helper text only on focus"
-                ></v-text-field>
-              </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-                md="4"
-              >
-                <v-text-field
-                  label="Legal last name*"
-                  hint="example of persistent helper text"
-                  persistent-hint
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  label="Email*"
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  label="Password*"
-                  type="password"
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-              >
-                <v-select
-                  :items="['0-17', '18-29', '30-54', '54+']"
-                  label="Age*"
-                  required
-                ></v-select>
-              </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-              >
-                <v-autocomplete
-                  :items="['Skiing', 'Ice hockey', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"
-                  label="Interests"
-                  multiple
-                ></v-autocomplete>
-              </v-col>
-            </v-row>
-          </v-container>
-          <small>*indicates required field</small>
+  <v-card>
+    <v-card-title class="d-flex justify-content-center p-5">
+      <span class="text-h4">로그인</span>
+    </v-card-title>
+    <v-card-text>
+      <v-container>
+        <v-row>
+          <v-col cols="12" class="py-0">
+            <v-text-field
+              label="아이디(이메일)"
+              required
+              v-model="user_email"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="12" class="py-0">
+            <v-text-field
+              label="비밀번호"
+              type="password"
+              required
+              v-model="user_password"
+            ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row class="text-center mb-1">
+          <v-col cols="6">
+            <v-btn class="rounded-0 mb-5"
+              :disabled="login_button_disable"
+              :style="login_button_style"
+              block
+              x-large
+              color="white"
+              text
+              @click="clickLogin"
+            >
+              로그인
+            </v-btn>
+            <u @click="$emit('close')">아차차! 아이디를 잊으셨나요?</u>
+          </v-col>
+          <v-col cols="6">
+            <v-btn class="close-button rounded-0 mb-5"
+              block
+              x-large
+              color="white"
+              text
+              @click="closeLoginModal"
+            >
+              취소
+            </v-btn>
+            <u @click="$emit('close')">아차! 비밀번호를 잊으셨나요?</u>
+          </v-col>
+        </v-row>
+        <v-card-text class="text-center">
+          <u class="signup" @click="openSignUpModal">이런... 아직도 회원이 아니신가요?</u>
         </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="black"
-            text
-            @click="$emit('signup')"
-          >
-            이런... 아직 회원이 아니신가요?
-          </v-btn>
-
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="$emit('close')"
-          >
-            Close
-          </v-btn>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="$emit('close')"
-          >
-            Save
-          </v-btn>
-        </v-card-actions>
-      </v-card>
+      </v-container>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
 export default {
+  data: function() {
+    return {
+      user_email: '',
+      user_password: '',
+      // login_button_style: {
+      //   background: '#439474'
+      // }
+    }
+  },
+  computed: {
+    login_button_style() {
+      if (!this.user_email.includes('.') || 
+      !this.user_email.includes('@') ||
+      !this.user_password) {
+        return {
+          background: '#a2e2c8'
+        }
+      } else {
+        return {
+          background: '#439474'
+        }
+      }
+    },
+    login_button_disable() {
+      if (!this.user_email.includes('.') || 
+      !this.user_email.includes('@') ||
+      !this.user_password) {
+        return true
+      } else {
+        return false
+      }
+    }
+  },
+  methods: {
+    closeLoginModal() {
+      this.user_email = ''
+      this.user_password = ''
+      return this.$emit('close')
+    },
+    openSignUpModal() {
+      this.user_email = ''
+      this.user_password = ''
+      return this.$emit('signup')
+    },
+    clickLogin() {
+      if (!this.user_email) {
+        return alert('이메일을 입력해주세요.')
+      } else if (!this.user_password) {
+        return alert('비밀번호를 입력해주세요.')
+      }
+      const body = {
+        user_email: this.user_email, 
+        user_password: this.user_password
+      }
+      this.$store.dispatch('requestLogin')
+      if (this.$store.state.token) {
+        return this.$emit('close')
+      } else {
+        return alert('로그인 실패')
+      }
+    }
+  }
 }
 </script>
 
 <style>
+.login-button {
+  background: #439474;
+  /* background: #a2e2c8; */
+}
 
+.close-button {
+  background: #7D7D7D;
+}
+
+
+u:hover {
+  cursor: pointer;
+}
+
+.forget {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.signup {
+  font-size: 16px;
+  font-weight: bold;
+}
 </style>

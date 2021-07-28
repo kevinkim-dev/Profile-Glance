@@ -78,6 +78,14 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
+            color="black"
+            text
+            @click="$emit('login')"
+          >
+            이미 회원이신가요?
+          </v-btn>
+
+          <v-btn
             color="blue darken-1"
             text
             @click="$emit('close')"

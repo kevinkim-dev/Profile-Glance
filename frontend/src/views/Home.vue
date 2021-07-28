@@ -105,6 +105,7 @@ export default {
       $("html").animate({scrollTop:offset.top}, 1500);
     })
   })
+},
 
     methods: {
       openLogin() {

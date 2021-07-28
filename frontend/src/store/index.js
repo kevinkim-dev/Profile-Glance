@@ -18,12 +18,16 @@ export default new Vuex.Store({
     insta
   },
   state: {
-
+    token: '',
   },
   mutations: {
-
+    SET_TOKEN(state, token) {
+      state.token = token
+    }
   },
   actions: {
-
+    requestLogin({ commit }) {
+      commit('SET_TOKEN', 'd')
+    }
   }
 })

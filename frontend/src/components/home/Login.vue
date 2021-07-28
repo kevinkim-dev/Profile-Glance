@@ -29,7 +29,7 @@
               x-large
               color="white"
               text
-              @click="$emit('close')"
+              @click="clickLogin"
             >
               로그인
             </v-btn>
@@ -49,7 +49,7 @@
           </v-col>
         </v-row>
         <v-card-text class="text-center">
-          <u class="signup" @click="$emit('signup')">이런... 아직도 회원이 아니신가요?</u>
+          <u class="signup" @click="openSignUpModal">이런... 아직도 회원이 아니신가요?</u>
         </v-card-text>
       </v-container>
     </v-card-text>
@@ -61,7 +61,7 @@ export default {
   data: function() {
     return {
       user_email: '',
-      user_password: ''
+      user_password: '',
     }
   },
   methods: {
@@ -69,6 +69,30 @@ export default {
       this.user_email = ''
       this.user_password = ''
       return this.$emit('close')
+    },
+    openSignUpModal() {
+      this.user_email = ''
+      this.user_password = ''
+      return this.$emit('signup')
+    },
+    clickLogin() {
+      const body = {
+        user_email: this.user_email, 
+        user_password: this.user_password
+      }
+      this.$store.dispatch('requestLogin')
+      if (this.$store.state.token) {
+        return this.$emit('close')
+      } else {
+        return alert('로그인 실패')
+      }
+      // store.dispatch('requestLogin', body)
+      // .then(function (result) {
+      //   localStorage.setItem('user_token', result.jwt)
+      // })
+      // .catch(function (err) {
+      //   console.log(err)
+      // })
     }
   }
 }

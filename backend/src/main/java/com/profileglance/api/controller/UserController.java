@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @Api(value = "유저 API", tags = {"User"})
-@RequestMapping("/api/v1/users")
+@RequestMapping("/user")
 @RequiredArgsConstructor
 @RestController
 @CrossOrigin(origins="*")
@@ -30,7 +30,7 @@ public class UserController {
     UserService userService;
 
     // 회원가입
-    @PostMapping("/join")
+    @PostMapping("/signup")
     @ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.")
     public ResponseEntity<? extends BaseResponseBody> join(@RequestBody User user) {
 

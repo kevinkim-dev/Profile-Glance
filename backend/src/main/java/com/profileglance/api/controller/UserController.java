@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin(origins="*")
 public class UserController {
 
     private final PasswordEncoder passwordEncoder;
@@ -29,7 +30,6 @@ public class UserController {
     UserService userService;
 
     // 회원가입
-    @CrossOrigin(origins="*")
     @PostMapping("/join")
     @ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.")
     public ResponseEntity<? extends BaseResponseBody> join(@RequestBody User user) {
@@ -40,7 +40,6 @@ public class UserController {
     }
 
     // 로그인
-    @CrossOrigin(origins="*")
     @PostMapping("/login")
     @ApiOperation(value = "로그인", notes = "<strong>아이디와 패스워드</strong>를 통해 로그인 한다.")
     public String login(@RequestBody UserLoginPostReq userLoginPostReq) {

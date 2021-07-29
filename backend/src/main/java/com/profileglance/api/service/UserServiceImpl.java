@@ -45,7 +45,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean deleteUser(String userId) {
-        return false;
+    public boolean deleteUser(String userEmail) {
+        System.out.println("in service");
+
+        userRepository.deleteByuserEmail(userEmail);
+
+        return true;
     }
 }

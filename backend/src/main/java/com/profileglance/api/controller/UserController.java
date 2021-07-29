@@ -48,6 +48,18 @@ public class UserController {
         if (!passwordEncoder.matches(userLoginPostReq.getUserPassword(), member.getUserPassword())) {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
+
+        System.out.println(member.getUserEmail());
         return jwtTokenProvider.createToken(member.getUserEmail());
+    }
+
+    // 회원탈퇴
+    @GetMapping("/delete/{userEmail}")
+    @ApiOperation(value = "회원 탈퇴", notes = "<strong>아이디</strong>를 통해 회원 탈퇴한다.")
+    public ResponseEntity<? extends BaseResponseBody> delete(@PathVariable("userEmail") String userEmail) {
+
+        userService.deleteUser(userEmail);
+
+        return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
     }
 }

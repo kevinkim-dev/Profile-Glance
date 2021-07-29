@@ -29,6 +29,7 @@ public class UserController {
     UserService userService;
 
     // 회원가입
+    @CrossOrigin(origins="*")
     @PostMapping("/join")
     @ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.")
     public ResponseEntity<? extends BaseResponseBody> join(@RequestBody User user) {

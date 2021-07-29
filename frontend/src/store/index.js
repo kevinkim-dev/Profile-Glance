@@ -6,6 +6,7 @@ import product from './product/index';
 import cart from './cart/index';
 import blog from './blog/index';
 import insta from './insta/index';
+import mypage from './mypage/index';
 import Axios from 'axios';
 import Http from '../http.js'
 
@@ -17,12 +18,14 @@ export default new Vuex.Store({
     product,
     cart,
     blog,
-    insta
+    insta,
+    mypage,
   },
   state: {
     token: '',
-    userType: 1,
-    isMe: false
+    // 0: 관리자, 1: 일반유저, 2: 기업유저
+    userType: 2,
+    userId: 1
   },
   mutations: {
     SET_TOKEN(state, token) {

@@ -8,5 +8,5 @@ public interface UserService {
     User createUser(User userRegisterInfo);
     User getUserByUserId(String userId);
     Optional<User> updateUser(User userUpdateInfo, String userId);
-    boolean deleteUser(String userId);
+    boolean deleteUser(String userEmail);
 }

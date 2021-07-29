@@ -73,5 +73,14 @@ public class UserController {
             return ResponseEntity.status(201).body(BaseResponseBody.of(201, "이메일 사용가능"));
         }
     }
-
+    // 회원 닉네임 중복 확인
+    @GetMapping("/usernicknamecheck/{userNickname}")
+    @ApiOperation(value = "회원 닉네임 중복 확인", notes = "DB에 있으면 202, 없으면 201")
+    public ResponseEntity<? extends BaseResponseBody> userNicknameCheck(@PathVariable("userNickname") String userNickname){
+        if (userRepository.findByUserNickname(userNickname).isPresent()){
+            return ResponseEntity.status(202).body(BaseResponseBody.of(202, "닉네임이 중복입니다"));
+        }else {
+            return ResponseEntity.status(201).body(BaseResponseBody.of(201, "닉네임 사용가능"));
+        }
+    }
 }

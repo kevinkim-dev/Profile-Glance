@@ -20,6 +20,7 @@ public class CompanyServiceImpl implements CompanyService{
 
         return companyRepository.save(Company.builder()
                 .companyId(company.getCompanyId())
+                .companyName(company.getCompanyName())
                 .companyEmail(company.getCompanyEmail())
                 .companyPassword(passwordEncoder.encode(company.getCompanyPassword()))
                 .companyPhone(company.getCompanyPhone())

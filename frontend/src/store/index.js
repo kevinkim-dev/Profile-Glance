@@ -21,6 +21,8 @@ export default new Vuex.Store({
   },
   state: {
     token: '',
+    userType: 1,
+    isMe: false
   },
   mutations: {
     SET_TOKEN(state, token) {

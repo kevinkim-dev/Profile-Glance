@@ -2,9 +2,32 @@
   <section class="newproduct bgwhite p-t-45 p-b-105">
     <div class="container">
       <div class="sec-title p-b-60">
-        <h3 class="m-text5 t-center">
-          Featured Products
-        </h3>
+        <v-row>
+        <v-col cols="3">
+        <v-select
+          v-model="select"
+          :items="kind"
+          item-text="codeName"
+          item-value="code"
+          label="Select"
+          return-object
+          single-line
+        ></v-select>
+        </v-col>
+        <v-col cols="8">
+          <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+        v-on:keypress.enter="searchMethod"
+      ></v-text-field>
+        </v-col>
+        <v-col cols="1">
+          <v-btn color="green">업로드</v-btn>
+        </v-col>
+        </v-row>
       </div>
 
       <!-- Slide2 -->
@@ -31,7 +54,11 @@
       })
     },
     methods: {
-
+      searchMethod() {
+        console.log("search");
+        console.log(this.search);
+        console.log(this.select);
+      }
     },
     created() {
       this.$store.dispatch('product/setFeaturedProducts').then(() => {
@@ -40,6 +67,33 @@
     },
     components: {
       Product
+    },
+    data() {
+      return {
+        search: "",
+        select: {
+          codeName: "전체",
+          code: "ALL"
+        },
+        kind: [
+          {
+            codeName: "전체",
+            code: "ALL"
+          },
+          {
+              codeName: "제목",
+              code: "TITLE"
+          },
+          {
+            codeName: "닉네임",
+            code: "NICKNAME"
+          },
+          {
+            codeName: "작성자",
+            code: "USER"
+          }
+        ]
+      }
     }
   }
 </script>

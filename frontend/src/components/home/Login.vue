@@ -111,11 +111,13 @@ export default {
         return alert('비밀번호를 입력해주세요.')
       }
       const body = {
-        user_email: this.user_email, 
-        user_password: this.user_password
+        userEmail: this.user_email, 
+        userPassword: this.user_password
       }
-      this.$store.dispatch('requestLogin')
-      if (this.$store.state.token) {
+      this.$store.dispatch('requestLogin', body)
+      if (localStorage.getItem('user_token')) {
+        console.log('save complete')
+        console.log(this.$store.state.token)
         return this.$emit('close')
       } else {
         return alert('로그인 실패')

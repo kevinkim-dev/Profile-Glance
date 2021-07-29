@@ -6,6 +6,8 @@ import product from './product/index';
 import cart from './cart/index';
 import blog from './blog/index';
 import insta from './insta/index';
+import Axios from 'axios';
+import Http from '../http.js'
 
 Vue.use(Vuex)
 
@@ -26,8 +28,19 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    requestLogin({ commit }) {
-      commit('SET_TOKEN', 'd')
+    requestLogin({ commit }, body) {
+      console.log('login')
+      Http.post('/users/login', body)
+      .then(res => {
+        console.log('then')
+        console.log(res.data)
+        commit('SET_TOKEN', res.data)
+        localStorage.setItem('user_token', res.data)
+      })
+      .catch(err => {
+        console.log('catch')
+        console.log(err)
+      })
     }
   }
 })

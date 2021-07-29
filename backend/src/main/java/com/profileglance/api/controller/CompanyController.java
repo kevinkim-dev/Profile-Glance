@@ -1,5 +1,6 @@
 package com.profileglance.api.controller;
 
+import com.profileglance.api.request.CompanyLoginPostReq;
 import com.profileglance.api.service.CompanyService;
 import com.profileglance.common.response.BaseResponseBody;
 import com.profileglance.config.JwtTokenProvider;
@@ -35,6 +36,19 @@ public class CompanyController {
         companyService.createCompany(company);
 
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
+    }
+
+    // 기업회원 로그인
+    @PostMapping("/login")
+    @ApiOperation(value = "기업 회원 로그인", notes = "<strong>아이디와 패스워드</strong>를 통해 로그인 한다.")
+    public String login(@RequestBody CompanyLoginPostReq companyLoginPostReq) {
+
+        Company company = companyRepository.findByCompanyId(companyLoginPostReq.getCompanyId())
+                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 회원 입니다."));
+        if (!passwordEncoder.matches(companyLoginPostReq.getCompanyPassword(), company.getCompanyPassword())) {
+            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+        }
+        return jwtTokenProvider.createToken(company.getCompanyId());
     }
 
     // 기업회원 아이디 중복 확인

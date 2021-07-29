@@ -35,11 +35,6 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User getUserByUserId(String userId) {
-        return null;
-    }
-
-    @Override
     public Optional<User> updateUser(User userUpdateInfo, String userId) {
         return Optional.empty();
     }

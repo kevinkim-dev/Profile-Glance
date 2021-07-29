@@ -62,4 +62,16 @@ public class UserController {
 
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
     }
+
+    // 회원 이메일 중복 확인
+    @GetMapping("/useremailcheck/{userEmail}")
+    @ApiOperation(value = "회원 이메일 중복 확인", notes = "DB에 있으면 202, 없으면 201")
+    public ResponseEntity<? extends BaseResponseBody> userEmailCheck(@PathVariable("userEmail") String userEmail){
+        if (userRepository.findByUserEmail(userEmail).isPresent()){
+            return ResponseEntity.status(202).body(BaseResponseBody.of(202, "이메일이 중복입니다"));
+        }else {
+            return ResponseEntity.status(201).body(BaseResponseBody.of(201, "이메일 사용가능"));
+        }
+    }
+
 }

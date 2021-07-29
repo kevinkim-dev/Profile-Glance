@@ -30,7 +30,7 @@ export default new Vuex.Store({
   actions: {
     requestLogin({ commit }, body) {
       console.log('login')
-      Http.post('/users/login', body)
+      Http.post('/user/login', body)
       .then(res => {
         console.log('then')
         console.log(res.data)

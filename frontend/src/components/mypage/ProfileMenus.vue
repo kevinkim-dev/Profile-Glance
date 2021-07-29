@@ -1,14 +1,17 @@
 <template>
   <div class="profile-menu-box d-flex flex-column justify-content-center">
     <div class="d-flex justify-content-around pt-10">
-        <v-btn class="mb-5 edit-button"
+        <profile-blue-button />
+        <profile-red-button />
+        <profile-green-button />
+        <!-- <v-btn class="edit-button"
               color="white"
               text
               @click="clickLogin"
             >
               회원정보 수정
         </v-btn>
-        <v-btn class="mb-5 delete-button"
+        <v-btn class="delete-button"
               color="white"
               text
               @click="clickLogin"
@@ -16,20 +19,29 @@
             >
               회원정보 탈퇴
         </v-btn>
-        <v-btn class="mb-5 interview-button"
+        <v-btn class="interview-button"
               color="white"
               text
               @click="clickLogin"
               v-else
             >
               면접 신청
-        </v-btn>
+        </v-btn> -->
     </div>
   </div>
 </template>
 
 <script>
+import ProfileRedButton from './buttons/ProfileRedButton.vue'
+import ProfileGreenButton from './buttons/ProfileGreenButton.vue'
+import ProfileBlueButton from './buttons/ProfileBlueButton.vue'
+
 export default {
+    components: {
+        ProfileRedButton,
+        ProfileGreenButton,
+        ProfileBlueButton
+    },
     computed: {
         isMe: function() {
             return this.$store.state.isMe
@@ -44,20 +56,4 @@ export default {
     width: 300px;
     height: 100px;  
 }
-
-.edit-button {
-    background: blue;
-    width: 130px;
-}
-
-.delete-button {
-    background: crimson;
-    width: 130px;
-}
-
-.interview-button {
-    background: green;
-    width: 130px;
-}
-
 </style>

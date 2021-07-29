@@ -11,6 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -82,5 +83,15 @@ public class UserController {
         }else {
             return ResponseEntity.status(201).body(BaseResponseBody.of(201, "닉네임 사용가능"));
         }
+    }
+
+    // 정보수정
+    @PutMapping("/update")
+    @ApiOperation(value = "정보수정", notes = "<strong>userEmail, major1, major2, Portfolio1, Portfolio2</strong>만 넣으면 됩니다.")
+    public ResponseEntity<User> update(@RequestBody User userUpdateInfo) {
+
+        User user = userService.updateUser(userUpdateInfo, userUpdateInfo.getUserEmail());
+
+        return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 }

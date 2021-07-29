@@ -6,6 +6,6 @@ import java.util.Optional;
 
 public interface UserService {
     User createUser(User userRegisterInfo);
-    Optional<User> updateUser(User userUpdateInfo, String userId);
+    User updateUser(User userUpdateInfo, String userEmail);
     boolean deleteUser(String userEmail);
 }

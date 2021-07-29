@@ -13,10 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Api(value = "유저 API", tags = {"User"})
 @RequestMapping("/api/v1/users")
@@ -42,12 +39,13 @@ public class UserController {
     }
 
     // 로그인
+    @CrossOrigin(origins="*")
     @PostMapping("/login")
     @ApiOperation(value = "로그인", notes = "<strong>아이디와 패스워드</strong>를 통해 로그인 한다.")
     public String login(@RequestBody UserLoginPostReq userLoginPostReq) {
         User member = userRepository.findByUserEmail(userLoginPostReq.getUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
-        if (!passwordEncoder.matches(userLoginPostReq.getUser_password(), member.getUserPassword())) {
+        if (!passwordEncoder.matches(userLoginPostReq.getUserPassword(), member.getUserPassword())) {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
         return jwtTokenProvider.createToken(member.getUserEmail());

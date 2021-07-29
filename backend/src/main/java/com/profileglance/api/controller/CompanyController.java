@@ -1,11 +1,14 @@
 package com.profileglance.api.controller;
 
+import com.profileglance.api.service.CompanyService;
 import com.profileglance.common.response.BaseResponseBody;
 import com.profileglance.config.JwtTokenProvider;
+import com.profileglance.db.entity.Company;
 import com.profileglance.db.repository.CompanyRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +23,19 @@ public class CompanyController {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final CompanyRepository companyRepository;
+
+    @Autowired
+    CompanyService companyService;
+
+    // 회원가입
+    @PostMapping("/signup")
+    @ApiOperation(value = "기업회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.")
+    public ResponseEntity<? extends BaseResponseBody> signUp(@RequestBody Company company) {
+
+        companyService.createCompany(company);
+
+        return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
+    }
 
     // 기업회원 아이디 중복 확인
     @GetMapping("/companyidcheck/{companyId}")

@@ -3,6 +3,7 @@
         color="white"
         text
         v-if="isMe"
+        @click="clickDeleteButton"
     >
         회원 탈퇴
     </v-btn>
@@ -12,6 +13,11 @@
 export default {
     props: {
         isMe: 0,
+    },
+    methods: {
+        clickDeleteButton() {
+            this.$store.dispatch('requestDeleteUser')
+        }
     }
 }
 </script>

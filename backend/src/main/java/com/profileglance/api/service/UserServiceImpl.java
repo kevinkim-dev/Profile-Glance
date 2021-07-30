@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.Optional;
 
 @Service
@@ -58,5 +59,16 @@ public class UserServiceImpl implements UserService{
         userRepository.deleteByuserEmail(userEmail);
 
         return true;
+    }
+
+    @Override
+    public boolean uploadUserImg(String userEmail, String userImg) {
+        Optional<User> user = userRepository.findByUserEmail(userEmail);
+        user.ifPresent(uploadUser->{
+            uploadUser.setUserImg((userImg));
+            userRepository.save(uploadUser);
+        });
+
+        return user.isPresent();
     }
 }

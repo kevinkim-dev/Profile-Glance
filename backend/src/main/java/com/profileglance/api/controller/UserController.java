@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -54,6 +55,8 @@ public class UserController {
         if (!passwordEncoder.matches(userLoginPostReq.getUserPassword(), member.getUserPassword())) {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
+
+        System.out.println(member.getUserEmail());
         return jwtTokenProvider.createToken(member.getUserEmail());
     }
 
@@ -76,5 +79,45 @@ public class UserController {
         }
     }
 
+    // 회원탈퇴
+    @DeleteMapping("/delete/{userEmail}")
+    @ApiOperation(value = "회원 탈퇴", notes = "<strong>아이디</strong>를 통해 회원 탈퇴한다.")
+    public ResponseEntity<? extends BaseResponseBody> delete(@PathVariable("userEmail") String userEmail) {
+
+        userService.deleteUser(userEmail);
+
+        return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
+    }
+
+    // 회원 이메일 중복 확인
+    @GetMapping("/useremailcheck/{userEmail}")
+    @ApiOperation(value = "회원 이메일 중복 확인", notes = "DB에 있으면 202, 없으면 201")
+    public ResponseEntity<? extends BaseResponseBody> userEmailCheck(@PathVariable("userEmail") String userEmail){
+        if (userRepository.findByUserEmail(userEmail).isPresent()){
+            return ResponseEntity.status(202).body(BaseResponseBody.of(202, "이메일이 중복입니다"));
+        }else {
+            return ResponseEntity.status(201).body(BaseResponseBody.of(201, "이메일 사용가능"));
+        }
+    }
+    // 회원 닉네임 중복 확인
+    @GetMapping("/usernicknamecheck/{userNickname}")
+    @ApiOperation(value = "회원 닉네임 중복 확인", notes = "DB에 있으면 202, 없으면 201")
+    public ResponseEntity<? extends BaseResponseBody> userNicknameCheck(@PathVariable("userNickname") String userNickname){
+        if (userRepository.findByUserNickname(userNickname).isPresent()){
+            return ResponseEntity.status(202).body(BaseResponseBody.of(202, "닉네임이 중복입니다"));
+        }else {
+            return ResponseEntity.status(201).body(BaseResponseBody.of(201, "닉네임 사용가능"));
+        }
+    }
+
+    // 정보수정
+    @PutMapping("/update")
+    @ApiOperation(value = "정보수정", notes = "<strong>userEmail, major1, major2, Portfolio1, Portfolio2</strong>만 넣으면 됩니다.")
+    public ResponseEntity<User> update(@RequestBody User userUpdateInfo) {
+
+        User user = userService.updateUser(userUpdateInfo, userUpdateInfo.getUserEmail());
+
+        return new ResponseEntity<User>(user, HttpStatus.OK);
+    }
 
 }

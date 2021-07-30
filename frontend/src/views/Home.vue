@@ -22,7 +22,7 @@
     <v-dialog
       v-model="isSignUpViewd"
       persistent
-      max-width="600px"
+      max-width="650px"
     > <sign-up @close="closeSignUp" @login="openLogin" />
     </v-dialog>
   </v-row>

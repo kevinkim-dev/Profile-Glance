@@ -11,4 +11,6 @@ public interface UserService {
     Optional<User> updateUser(User userUpdateInfo, String userId);
     boolean deleteUser(String userId);
     boolean uploadUserImg(String userEmail, String userImg);
+    User updateUser(User userUpdateInfo, String userEmail);
+    boolean deleteUser(String userEmail);
 }

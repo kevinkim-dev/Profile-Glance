@@ -9,11 +9,17 @@ import com.profileglance.db.entity.User;
 import com.profileglance.db.repository.UserRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
 
 @Api(value = "유저 API", tags = {"User"})
 @RequestMapping("/user")
@@ -50,4 +56,25 @@ public class UserController {
         }
         return jwtTokenProvider.createToken(member.getUserEmail());
     }
+
+    // 사진 업로드
+    @PostMapping("/uploadImg")
+    @ApiOperation(value = "사진 업로드", notes = "<strong>파일 경로</strong>로 업로드한다.", produces = "multipart/form-date")
+    public ResponseEntity<? extends BaseResponseBody> uploadUserImg(@RequestPart("userImg") MultipartFile files, @RequestParam("userEmail")String userEmail) {
+        try {
+            String baseDir = "C:\\Users\\multicampus\\Documents\\ServerFiles";
+            String filePath = baseDir + "\\" + userEmail + ".jpg";
+
+            if(userService.uploadUserImg(userEmail, filePath)) {
+                files.transferTo(new File(filePath));
+                return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
+            } else {
+                return ResponseEntity.status(666).body(BaseResponseBody.of(666, "No Email"));
+            }
+        } catch(Exception e) {
+            return ResponseEntity.status(999).body(BaseResponseBody.of(999, "Fail"));
+        }
+    }
+
+
 }

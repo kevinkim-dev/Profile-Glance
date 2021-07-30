@@ -2,6 +2,7 @@ package com.profileglance.api.service;
 
 import com.profileglance.db.entity.User;
 
+import java.io.File;
 import java.util.Optional;
 
 public interface UserService {
@@ -9,4 +10,5 @@ public interface UserService {
     User getUserByUserId(String userId);
     Optional<User> updateUser(User userUpdateInfo, String userId);
     boolean deleteUser(String userId);
+    boolean uploadUserImg(String userEmail, String userImg);
 }

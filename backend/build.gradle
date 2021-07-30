@@ -42,6 +42,8 @@ dependencies {
 	implementation("com.google.guava:guava:29.0-jre")
 	annotationProcessor("com.google.guava:guava:29.0-jre")
 
+	implementation 'commons-io:commons-io:2.8.0'
+	implementation 'commons-fileupload:commons-fileupload:1.4'
 }
 
 test {

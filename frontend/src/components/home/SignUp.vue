@@ -34,7 +34,11 @@
           ></v-text-field>
         </v-col>
         <v-col class="py-0" cols="12" md="2">
-          <v-btn text class="d-flex align-text-bottom font-weight-bold" style="color: #439474;">
+          <v-btn text
+            class="d-flex align-text-bottom font-weight-bold"
+            style="color: #439474;"
+            @click="checkUserNickName"
+            :disabled="userNickNameCheck">
             중복확인
           </v-btn>
         </v-col>
@@ -179,15 +183,18 @@ export default {
         passwordConfirm: '',
         major1: '',
         major2: '',
-      }
+      },
+      userNickNameCheck: false,
+      userEmailCheck: false,
     }
-  },
-  computed: {
   },
   methods: {
     signup () {
       if (!this.valid) {
         alert('필수 항목을 입력해주세요.')
+      }
+      else if (!this.userNickNameCheck) {
+        alert('닉네임 중복 확인을 해주세요.')
       }
       else {
         Http.post('/user/signup', this.loginForm)
@@ -208,6 +215,27 @@ export default {
           alert('회원가입에 실패했습니다.')
           console.log(err)
         })
+      }
+    },
+    checkUserNickName () {
+      if (this.loginForm.userNickname) {
+        const url = '/user/usernicknamecheck/' + this.loginForm.userNickname
+        Http.get(url)
+        .then((res) => {
+          if (res.status === 201) {
+            this.userNickNameCheck = true
+            alert('사용할 수 있는 닉네임입니다.')
+          } else if (res.status === 202) {
+            this.userNickNameCheck = false
+            alert('중복된 닉네임입니다.')
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      } else {
+        this.userNickNameCheck = false
+        alert('닉네임을 입력해주세요.')
       }
     },
     closeSignUpModal () {

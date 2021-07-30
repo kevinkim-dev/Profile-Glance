@@ -55,7 +55,7 @@ public class UserController {
     }
 
     // 회원탈퇴
-    @GetMapping("/delete/{userEmail}")
+    @DeleteMapping("/delete/{userEmail}")
     @ApiOperation(value = "회원 탈퇴", notes = "<strong>아이디</strong>를 통해 회원 탈퇴한다.")
     public ResponseEntity<? extends BaseResponseBody> delete(@PathVariable("userEmail") String userEmail) {
 

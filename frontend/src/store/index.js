@@ -9,6 +9,7 @@ import insta from './insta/index';
 import mypage from './mypage/index';
 import Axios from 'axios';
 import Http from '../http.js'
+import VueRouter from 'vue-router';
 
 Vue.use(Vuex)
 
@@ -30,7 +31,10 @@ export default new Vuex.Store({
   mutations: {
     SET_TOKEN(state, token) {
       state.token = token
-    }
+    },
+    DELETE_TOKEN(state) {
+      state.token = ''
+    },
   },
   actions: {
     requestLogin({ commit }, body) {
@@ -46,6 +50,20 @@ export default new Vuex.Store({
         console.log('catch')
         console.log(err)
       })
-    }
+    },
+    requestDeleteUser({ commit }) {
+      console.log('delete')
+      Http.delete('/user/delete/' + 'test2@test.com')
+      .then(res => {
+        console.log('then')
+        commit('DELETE_TOKEN')
+        localStorage.removeItem('user_token')
+        location.href = "http://localhost:8080"
+      })
+      .catch(err => {
+        console.log('catch')
+        console.log(err)
+      })
+    },
   }
 })

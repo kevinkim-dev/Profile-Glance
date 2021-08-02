@@ -3,6 +3,8 @@ package com.profileglance.db.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter @Setter
 @NoArgsConstructor
@@ -15,6 +17,21 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long userId;
+
+    @OneToMany(mappedBy = "user")
+    private List<Lookatme> lookatmes = new ArrayList<>();
+
+    @OneToOne(mappedBy = "user")
+    private RoomInfo roomInfo;
+
+    @OneToMany(mappedBy = "user")
+    private List<Interview> interviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<UserLike> userLikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<LookatmeLike> lookatmeLikes = new ArrayList<>();
 
     @Column(name = "user_name")
     private String userName;

@@ -30,15 +30,17 @@
             v-model="loginForm.userNickname"
             :rules="nickNameRules"
             label="닉네임*"
+            @input="resetDoubleCheck('nickName')"
             required
           ></v-text-field>
         </v-col>
         <v-col class="py-0" cols="12" md="2">
-          <v-btn text
+          <v-btn
+            text
             class="d-flex align-text-bottom font-weight-bold"
             style="color: #439474;"
-            @click="checkUserNickName"
-            :disabled="userNickNameCheck">
+            @click="doubleCheck('nickName')"
+            :disabled="nickNameDoubleCheckDisable">
             중복확인
           </v-btn>
         </v-col>
@@ -47,11 +49,17 @@
             v-model="loginForm.userEmail"
             :rules="emailRules"
             label="아이디(example@example.com)*"
-            required
-          ></v-text-field>
+            @input="resetDoubleCheck('email')"
+            required>
+          </v-text-field>
         </v-col>
         <v-col class="py-0" cols="12" md="2">
-          <v-btn text class="font-weight-bold" style="color: #439474;">
+          <v-btn
+            text
+            class="font-weight-bold"
+            style="color: #439474;"
+            @click="doubleCheck('email')"
+            :disabled="emailDoubleCheckDisable">
             중복확인
           </v-btn>
         </v-col>
@@ -184,17 +192,37 @@ export default {
         major1: '',
         major2: '',
       },
-      userNickNameCheck: false,
-      userEmailCheck: false,
+      isNickNameDoubleChecked: false,
+      isEmailDoubleChecked: false,
+    }
+  },
+  computed: {
+    nickNameDoubleCheckDisable () {
+      if (this.isNickNameDoubleChecked) {
+        return true
+      } else {
+        return false
+      }
+    },
+    emailDoubleCheckDisable () {
+      if (this.isEmailDoubleChecked) {
+        return true
+      } else {
+        return false
+      }
     }
   },
   methods: {
+    // 회원가입
     signup () {
       if (!this.valid) {
         alert('필수 항목을 입력해주세요.')
       }
-      else if (!this.userNickNameCheck) {
+      else if (!this.isNickNameDoubleChecked) {
         alert('닉네임 중복 확인을 해주세요.')
+      }
+      else if (!this.isEmailDoubleChecked) {
+        alert('아이디 중복 확인을 해주세요.')
       }
       else {
         Http.post('/user/signup', this.loginForm)
@@ -217,27 +245,59 @@ export default {
         })
       }
     },
-    checkUserNickName () {
-      if (this.loginForm.userNickname) {
-        const url = '/user/usernicknamecheck/' + this.loginForm.userNickname
-        Http.get(url)
-        .then((res) => {
-          if (res.status === 201) {
-            this.userNickNameCheck = true
-            alert('사용할 수 있는 닉네임입니다.')
-          } else if (res.status === 202) {
-            this.userNickNameCheck = false
-            alert('중복된 닉네임입니다.')
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-      } else {
-        this.userNickNameCheck = false
-        alert('닉네임을 입력해주세요.')
+    // 닉네임&이메일 중복확인
+    doubleCheck (target) {
+      if (target === 'nickName') {
+        if (this.loginForm.userNickname) {
+          const url = '/user/usernicknamecheck/' + this.loginForm.userNickname
+          Http.get(url)
+          .then((res) => {
+            if (res.status === 201) {
+              this.isNickNameDoubleChecked = true
+              alert('사용할 수 있는 닉네임입니다.')
+            } else if (res.status === 202) {
+              this.isNickNameDoubleChecked = false
+              alert('중복된 닉네임입니다.')
+            }
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+        } else {
+          this.isNickNameDoubleChecked = false
+          alert('닉네임을 입력해주세요.')
+        }
+      } else if (target === 'email') {
+        if (this.loginForm.userEmail) {
+          const url = '/user/useremailcheck/' + this.loginForm.userEmail
+          Http.get(url)
+          .then((res) => {
+            if (res.status === 201) {
+              this.isEmailDoubleChecked = true
+              alert('사용할 수 있는 아이디입니다.')
+            } else if (res.status === 202) {
+              this.isEmailDoubleChecked = false
+              alert('중복된 아이디입니다.')
+            }
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+        } else {
+          this.isEmailDoubleChecked = false
+          alert('아이디를 입력해주세요.')
+        }
       }
     },
+    // 중복확인 여부 false로 리셋
+    resetDoubleCheck (target) {
+      if (target === 'nickName') {
+        this.isNickNameDoubleChecked = false
+      } else if (target === 'email') {
+        this.isEmailDoubleChecked = false
+      }
+    },
+    // 회원가입 모달 닫힘
     closeSignUpModal () {
       this.loginForm.userName = ''
       this.loginForm.userNickname = ''

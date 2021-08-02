@@ -7,4 +7,6 @@ public interface UserService {
     boolean uploadUserImg(String userEmail, String userImg);
     User updateUser(User userUpdateInfo, String userEmail);
     boolean deleteUser(String userEmail);
+
+    User myinfo(String userEmail);
 }

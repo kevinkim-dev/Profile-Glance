@@ -9,13 +9,10 @@ import com.profileglance.db.entity.User;
 import com.profileglance.db.repository.UserRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -120,4 +117,13 @@ public class UserController {
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
+    // 내 정보 보기
+    @GetMapping("/myinfo/{userEmail}")
+    @ApiOperation(value = "회원 닉네임 중복 확인", notes = "DB에 있으면 202, 없으면 201")
+    public ResponseEntity<User> myinfo(@PathVariable("userEmail") String userEmail){
+
+        User user = userService.myinfo(userEmail);
+
+        return new ResponseEntity<User>(user, HttpStatus.OK);
+    }
 }

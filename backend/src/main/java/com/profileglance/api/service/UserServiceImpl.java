@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.util.Optional;
 
 @Service
@@ -59,6 +58,12 @@ public class UserServiceImpl implements UserService{
         userRepository.deleteByuserEmail(userEmail);
 
         return true;
+    }
+
+    @Override
+    public User myinfo(String userEmail) {
+        User user = userRepository.findByUserEmail(userEmail).get();
+        return user;
     }
 
     @Override

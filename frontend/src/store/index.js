@@ -25,7 +25,7 @@ export default new Vuex.Store({
   state: {
     token: '',
     // 0: 관리자, 1: 일반유저, 2: 기업유저
-    userType: 2,
+    userType: 1,
     userId: 1
   },
   mutations: {

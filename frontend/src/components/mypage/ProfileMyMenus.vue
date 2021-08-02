@@ -5,13 +5,14 @@
             color="white"
             text
         >
-            좋아요
+            회원정보 수정
         </v-btn>
-        <v-btn class="green-button"
+        <v-btn class="red-button"
             color="white"
             text
+            @click="clickDeleteButton"
         >
-            면접 신청
+            회원 탈퇴
         </v-btn>
     </div>
   </div>
@@ -19,13 +20,9 @@
 
 <script>
 export default {
-    computed: {
-        isMe: function() {
-            return (this.$store.state.userType == this.$store.state.mypage.profileType) &&
-            (this.$store.state.userId == this.$store.state.mypage.profileId)
-        },
-        isInterviewAvailable: function() {
-            return (this.$store.state.userType == 2 && this.$store.state.mypage.profileType == 1)
+    methods: {
+        clickDeleteButton() {
+            this.$store.dispatch('requestDeleteUser')
         }
     }
 }
@@ -43,8 +40,8 @@ export default {
     width: 130px;
 }
 
-.green-button {
-    background: green;
+.red-button {
+    background: crimson;
     width: 130px;
 }
 </style>

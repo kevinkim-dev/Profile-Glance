@@ -1,6 +1,6 @@
 export default {
   state: {
-    profileType: 2,
+    profileType: 1,
     profileId: 1
   },
   mutations: {

@@ -3,8 +3,9 @@
     <h1 class="text-center m-text5">Seunghee's Profile</h1>
     <div class="profile m-t-50">
       <div class="profile-left-box m-r-100">
-        <ProfileImage />
-        <ProfileMenus v-if="userType" />
+        <ProfileImage :isMyProfile="isMyProfile" />
+        <ProfileMenus v-if="isMenuNeed" />
+        <ProfileMyMenus v-if="isMyProfile" />
       </div>
       <div class="profile-right-box">
         <ProfileInfos />
@@ -20,6 +21,7 @@ import ProfileImage from '@/components/mypage/ProfileImage.vue';
 import ProfileInfos from '@/components/mypage/ProfileInfos.vue';
 import ProfileInterviews from '@/components/mypage/ProfileInterviews.vue';
 import ProfileMenus from '@/components/mypage/ProfileMenus.vue';
+import ProfileMyMenus from '@/components/mypage/ProfileMyMenus.vue';
 import ProfileVideos from '@/components/mypage/ProfileVideos.vue';
 import FeaturedProductList from '@/components/lookatme/FeaturedProductList.vue';
 
@@ -30,12 +32,17 @@ export default {
     ProfileInfos,
     ProfileInterviews,
     ProfileMenus,
+    ProfileMyMenus,
     ProfileVideos,
     FeaturedProductList
   },
   computed: {
-    userType: function() {
-      return this.$store.state.userType
+    isMenuNeed: function() {
+      return this.$store.state.userType == 2 && this.$store.state.mypage.profileType == 1
+    },
+    isMyProfile: function() {
+      return this.$store.state.userType == this.$store.state.mypage.profileType &&
+      this.$store.state.userId == this.$store.state.mypage.profileId
     }
   }
 }
@@ -48,6 +55,9 @@ export default {
 }
 
 .profile-left-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   height: 400px;
   width: 400px;
 }

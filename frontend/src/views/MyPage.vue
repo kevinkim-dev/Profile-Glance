@@ -41,8 +41,8 @@ export default {
       return this.$store.state.userType == 2 && this.$store.state.mypage.profileType == 1
     },
     isMyProfile: function() {
-      return this.$store.state.userType == this.$store.state.mypage.profileType &&
-      this.$store.state.userId == this.$store.state.mypage.profileId
+      return (this.$store.state.userType == this.$store.state.mypage.profileType) &&
+      (this.$store.state.userId == this.$store.state.mypage.profileId)
     }
   }
 }

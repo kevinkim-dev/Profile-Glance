@@ -11,6 +11,8 @@
 </template>
 
 <script>
+import Axios from 'axios';
+
 export default {
     data() {
         return {
@@ -25,8 +27,24 @@ export default {
     },
     methods: {
         changeImage: function(e) {
-            this.imgSrc = URL.createObjectURL(e.target.files[0])
-        }
+            // this.imgSrc = URL.createObjectURL(file)
+            // let params = new URLSearchParams();
+                // params.append('userEmail', userEmail)
+                // params.append('userImg', userImg)
+            let file = e.target.files[0]
+            const userEmail = 'test5@test.com'
+            const formData = new FormData();
+            formData.append('userimg', file);
+            formData.append('userEmail', userEmail);
+        
+            Axios.post('/user/uploadImg', formData, {
+                baseURL: "http://localhost:8888/",
+                headers: { 'Content-Type': 'multipart/form-data' }
+            }).then( ({data}) => {
+                this.imgSrc = data
+            })
+            .catch( err => console.log(err))
+        },
     }
 }
 </script>

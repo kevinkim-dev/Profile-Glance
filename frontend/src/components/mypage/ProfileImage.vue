@@ -1,22 +1,32 @@
 <template>
     <div class="profile-image-whole">
         <div class="profile-image-box">
-            <img class="profile-image" src="images/mypage/rabbit.jpg" alt="logo.png">
+            <img class="profile-image" :src="imgSrc" alt="logo.png">
         </div>
-        <!-- <img class="profile-image" src="images/mypage/seunghee.jpg" alt="logo.png"> -->
-        <!-- <img class="profile-image" src="images/mypage/samsung.png" alt="logo.png"> -->
-        <!-- <img class="profile-image" src="images/mypage/admin.png" alt="logo.png"> -->
-        <v-btn class="imageEdit" v-if="isMe ">사진 편집</v-btn>
+        <div class="filebox imageEdit">
+            <label for="ex_file">사진 편집</label>
+            <input type="file" id="ex_file" @change="changeImage" ref="img" accept="img/*" multiple >
+        </div>
     </div>
 </template>
 
 <script>
 export default {
+    data() {
+        return {
+            imgSrc: 'images/mypage/rabbit.jpg'
+        }
+    },
     computed: {
         isMe: function() {
             return (this.$store.state.userType == this.$store.state.mypage.profileType) &&
             (this.$store.state.userId == this.$store.state.mypage.profileId)
         },
+    },
+    methods: {
+        changeImage: function(e) {
+            this.imgSrc = URL.createObjectURL(e.target.files[0])
+        }
     }
 }
 </script>
@@ -37,7 +47,6 @@ export default {
 }
 
 .imageEdit {
-    border: black solid 1px;
     position: relative;
     top: -20px;
     left: 270px;
@@ -48,4 +57,31 @@ export default {
     height: 100%;
     object-fit: cover;
 }
+
+.filebox label { 
+    display: inline-block; 
+    padding: .5em .75em; 
+    color: black; 
+    font-size: inherit; 
+    line-height: normal; 
+    vertical-align: middle; 
+    background-color: #fdfdfd; 
+    cursor: pointer; 
+    border: 1px solid #ebebeb; 
+    border-radius: .25em; 
+} 
+
+.filebox input[type="file"] { 
+    /* 파일 필드 숨기기 */ 
+    position: absolute; 
+    width: 1px; 
+    height: 1px; 
+    padding: 0; 
+    margin: -1px; 
+    overflow: hidden; 
+    clip:rect(0,0,0,0); 
+    border: 0; 
+}
+
+
 </style>

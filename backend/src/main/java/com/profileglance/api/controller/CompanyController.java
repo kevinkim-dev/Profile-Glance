@@ -5,14 +5,18 @@ import com.profileglance.api.service.CompanyService;
 import com.profileglance.common.response.BaseResponseBody;
 import com.profileglance.config.JwtTokenProvider;
 import com.profileglance.db.entity.Company;
+import com.profileglance.db.entity.User;
 import com.profileglance.db.repository.CompanyRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Api(value = "기업회원 API", tags = {"Company"})
 @RequestMapping("/company")
@@ -62,4 +66,21 @@ public class CompanyController {
         }
     }
 
+    // 좋아요 누른 유저 리스트
+    @GetMapping("/userlike/{companyId}")
+    @ApiOperation(value = "좋아요 누른 유저 리스트", notes = "DB에 있으면 202, 없으면 201")
+    public ResponseEntity<List<User>> userLike(@PathVariable("companyId") String companyId){
+        return new ResponseEntity<List<User>>(companyService.userLikeListByCompany(companyId), HttpStatus.OK);
+    }
+
+    // 좋아요를 눌렀는지 안눌렀는지 판단
+    @GetMapping("/likecheck")
+    @ApiOperation(value = "좋아요를 눌렀는지 안눌렀는지 판단", notes = "좋아요를 눌렀으면 202, 누르지 않았으면 201")
+    public ResponseEntity<? extends BaseResponseBody> likeCheck(@RequestParam String userEmail, @RequestParam String companyId){
+        if (companyService.isHitLike(userEmail, companyId)){
+            return ResponseEntity.status(202).body(BaseResponseBody.of(202, "좋아요를 눌렀습니다."));
+        }else {
+            return ResponseEntity.status(201).body(BaseResponseBody.of(201, "좋아요를 아직 누르지 않았습니다."));
+        }
+    }
 }

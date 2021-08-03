@@ -10,7 +10,7 @@ public interface LookatmeService {
 
     List<LookatmePostRes> searchByCategory(String category);
 
-    Boolean uploadLookatme(LookatmePostReq lookatmePostReq, String userEmail);
+    Boolean uploadLookatme(LookatmePostReq lookatmePostReq);
 
     Boolean updateLookatme(LookatmePostReq lookatmePostReq);
 

@@ -37,17 +37,18 @@ public class LookatmeController {
 
     @PostMapping("/upload")
     @ApiOperation(value = "룩앳미 등록", notes = "<strong>룩앳미</strong>를 등록한다.")
-    public ResponseEntity<? extends BaseResponseBody> uploadLookatme(@RequestBody LookatmePostReq lookatmePostReq, @RequestParam String userEmail) {
+    public ResponseEntity<? extends BaseResponseBody> uploadLookatme(@ModelAttribute LookatmePostReq lookatmePostReq) {
 
         System.out.println("룩앳미 등록 Controller");
-        lookatmeService.uploadLookatme(lookatmePostReq, userEmail);
+
+        lookatmeService.uploadLookatme(lookatmePostReq);
 
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
     }
 
     @PostMapping("/update")
     @ApiOperation(value = "룩앳미 수정", notes = "<strong>룩앳미</strong>를 수정한다.")
-    public ResponseEntity<? extends BaseResponseBody> updateLookatme(@RequestBody LookatmePostReq lookatmePostReq) {
+    public ResponseEntity<? extends BaseResponseBody> updateLookatme(@ModelAttribute LookatmePostReq lookatmePostReq) {
 
         System.out.println("룩앳미 업데이트 Controller");
 

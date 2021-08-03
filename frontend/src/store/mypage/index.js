@@ -14,7 +14,24 @@ export default {
       companyLike: 0,
       portfolio1: 'git',
       portfolio2: 'git',
-    }
+    },
+    userInterviews: [
+      {
+        companyName: '네이버',
+        interviewDate: '2020.08.01',
+        interviewTime: '16:00',
+      },
+      {
+        companyName: '쿠팡',
+        interviewDate: '2020.08.02',
+        interviewTime: '14:00',
+      },
+      {
+        companyName: '카카오',
+        interviewDate: '2020.08.03',
+        interviewTime: '17:00',
+      }
+    ]
   },
   mutations: {
     EDIT(state, editForm) {

@@ -98,6 +98,8 @@ export default {
 }
 
 .profile-right-box {
+  display: flex;
+  flex-direction: column;
   width: 800px;
   height: 400px;
 }

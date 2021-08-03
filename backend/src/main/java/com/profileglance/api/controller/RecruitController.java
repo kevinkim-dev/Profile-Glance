@@ -42,4 +42,12 @@ public class RecruitController {
 
         return new ResponseEntity<List<RecruitPostRes>>(recruitService.searchByCompanyName(companyName), HttpStatus.OK);
     }
+
+    // 직무 이름으로 필터링
+    @GetMapping("/searchByJobName/{JobName}")
+    @ApiOperation(value = "직무 이름으로 필터링", notes = "<strong>직무 이름 넣어주세요</strong>")
+    public ResponseEntity<List<RecruitPostRes>> searchByJobName(@PathVariable("JobName") String JobName){
+
+        return new ResponseEntity<List<RecruitPostRes>>(recruitService.searchByJobName(JobName), HttpStatus.OK);
+    }
 }

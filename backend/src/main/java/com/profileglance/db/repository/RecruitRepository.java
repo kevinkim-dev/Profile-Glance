@@ -10,4 +10,6 @@ public interface RecruitRepository extends JpaRepository<Recruit, Long> {
 
     List<Recruit> findAllByCompany_CompanyName(String companyName);
 
+    List<Recruit> findAllByJob_JobName(String jobName);
+
 }

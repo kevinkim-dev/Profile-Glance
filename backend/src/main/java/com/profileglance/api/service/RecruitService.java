@@ -11,4 +11,6 @@ public interface RecruitService {
     Boolean uploadRecruit(RecruitPostReq recruitPostReq, String companyId);
 
     List<RecruitPostRes> searchByCompanyName(String companyName);
+
+    List<RecruitPostRes> searchByJobName(String jobName);
 }

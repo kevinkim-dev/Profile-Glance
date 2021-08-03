@@ -78,4 +78,27 @@ public class RecruitServiceImpl implements RecruitService{
 
     }
 
+    @Override
+    public List<RecruitPostRes> searchByJobName(String jobName) {
+
+        List<Recruit> recruitList = recruitRepository.findAllByJob_JobName(jobName);
+        List<RecruitPostRes> recruitPostResList = new ArrayList<>();
+
+        for(Recruit recruit : recruitList) {
+            recruitPostResList.add(new RecruitPostRes(
+                    recruit.getRecruitId(),
+                    recruit.getCompany().getCompanyName(),
+                    recruit.getJob().getJobName(),
+                    recruit.getDescriptionURL(),
+                    recruit.getRecruitURL(),
+                    recruit.getCareer(),
+                    recruit.getJobDetail(),
+                    recruit.getRecruitDate(),
+                    recruit.getPresentationDate()
+            ));
+        }
+
+        return recruitPostResList;
+    }
+
 }

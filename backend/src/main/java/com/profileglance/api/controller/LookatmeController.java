@@ -66,4 +66,14 @@ public class LookatmeController {
         return new ResponseEntity<List<LookatmePostRes>>(list, HttpStatus.OK);
     }
 
+    // 룩엣미 상세보기
+    @GetMapping("/detailLookatme/{lookatmeId}")
+    @ApiOperation(value = "룩앳미 상세 보기", notes = "<strong>룩엣미 아이디</strong>를 통해 검색 한다.")
+    public ResponseEntity<LookatmePostRes> detailLookatme(@PathVariable("lookatmeId") Long lookatmeId) {
+
+        LookatmePostRes lookatmePostRes = lookatmeService.detailLookatme(lookatmeId);
+
+        return new ResponseEntity<LookatmePostRes>(lookatmePostRes, HttpStatus.OK);
+    }
+
 }

@@ -19,7 +19,8 @@ public class Category {
     @Column(name = "category_id")
     private Long categoryId;
 
-    private String category;
+    @Column(name = "category")
+    private String categoryName;
 
     @OneToMany(mappedBy = "category")
     private List<Lookatme> lookatmes = new ArrayList<>();

@@ -3,6 +3,8 @@ package com.profileglance.db.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,5 +19,10 @@ public class Job {
     @Column(name = "job_id")
     private Long jobId;
 
-    private String job;
+    @Column(name = "job")
+    private String jobName;
+
+    @OneToMany(mappedBy = "job")
+    private List<Recruit> recruits = new ArrayList<>();
+
 }

@@ -58,4 +58,14 @@ public class RecruitController {
 
         return new ResponseEntity<List<RecruitPostRes>>(recruitService.searchAll(), HttpStatus.OK);
     }
+
+    // 채용 삭제
+    @DeleteMapping("/delete/{recruitId}")
+    @ApiOperation(value = "채용 삭제", notes = "<strong>채용 아이디</strong>를 통해 채용을 삭제한다.")
+    public ResponseEntity<? extends BaseResponseBody> delete(@PathVariable("recruitId") Long recruitId) {
+
+        recruitService.deleteRecruit(recruitId);
+
+        return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
+    }
 }

@@ -123,4 +123,12 @@ public class RecruitServiceImpl implements RecruitService{
         return recruitPostResList;
     }
 
+    @Override
+    public Boolean deleteRecruit(Long recruitId) {
+
+        recruitRepository.deleteByRecruitId(recruitId);
+
+        return true;
+    }
+
 }

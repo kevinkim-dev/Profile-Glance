@@ -15,4 +15,6 @@ public interface RecruitService {
     List<RecruitPostRes> searchByJobName(String jobName);
 
     List<RecruitPostRes> searchAll();
+
+    Boolean deleteRecruit(Long recruitId);
 }

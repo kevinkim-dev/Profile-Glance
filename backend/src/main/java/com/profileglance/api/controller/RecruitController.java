@@ -50,4 +50,12 @@ public class RecruitController {
 
         return new ResponseEntity<List<RecruitPostRes>>(recruitService.searchByJobName(JobName), HttpStatus.OK);
     }
+
+    // 채용 전체 리스트 출력
+    @GetMapping("/searchAll")
+    @ApiOperation(value = "채용 전체 리스트 출력", notes = "<strong>채용 전체 리스트를 출력합니다.</strong>")
+    public ResponseEntity<List<RecruitPostRes>> searchAll() {
+
+        return new ResponseEntity<List<RecruitPostRes>>(recruitService.searchAll(), HttpStatus.OK);
+    }
 }

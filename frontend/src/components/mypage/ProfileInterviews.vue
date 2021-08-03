@@ -19,6 +19,6 @@ export default {
 .profile-interview-box {
   background-color: #eee;
   padding: 30px;
-  height: 240px;
+  height: 350px;
 }
 </style>

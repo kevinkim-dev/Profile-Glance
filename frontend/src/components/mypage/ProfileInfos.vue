@@ -57,7 +57,7 @@ export default {
   display: flex;
   background-color: #eee;
   padding: 30px;
-  height: 150px;
+  height: 350px;
   margin-bottom: 10px;
 }
 .infobox {

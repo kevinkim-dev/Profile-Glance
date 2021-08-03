@@ -8,8 +8,9 @@
         <ProfileMyMenus v-if="isMyProfile" @clickEditButton="openEditModal" />
       </div>
       <div class="profile-right-box">
-        <ProfileInfos />
-        <ProfileInterviews />
+        <ProfileInfoButtons v-if="isMyProfile" @clickInfo="clickInfo" @clickInterviews="clickInterviews" />
+        <ProfileInterviews v-if="showInterview" />
+        <ProfileInfos v-else />
       </div>
     </div><hr class="m-t-50">
     <FeaturedProductList />
@@ -24,6 +25,7 @@
 <script>
 import ProfileImage from '@/components/mypage/ProfileImage.vue';
 import ProfileInfos from '@/components/mypage/ProfileInfos.vue';
+import ProfileInfoButtons from '@/components/mypage/ProfileInfoButtons.vue';
 import ProfileInterviews from '@/components/mypage/ProfileInterviews.vue';
 import ProfileMenus from '@/components/mypage/ProfileMenus.vue';
 import ProfileMyMenus from '@/components/mypage/ProfileMyMenus.vue';
@@ -37,12 +39,14 @@ export default {
   data() {
     return {
       isEditOpen: false,
-      userName: String
+      userName: String,
+      showInterview: false,
     }
   },
   components: {
     ProfileImage,
     ProfileInfos,
+    ProfileInfoButtons,
     ProfileInterviews,
     ProfileMenus,
     ProfileMyMenus,
@@ -66,6 +70,12 @@ export default {
     closeEditModal: function() {
       this.isEditOpen = false
     },
+    clickInfo: function() {
+      this.showInterview = false
+    },
+    clickInterviews: function() {
+      this.showInterview = true
+    }
   },
   created() {
     this.userName = this.$store.state.mypage.userInfo.userName

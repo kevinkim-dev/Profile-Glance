@@ -7,6 +7,8 @@ import cart from './cart/index';
 import blog from './blog/index';
 import insta from './insta/index';
 import mypage from './mypage/index';
+import wanted from './wanted/index'
+
 import Axios from 'axios';
 import Http from '../http.js'
 import VueRouter from 'vue-router';
@@ -21,6 +23,7 @@ export default new Vuex.Store({
     blog,
     insta,
     mypage,
+    wanted,
   },
   state: {
     token: '',

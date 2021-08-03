@@ -138,4 +138,14 @@ public class UserController {
         return new ResponseEntity<List<LookatmePostRes>>(userService.myVideoList(userEmail), HttpStatus.OK);
     }
 
+    // 닉네임으로 내 정보 보기
+    @GetMapping("/myinfo/nickname/{userNickname}")
+    @ApiOperation(value = "닉네임으로 내 정보 가져오기", notes = "회원 테이블에 있는것들 전부 준다.")
+    public ResponseEntity<User> myInfoByUserNickname(@PathVariable("userNickname") String userNickname){
+
+        User user = userRepository.findByUserNickname(userNickname).get();
+
+        return new ResponseEntity<User>(user, HttpStatus.OK);
+    }
+
 }

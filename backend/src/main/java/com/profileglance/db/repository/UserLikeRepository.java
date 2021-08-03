@@ -14,4 +14,6 @@ public interface UserLikeRepository extends JpaRepository<UserLike, Long> {
 
     Long countByUser_UserEmail(String userEmail);
 
+    void deleteByUser_UserEmailAndCompany_CompanyId(String userEmail, String companyId);
+
 }

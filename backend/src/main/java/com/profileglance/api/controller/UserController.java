@@ -119,7 +119,7 @@ public class UserController {
 
     // 내 정보 보기
     @GetMapping("/myinfo/{userEmail}")
-    @ApiOperation(value = "회원 닉네임 중복 확인", notes = "DB에 있으면 202, 없으면 201")
+    @ApiOperation(value = "내 정보 가져오기", notes = "회원 테이블에 있는것들 전부 준다.")
     public ResponseEntity<User> myinfo(@PathVariable("userEmail") String userEmail){
 
         User user = userService.myinfo(userEmail);

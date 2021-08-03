@@ -1,6 +1,7 @@
 package com.profileglance.api.service;
 
 import com.profileglance.api.request.LookatmePostReq;
+import com.profileglance.api.response.LookatmePostRes;
 import com.profileglance.db.entity.Category;
 import com.profileglance.db.entity.Lookatme;
 import com.profileglance.db.entity.User;
@@ -10,6 +11,7 @@ import com.profileglance.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,9 +28,28 @@ public class LookatmeServiceImpl implements LookatmeService{
     CategoryRepository categoryRepository;
 
     @Override
-    public List<Lookatme> searchByCategory(String category) {
+    public List<LookatmePostRes> searchByCategory(String category) {
 
-        return null;
+        List<Lookatme> lookatmeList = lookatmeRepository.findAllByCategory_CategoryName(category);
+
+        List<LookatmePostRes> lookatmePostResList = new ArrayList<>();
+
+        for (Lookatme l : lookatmeList){
+            lookatmePostResList.add(new LookatmePostRes(
+                    l.getLookatmeId(),
+                    l.getUser().getUserNickname(),
+                    l.getTitle(),
+                    l.getContent(),
+                    l.getVideo(),
+                    l.getThumbnail(),
+                    l.getCategory().getCategoryName(),
+                    l.getView(),
+                    l.getVideoLike(),
+                    l.getCreatedAt()
+            ));
+        }
+
+        return lookatmePostResList;
     }
 
     @Override
@@ -68,6 +89,33 @@ public class LookatmeServiceImpl implements LookatmeService{
         lookatmeRepository.save(lookatme);
 
         return true;
+    }
+
+    @Override
+    public List<LookatmePostRes> searchByTitle(String title) {
+
+        List<Lookatme> lookatmeList = lookatmeRepository.findAllByTitleContaining(title);
+
+        System.out.println(lookatmeList.size());
+
+        List<LookatmePostRes> lookatmePostResList = new ArrayList<>();
+
+        for (Lookatme l : lookatmeList){
+            lookatmePostResList.add(new LookatmePostRes(
+                    l.getLookatmeId(),
+                    l.getUser().getUserNickname(),
+                    l.getTitle(),
+                    l.getContent(),
+                    l.getVideo(),
+                    l.getThumbnail(),
+                    l.getCategory().getCategoryName(),
+                    l.getView(),
+                    l.getVideoLike(),
+                    l.getCreatedAt()
+            ));
+        }
+
+        return lookatmePostResList;
     }
 
 

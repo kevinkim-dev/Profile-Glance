@@ -8,16 +8,16 @@
 	<v-form v-model="valid">
 		<v-container>
 			<v-row>
-				<v-col class="py-0" cols="12" md="6">
+				<v-col class="py-0 written" cols="12" md="6">
 					이름: 현승희
 				</v-col>
-				<v-col class="py-0" cols="12" md="6">
+				<v-col class="py-0 written" cols="12" md="6">
 					생년월일: 1995/10/30
 				</v-col>
-				<v-col class="py-0" cols="12" md="6">
+				<v-col class="py-0 written" cols="12" md="6">
 					닉네임: OhMyGirl
 				</v-col>
-				<v-col class="py-0" cols="12" md="6">
+				<v-col class="py-0 written" cols="12" md="6">
 					이메일: test@test.com
 				</v-col>
 				<v-col class="py-0" cols="12">
@@ -149,5 +149,10 @@ export default {
 }
 .go-to-login:hover {
 	text-decoration: underline;
+}
+
+.written {
+	font-size: 18px;
+	margin-top: 20px;
 }
 </style>

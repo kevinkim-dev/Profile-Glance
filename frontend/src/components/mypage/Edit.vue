@@ -114,7 +114,8 @@ export default {
 			else {
 				Http.put('/user/update', this.editForm)
 				.then(() => {
-					alert('회원정보 수정이 완료되었습니다..')
+					alert('회원정보 수정이 완료되었습니다.')
+					this.$store.dispatch('mypage/edit', this.editForm)
 					this.editForm.userPhone = ''
 					this.editForm.major1 = ''
 					this.editForm.major2 = ''

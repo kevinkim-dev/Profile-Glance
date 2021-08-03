@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="text-center m-text5">Seunghee's Profile</h1>
+    <h1 class="text-center">{{this.userName}}</h1>
     <div class="profile m-t-50">
       <div class="profile-left-box m-r-100">
         <ProfileImage :isMyProfile="isMyProfile" />
@@ -36,7 +36,8 @@ export default {
   name: 'profile',
   data() {
     return {
-      isEditOpen: false
+      isEditOpen: false,
+      userName: String
     }
   },
   components: {
@@ -65,6 +66,9 @@ export default {
     closeEditModal: function() {
       this.isEditOpen = false
     },
+  },
+  created() {
+    this.userName = this.$store.state.mypage.userInfo.userName
   }
 }
 </script>

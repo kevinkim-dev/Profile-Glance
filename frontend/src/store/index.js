@@ -28,8 +28,18 @@ export default new Vuex.Store({
   state: {
     token: '',
     // 0: 관리자, 1: 일반유저, 2: 기업유저
-    userType: 2,
-    userId: 1
+    userType: 1,
+    userId: 1,
+    userEmail: 'test6@test.com',
+    userName: 'test6',
+    userNickname: 'test6',
+    userBirth: '1995-10-30',
+    userPhone: '010-1010-1010',
+    major1: '전자',
+    major2: '기계',
+    companyLike: 0,
+    portfolio1: 'git',
+    portfolio2: 'git',
   },
   mutations: {
     SET_TOKEN(state, token) {

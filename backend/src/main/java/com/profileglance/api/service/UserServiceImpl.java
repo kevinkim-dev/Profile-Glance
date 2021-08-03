@@ -1,9 +1,13 @@
 package com.profileglance.api.service;
 
 import com.profileglance.api.response.LookatmePostRes;
+import com.profileglance.api.response.MypageGetRes;
+import com.profileglance.db.entity.Interview;
 import com.profileglance.db.entity.Lookatme;
 import com.profileglance.db.entity.User;
+import com.profileglance.db.repository.InterviewRepository;
 import com.profileglance.db.repository.LookatmeRepository;
+import com.profileglance.db.repository.UserLikeRepository;
 import com.profileglance.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,9 +22,12 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     LookatmeRepository lookatmeRepository;
+    @Autowired
+    InterviewRepository interviewRepository;
+    @Autowired
+    UserLikeRepository userLikeRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -67,10 +74,27 @@ public class UserServiceImpl implements UserService{
         return true;
     }
 
+//    @Override
+//    public User myinfo(String userEmail) {
+//        User user = userRepository.findByUserEmail(userEmail).get();
+//        return user;
+//    }
+
     @Override
-    public User myinfo(String userEmail) {
+    public MypageGetRes myInfo(String userEmail){
         User user = userRepository.findByUserEmail(userEmail).get();
-        return user;
+        MypageGetRes mypageGetRes = new MypageGetRes(
+                user.getUserName()
+                ,user.getUserEmail()
+                ,user.getBirth()
+                ,user.getMajor1()
+                ,user.getMajor2()
+                ,userLikeRepository.countByUser_UserEmail(userEmail)
+                ,lookatmeRepository.countByUser_UserEmail(userEmail)
+                ,user.getPortfolio1()
+                ,user.getPortfolio2()
+        );
+        return mypageGetRes;
     }
 
     @Override
@@ -103,8 +127,16 @@ public class UserServiceImpl implements UserService{
                     l.getCreatedAt()
             ));
         }
-
         return lookatmePostResList;
+    }
 
+    @Override
+    public List<Interview> myInterviewList(String userEmail){
+        return interviewRepository.findAllByUser_UserEmail(userEmail);
+    }
+
+    @Override
+    public Long likeCount(String userEmail){
+        return userLikeRepository.countByUser_UserEmail(userEmail);
     }
 }

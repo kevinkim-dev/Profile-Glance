@@ -3,7 +3,7 @@
         <div class="profile-image-box">
             <img class="profile-image" :src="imgSrc" alt="logo.png">
         </div>
-        <div class="filebox imageEdit">
+        <div class="filebox imageEdit" v-if="isMyProfile">
             <label for="ex_file">사진 편집</label>
             <input type="file" id="ex_file" @change="changeImage" ref="img" accept="img/*" multiple >
         </div>
@@ -18,6 +18,9 @@ export default {
         return {
             imgSrc: 'images/mypage/rabbit.jpg'
         }
+    },
+    props: {
+        isMyProfile: true
     },
     computed: {
         isMe: function() {

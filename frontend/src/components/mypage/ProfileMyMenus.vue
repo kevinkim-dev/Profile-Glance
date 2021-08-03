@@ -4,6 +4,7 @@
         <v-btn class="blue-button"
             color="white"
             text
+            @click="$emit('clickEditButton')"
         >
             회원정보 수정
         </v-btn>

@@ -4,6 +4,7 @@ import com.profileglance.db.entity.Recruit;
 import org.hibernate.criterion.LikeExpression;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,4 +15,7 @@ public interface RecruitRepository extends JpaRepository<Recruit, Long> {
     List<Recruit> findAllByJob_JobName(String jobName);
 
     List<Recruit> findAllByOrderByRecruitDate();
+
+    @Transactional
+    void deleteByRecruitId(Long recruitId);
 }

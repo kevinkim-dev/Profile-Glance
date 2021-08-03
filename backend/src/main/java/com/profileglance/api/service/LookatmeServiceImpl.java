@@ -118,5 +118,24 @@ public class LookatmeServiceImpl implements LookatmeService{
         return lookatmePostResList;
     }
 
+    @Override
+    public LookatmePostRes detailLookatme(Long lookatmeId) {
+        Lookatme lookatme = lookatmeRepository.findByLookatmeId(lookatmeId).get();
+
+        LookatmePostRes lookatmePostRes = new LookatmePostRes(
+                lookatme.getLookatmeId(),
+                lookatme.getUser().getUserNickname(),
+                lookatme.getTitle(),
+                lookatme.getContent(),
+                lookatme.getVideo(),
+                lookatme.getThumbnail(),
+                lookatme.getCategory().getCategoryName(),
+                lookatme.getView(),
+                lookatme.getVideoLike(),
+                lookatme.getCreatedAt()
+        );
+
+        return lookatmePostRes;
+    }
 
 }

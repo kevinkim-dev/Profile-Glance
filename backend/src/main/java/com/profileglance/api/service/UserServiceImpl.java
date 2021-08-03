@@ -1,8 +1,10 @@
 package com.profileglance.api.service;
 
 import com.profileglance.api.response.LookatmePostRes;
+import com.profileglance.db.entity.Interview;
 import com.profileglance.db.entity.Lookatme;
 import com.profileglance.db.entity.User;
+import com.profileglance.db.repository.InterviewRepository;
 import com.profileglance.db.repository.LookatmeRepository;
 import com.profileglance.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +20,10 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     LookatmeRepository lookatmeRepository;
+    @Autowired
+    InterviewRepository interviewRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -103,8 +106,11 @@ public class UserServiceImpl implements UserService{
                     l.getCreatedAt()
             ));
         }
-
         return lookatmePostResList;
+    }
 
+    @Override
+    public List<Interview> myInterviewList(String userEmail){
+        return interviewRepository.findAllByUser_UserEmail(userEmail);
     }
 }

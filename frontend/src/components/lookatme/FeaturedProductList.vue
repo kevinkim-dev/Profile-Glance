@@ -25,7 +25,7 @@
       ></v-text-field>
         </v-col>
         <v-col cols="1">
-          <v-btn color="green">업로드</v-btn>
+          <v-btn color="green"><router-link :to="{name: 'lookatmeregist'}" exact>업로드</router-link></v-btn>
         </v-col>
         </v-row>
       </div>
@@ -58,7 +58,7 @@
         console.log("search");
         console.log(this.search);
         console.log(this.select);
-      }
+      },
     },
     created() {
       this.$store.dispatch('product/setFeaturedProducts').then(() => {

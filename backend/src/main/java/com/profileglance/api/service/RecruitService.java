@@ -13,4 +13,6 @@ public interface RecruitService {
     List<RecruitPostRes> searchByCompanyName(String companyName);
 
     List<RecruitPostRes> searchByJobName(String jobName);
+
+    List<RecruitPostRes> searchAll();
 }

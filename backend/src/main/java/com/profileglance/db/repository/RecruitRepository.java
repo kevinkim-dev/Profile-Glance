@@ -13,4 +13,5 @@ public interface RecruitRepository extends JpaRepository<Recruit, Long> {
 
     List<Recruit> findAllByJob_JobName(String jobName);
 
+    List<Recruit> findAllByOrderByRecruitDate();
 }

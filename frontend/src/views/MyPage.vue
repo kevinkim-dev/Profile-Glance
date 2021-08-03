@@ -5,7 +5,7 @@
       <div class="profile-left-box m-r-100">
         <ProfileImage :isMyProfile="isMyProfile" />
         <ProfileMenus v-if="isMenuNeed" />
-        <ProfileMyMenus v-if="isMyProfile" />
+        <ProfileMyMenus v-if="isMyProfile" @clickEditButton="openEditModal" />
       </div>
       <div class="profile-right-box">
         <ProfileInfos />
@@ -13,6 +13,11 @@
       </div>
     </div><hr class="m-t-50">
     <FeaturedProductList />
+    <v-dialog
+      v-model="isEditOpen"
+      max-width="650px"
+    > <Edit @closeEditModal="closeEditModal" />
+    </v-dialog>
   </div>
 </template>
 
@@ -24,9 +29,16 @@ import ProfileMenus from '@/components/mypage/ProfileMenus.vue';
 import ProfileMyMenus from '@/components/mypage/ProfileMyMenus.vue';
 import ProfileVideos from '@/components/mypage/ProfileVideos.vue';
 import FeaturedProductList from '@/components/lookatme/FeaturedProductList.vue';
+import Edit from '@/components/mypage/Edit.vue'
+
 
 export default {
   name: 'profile',
+  data() {
+    return {
+      isEditOpen: false
+    }
+  },
   components: {
     ProfileImage,
     ProfileInfos,
@@ -34,7 +46,8 @@ export default {
     ProfileMenus,
     ProfileMyMenus,
     ProfileVideos,
-    FeaturedProductList
+    FeaturedProductList,
+    Edit
   },
   computed: {
     isMenuNeed: function() {
@@ -44,6 +57,14 @@ export default {
       return (this.$store.state.userType == this.$store.state.mypage.profileType) &&
       (this.$store.state.userId == this.$store.state.mypage.profileId)
     }
+  },
+  methods: {
+    openEditModal: function() {
+      this.isEditOpen = true
+    },
+    closeEditModal: function() {
+      this.isEditOpen = false
+    },
   }
 }
 </script>

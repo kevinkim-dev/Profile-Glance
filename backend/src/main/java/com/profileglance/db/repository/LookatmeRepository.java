@@ -13,4 +13,8 @@ import java.util.Optional;
 public interface LookatmeRepository extends JpaRepository<Lookatme, Long> {
 
     List<Lookatme> findAllByUser_UserEmail(String userEmail);
+
+    List<Lookatme> findAllByCategory_CategoryName(String categoryName);
+
+    List<Lookatme> findAllByTitleContaining(String title);
 }

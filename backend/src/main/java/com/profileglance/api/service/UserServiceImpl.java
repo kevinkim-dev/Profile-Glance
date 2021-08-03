@@ -1,11 +1,16 @@
 package com.profileglance.api.service;
 
+import com.profileglance.api.response.LookatmePostRes;
+import com.profileglance.db.entity.Lookatme;
 import com.profileglance.db.entity.User;
+import com.profileglance.db.repository.LookatmeRepository;
 import com.profileglance.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -14,6 +19,8 @@ public class UserServiceImpl implements UserService{
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    LookatmeRepository lookatmeRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -75,5 +82,29 @@ public class UserServiceImpl implements UserService{
         });
 
         return user.isPresent();
+    }
+
+    @Override
+    public List<LookatmePostRes> myVideoList(String userEmail){
+
+        List<Lookatme> lookatmeList = lookatmeRepository.findAllByUser_UserEmail(userEmail);
+        List<LookatmePostRes> lookatmePostResList = new ArrayList<>();
+        for (Lookatme l : lookatmeList){
+            lookatmePostResList.add(new LookatmePostRes(
+                    l.getLookatmeId(),
+                    l.getUser().getUserNickname(),
+                    l.getTitle(),
+                    l.getContent(),
+                    l.getVideo(),
+                    l.getThumbnail(),
+                    l.getCategory().getCategoryName(),
+                    l.getView(),
+                    l.getVideoLike(),
+                    l.getCreatedAt()
+            ));
+        }
+
+        return lookatmePostResList;
+
     }
 }

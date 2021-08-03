@@ -2,9 +2,11 @@ package com.profileglance.api.controller;
 
 
 import com.profileglance.api.request.UserLoginPostReq;
+import com.profileglance.api.response.LookatmePostRes;
 import com.profileglance.api.service.UserService;
 import com.profileglance.common.response.BaseResponseBody;
 import com.profileglance.config.JwtTokenProvider;
+import com.profileglance.db.entity.Lookatme;
 import com.profileglance.db.entity.User;
 import com.profileglance.db.repository.UserRepository;
 import io.swagger.annotations.Api;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.List;
 
 @Api(value = "유저 API", tags = {"User"})
 @RequestMapping("/user")
@@ -126,4 +129,13 @@ public class UserController {
 
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
+
+    // 내 영상 목록 가져오기
+    @GetMapping("/myvideo/{userEmail}")
+    @ApiOperation(value = "내 영상 리스트 가져오기")
+    public ResponseEntity<List<LookatmePostRes>> myVideoList(@PathVariable("userEmail") String userEmail){
+
+        return new ResponseEntity<List<LookatmePostRes>>(userService.myVideoList(userEmail), HttpStatus.OK);
+    }
+
 }

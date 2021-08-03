@@ -16,4 +16,5 @@ public interface LookatmeService {
 
     List<LookatmePostRes> searchByTitle(String title);
 
+    LookatmePostRes detailLookatme(Long lookatmeId);
 }

@@ -11,4 +11,6 @@ public interface LookatmeService {
 
     Boolean uploadLookatme(LookatmePostReq lookatmePostReq, String userEmail);
 
+    Boolean updateLookatme(LookatmePostReq lookatmePostReq);
+
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LookatmeServiceImpl implements LookatmeService{
@@ -47,6 +48,24 @@ public class LookatmeServiceImpl implements LookatmeService{
         user.getLookatmes().add(lookatme);
 
         userRepository.save(user);
+
+        return true;
+    }
+
+    @Override
+    public Boolean updateLookatme(LookatmePostReq lookatmePostReq) {
+
+        System.out.println("룩앳미 업데이트 서비스 입니다.");
+
+        Lookatme lookatme = lookatmeRepository.findById(lookatmePostReq.getLookatmeId()).get();
+
+        lookatme.setTitle(lookatmePostReq.getTitle());
+        lookatme.setContent(lookatmePostReq.getContent());
+        lookatme.setVideo(lookatmePostReq.getVideo());
+        lookatme.setThumbnail(lookatmePostReq.getThumbnail());
+        lookatme.setCategory(categoryRepository.findByCategoryName(lookatmePostReq.getCategory()).get());
+
+        lookatmeRepository.save(lookatme);
 
         return true;
     }

@@ -12,4 +12,6 @@ public interface UserLikeRepository extends JpaRepository<UserLike, Long> {
 
     Optional<UserLike> findByUser_UserEmailAndCompany_CompanyId(String userEmail, String companyId);
 
+    Long countByUser_UserEmail(String userEmail);
+
 }

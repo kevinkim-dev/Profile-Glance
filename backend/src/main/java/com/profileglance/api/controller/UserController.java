@@ -3,6 +3,7 @@ package com.profileglance.api.controller;
 
 import com.profileglance.api.request.UserLoginPostReq;
 import com.profileglance.api.response.LookatmePostRes;
+import com.profileglance.api.response.MypageGetRes;
 import com.profileglance.api.service.UserService;
 import com.profileglance.common.response.BaseResponseBody;
 import com.profileglance.config.JwtTokenProvider;
@@ -124,11 +125,11 @@ public class UserController {
     // 내 정보 보기
     @GetMapping("/myinfo/{userEmail}")
     @ApiOperation(value = "내 정보 가져오기", notes = "회원 테이블에 있는것들 전부 준다.")
-    public ResponseEntity<User> myinfo(@PathVariable("userEmail") String userEmail){
+    public ResponseEntity<MypageGetRes> myinfo(@PathVariable("userEmail") String userEmail){
 
-        User user = userService.myinfo(userEmail);
+        MypageGetRes mypageGetRes = userService.myInfo(userEmail);
 
-        return new ResponseEntity<User>(user, HttpStatus.OK);
+        return new ResponseEntity<MypageGetRes>(mypageGetRes, HttpStatus.OK);
     }
 
     // 내 영상 목록 가져오기

@@ -43,10 +43,13 @@ public class CompanyServiceImpl implements CompanyService{
     }
 
     // 기업이 회원에 좋아요를 누른다.
-//    @Override
-//    public void hitLikeByCompany(String companyId){
-//
-//    }
+    @Override
+    public void hitLikeByCompany(String userEmail, String companyId){
+        userLikeRepository.save(UserLike.builder()
+                .user(userRepository.findByUserEmail(userEmail).get())
+                .company(companyRepository.findByCompanyId(companyId).get())
+                .build());
+    }
 
     // 기업 A가 좋아요를 누른 유저의 목록
     @Override

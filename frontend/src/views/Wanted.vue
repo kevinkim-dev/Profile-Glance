@@ -9,7 +9,7 @@
             </p>
         </section> -->
         <div class="d-flex justify-end">
-            <v-btn text large class="m-3 primary-color text-white rounded-0">채용 공고 등록</v-btn>
+            <v-btn text large class="m-3 primary-color text-white rounded-0" @click="$router.push({ name: 'wantedregist' })">채용 공고 등록</v-btn>
         </div>
         <CompanyList />
     </div>

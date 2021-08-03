@@ -4,8 +4,9 @@ import Home from './views/Home.vue'
 import LookAtMe from './views/LookAtMe.vue'
 import LookAtMeRegist from './views/LookAtMeRegist.vue'
 import Wanted from './views/Wanted.vue'
-import Features from './views/Features';
-import MyPage from './views/MyPage.vue';
+import WantedRegist from './views/WantedRegist.vue'
+import Features from './views/Features'
+import MyPage from './views/MyPage.vue'
 
 Vue.use(Router)
 
@@ -31,7 +32,12 @@ export default new Router({
     {
       path: '/wanted',
       name: 'wanted',
-      component: Wanted
+      component: Wanted,
+    },
+    {
+      path: '/wanted-regist',
+      name: 'wantedregist',
+      component: WantedRegist,
     },
     {
       path: '/features',

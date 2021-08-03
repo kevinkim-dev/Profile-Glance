@@ -8,7 +8,9 @@
                 New Arrivals Women Collection 2018
             </p>
         </section> -->
-
+        <div class="d-flex justify-end">
+            <v-btn text large class="m-3 primary-color text-white rounded-0">채용 공고 등록</v-btn>
+        </div>
         <CompanyList />
     </div>
 </template>

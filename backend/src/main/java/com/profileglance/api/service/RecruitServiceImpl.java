@@ -57,7 +57,7 @@ public class RecruitServiceImpl implements RecruitService{
     @Override
     public List<RecruitPostRes> searchByCompanyName(String companyName) {
 
-        List<Recruit> recruitList = recruitRepository.findAllByCompany_CompanyName(companyName);
+        List<Recruit> recruitList = recruitRepository.findAllByCompany_CompanyNameContaining(companyName);
         List<RecruitPostRes> recruitPostResList = new ArrayList<>();
 
         for(Recruit recruit : recruitList) {

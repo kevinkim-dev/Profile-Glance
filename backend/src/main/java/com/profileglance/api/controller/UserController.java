@@ -6,6 +6,7 @@ import com.profileglance.api.response.LookatmePostRes;
 import com.profileglance.api.service.UserService;
 import com.profileglance.common.response.BaseResponseBody;
 import com.profileglance.config.JwtTokenProvider;
+import com.profileglance.db.entity.Interview;
 import com.profileglance.db.entity.Lookatme;
 import com.profileglance.db.entity.User;
 import com.profileglance.db.repository.UserRepository;
@@ -148,4 +149,11 @@ public class UserController {
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
+    // (마이페이지) 면접 일정 보기
+    @GetMapping("/myinterview/{userEmail}")
+    @ApiOperation(value = "나의 면접 일정 보기", notes = "userEmail을 주세용")
+    public ResponseEntity<List<Interview>> myInterview(@PathVariable("userEmail") String userEmail){
+
+        return new ResponseEntity<List<Interview>>(userService.myInterviewList(userEmail), HttpStatus.OK);
+    }
 }

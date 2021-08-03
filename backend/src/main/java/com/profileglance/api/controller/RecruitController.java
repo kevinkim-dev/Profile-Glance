@@ -1,14 +1,19 @@
 package com.profileglance.api.controller;
 
 import com.profileglance.api.request.RecruitPostReq;
+import com.profileglance.api.response.LookatmePostRes;
+import com.profileglance.api.response.RecruitPostRes;
 import com.profileglance.api.service.RecruitService;
 import com.profileglance.common.response.BaseResponseBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Api(value = "룩앳미 API", tags = {"Recruit"})
 @RequestMapping("/recruit")
@@ -28,5 +33,13 @@ public class RecruitController {
         recruitService.uploadRecruit(recruitPostReq, companyId);
 
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
+    }
+
+    // 회사 이름으로 검색
+    @GetMapping("/searchByCompanyName/{companyName}")
+    @ApiOperation(value = "회사 이름으로 검색하기", notes = "<strong>회사 이름 넣어주세요</strong>")
+    public ResponseEntity<List<RecruitPostRes>> searchByCompanyName(@PathVariable("companyName") String companyName){
+
+        return new ResponseEntity<List<RecruitPostRes>>(recruitService.searchByCompanyName(companyName), HttpStatus.OK);
     }
 }

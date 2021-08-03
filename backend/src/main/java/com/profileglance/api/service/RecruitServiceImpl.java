@@ -1,6 +1,7 @@
 package com.profileglance.api.service;
 
 import com.profileglance.api.request.RecruitPostReq;
+import com.profileglance.api.response.RecruitPostRes;
 import com.profileglance.db.entity.Company;
 import com.profileglance.db.entity.Job;
 import com.profileglance.db.entity.Recruit;
@@ -9,6 +10,9 @@ import com.profileglance.db.repository.JobRepository;
 import com.profileglance.db.repository.RecruitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class RecruitServiceImpl implements RecruitService{
@@ -49,4 +53,29 @@ public class RecruitServiceImpl implements RecruitService{
 
         return true;
     }
+
+    @Override
+    public List<RecruitPostRes> searchByCompanyName(String companyName) {
+
+        List<Recruit> recruitList = recruitRepository.findAllByCompany_CompanyName(companyName);
+        List<RecruitPostRes> recruitPostResList = new ArrayList<>();
+
+        for(Recruit recruit : recruitList) {
+            recruitPostResList.add(new RecruitPostRes(
+                    recruit.getRecruitId(),
+                    recruit.getCompany().getCompanyName(),
+                    recruit.getJob().getJobName(),
+                    recruit.getDescriptionURL(),
+                    recruit.getRecruitURL(),
+                    recruit.getCareer(),
+                    recruit.getJobDetail(),
+                    recruit.getRecruitDate(),
+                    recruit.getPresentationDate()
+            ));
+        }
+
+        return recruitPostResList;
+
+    }
+
 }

@@ -9,6 +9,7 @@
   "dependencies": {
     "moment": "^2.24.0",
     "sass-loader": "^10.2.0",
+    "url-search-params-polyfill": "^8.1.1",
     "vue": "^2.6.6",
     "vue-router": "^3.0.1",
     "vuetify": "^2.5.7",

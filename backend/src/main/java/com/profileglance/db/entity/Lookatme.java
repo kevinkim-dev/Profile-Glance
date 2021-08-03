@@ -3,6 +3,8 @@ package com.profileglance.db.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,14 +18,22 @@ public class Lookatme {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lookatme_id")
     private Long lookatmeId;
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    private User user;
 
-    @Column(name = "category_id")
-    private Long categoryId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+//    @Column(name = "user_id")
+//    private Long userId;
 
-    @Column(name = "user_id")
-    private Long userId;
+//    @Column(name = "category_id")
+//    private Long categoryId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @OneToMany(mappedBy = "lookatme")
+    private List<LookatmeLike> lookatmeLikes = new ArrayList<>();
 
     private String title;
 
@@ -40,4 +50,5 @@ public class Lookatme {
 
     @Column(name = "created_at")
     private String createdAt;
+
 }

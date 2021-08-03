@@ -3,6 +3,8 @@ package com.profileglance.db.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,8 +20,18 @@ public class Room {
     @Column(name = "room_id")
     private Long roomId;
 
-    @Column(name = "company_id")
-    private String companyId;
+    @OneToMany(mappedBy = "room")
+    private List<RoomInfo> roomInfos = new ArrayList<>();
+
+    @OneToOne(mappedBy = "room")
+    private Interview interview;
+
+//    @Column(name = "company_id")
+//    private String companyId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id")
+    private Company company;
 
     @Column(name = "room_category")
     private Long roomCategory;

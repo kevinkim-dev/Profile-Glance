@@ -75,12 +75,17 @@ public class CompanyController {
 
     // 좋아요를 눌렀는지 안눌렀는지 판단
     @GetMapping("/likecheck")
-    @ApiOperation(value = "좋아요를 눌렀는지 안눌렀는지 판단", notes = "좋아요를 눌렀으면 202, 누르지 않았으면 201")
+    @ApiOperation(value = "좋아요를 눌렀는지 안눌렀는지 판단하고 userlike 테이블 추가 삭제함", notes = "좋아요를 취소하려면 202, 좋아요를 눌렀다면 201")
     public ResponseEntity<? extends BaseResponseBody> likeCheck(@RequestParam String userEmail, @RequestParam String companyId){
         if (companyService.isHitLike(userEmail, companyId)){
-            return ResponseEntity.status(202).body(BaseResponseBody.of(202, "좋아요를 눌렀습니다."));
+            // userlike 테이블에 있음
+            // userlike 테이블에서 삭제해야함
+            companyService.deleteLikeByCompany(userEmail,companyId);
+            return ResponseEntity.status(202).body(BaseResponseBody.of(202, "좋아요를 취소했습니다."));
         }else {
-            return ResponseEntity.status(201).body(BaseResponseBody.of(201, "좋아요를 아직 누르지 않았습니다."));
+            // 위에랑 반대
+            companyService.addLikeByCompany(userEmail,companyId);
+            return ResponseEntity.status(201).body(BaseResponseBody.of(201, "좋아요를 눌렀습니다."));
         }
     }
 }

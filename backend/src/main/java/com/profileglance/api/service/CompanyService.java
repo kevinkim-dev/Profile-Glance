@@ -11,4 +11,6 @@ public interface CompanyService {
 
     List<User> userLikeListByCompany(String companyId);
     boolean isHitLike(String userEmail,String companyId);
+    void addLikeByCompany(String userEmail, String companyId);
+    void deleteLikeByCompany(String userEmail, String companyId);
 }

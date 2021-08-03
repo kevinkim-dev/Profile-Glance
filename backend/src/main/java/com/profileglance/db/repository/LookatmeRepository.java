@@ -18,6 +18,8 @@ public interface LookatmeRepository extends JpaRepository<Lookatme, Long> {
 
     List<Lookatme> findAllByTitleContaining(String title);
 
+    Long countByUser_UserEmail(String userEmail);
+    
     Optional<Lookatme> findByLookatmeId(Long lookatmeId);
 
 }

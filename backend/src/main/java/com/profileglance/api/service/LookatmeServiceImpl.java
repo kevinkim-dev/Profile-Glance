@@ -11,6 +11,7 @@ import com.profileglance.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -53,17 +54,29 @@ public class LookatmeServiceImpl implements LookatmeService{
     }
 
     @Override
-    public Boolean uploadLookatme(LookatmePostReq lookatmePostReq, String userEmail) {
+    public Boolean uploadLookatme(LookatmePostReq lookatmePostReq) {
 
         System.out.println("서비스 등록 들어왔어요~~~");
-        User user = userRepository.findByUserEmail(userEmail).get();
+        User user = userRepository.findByUserEmail(lookatmePostReq.getUserEmail()).get();
 
         String categoryName = lookatmePostReq.getCategory();
+
+        String baseDir = "C:\\Users\\multicampus\\Documents\\ServerFiles";
+        String videoPath = baseDir + "\\Video\\" + lookatmePostReq.getTitle() + ".mp4";
+        String thumbnailPath = baseDir + "\\Thumbnail\\" + lookatmePostReq.getTitle() + ".jpg";
+
+
+        try{
+            lookatmePostReq.getVideo().transferTo(new File(videoPath));
+            lookatmePostReq.getThumbnail().transferTo(new File(thumbnailPath));
+        } catch (Exception e){
+            return false;
+        }
 
         Category category = categoryRepository.findByCategoryName(categoryName).get();
 
         Lookatme lookatme = lookatmeRepository.save(Lookatme.builder().title(lookatmePostReq.getTitle())
-        .content(lookatmePostReq.getContent()).thumbnail(lookatmePostReq.getThumbnail()).video(lookatmePostReq.getVideo())
+        .content(lookatmePostReq.getContent()).thumbnail(thumbnailPath).video(videoPath)
         .user(user).category(category).build());
 
         user.getLookatmes().add(lookatme);
@@ -78,12 +91,23 @@ public class LookatmeServiceImpl implements LookatmeService{
 
         System.out.println("룩앳미 업데이트 서비스 입니다.");
 
+        String baseDir = "C:\\Users\\multicampus\\Documents\\ServerFiles";
+        String videoPath = baseDir + "\\Video\\" + lookatmePostReq.getTitle() + ".mp4";
+        String thumbnailPath = baseDir + "\\Thumbnail\\" + lookatmePostReq.getTitle() + ".jpg";
+
+        try{
+            lookatmePostReq.getVideo().transferTo(new File(videoPath));
+            lookatmePostReq.getThumbnail().transferTo(new File(thumbnailPath));
+        } catch (Exception e){
+            return false;
+        }
+
         Lookatme lookatme = lookatmeRepository.findById(lookatmePostReq.getLookatmeId()).get();
 
         lookatme.setTitle(lookatmePostReq.getTitle());
         lookatme.setContent(lookatmePostReq.getContent());
-        lookatme.setVideo(lookatmePostReq.getVideo());
-        lookatme.setThumbnail(lookatmePostReq.getThumbnail());
+        lookatme.setVideo(videoPath);
+        lookatme.setThumbnail(thumbnailPath);
         lookatme.setCategory(categoryRepository.findByCategoryName(lookatmePostReq.getCategory()).get());
 
         lookatmeRepository.save(lookatme);

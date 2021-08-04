@@ -29,23 +29,26 @@
         </v-col>
         </v-row>
       </div>
-
+      <div>
+      <infinite-loading @infinite="infiniteHandler" spinner="circles"></infinite-loading>
+      </div>
       <!-- Slide2 -->
-      <div class="wrap-slick2">
+      <!-- <div class="wrap-slick2">
         <div class="slick2" ref="slick">
           <template v-for="product in products">
             <Product :product="product" />
           </template>
         </div>
-      </div>
+      </div> -->
 
     </div>
   </section>
 </template>
 <script>
   import { mapState } from 'vuex';
-
+  import InfiniteLoading from 'vue-infinite-loading';
   import Product from '@/components/Product.vue';
+  import http from '@/http.js';
 
   export default {
     computed: {
@@ -59,6 +62,24 @@
         console.log(this.search);
         console.log(this.select);
       },
+      infiniteHandler($state) {
+        http.post('/lookatme/', {
+          params: {
+            limit: this.limit,
+          }
+        }).then((response) => {
+          setTimeout(() => {
+            if (response.data.length) {
+              this.list = this.list.concat(response.data);
+              this.limit += 10;
+              $state.loaded();
+            } else {
+              $state.complete();
+            }
+          }, 1000);
+        })
+        .catch((error) => {});
+      }
     },
     created() {
       this.$store.dispatch('product/setFeaturedProducts').then(() => {
@@ -66,10 +87,13 @@
       });
     },
     components: {
-      Product
+      Product,
+      InfiniteLoading
     },
     data() {
       return {
+        list: [],
+        limit: 0,
         search: "",
         select: {
           codeName: "전체",

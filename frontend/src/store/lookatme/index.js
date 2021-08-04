@@ -9,7 +9,8 @@ export default {
         }
     },
     actions: {
-        get_list({commit}, )
-    },
+        get_list({commit} ){
 
+        }
+    }
 }

@@ -93,7 +93,9 @@
 </template>
 
 <script>
-export default {
+import Axios from 'axios';
+import router from "@/router";
+export default {    
     data() {
         return {
             url: "images/lookatme/img.jpg",
@@ -195,23 +197,31 @@ export default {
             this.url = URL.createObjectURL(this.image)
         },
         regist() {
+            var router = this.$router;
             if (!this.valid) {
                 alert('필수 항목을 입력해주세요.')
             } else {
-            let lookatme = new FormData();
-            lookatme.append('image', this.image);
-            lookatme.append('files', this.files);
-            lookatme.append('category', this.category.code);
-            lookatme.append('title', this.title);
-            lookatme.append('content', this.content);
-            
-            for (var test of lookatme.entries()) {
-                console.log(test[0] + ',' + test[1]);
-            }
+                console.log(this.image);
+                let lookatme= new FormData();
+                let userEmail = 'test@test.com';
+                lookatme.append('thumbnail', this.image);
+                lookatme.append('video', this.files);
+                lookatme.append('category', this.category.codeName);
+                lookatme.append('title', this.title);
+                lookatme.append('content', this.content);
+                lookatme.append('userEmail', userEmail);
+                Axios.post('/lookatme/upload', lookatme, {
+                baseURL: "http://localhost:8888/",
+                headers: { 'Content-Type': 'multipart/form-data' }
+            }).then( ({data}) => {
+                alert("등록 성공!");
+                router.push({name: 'lookatme'});
+            })
+            .catch( err => console.log(err))
             }
         },
         cancle() {
-
+            router.push({name: 'lookatme'});
         }
     }
 }

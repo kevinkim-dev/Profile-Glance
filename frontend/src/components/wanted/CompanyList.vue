@@ -30,7 +30,8 @@
       })
     },
     created() {
-      this.$store.dispatch('product/setProducts');
+      // this.$store.dispatch('product/setProducts')
+      this.$store.dispatch('wanted/setCompanies')
     },
   }
 </script>

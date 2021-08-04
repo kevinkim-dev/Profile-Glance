@@ -69,18 +69,10 @@ public class UserController {
     @PostMapping("/uploadImg")
     @ApiOperation(value = "사진 업로드", notes = "<strong>파일 경로</strong>로 업로드한다.", produces = "multipart/form-date")
     public ResponseEntity<? extends BaseResponseBody> uploadUserImg(@RequestPart("userImg") MultipartFile files, @RequestParam("userEmail")String userEmail) {
-        try {
-            String baseDir = "C:\\profile_glance\\ServerFiles";
-            String filePath = baseDir + "\\UserImg\\" + userEmail + ".jpg";
-
-            if(userService.uploadUserImg(userEmail, filePath)) {
-                files.transferTo(new File(filePath));
-                return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
-            } else {
-                return ResponseEntity.status(666).body(BaseResponseBody.of(666, "No Email"));
-            }
-        } catch(Exception e) {
-            return ResponseEntity.status(999).body(BaseResponseBody.of(999, "Fail"));
+        if(userService.uploadUserImg(files, userEmail)) {
+            return ResponseEntity.status(201).body(BaseResponseBody.of(201, "사진 업로드 성공"));
+        } else {
+            return ResponseEntity.status(999).body(BaseResponseBody.of(999, "사진 업로드 실패"));
         }
     }
 

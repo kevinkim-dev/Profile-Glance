@@ -5,6 +5,7 @@ import com.profileglance.api.request.UserPostReq;
 import com.profileglance.api.response.InterviewListGetRes;
 import com.profileglance.api.response.LookatmePostRes;
 import com.profileglance.api.response.MypageGetRes;
+import com.profileglance.common.response.BaseResponseBody;
 import com.profileglance.db.entity.Interview;
 import com.profileglance.db.entity.Lookatme;
 import com.profileglance.db.entity.User;
@@ -13,9 +14,12 @@ import com.profileglance.db.repository.LookatmeRepository;
 import com.profileglance.db.repository.UserLikeRepository;
 import com.profileglance.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -128,14 +132,24 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean uploadUserImg(String userEmail, String userImg) {
+    public boolean uploadUserImg(MultipartFile files, String userEmail) {
+
         Optional<User> user = userRepository.findByUserEmail(userEmail);
+        String baseDir = "C:\\profile_glance\\ServerFiles";
+        String filePath = baseDir + "\\UserImg\\" + userEmail + ".jpg";
+
+        try {
+            files.transferTo(new File(filePath));
+        } catch(Exception e) {
+            return false;
+        }
+
         user.ifPresent(uploadUser->{
-            uploadUser.setUserImg((userImg));
+            uploadUser.setUserImg((filePath));
             userRepository.save(uploadUser);
         });
 
-        return user.isPresent();
+        return true;
     }
 
     @Override

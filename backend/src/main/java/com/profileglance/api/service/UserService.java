@@ -1,5 +1,6 @@
 package com.profileglance.api.service;
 
+import com.profileglance.api.response.InterviewListGetRes;
 import com.profileglance.api.response.LookatmePostRes;
 import com.profileglance.api.response.MypageGetRes;
 import com.profileglance.db.entity.Interview;
@@ -15,7 +16,7 @@ public interface UserService {
     boolean deleteUser(String userEmail);
 
     List<LookatmePostRes> myVideoList(String userEmail);
-    List<Interview> myInterviewList(String userEmail);
+    List<InterviewListGetRes> myInterviewList(String userEmail);
     Long likeCount(String userEmail);
     MypageGetRes myInfo(String userEmail);
     MypageGetRes myInfoByNickname(String userNickname);

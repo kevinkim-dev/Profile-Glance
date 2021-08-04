@@ -1,5 +1,6 @@
 package com.profileglance.api.service;
 
+import com.profileglance.api.response.InterviewListGetRes;
 import com.profileglance.api.response.LookatmePostRes;
 import com.profileglance.api.response.MypageGetRes;
 import com.profileglance.db.entity.Interview;
@@ -148,8 +149,19 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<Interview> myInterviewList(String userEmail){
-        return interviewRepository.findAllByUser_UserEmail(userEmail);
+    public List<InterviewListGetRes> myInterviewList(String userEmail){
+        List<InterviewListGetRes> interviewListGetRes = new ArrayList<>();
+        List<Interview> interviewList = interviewRepository.findAllByUser_UserEmail(userEmail);
+        for(Interview i : interviewList){
+            interviewListGetRes.add(new InterviewListGetRes(
+                    i.getUser().getUserName()
+                    ,i.getCompany().getCompanyId()
+                    ,i.getInterviewDate()
+                    ,i.getInterviewTime()
+                    ,i.getRoom().getRoomUrl()
+            ));
+        }
+        return interviewListGetRes;
     }
 
     @Override

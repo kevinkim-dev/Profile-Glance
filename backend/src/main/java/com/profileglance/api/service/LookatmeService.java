@@ -10,6 +10,8 @@ public interface LookatmeService {
 
     List<LookatmePostRes> searchByCategory(String category, Long limit);
 
+    List<LookatmePostRes> orderByView(Long limit);
+
     Boolean uploadLookatme(LookatmePostReq lookatmePostReq);
 
     Boolean updateLookatme(LookatmePostReq lookatmePostReq);

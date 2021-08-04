@@ -1,19 +1,19 @@
 <template>
   <div>
     <h1 class="text-center">{{this.userName}}</h1>
-    <div class="profile m-t-50">
+    <div class="profile m-t-50  ">
       <div class="profile-left-box m-r-100">
         <ProfileImage :isMyProfile="isMyProfile" />
         <ProfileMenus v-if="isMenuNeed" />
-        <ProfileMyMenus v-if="isMyProfile" @clickEditButton="openEditModal" />
+        <ProfileMyMenus v-if="isMyProfile && userType != 0" @clickEditButton="openEditModal" />
       </div>
       <div class="profile-right-box">
-        <ProfileInfoButtons v-if="isMyProfile" @clickInfo="clickInfo" @clickInterviews="clickInterviews" />
+        <ProfileInfoButtons v-if="isMyProfile && userType != 0" @clickInfo="clickInfo" @clickInterviews="clickInterviews" />
         <ProfileInterviews v-if="showInterview" />
         <ProfileInfos v-else />
       </div>
     </div><hr class="m-t-50">
-    <FeaturedProductList />
+    <FeaturedProductList v-if="userType==1" />
     <v-dialog
       v-model="isEditOpen"
       max-width="650px"
@@ -41,6 +41,7 @@ export default {
       isEditOpen: false,
       userName: String,
       showInterview: false,
+      isCompanySignUpOpen: false
     }
   },
   components: {
@@ -52,7 +53,7 @@ export default {
     ProfileMyMenus,
     ProfileVideos,
     FeaturedProductList,
-    Edit
+    Edit,
   },
   computed: {
     isMenuNeed: function() {
@@ -61,6 +62,9 @@ export default {
     isMyProfile: function() {
       return (this.$store.state.userType == this.$store.state.mypage.profileType) &&
       (this.$store.state.userId == this.$store.state.mypage.profileId)
+    },
+    userType: function() {
+      return this.$store.state.userType
     }
   },
   methods: {

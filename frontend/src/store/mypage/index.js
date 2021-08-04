@@ -1,7 +1,7 @@
 export default {
   namespaced: true,
   state: {
-    profileType: 1,
+    profileType: 0,
     profileId: 1,
     userInfo: {
       userEmail: 'test6@test.com',

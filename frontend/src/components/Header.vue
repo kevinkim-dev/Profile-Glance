@@ -34,8 +34,6 @@
                 </div>
             </div>
         </div>
-
-
     </header>
 </template>
 <script>

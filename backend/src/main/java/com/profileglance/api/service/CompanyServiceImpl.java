@@ -1,6 +1,7 @@
 package com.profileglance.api.service;
 
 import com.profileglance.api.request.CompanyPostReq;
+import com.profileglance.api.response.CompanyLikeListGetRes;
 import com.profileglance.db.entity.Company;
 import com.profileglance.db.entity.User;
 import com.profileglance.db.entity.UserLike;
@@ -10,9 +11,11 @@ import com.profileglance.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -66,21 +69,27 @@ public class CompanyServiceImpl implements CompanyService{
 
     // 기업이 회원에 좋아요를 취소한다.
     @Override
+    @Transactional
     public void deleteLikeByCompany(String userEmail, String companyId){
         userLikeRepository.deleteByUser_UserEmailAndCompany_CompanyId(userEmail, companyId);
     }
 
-    // 기업 A가 좋아요를 누른 유저의 목록
+     // 기업 A가 좋아요를 누른 유저의 목록
     @Override
-    public List<User> userLikeListByCompany(String companyId){
-        List<User> user = new ArrayList<>();
+    public List<CompanyLikeListGetRes> userLikeListByCompany(String companyId){
+        List<CompanyLikeListGetRes> companyLikeListGetResList = new ArrayList<>();
 
         List<UserLike> userLikes = userLikeRepository.findAllByCompany_CompanyId(companyId);
 
         for (UserLike u : userLikes){
-            user.add(userRepository.findByUserEmail(u.getUser().getUserEmail()).get());
+            companyLikeListGetResList.add(new CompanyLikeListGetRes(
+                    u.getUser().getUserName()
+                    ,u.getUser().getUserEmail()
+                    ,u.getUser().getUserNickname()
+                    ,u.getCompany().getCompanyId()
+            ));
         }
-        return user;
+        return companyLikeListGetResList;
     }
 
     // 좋아요를 눌렀는지 확인

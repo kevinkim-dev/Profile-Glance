@@ -64,6 +64,7 @@ public class RecruitServiceImpl implements RecruitService{
             recruitPostResList.add(new RecruitPostRes(
                     recruit.getRecruitId(),
                     recruit.getCompany().getCompanyName(),
+                    recruit.getCompany().getCompanyImg(),
                     recruit.getJob().getJobName(),
                     recruit.getDescriptionURL(),
                     recruit.getRecruitURL(),
@@ -88,6 +89,7 @@ public class RecruitServiceImpl implements RecruitService{
             recruitPostResList.add(new RecruitPostRes(
                     recruit.getRecruitId(),
                     recruit.getCompany().getCompanyName(),
+                    recruit.getCompany().getCompanyImg(),
                     recruit.getJob().getJobName(),
                     recruit.getDescriptionURL(),
                     recruit.getRecruitURL(),
@@ -110,6 +112,7 @@ public class RecruitServiceImpl implements RecruitService{
             recruitPostResList.add(new RecruitPostRes(
                     recruit.getRecruitId(),
                     recruit.getCompany().getCompanyName(),
+                    recruit.getCompany().getCompanyImg(),
                     recruit.getJob().getJobName(),
                     recruit.getDescriptionURL(),
                     recruit.getRecruitURL(),
@@ -121,6 +124,14 @@ public class RecruitServiceImpl implements RecruitService{
         }
 
         return recruitPostResList;
+    }
+
+    @Override
+    public Boolean deleteRecruit(Long recruitId) {
+
+        recruitRepository.deleteByRecruitId(recruitId);
+
+        return true;
     }
 
 }

@@ -76,8 +76,8 @@ public class LookatmeServiceImpl implements LookatmeService{
         Category category = categoryRepository.findByCategoryName(categoryName).get();
 
         Lookatme lookatme = lookatmeRepository.save(Lookatme.builder().title(lookatmePostReq.getTitle())
-        .content(lookatmePostReq.getContent()).thumbnail(thumbnailPath).video(videoPath)
-        .user(user).category(category).build());
+                .content(lookatmePostReq.getContent()).thumbnail(thumbnailPath).video(videoPath).view(0L)
+                .user(user).category(category).build());
 
         user.getLookatmes().add(lookatme);
 
@@ -145,6 +145,10 @@ public class LookatmeServiceImpl implements LookatmeService{
     @Override
     public LookatmePostRes detailLookatme(Long lookatmeId) {
         Lookatme lookatme = lookatmeRepository.findByLookatmeId(lookatmeId).get();
+
+        Long viewCount = lookatme.getView() + 1;
+        lookatme.setView(viewCount);
+        lookatmeRepository.save(lookatme);
 
         LookatmePostRes lookatmePostRes = new LookatmePostRes(
                 lookatme.getLookatmeId(),

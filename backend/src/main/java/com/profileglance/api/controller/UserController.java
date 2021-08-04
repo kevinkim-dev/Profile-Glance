@@ -69,8 +69,8 @@ public class UserController {
     @ApiOperation(value = "사진 업로드", notes = "<strong>파일 경로</strong>로 업로드한다.", produces = "multipart/form-date")
     public ResponseEntity<? extends BaseResponseBody> uploadUserImg(@RequestPart("userImg") MultipartFile files, @RequestParam("userEmail")String userEmail) {
         try {
-            String baseDir = "C:\\Users\\multicampus\\Documents\\ServerFiles";
-            String filePath = baseDir + "\\" + userEmail + ".jpg";
+            String baseDir = "C:\\profile_glance\\ServerFiles";
+            String filePath = baseDir + "\\UserImg\\" + userEmail + ".jpg";
 
             if(userService.uploadUserImg(userEmail, filePath)) {
                 files.transferTo(new File(filePath));

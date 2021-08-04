@@ -29,9 +29,12 @@ public class LookatmeServiceImpl implements LookatmeService{
     CategoryRepository categoryRepository;
 
     @Override
-    public List<LookatmePostRes> searchByCategory(String category) {
+    public List<LookatmePostRes> searchByCategory(String category, Long limit) {
 
-        List<Lookatme> lookatmeList = lookatmeRepository.findAllByCategory_CategoryName(category);
+        System.out.println("categoryQ : " + category);
+        System.out.println("limit : " + limit);
+
+        List<Lookatme> lookatmeList = lookatmeRepository.findAllByCategory_CategoryName(category, limit);
 
         List<LookatmePostRes> lookatmePostResList = new ArrayList<>();
 
@@ -116,9 +119,40 @@ public class LookatmeServiceImpl implements LookatmeService{
     }
 
     @Override
-    public List<LookatmePostRes> searchByTitle(String title) {
+    public List<LookatmePostRes> searchByTitle(String title, Long limit) {
 
-        List<Lookatme> lookatmeList = lookatmeRepository.findAllByTitleContaining(title);
+        String titleQ = "%" + title + "%";
+
+        List<Lookatme> lookatmeList = lookatmeRepository.findAllByTitle(titleQ, limit);
+
+        System.out.println(lookatmeList.size());
+
+        List<LookatmePostRes> lookatmePostResList = new ArrayList<>();
+
+        for (Lookatme l : lookatmeList){
+            lookatmePostResList.add(new LookatmePostRes(
+                    l.getLookatmeId(),
+                    l.getUser().getUserNickname(),
+                    l.getTitle(),
+                    l.getContent(),
+                    l.getVideo(),
+                    l.getThumbnail(),
+                    l.getCategory().getCategoryName(),
+                    l.getView(),
+                    l.getVideoLike(),
+                    l.getCreatedAt()
+            ));
+        }
+
+        return lookatmePostResList;
+    }
+
+    @Override
+    public List<LookatmePostRes> searchByNickname(String nickname, Long limit) {
+
+        String nicnameQ = "%" + nickname + "%";
+
+        List<Lookatme> lookatmeList = lookatmeRepository.findAllByUser_UserNickname(nicnameQ, limit);
 
         System.out.println(lookatmeList.size());
 

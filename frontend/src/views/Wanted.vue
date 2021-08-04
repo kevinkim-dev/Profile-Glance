@@ -15,24 +15,24 @@
     </div>
 </template>
 <script>
-    import { mapState } from 'vuex';
-    import CompanyList from '@/components/wanted/CompanyList.vue'
+import { mapState } from 'vuex';
+import CompanyList from '@/components/wanted/CompanyList.vue'
 
-    export default {
-        name: 'Wanted',
-        components: {
-            CompanyList,
+export default {
+    name: 'Wanted',
+    components: {
+        CompanyList,
+    },
+    computed: {
+        ...mapState('product', {
+            totalProducts: state => state.totalProducts,
+            page: state => state.page
+        })
+    },
+    methods: {
+        changePage(page) {
+            this.$store.dispatch('product/setProducts', page);
         },
-        computed: {
-            ...mapState('product', {
-                totalProducts: state => state.totalProducts,
-                page: state => state.page
-            })
-        },
-        methods: {
-            changePage(page) {
-                this.$store.dispatch('product/setProducts', page);
-            }
-        }
-    }
+    },
+}
 </script>

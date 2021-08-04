@@ -3,8 +3,8 @@
     <v-form>
       <v-container>
         <v-row class="justify-center">
-          <v-text class="h1">채용공고 등록</v-text>
-          <hr>
+          <h1>채용공고 등록</h1>
+          <br>
           <v-col cols="12">
             <v-row>
               <v-col cols="6">
@@ -21,7 +21,7 @@
                 </v-text-field>
               </v-col>
             </v-row>
-            <v-row class="d-flex align-center">
+            <v-row>
               <v-col cols="6">
                 <v-radio-group
                   row
@@ -38,6 +38,8 @@
                   ></v-radio>
                 </v-radio-group>
               </v-col>
+            </v-row>
+            <v-row>
               <v-col cols="6">
                 <v-menu
                   v-model="dateCalendar"
@@ -61,6 +63,31 @@
                     v-model="recruitDate"
                     range
                     @input="dateCalendarClose"
+                  ></v-date-picker>
+                </v-menu>
+              </v-col>
+              <v-col cols="6">
+                <v-menu
+                  v-model="descriptionCalendar"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="auto"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="registRecruitForm.presentationDate"
+                      label="설명회 날짜"
+                      prepend-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="registRecruitForm.presentationDate"
+                    @input="descriptionCalendar=false"
                   ></v-date-picker>
                 </v-menu>
               </v-col>
@@ -93,6 +120,7 @@
 </template>
 
 <script>
+import Http from '@/http.js'
 export default {
   name: 'WantedRegist',
   data: function () {
@@ -104,6 +132,7 @@ export default {
       recruitDate: [],
       registRecruitForm: {
         career: '',
+        companyId: 'kakao',
         descriptionURL: '',
         job: '',
         jobDetail: '',
@@ -114,6 +143,7 @@ export default {
       },
       startDateCalendar: false,
       dateCalendar: false,
+      descriptionCalendar: false,
     }
   },
   watch: {
@@ -131,9 +161,10 @@ export default {
       if (!this.valid) {
         alert('유효성검사 x')
       } else {
-        Http.post('/recruit/upload', {companyId: 'kakao'}, {body: this.registRecruitForm})
+        Http.post('/recruit/upload', this.registRecruitForm)
         .then(() => {
-          alert('완료되었습니다.')
+          alert('채용 공고 등록이 완료되었습니다.')
+          this.$router.push({ name: 'wanted' })
         })
         .catch((err) => {
           // alert('회원가입에 실패했습니다.')

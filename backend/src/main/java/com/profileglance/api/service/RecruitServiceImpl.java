@@ -27,9 +27,9 @@ public class RecruitServiceImpl implements RecruitService{
     JobRepository jobRepository;
 
     @Override
-    public Boolean uploadRecruit(RecruitPostReq recruitPostReq, String companyId) {
+    public Boolean uploadRecruit(RecruitPostReq recruitPostReq) {
 
-        Company company = companyRepository.findByCompanyId(companyId).get();
+        Company company = companyRepository.findByCompanyId(recruitPostReq.getCompanyId()).get();
 
         String jobName = recruitPostReq.getJob();
 

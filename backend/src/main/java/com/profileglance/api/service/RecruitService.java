@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface RecruitService {
 
-    Boolean uploadRecruit(RecruitPostReq recruitPostReq, String companyId);
+    Boolean uploadRecruit(RecruitPostReq recruitPostReq);
 
     List<RecruitPostRes> searchByCompanyName(String companyName);
 

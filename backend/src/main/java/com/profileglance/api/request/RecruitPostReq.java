@@ -14,6 +14,9 @@ public class RecruitPostReq {
     @ApiModelProperty(name="직무")
     String job;
 
+    @ApiModelProperty(name="회사 아이디")
+    String companyId;
+
     @ApiModelProperty(name="기업 소개 URL")
     String descriptionURL;
 

@@ -2,7 +2,6 @@ package com.profileglance.api.controller;
 
 
 import com.profileglance.api.request.UserLoginPostReq;
-import com.profileglance.api.request.UserPostReq;
 import com.profileglance.api.response.LookatmePostRes;
 import com.profileglance.api.response.MypageGetRes;
 import com.profileglance.api.service.UserService;
@@ -42,9 +41,9 @@ public class UserController {
     // 회원가입
     @PostMapping("/signup")
     @ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.")
-    public ResponseEntity<? extends BaseResponseBody> join(@RequestBody UserPostReq userPostReq) {
+    public ResponseEntity<? extends BaseResponseBody> join(@RequestBody User user) {
 
-        userService.createUser(userPostReq);
+        userService.createUser(user);
 
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
     }
@@ -144,18 +143,15 @@ public class UserController {
     // 닉네임으로 내 정보 보기
     @GetMapping("/myinfo/nickname/{userNickname}")
     @ApiOperation(value = "닉네임으로 내 정보 가져오기", notes = "회원 테이블에 있는것들 전부 준다.")
-    public ResponseEntity<User> myInfoByUserNickname(@PathVariable("userNickname") String userNickname){
-
-        User user = userRepository.findByUserNickname(userNickname).get();
-
-        return new ResponseEntity<User>(user, HttpStatus.OK);
+    public ResponseEntity<MypageGetRes> myInfoByUserNickname(@PathVariable("userNickname") String userNickname){
+        MypageGetRes mypageGetRes = userService.myInfoByNickname(userNickname);
+        return new ResponseEntity<MypageGetRes>(mypageGetRes, HttpStatus.OK);
     }
 
     // (마이페이지) 면접 일정 보기
     @GetMapping("/myinterview/{userEmail}")
     @ApiOperation(value = "나의 면접 일정 보기", notes = "userEmail을 주세용")
     public ResponseEntity<List<Interview>> myInterview(@PathVariable("userEmail") String userEmail){
-
         return new ResponseEntity<List<Interview>>(userService.myInterviewList(userEmail), HttpStatus.OK);
     }
 }

@@ -6,29 +6,65 @@
           <v-text class="h1">채용공고 등록</v-text>
           <hr>
           <v-col cols="12">
-            <v-select
-              label="직무"
-              :items="jobs"
-              v-model="registRecruitForm.job">
-            </v-select>
-            <v-text-field
-              label="모집분야"
-              v-model="registRecruitForm.jobDetail">
-            </v-text-field>
-            <v-radio-group
-              row
-              v-model="registRecruitForm.career"
-            >
-              <v-radio
-                label="신입"
-                value="신입"
-              ></v-radio>
-              <v-radio
-                label="경력"
-                value="경력"
-
-              ></v-radio>
-            </v-radio-group>
+            <v-row>
+              <v-col cols="6">
+                <v-select
+                  label="직무"
+                  :items="jobs"
+                  v-model="registRecruitForm.job">
+                </v-select>
+              </v-col>
+              <v-col cols="6">
+                <v-text-field
+                  label="모집분야"
+                  v-model="registRecruitForm.jobDetail">
+                </v-text-field>
+              </v-col>
+            </v-row>
+            <v-row class="d-flex align-center">
+              <v-col cols="6">
+                <v-radio-group
+                  row
+                  v-model="registRecruitForm.career"
+                  label="신입/경력"
+                >
+                  <v-radio
+                    label="신입"
+                    value="신입"
+                  ></v-radio>
+                  <v-radio
+                    label="경력"
+                    value="경력"
+                  ></v-radio>
+                </v-radio-group>
+              </v-col>
+              <v-col cols="6">
+                <v-menu
+                  v-model="dateCalendar"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="auto"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="recruitDate"
+                      label="모집 기간"
+                      prepend-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="recruitDate"
+                    range
+                    @input="dateCalendarClose"
+                  ></v-date-picker>
+                </v-menu>
+              </v-col>
+            </v-row>
             <v-text-field
               label="회사소개 url"
               v-model="registRecruitForm.descriptionURL">
@@ -65,22 +101,49 @@ export default {
       jobs: ['IT', '마케팅', '영업', '경영지원', '디자인', '서비스', 
             '전문직', '의류', '생산제조', '건설', '유통무역', '미디어',
             '교육', '특수계층/공공', '연구직' ],
+      recruitDate: [],
       registRecruitForm: {
         career: '',
         descriptionURL: '',
         job: '',
         jobDetail: '',
         presentationDate: '',
-        recuritDate: '',
+        recruitStartDate: '',
+        recruitEndDate: '',
         recruitURL: '',
       },
+      startDateCalendar: false,
+      dateCalendar: false,
     }
+  },
+  watch: {
+    recruitDate () {
+      if (this.recruitDate.length>=1) {
+        this.registRecruitForm.recruitStartDate = this.recruitDate[0]
+      }
+      if (this.recruitDate.length>=2) {
+        this.registRecruitForm.recruitEndDate = this.recruitDate[1]
+      }
+    },
   },
   methods: {
     registRecruit () {
       if (!this.valid) {
         alert('유효성검사 x')
       } else {
+        Http.post('/recruit/upload', {companyId: 'kakao'}, {body: this.registRecruitForm})
+        .then(() => {
+          alert('완료되었습니다.')
+        })
+        .catch((err) => {
+          // alert('회원가입에 실패했습니다.')
+          console.log(err)
+        })
+      }
+    },
+    dateCalendarClose () {
+      if (this.recruitDate.length===2) {
+        this.dateCalendar=false
       }
     }
   }

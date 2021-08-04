@@ -1,6 +1,7 @@
 package com.profileglance.api.controller;
 
 
+import com.profileglance.api.request.MypagePostReq;
 import com.profileglance.api.request.UserLoginPostReq;
 import com.profileglance.api.request.UserPostReq;
 import com.profileglance.api.response.InterviewListGetRes;
@@ -117,11 +118,11 @@ public class UserController {
     // 정보수정
     @PutMapping("/update")
     @ApiOperation(value = "정보수정", notes = "<strong>userEmail, major1, major2, Portfolio1, Portfolio2</strong>만 넣으면 됩니다.")
-    public ResponseEntity<User> update(@RequestBody User userUpdateInfo) {
+    public ResponseEntity<MypageGetRes> update(@RequestBody MypagePostReq mypagePostReq) {
 
-        User user = userService.updateUser(userUpdateInfo, userUpdateInfo.getUserEmail());
+        MypageGetRes mypageGetRes = userService.updateUser(mypagePostReq);
 
-        return new ResponseEntity<User>(user, HttpStatus.OK);
+        return new ResponseEntity<MypageGetRes>(mypageGetRes, HttpStatus.OK);
     }
 
     // 내 정보 보기

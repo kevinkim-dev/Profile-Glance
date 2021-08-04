@@ -7,20 +7,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("UserPostReq")
-public class UserPostReq {
-
-    @ApiModelProperty(name="유저 이름")
-    String userName;
+@ApiModel("MypagePostReq")
+public class MypagePostReq {
 
     @ApiModelProperty(name="유저 이메일")
     String userEmail;
-
-    @ApiModelProperty(name="유저 닉네임")
-    String userNickname;
-
-    @ApiModelProperty(name="유저 비밀번호")
-    String userPassword;
 
     @ApiModelProperty(name="유저 전공1")
     String major1;
@@ -30,9 +21,6 @@ public class UserPostReq {
 
     @ApiModelProperty(name="유저 핸드폰 번호")
     String userPhone;
-
-    @ApiModelProperty(name="유저 생년월일")
-    String birth;
 
     @ApiModelProperty(name="유저 portfolio1")
     String portfolio1;

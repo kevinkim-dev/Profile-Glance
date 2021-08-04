@@ -94,11 +94,12 @@
 
 <script>
 import Axios from 'axios';
+import router from "@/router";
 export default {    
     data() {
         return {
             url: "images/lookatme/img.jpg",
-            image: [],
+            image: null,
             files: [],
             valid: false,
             category: {
@@ -196,9 +197,11 @@ export default {
             this.url = URL.createObjectURL(this.image)
         },
         regist() {
+            var router = this.$router;
             if (!this.valid) {
                 alert('필수 항목을 입력해주세요.')
             } else {
+                console.log(this.image);
                 let lookatme= new FormData();
                 let userEmail = 'test@test.com';
                 lookatme.append('thumbnail', this.image);
@@ -211,13 +214,14 @@ export default {
                 baseURL: "http://localhost:8888/",
                 headers: { 'Content-Type': 'multipart/form-data' }
             }).then( ({data}) => {
-                console.log(data)
+                alert("등록 성공!");
+                router.push({name: 'lookatme'});
             })
             .catch( err => console.log(err))
             }
         },
         cancle() {
-
+            router.push({name: 'lookatme'});
         }
     }
 }

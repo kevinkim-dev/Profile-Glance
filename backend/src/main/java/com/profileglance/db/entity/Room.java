@@ -39,6 +39,6 @@ public class Room {
     @Column(name = "room_url")
     private String roomUrl;
 
-    @Column(name = "is_active")
+    @Column(name = "is_active", columnDefinition = "boolean default false")
     private boolean isActive;
 }

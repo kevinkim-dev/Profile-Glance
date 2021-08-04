@@ -2,6 +2,7 @@ package com.profileglance.api.controller;
 
 
 import com.profileglance.api.request.UserLoginPostReq;
+import com.profileglance.api.response.InterviewListGetRes;
 import com.profileglance.api.response.LookatmePostRes;
 import com.profileglance.api.response.MypageGetRes;
 import com.profileglance.api.service.UserService;
@@ -151,7 +152,7 @@ public class UserController {
     // (마이페이지) 면접 일정 보기
     @GetMapping("/myinterview/{userEmail}")
     @ApiOperation(value = "나의 면접 일정 보기", notes = "userEmail을 주세용")
-    public ResponseEntity<List<Interview>> myInterview(@PathVariable("userEmail") String userEmail){
-        return new ResponseEntity<List<Interview>>(userService.myInterviewList(userEmail), HttpStatus.OK);
+    public ResponseEntity<List<InterviewListGetRes>> myInterview(@PathVariable("userEmail") String userEmail){
+        return new ResponseEntity<List<InterviewListGetRes>>(userService.myInterviewList(userEmail), HttpStatus.OK);
     }
 }

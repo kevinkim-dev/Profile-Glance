@@ -42,7 +42,8 @@ public class RecruitServiceImpl implements RecruitService{
                 .recruitURL(recruitPostReq.getRecruitURL())
                 .career(recruitPostReq.getCareer())
                 .jobDetail(recruitPostReq.getJobDetail())
-                .recruitDate(recruitPostReq.getRecruitDate())
+                .recruitStartDate(recruitPostReq.getRecruitStartDate())
+                .recruitEndDate(recruitPostReq.getRecruitEndDate())
                 .presentationDate(recruitPostReq.getPresentationDate())
                 .build()
         );
@@ -70,7 +71,8 @@ public class RecruitServiceImpl implements RecruitService{
                     recruit.getRecruitURL(),
                     recruit.getCareer(),
                     recruit.getJobDetail(),
-                    recruit.getRecruitDate(),
+                    recruit.getRecruitStartDate(),
+                    recruit.getRecruitEndDate(),
                     recruit.getPresentationDate()
             ));
         }
@@ -95,7 +97,8 @@ public class RecruitServiceImpl implements RecruitService{
                     recruit.getRecruitURL(),
                     recruit.getCareer(),
                     recruit.getJobDetail(),
-                    recruit.getRecruitDate(),
+                    recruit.getRecruitStartDate(),
+                    recruit.getRecruitEndDate(),
                     recruit.getPresentationDate()
             ));
         }
@@ -105,7 +108,7 @@ public class RecruitServiceImpl implements RecruitService{
 
     @Override
     public List<RecruitPostRes> searchAll() {
-        List<Recruit> recruitList = recruitRepository.findAllByOrderByRecruitDate();
+        List<Recruit> recruitList = recruitRepository.findAllByOrderByRecruitEndDate();
         List<RecruitPostRes> recruitPostResList = new ArrayList<>();
 
         for(Recruit recruit : recruitList) {
@@ -118,7 +121,8 @@ public class RecruitServiceImpl implements RecruitService{
                     recruit.getRecruitURL(),
                     recruit.getCareer(),
                     recruit.getJobDetail(),
-                    recruit.getRecruitDate(),
+                    recruit.getRecruitStartDate(),
+                    recruit.getRecruitEndDate(),
                     recruit.getPresentationDate()
             ));
         }

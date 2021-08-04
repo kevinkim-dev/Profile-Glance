@@ -78,6 +78,16 @@ public class LookatmeController {
         return new ResponseEntity<List<LookatmePostRes>>(list, HttpStatus.OK);
     }
 
+    @PostMapping("/orderByView")
+    @ApiOperation(value = "룩앳미 조회순으로 정렬", notes = "<strong>조회수</strong>을 통해 정렬 한다.")
+    public ResponseEntity<List<LookatmePostRes>> orderByView(@RequestBody Map<String, String> limit) {
+
+        System.out.println("룩앳미 조회순 정렬 " + limit.get("limit"));
+        List<LookatmePostRes> list = lookatmeService.orderByView( Long.parseLong(limit.get("limit")));
+
+        return new ResponseEntity<List<LookatmePostRes>>(list, HttpStatus.OK);
+    }
+
     // 룩엣미 상세보기
     @GetMapping("/detailLookatme/{lookatmeId}")
     @ApiOperation(value = "룩앳미 상세 보기", notes = "<strong>룩엣미 아이디</strong>를 통해 검색 한다.")

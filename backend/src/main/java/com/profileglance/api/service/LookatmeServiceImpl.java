@@ -57,6 +57,33 @@ public class LookatmeServiceImpl implements LookatmeService{
     }
 
     @Override
+    public List<LookatmePostRes> orderByView(Long limit) {
+
+        System.out.println("오더바이 뷰 : " + limit);
+
+        List<Lookatme> lookatmeList = lookatmeRepository.findAllByOrderByView(limit);
+
+        List<LookatmePostRes> lookatmePostResList = new ArrayList<>();
+
+        for (Lookatme l : lookatmeList){
+            lookatmePostResList.add(new LookatmePostRes(
+                    l.getLookatmeId(),
+                    l.getUser().getUserNickname(),
+                    l.getTitle(),
+                    l.getContent(),
+                    l.getVideo(),
+                    l.getThumbnail(),
+                    l.getCategory().getCategoryName(),
+                    l.getView(),
+                    l.getVideoLike(),
+                    l.getCreatedAt()
+            ));
+        }
+
+        return lookatmePostResList;
+    }
+
+    @Override
     public Boolean uploadLookatme(LookatmePostReq lookatmePostReq) {
 
         System.out.println("서비스 등록 들어왔어요~~~");
@@ -178,6 +205,7 @@ public class LookatmeServiceImpl implements LookatmeService{
 
     @Override
     public LookatmePostRes detailLookatme(Long lookatmeId) {
+        System.out.println("테스트 입니다.");
         Lookatme lookatme = lookatmeRepository.findByLookatmeId(lookatmeId).get();
 
         Long viewCount = lookatme.getView() + 1;

@@ -18,6 +18,9 @@ public class RecruitPostRes {
     @ApiModelProperty(name = "회사 이름")
     String companyName;
 
+    @ApiModelProperty(name = "기업 로고")
+    String companyImg;
+
     @ApiModelProperty(name="직무")
     String job;
 
@@ -39,9 +42,10 @@ public class RecruitPostRes {
     @ApiModelProperty(name="설명회 일정")
     String presentationDate;
 
-    public RecruitPostRes(Long recruitId, String companyName, String job, String descriptionURL, String recruitURL, String career, String jobDetail, String recruitDate, String presentationDate) {
+    public RecruitPostRes(Long recruitId, String companyName, String companyImg, String job, String descriptionURL, String recruitURL, String career, String jobDetail, String recruitDate, String presentationDate) {
         this.recruitId = recruitId;
         this.companyName = companyName;
+        this.companyImg = companyImg;
         this.job = job;
         this.descriptionURL = descriptionURL;
         this.recruitURL = recruitURL;

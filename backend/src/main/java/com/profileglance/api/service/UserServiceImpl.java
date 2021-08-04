@@ -1,5 +1,6 @@
 package com.profileglance.api.service;
 
+import com.profileglance.api.request.UserPostReq;
 import com.profileglance.api.response.InterviewListGetRes;
 import com.profileglance.api.response.LookatmePostRes;
 import com.profileglance.api.response.MypageGetRes;
@@ -33,19 +34,19 @@ public class UserServiceImpl implements UserService{
     PasswordEncoder passwordEncoder;
 
     @Override
-    public User createUser(User user) {
+    public User createUser(UserPostReq userPostReq) {
 
         return userRepository.save(User.builder()
-                .userName(user.getUserName())
-                .userEmail(user.getUserEmail())
-                .userNickname(user.getUserNickname())
-                .userPassword(passwordEncoder.encode(user.getUserPassword()))
-                .major1(user.getMajor1())
-                .major2(user.getMajor2())
-                .userPhone(user.getUserPhone())
+                .userName(userPostReq.getUserName())
+                .userEmail(userPostReq.getUserEmail())
+                .userNickname(userPostReq.getUserNickname())
+                .userPassword(passwordEncoder.encode(userPostReq.getUserPassword()))
+                .major1(userPostReq.getMajor1())
+                .major2(userPostReq.getMajor2())
+                .userPhone(userPostReq.getUserPhone())
                 .companyLike(0l)
                 .userImg("")
-                .birth(user.getBirth())
+                .birth(userPostReq.getBirth())
                 .build());
     }
 

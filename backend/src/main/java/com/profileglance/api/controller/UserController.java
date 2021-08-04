@@ -2,6 +2,7 @@ package com.profileglance.api.controller;
 
 
 import com.profileglance.api.request.UserLoginPostReq;
+import com.profileglance.api.request.UserPostReq;
 import com.profileglance.api.response.InterviewListGetRes;
 import com.profileglance.api.response.LookatmePostRes;
 import com.profileglance.api.response.MypageGetRes;
@@ -42,9 +43,9 @@ public class UserController {
     // 회원가입
     @PostMapping("/signup")
     @ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.")
-    public ResponseEntity<? extends BaseResponseBody> join(@RequestBody User user) {
+    public ResponseEntity<? extends BaseResponseBody> join(@RequestBody UserPostReq userPostReq) {
 
-        userService.createUser(user);
+        userService.createUser(userPostReq);
 
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
     }

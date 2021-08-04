@@ -8,12 +8,13 @@ import com.profileglance.api.response.MypageGetRes;
 import com.profileglance.db.entity.Interview;
 import com.profileglance.db.entity.Lookatme;
 import com.profileglance.db.entity.User;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface UserService {
     User createUser(UserPostReq userPostReq);
-    boolean uploadUserImg(String userEmail, String userImg);
+    boolean uploadUserImg(MultipartFile files, String userEmail);
     MypageGetRes updateUser(MypagePostReq mypagePostReq);
     boolean deleteUser(String userEmail);
 

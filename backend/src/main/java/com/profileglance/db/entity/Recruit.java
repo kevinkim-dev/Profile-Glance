@@ -50,8 +50,11 @@ public class Recruit {
     @Column(name = "job_detail")
     private String jobDetail;
 
-    @Column(name = "recruit_date")
-    private String recruitDate;
+    @Column(name = "recruit_start_date")
+    private String recruitStartDate;
+
+    @Column(name = "recruit_end_date")
+    private String recruitEndDate;
 
     @Column(name = "presentation_date")
     private String presentationDate;

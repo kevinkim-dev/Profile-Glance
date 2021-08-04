@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-form>
+    <v-form v-model="valid">
       <v-container>
         <v-row class="justify-center">
           <h1>채용공고 등록</h1>
@@ -9,23 +9,25 @@
             <v-row>
               <v-col cols="6">
                 <v-select
-                  label="직무"
+                  label="모집 직무"
                   :items="jobs"
+                  :rules="jobRules"
                   v-model="registRecruitForm.job">
                 </v-select>
               </v-col>
               <v-col cols="6">
                 <v-text-field
-                  label="모집분야"
+                  label="모집 분야"
                   v-model="registRecruitForm.jobDetail">
                 </v-text-field>
               </v-col>
             </v-row>
-            <v-row>
+            <v-row class="d-flex align-center">
               <v-col cols="6">
                 <v-radio-group
                   row
                   v-model="registRecruitForm.career"
+                  :rules="careerRules"
                   label="신입/경력"
                 >
                   <v-radio
@@ -38,8 +40,6 @@
                   ></v-radio>
                 </v-radio-group>
               </v-col>
-            </v-row>
-            <v-row>
               <v-col cols="6">
                 <v-menu
                   v-model="dateCalendar"
@@ -51,7 +51,7 @@
                 >
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
-                      v-model="recruitDate"
+                      v-model="recruitDate.join(' ~ ')"
                       label="모집 기간"
                       prepend-icon="mdi-calendar"
                       readonly
@@ -66,6 +66,8 @@
                   ></v-date-picker>
                 </v-menu>
               </v-col>
+            </v-row>
+            <v-row>
               <v-col cols="6">
                 <v-menu
                   v-model="descriptionCalendar"
@@ -91,13 +93,19 @@
                   ></v-date-picker>
                 </v-menu>
               </v-col>
+              <v-col cols="6">
+                <v-text-field type="time" label="설명회 시작 시각">
+                </v-text-field>
+              </v-col>
             </v-row>
             <v-text-field
-              label="회사소개 url"
+              label="기업소개 url"
+              :rules="descriptionURLRules"
               v-model="registRecruitForm.descriptionURL">
             </v-text-field>
             <v-text-field
               label="채용공고 url"
+              :rules="recruitURLRules"
               v-model="registRecruitForm.recruitURL">
             </v-text-field>
             <v-row>
@@ -107,7 +115,7 @@
                 </v-btn>
               </v-col>
               <v-col cols="6">
-                <v-btn block text x-large class="secondary-color text-white rounded-0">
+                <v-btn block text x-large class="secondary-color text-white rounded-0" @click="$router.push({ name: 'wanted' })">
                   취소
                 </v-btn>
               </v-col>
@@ -125,7 +133,19 @@ export default {
   name: 'WantedRegist',
   data: function () {
     return {
-      valid: true,
+      valid: false,
+      jobRules: [
+        v => !!v || '필수 항목 입니다'
+      ],
+      careerRules: [
+        v => !!v || '필수 항목 입니다'
+      ],
+      descriptionURLRules: [
+        v => !!v || '필수 항목 입니다'
+      ],
+      recruitURLRules: [
+        v => !!v || '필수 항목 입니다'
+      ],
       jobs: ['IT', '마케팅', '영업', '경영지원', '디자인', '서비스', 
             '전문직', '의류', '생산제조', '건설', '유통무역', '미디어',
             '교육', '특수계층/공공', '연구직' ],
@@ -159,7 +179,15 @@ export default {
   methods: {
     registRecruit () {
       if (!this.valid) {
-        alert('유효성검사 x')
+        if (!this.registRecruitForm.job) {
+          alert('모집직무를 선택해주세요.')
+        } else if (!this.registRecruitForm.career) {
+          alert('신입/경력을 선택해주세요.')
+        } else if (!this.registRecruitForm.descriptionURL) {
+          alert('기업소개 url을 입력해주세요.')
+        } else if (!this.registRecruitForm.recruitURL) {
+          alert('채용공고 url을 입력해주세요.')
+        }
       } else {
         Http.post('/recruit/upload', this.registRecruitForm)
         .then(() => {
@@ -167,7 +195,6 @@ export default {
           this.$router.push({ name: 'wanted' })
         })
         .catch((err) => {
-          // alert('회원가입에 실패했습니다.')
           console.log(err)
         })
       }

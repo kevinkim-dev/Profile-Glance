@@ -4,9 +4,10 @@ import Home from './views/Home.vue'
 import LookAtMe from './views/LookAtMe.vue'
 import LookAtMeRegist from './views/LookAtMeRegist.vue'
 import Wanted from './views/Wanted.vue'
-import WantedRegist from './views/WantedRegist.vue'
 import Features from './views/Features'
 import MyPage from './views/MyPage.vue'
+import CompanySignUp from './views/CompanySignUp.vue'
+import WantedRegist from './views/WantedRegist.vue'
 
 Vue.use(Router)
 
@@ -48,6 +49,11 @@ export default new Router({
       path: '/mypage',
       name: 'mypage',
       component: MyPage
+    },
+    {
+      path: '/companysignup',
+      name: 'companysignup',
+      component: CompanySignUp
     }
   ]
 })

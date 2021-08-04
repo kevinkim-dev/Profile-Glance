@@ -98,7 +98,7 @@ export default {
     data() {
         return {
             url: "images/lookatme/img.jpg",
-            image: null,
+            image: [],
             files: [],
             valid: false,
             category: {
@@ -200,23 +200,14 @@ export default {
                 alert('필수 항목을 입력해주세요.')
             } else {
                 let lookatme= new FormData();
-                let formData = new FormData();
                 let userEmail = 'test@test.com';
-                // let data= {
-                //     thumbnail: this.image,
-                //     video: this.files,
-                //     category: this.category.code,
-                //     title: this.title;
-                // }
                 lookatme.append('thumbnail', this.image);
                 lookatme.append('video', this.files);
-                lookatme.append('category', this.category.code);
+                lookatme.append('category', this.category.codeName);
                 lookatme.append('title', this.title);
                 lookatme.append('content', this.content);
-                formData.append('lookatme', lookatme);
-                formData.append('userEmail', userEmail);
-                // lookatme.append('userEmail', userEmail);
-                Axios.post('/lookatme/upload', formData, {
+                lookatme.append('userEmail', userEmail);
+                Axios.post('/lookatme/upload', lookatme, {
                 baseURL: "http://localhost:8888/",
                 headers: { 'Content-Type': 'multipart/form-data' }
             }).then( ({data}) => {

@@ -1,5 +1,6 @@
 package com.profileglance.api.service;
 
+import com.profileglance.api.request.MypagePostReq;
 import com.profileglance.api.request.UserPostReq;
 import com.profileglance.api.response.InterviewListGetRes;
 import com.profileglance.api.response.LookatmePostRes;
@@ -51,20 +52,30 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User updateUser(User userUpdateInfo, String userEmail) {
+    public MypageGetRes updateUser(MypagePostReq mypagePostReq) {
+        User user = userRepository.findByUserEmail(mypagePostReq.getUserEmail()).get();
 
-        User user = userRepository.findByUserEmail(userEmail).get();
-
-        user.setMajor1(userUpdateInfo.getMajor1());
-        user.setMajor2(userUpdateInfo.getMajor2());
-        user.setPortfolio1(userUpdateInfo.getPortfolio1());
-        user.setPortfolio2(userUpdateInfo.getPortfolio2());
-        user.setUserPhone(userUpdateInfo.getUserPhone());
+        user.setMajor1(mypagePostReq.getMajor1());
+        user.setMajor2(mypagePostReq.getMajor2());
+        user.setUserPhone(mypagePostReq.getUserPhone());
+        user.setPortfolio1(mypagePostReq.getPortfolio1());
+        user.setPortfolio2(mypagePostReq.getPortfolio2());
 
         userRepository.save(user);
 
-        return user;
+        MypageGetRes mypageGetRes = new MypageGetRes(
+                user.getUserName()
+                ,user.getUserEmail()
+                ,user.getBirth()
+                ,user.getMajor1()
+                ,user.getMajor2()
+                ,userLikeRepository.countByUser_UserEmail(mypagePostReq.getUserEmail())
+                ,lookatmeRepository.countByUser_UserEmail(mypagePostReq.getUserEmail())
+                ,user.getPortfolio1()
+                ,user.getPortfolio2()
+        );
 
+        return mypageGetRes;
     }
 
     @Override

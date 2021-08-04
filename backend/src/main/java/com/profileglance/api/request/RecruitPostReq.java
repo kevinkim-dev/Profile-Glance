@@ -14,6 +14,9 @@ public class RecruitPostReq {
     @ApiModelProperty(name="직무")
     String job;
 
+    @ApiModelProperty(name="회사 아이디")
+    String companyId;
+
     @ApiModelProperty(name="기업 소개 URL")
     String descriptionURL;
 
@@ -26,8 +29,11 @@ public class RecruitPostReq {
     @ApiModelProperty(name="모집 분야")
     String jobDetail;
 
-    @ApiModelProperty(name="채용 기간")
-    String recruitDate;
+    @ApiModelProperty(name="채용 시작 기간")
+    String recruitStartDate;
+
+    @ApiModelProperty(name="채용 마감 기간")
+    String recruitEndDate;
 
     @ApiModelProperty(name="설명회 일정")
     String presentationDate;

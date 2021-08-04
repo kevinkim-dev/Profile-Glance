@@ -1,5 +1,8 @@
 package com.profileglance.api.service;
 
+import com.profileglance.api.request.MypagePostReq;
+import com.profileglance.api.request.UserPostReq;
+import com.profileglance.api.response.InterviewListGetRes;
 import com.profileglance.api.response.LookatmePostRes;
 import com.profileglance.api.response.MypageGetRes;
 import com.profileglance.db.entity.Interview;
@@ -32,37 +35,47 @@ public class UserServiceImpl implements UserService{
     PasswordEncoder passwordEncoder;
 
     @Override
-    public User createUser(User user) {
+    public User createUser(UserPostReq userPostReq) {
 
         return userRepository.save(User.builder()
-                .userName(user.getUserName())
-                .userEmail(user.getUserEmail())
-                .userNickname(user.getUserNickname())
-                .userPassword(passwordEncoder.encode(user.getUserPassword()))
-                .major1(user.getMajor1())
-                .major2(user.getMajor2())
-                .userPhone(user.getUserPhone())
+                .userName(userPostReq.getUserName())
+                .userEmail(userPostReq.getUserEmail())
+                .userNickname(userPostReq.getUserNickname())
+                .userPassword(passwordEncoder.encode(userPostReq.getUserPassword()))
+                .major1(userPostReq.getMajor1())
+                .major2(userPostReq.getMajor2())
+                .userPhone(userPostReq.getUserPhone())
                 .companyLike(0l)
                 .userImg("")
-                .birth(user.getBirth())
+                .birth(userPostReq.getBirth())
                 .build());
     }
 
     @Override
-    public User updateUser(User userUpdateInfo, String userEmail) {
+    public MypageGetRes updateUser(MypagePostReq mypagePostReq) {
+        User user = userRepository.findByUserEmail(mypagePostReq.getUserEmail()).get();
 
-        User user = userRepository.findByUserEmail(userEmail).get();
-
-        user.setMajor1(userUpdateInfo.getMajor1());
-        user.setMajor2(userUpdateInfo.getMajor2());
-        user.setPortfolio1(userUpdateInfo.getPortfolio1());
-        user.setPortfolio2(userUpdateInfo.getPortfolio2());
-        user.setUserPhone(userUpdateInfo.getUserPhone());
+        user.setMajor1(mypagePostReq.getMajor1());
+        user.setMajor2(mypagePostReq.getMajor2());
+        user.setUserPhone(mypagePostReq.getUserPhone());
+        user.setPortfolio1(mypagePostReq.getPortfolio1());
+        user.setPortfolio2(mypagePostReq.getPortfolio2());
 
         userRepository.save(user);
 
-        return user;
+        MypageGetRes mypageGetRes = new MypageGetRes(
+                user.getUserName()
+                ,user.getUserEmail()
+                ,user.getBirth()
+                ,user.getMajor1()
+                ,user.getMajor2()
+                ,userLikeRepository.countByUser_UserEmail(mypagePostReq.getUserEmail())
+                ,lookatmeRepository.countByUser_UserEmail(mypagePostReq.getUserEmail())
+                ,user.getPortfolio1()
+                ,user.getPortfolio2()
+        );
 
+        return mypageGetRes;
     }
 
     @Override
@@ -91,6 +104,23 @@ public class UserServiceImpl implements UserService{
                 ,user.getMajor2()
                 ,userLikeRepository.countByUser_UserEmail(userEmail)
                 ,lookatmeRepository.countByUser_UserEmail(userEmail)
+                ,user.getPortfolio1()
+                ,user.getPortfolio2()
+        );
+        return mypageGetRes;
+    }
+
+    @Override
+    public MypageGetRes myInfoByNickname(String userNickname){
+        User user = userRepository.findByUserNickname(userNickname).get();
+        MypageGetRes mypageGetRes = new MypageGetRes(
+                user.getUserName()
+                ,user.getUserEmail()
+                ,user.getBirth()
+                ,user.getMajor1()
+                ,user.getMajor2()
+                ,userLikeRepository.countByUser_UserEmail(user.getUserEmail())
+                ,lookatmeRepository.countByUser_UserEmail(user.getUserEmail())
                 ,user.getPortfolio1()
                 ,user.getPortfolio2()
         );
@@ -131,8 +161,19 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<Interview> myInterviewList(String userEmail){
-        return interviewRepository.findAllByUser_UserEmail(userEmail);
+    public List<InterviewListGetRes> myInterviewList(String userEmail){
+        List<InterviewListGetRes> interviewListGetRes = new ArrayList<>();
+        List<Interview> interviewList = interviewRepository.findAllByUser_UserEmail(userEmail);
+        for(Interview i : interviewList){
+            interviewListGetRes.add(new InterviewListGetRes(
+                    i.getUser().getUserName()
+                    ,i.getCompany().getCompanyId()
+                    ,i.getInterviewDate()
+                    ,i.getInterviewTime()
+                    ,i.getRoom().getRoomUrl()
+            ));
+        }
+        return interviewListGetRes;
     }
 
     @Override

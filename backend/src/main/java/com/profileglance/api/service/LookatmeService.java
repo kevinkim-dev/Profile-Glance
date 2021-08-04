@@ -8,13 +8,17 @@ import java.util.List;
 
 public interface LookatmeService {
 
-    List<LookatmePostRes> searchByCategory(String category);
+    List<LookatmePostRes> searchByCategory(String category, Long limit);
+
+    List<LookatmePostRes> orderByView(Long limit);
 
     Boolean uploadLookatme(LookatmePostReq lookatmePostReq);
 
     Boolean updateLookatme(LookatmePostReq lookatmePostReq);
 
-    List<LookatmePostRes> searchByTitle(String title);
+    List<LookatmePostRes> searchByTitle(String title, Long limit);
+
+    List<LookatmePostRes> searchByNickname(String nickname, Long limit);
 
     LookatmePostRes detailLookatme(Long lookatmeId);
 }

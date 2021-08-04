@@ -28,9 +28,9 @@ public class RecruitController {
     // 채용 등록
     @PostMapping("/upload")
     @ApiOperation(value = "채용 등록", notes = "<strong>채용</strong>을 등록한다.")
-    public ResponseEntity<? extends BaseResponseBody> uploadRecruit(@RequestBody RecruitPostReq recruitPostReq, @RequestParam String companyId) {
+    public ResponseEntity<? extends BaseResponseBody> uploadRecruit(@RequestBody RecruitPostReq recruitPostReq) {
 
-        recruitService.uploadRecruit(recruitPostReq, companyId);
+        recruitService.uploadRecruit(recruitPostReq);
 
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
     }

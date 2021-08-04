@@ -1,5 +1,8 @@
 package com.profileglance.api.service;
 
+import com.profileglance.api.request.MypagePostReq;
+import com.profileglance.api.request.UserPostReq;
+import com.profileglance.api.response.InterviewListGetRes;
 import com.profileglance.api.response.LookatmePostRes;
 import com.profileglance.api.response.MypageGetRes;
 import com.profileglance.db.entity.Interview;
@@ -9,14 +12,14 @@ import com.profileglance.db.entity.User;
 import java.util.List;
 
 public interface UserService {
-    User createUser(User userRegisterInfo);
+    User createUser(UserPostReq userPostReq);
     boolean uploadUserImg(String userEmail, String userImg);
-    User updateUser(User userUpdateInfo, String userEmail);
+    MypageGetRes updateUser(MypagePostReq mypagePostReq);
     boolean deleteUser(String userEmail);
 
-//    User myinfo(String userEmail);
     List<LookatmePostRes> myVideoList(String userEmail);
-    List<Interview> myInterviewList(String userEmail);
+    List<InterviewListGetRes> myInterviewList(String userEmail);
     Long likeCount(String userEmail);
     MypageGetRes myInfo(String userEmail);
+    MypageGetRes myInfoByNickname(String userNickname);
 }

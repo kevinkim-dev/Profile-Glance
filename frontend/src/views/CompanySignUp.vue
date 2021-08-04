@@ -108,6 +108,7 @@
 </template>
 
 <script>
+import Axios from 'axios'
 import Http from '@/http.js'
 export default {
   data () {
@@ -150,7 +151,7 @@ export default {
         passwordConfirm: '',
         companyEmail: '',
         companyPhone: '',
-        companyLogo: File,
+        companyImg: File
       },
       isIdDoubleChecked: false,
     }
@@ -174,7 +175,19 @@ export default {
         alert('닉네임 중복 확인을 해주세요.')
       }
       else {
-        Http.post('/company/signup', this.companySignupForm)
+        const formData = new FormData();
+
+        formData.append("companyId", this.companySignupForm.companyId);
+        formData.append("companyName", this.companySignupForm.companyName);
+        formData.append("companyEmail", this.companySignupForm.companyEmail);
+        formData.append("companyPassword", this.companySignupForm.companyPassword);
+        formData.append("companyPhone", this.companySignupForm.companyPhone);
+        formData.append("companyImg", this.companySignupForm.companyImg);
+
+        Axios.post('company/signup', formData, {
+          baseURL: "http://localhost:8888/",
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
         .then((res) => {
           console.log(res)
           alert('기업회원 추가가 완료되었습니다.')
@@ -229,7 +242,7 @@ export default {
     },
     changeImage(e) {
       const file = e.target.files[0]
-      this.companySignupForm.companyLogo = file
+      this.companySignupForm.companyImg = file
       this.imgSrc = URL.createObjectURL(file)
     }
   }

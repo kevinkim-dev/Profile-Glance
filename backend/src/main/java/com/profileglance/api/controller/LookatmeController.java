@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Api(value = "룩앳미 API", tags = {"LookAtMe"})
 @RequestMapping("/lookatme")
@@ -25,12 +26,12 @@ public class LookatmeController {
     @Autowired
     LookatmeService lookatmeService;
 
-    @GetMapping("/searchByCategory/{category}")
+    @PostMapping("/searchByCategory")
     @ApiOperation(value = "룩앳미 카테고리 검색", notes = "<strong>카테고리</strong>를 통해 검색 한다.")
-    public ResponseEntity<List<LookatmePostRes>> searchByCategory(@PathVariable("category") String category) {
+    public ResponseEntity<List<LookatmePostRes>> searchByCategory(@RequestBody Map<String, String> category) {
 
-        System.out.println("룩앳미 카테고리 검색 " + category);
-        List<LookatmePostRes> list = lookatmeService.searchByCategory(category);
+        System.out.println("룩앳미 카테고리 검색 " + category.get("category"));
+        List<LookatmePostRes> list = lookatmeService.searchByCategory(category.get("category"), Long.parseLong(category.get("limit")));
 
         return new ResponseEntity<List<LookatmePostRes>>(list, HttpStatus.OK);
     }
@@ -57,12 +58,32 @@ public class LookatmeController {
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
     }
 
-    @GetMapping("/searchByTitle/{title}")
+    @PostMapping("/searchByTitle/")
     @ApiOperation(value = "룩앳미 제목 검색", notes = "<strong>재목</strong>를 통해 검색 한다.")
-    public ResponseEntity<List<LookatmePostRes>> searchByTitle(@PathVariable("title") String title) {
+    public ResponseEntity<List<LookatmePostRes>> searchByTitle(@RequestBody Map<String, String> title) {
 
-        System.out.println("룩앳미 제목 검색 " + title);
-        List<LookatmePostRes> list = lookatmeService.searchByTitle(title);
+        System.out.println("룩앳미 제목 검색 " + title.get("title"));
+        List<LookatmePostRes> list = lookatmeService.searchByTitle(title.get("title"), Long.parseLong(title.get("limit")));
+
+        return new ResponseEntity<List<LookatmePostRes>>(list, HttpStatus.OK);
+    }
+
+    @PostMapping("/searchByNickname/")
+    @ApiOperation(value = "룩앳미 닉네임으로 검색", notes = "<strong>닉네임</strong>을 통해 검색 한다.")
+    public ResponseEntity<List<LookatmePostRes>> searchByNickname(@RequestBody Map<String, String> nickname) {
+
+        System.out.println("룩앳미 닉네임으로 검색 " + nickname.get("userNickname"));
+        List<LookatmePostRes> list = lookatmeService.searchByNickname(nickname.get("userNickname"), Long.parseLong(nickname.get("limit")));
+
+        return new ResponseEntity<List<LookatmePostRes>>(list, HttpStatus.OK);
+    }
+
+    @PostMapping("/orderByView")
+    @ApiOperation(value = "룩앳미 조회순으로 정렬", notes = "<strong>조회수</strong>을 통해 정렬 한다.")
+    public ResponseEntity<List<LookatmePostRes>> orderByView(@RequestBody Map<String, String> limit) {
+
+        System.out.println("룩앳미 조회순 정렬 " + limit.get("limit"));
+        List<LookatmePostRes> list = lookatmeService.orderByView( Long.parseLong(limit.get("limit")));
 
         return new ResponseEntity<List<LookatmePostRes>>(list, HttpStatus.OK);
     }

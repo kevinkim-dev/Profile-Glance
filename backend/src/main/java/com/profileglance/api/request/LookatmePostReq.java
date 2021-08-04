@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Data
 public class LookatmePostReq {
 
-    @ApiModelProperty(name="룩앳미 아이디")
+    @ApiModelProperty(name="룩앳미 아이디", example = "1")
     Long lookatmeId;
 
     @ApiModelProperty(name="룩앳미 타이틀")

@@ -29,9 +29,39 @@ public class LookatmeServiceImpl implements LookatmeService{
     CategoryRepository categoryRepository;
 
     @Override
-    public List<LookatmePostRes> searchByCategory(String category) {
+    public List<LookatmePostRes> searchByCategory(String category, Long limit) {
 
-        List<Lookatme> lookatmeList = lookatmeRepository.findAllByCategory_CategoryName(category);
+        System.out.println("categoryQ : " + category);
+        System.out.println("limit : " + limit);
+
+        List<Lookatme> lookatmeList = lookatmeRepository.findAllByCategory_CategoryName(category, limit);
+
+        List<LookatmePostRes> lookatmePostResList = new ArrayList<>();
+
+        for (Lookatme l : lookatmeList){
+            lookatmePostResList.add(new LookatmePostRes(
+                    l.getLookatmeId(),
+                    l.getUser().getUserNickname(),
+                    l.getTitle(),
+                    l.getContent(),
+                    l.getVideo(),
+                    l.getThumbnail(),
+                    l.getCategory().getCategoryName(),
+                    l.getView(),
+                    l.getVideoLike(),
+                    l.getCreatedAt()
+            ));
+        }
+
+        return lookatmePostResList;
+    }
+
+    @Override
+    public List<LookatmePostRes> orderByView(Long limit) {
+
+        System.out.println("오더바이 뷰 : " + limit);
+
+        List<Lookatme> lookatmeList = lookatmeRepository.findAllByOrderByView(limit);
 
         List<LookatmePostRes> lookatmePostResList = new ArrayList<>();
 
@@ -61,7 +91,7 @@ public class LookatmeServiceImpl implements LookatmeService{
 
         String categoryName = lookatmePostReq.getCategory();
 
-        String baseDir = "C:\\Users\\multicampus\\Documents\\ServerFiles";
+        String baseDir = "C:\\profile_glance\\ServerFiles";
         String videoPath = baseDir + "\\Video\\" + lookatmePostReq.getTitle() + ".mp4";
         String thumbnailPath = baseDir + "\\Thumbnail\\" + lookatmePostReq.getTitle() + ".jpg";
 
@@ -76,8 +106,8 @@ public class LookatmeServiceImpl implements LookatmeService{
         Category category = categoryRepository.findByCategoryName(categoryName).get();
 
         Lookatme lookatme = lookatmeRepository.save(Lookatme.builder().title(lookatmePostReq.getTitle())
-        .content(lookatmePostReq.getContent()).thumbnail(thumbnailPath).video(videoPath)
-        .user(user).category(category).build());
+                .content(lookatmePostReq.getContent()).thumbnail(thumbnailPath).video(videoPath).view(0L)
+                .user(user).category(category).build());
 
         user.getLookatmes().add(lookatme);
 
@@ -91,7 +121,7 @@ public class LookatmeServiceImpl implements LookatmeService{
 
         System.out.println("룩앳미 업데이트 서비스 입니다.");
 
-        String baseDir = "C:\\Users\\multicampus\\Documents\\ServerFiles";
+        String baseDir = "C:\\profile_glance\\ServerFiles";
         String videoPath = baseDir + "\\Video\\" + lookatmePostReq.getTitle() + ".mp4";
         String thumbnailPath = baseDir + "\\Thumbnail\\" + lookatmePostReq.getTitle() + ".jpg";
 
@@ -116,9 +146,40 @@ public class LookatmeServiceImpl implements LookatmeService{
     }
 
     @Override
-    public List<LookatmePostRes> searchByTitle(String title) {
+    public List<LookatmePostRes> searchByTitle(String title, Long limit) {
 
-        List<Lookatme> lookatmeList = lookatmeRepository.findAllByTitleContaining(title);
+        String titleQ = "%" + title + "%";
+
+        List<Lookatme> lookatmeList = lookatmeRepository.findAllByTitle(titleQ, limit);
+
+        System.out.println(lookatmeList.size());
+
+        List<LookatmePostRes> lookatmePostResList = new ArrayList<>();
+
+        for (Lookatme l : lookatmeList){
+            lookatmePostResList.add(new LookatmePostRes(
+                    l.getLookatmeId(),
+                    l.getUser().getUserNickname(),
+                    l.getTitle(),
+                    l.getContent(),
+                    l.getVideo(),
+                    l.getThumbnail(),
+                    l.getCategory().getCategoryName(),
+                    l.getView(),
+                    l.getVideoLike(),
+                    l.getCreatedAt()
+            ));
+        }
+
+        return lookatmePostResList;
+    }
+
+    @Override
+    public List<LookatmePostRes> searchByNickname(String nickname, Long limit) {
+
+        String nicnameQ = "%" + nickname + "%";
+
+        List<Lookatme> lookatmeList = lookatmeRepository.findAllByUser_UserNickname(nicnameQ, limit);
 
         System.out.println(lookatmeList.size());
 
@@ -144,7 +205,12 @@ public class LookatmeServiceImpl implements LookatmeService{
 
     @Override
     public LookatmePostRes detailLookatme(Long lookatmeId) {
+        System.out.println("테스트 입니다.");
         Lookatme lookatme = lookatmeRepository.findByLookatmeId(lookatmeId).get();
+
+        Long viewCount = lookatme.getView() + 1;
+        lookatme.setView(viewCount);
+        lookatmeRepository.save(lookatme);
 
         LookatmePostRes lookatmePostRes = new LookatmePostRes(
                 lookatme.getLookatmeId(),

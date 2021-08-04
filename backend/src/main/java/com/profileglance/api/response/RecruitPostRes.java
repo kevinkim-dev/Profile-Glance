@@ -36,13 +36,16 @@ public class RecruitPostRes {
     @ApiModelProperty(name="모집 분야")
     String jobDetail;
 
-    @ApiModelProperty(name="채용 기간")
-    String recruitDate;
+    @ApiModelProperty(name="채용 시작 기간")
+    String recruitStartDate;
+
+    @ApiModelProperty(name="채용 마감 기간")
+    String recruitEndDate;
 
     @ApiModelProperty(name="설명회 일정")
     String presentationDate;
 
-    public RecruitPostRes(Long recruitId, String companyName, String companyImg, String job, String descriptionURL, String recruitURL, String career, String jobDetail, String recruitDate, String presentationDate) {
+    public RecruitPostRes(Long recruitId, String companyName, String companyImg, String job, String descriptionURL, String recruitURL, String career, String jobDetail, String recruitStartDate, String recruitEndDate, String presentationDate) {
         this.recruitId = recruitId;
         this.companyName = companyName;
         this.companyImg = companyImg;
@@ -51,7 +54,8 @@ public class RecruitPostRes {
         this.recruitURL = recruitURL;
         this.career = career;
         this.jobDetail = jobDetail;
-        this.recruitDate = recruitDate;
+        this.recruitStartDate = recruitStartDate;
+        this.recruitEndDate = recruitEndDate;
         this.presentationDate = presentationDate;
     }
 }

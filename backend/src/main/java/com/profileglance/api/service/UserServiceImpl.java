@@ -1,6 +1,5 @@
 package com.profileglance.api.service;
 
-import com.profileglance.api.request.UserPostReq;
 import com.profileglance.api.response.LookatmePostRes;
 import com.profileglance.api.response.MypageGetRes;
 import com.profileglance.db.entity.Interview;
@@ -33,19 +32,19 @@ public class UserServiceImpl implements UserService{
     PasswordEncoder passwordEncoder;
 
     @Override
-    public User createUser(UserPostReq userPostReq) {
+    public User createUser(User user) {
 
         return userRepository.save(User.builder()
-                .userName(userPostReq.getUserName())
-                .userEmail(userPostReq.getUserEmail())
-                .userNickname(userPostReq.getUserNickname())
-                .userPassword(passwordEncoder.encode(userPostReq.getUserPassword()))
-                .major1(userPostReq.getMajor1())
-                .major2(userPostReq.getMajor2())
-                .userPhone(userPostReq.getUserPhone())
+                .userName(user.getUserName())
+                .userEmail(user.getUserEmail())
+                .userNickname(user.getUserNickname())
+                .userPassword(passwordEncoder.encode(user.getUserPassword()))
+                .major1(user.getMajor1())
+                .major2(user.getMajor2())
+                .userPhone(user.getUserPhone())
                 .companyLike(0l)
                 .userImg("")
-                .birth(userPostReq.getBirth())
+                .birth(user.getBirth())
                 .build());
     }
 
@@ -92,6 +91,23 @@ public class UserServiceImpl implements UserService{
                 ,user.getMajor2()
                 ,userLikeRepository.countByUser_UserEmail(userEmail)
                 ,lookatmeRepository.countByUser_UserEmail(userEmail)
+                ,user.getPortfolio1()
+                ,user.getPortfolio2()
+        );
+        return mypageGetRes;
+    }
+
+    @Override
+    public MypageGetRes myInfoByNickname(String userNickname){
+        User user = userRepository.findByUserNickname(userNickname).get();
+        MypageGetRes mypageGetRes = new MypageGetRes(
+                user.getUserName()
+                ,user.getUserEmail()
+                ,user.getBirth()
+                ,user.getMajor1()
+                ,user.getMajor2()
+                ,userLikeRepository.countByUser_UserEmail(user.getUserEmail())
+                ,lookatmeRepository.countByUser_UserEmail(user.getUserEmail())
                 ,user.getPortfolio1()
                 ,user.getPortfolio2()
         );

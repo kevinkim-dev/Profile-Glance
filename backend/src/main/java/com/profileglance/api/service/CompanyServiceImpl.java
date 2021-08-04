@@ -36,7 +36,7 @@ public class CompanyServiceImpl implements CompanyService{
     @Override
     public Boolean createCompany(CompanyPostReq companyPostReq) {
 
-        String baseDir = "C:\\Users\\multicampus\\Documents\\ServerFiles";
+        String baseDir = "C:\\profile_glance\\ServerFiles";
         String filePath = baseDir + "\\CompanyLogo\\" + companyPostReq.getCompanyId() + ".jpg";
 
         try{

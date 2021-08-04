@@ -91,7 +91,7 @@ public class LookatmeServiceImpl implements LookatmeService{
 
         String categoryName = lookatmePostReq.getCategory();
 
-        String baseDir = "C:\\Users\\multicampus\\Documents\\ServerFiles";
+        String baseDir = "C:\\profile_glance\\ServerFiles";
         String videoPath = baseDir + "\\Video\\" + lookatmePostReq.getTitle() + ".mp4";
         String thumbnailPath = baseDir + "\\Thumbnail\\" + lookatmePostReq.getTitle() + ".jpg";
 
@@ -121,7 +121,7 @@ public class LookatmeServiceImpl implements LookatmeService{
 
         System.out.println("룩앳미 업데이트 서비스 입니다.");
 
-        String baseDir = "C:\\Users\\multicampus\\Documents\\ServerFiles";
+        String baseDir = "C:\\profile_glance\\ServerFiles";
         String videoPath = baseDir + "\\Video\\" + lookatmePostReq.getTitle() + ".mp4";
         String thumbnailPath = baseDir + "\\Thumbnail\\" + lookatmePostReq.getTitle() + ".jpg";
 

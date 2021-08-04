@@ -1,6 +1,7 @@
 package com.profileglance.api.controller;
 
 import com.profileglance.api.request.CompanyLoginPostReq;
+import com.profileglance.api.request.CompanyPostReq;
 import com.profileglance.api.service.CompanyService;
 import com.profileglance.common.response.BaseResponseBody;
 import com.profileglance.config.JwtTokenProvider;
@@ -35,9 +36,9 @@ public class CompanyController {
     // 회원가입
     @PostMapping("/signup")
     @ApiOperation(value = "기업회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.")
-    public ResponseEntity<? extends BaseResponseBody> signUp(@RequestBody Company company) {
+    public ResponseEntity<? extends BaseResponseBody> signUp(@ModelAttribute CompanyPostReq companyPostReq) {
 
-        companyService.createCompany(company);
+        companyService.createCompany(companyPostReq);
 
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
     }

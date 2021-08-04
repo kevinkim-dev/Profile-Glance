@@ -1,5 +1,6 @@
 package com.profileglance.api.service;
 
+import com.profileglance.api.request.CompanyPostReq;
 import com.profileglance.db.entity.Company;
 import com.profileglance.db.entity.User;
 import com.profileglance.db.entity.UserLike;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,17 +31,28 @@ public class CompanyServiceImpl implements CompanyService{
     PasswordEncoder passwordEncoder;
 
     @Override
-    public Company createCompany(Company company) {
+    public Boolean createCompany(CompanyPostReq companyPostReq) {
 
-        return companyRepository.save(Company.builder()
-                .companyId(company.getCompanyId())
-                .companyName(company.getCompanyName())
-                .companyEmail(company.getCompanyEmail())
-                .companyPassword(passwordEncoder.encode(company.getCompanyPassword()))
-                .companyPhone(company.getCompanyPhone())
-//                .companyImg(company.getCompanyImg())
+        String baseDir = "C:\\Users\\multicampus\\Documents\\ServerFiles";
+        String filePath = baseDir + "\\CompanyLogo\\" + companyPostReq.getCompanyId() + ".jpg";
+
+        try{
+            companyPostReq.getCompanyImg().transferTo(new File(filePath));
+        } catch (Exception e){
+            return false;
+        }
+
+        companyRepository.save(Company.builder()
+                .companyId(companyPostReq.getCompanyId())
+                .companyName(companyPostReq.getCompanyName())
+                .companyEmail(companyPostReq.getCompanyEmail())
+                .companyPassword(passwordEncoder.encode(companyPostReq.getCompanyPassword()))
+                .companyPhone(companyPostReq.getCompanyPhone())
+                .companyImg(filePath)
                 .build()
         );
+
+        return true;
     }
 
     // 기업이 회원에 좋아요를 누른다.

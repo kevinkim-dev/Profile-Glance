@@ -89,6 +89,8 @@ public class LookatmeServiceImpl implements LookatmeService{
         System.out.println("서비스 등록 들어왔어요~~~");
         User user = userRepository.findByUserEmail(lookatmePostReq.getUserEmail()).get();
 
+        boolean check = (lookatmePostReq.getThumbnail() != null && !lookatmePostReq.getThumbnail().isEmpty());
+
         String categoryName = lookatmePostReq.getCategory();
 
         String baseDir = "C:\\profile_glance\\ServerFiles";
@@ -98,16 +100,27 @@ public class LookatmeServiceImpl implements LookatmeService{
 
         try{
             lookatmePostReq.getVideo().transferTo(new File(videoPath));
-            lookatmePostReq.getThumbnail().transferTo(new File(thumbnailPath));
+            if(check){
+                lookatmePostReq.getThumbnail().transferTo(new File(thumbnailPath));
+            }
+
         } catch (Exception e){
             return false;
         }
 
         Category category = categoryRepository.findByCategoryName(categoryName).get();
 
-        Lookatme lookatme = lookatmeRepository.save(Lookatme.builder().title(lookatmePostReq.getTitle())
-                .content(lookatmePostReq.getContent()).thumbnail(thumbnailPath).video(videoPath).view(0L)
-                .user(user).category(category).build());
+        Lookatme lookatme = null;
+
+        if(!check){
+            lookatme = lookatmeRepository.save(Lookatme.builder().title(lookatmePostReq.getTitle())
+                    .content(lookatmePostReq.getContent()).video(videoPath).view(0L)
+                    .user(user).category(category).build());
+        }else{
+            lookatme = lookatmeRepository.save(Lookatme.builder().title(lookatmePostReq.getTitle())
+                    .content(lookatmePostReq.getContent()).thumbnail(thumbnailPath).video(videoPath).view(0L)
+                    .user(user).category(category).build());
+        }
 
         user.getLookatmes().add(lookatme);
 

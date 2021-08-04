@@ -1,5 +1,5 @@
 <template class="col-sm-12 col-2">
-  <div class="company d-flex align-center m-2 px-3 py-2" style="border: solid 3px #C0DDD1;">
+  <div class="company d-flex align-center m-2 px-3 py-4" style="border: solid 3px #C0DDD1;">
     <div class="companyLogo d-flex align-center justify-center">
       <img class="rounded" :src="company.companyImg" :alt="company.companyName">
     </div>
@@ -10,10 +10,16 @@
       </div>
       <br>
       <h5>{{ company.career }}</h5>
-      <h5>{{ company.job }}</h5>
-      <h5>{{ company.jobDetail }}</h5>
-      <div class="d-flex justify-end">
-        <a :href="company.descriptionURL" target="_blank" class="mx-2 subtitle-1 font-weight-bold" style="color: #439474;">회사소개</a>
+      <div class="d-flex justify-space-between">
+        <h5>[{{ company.job }}] {{ company.jobDetail }}</h5>
+        <v-chip
+          label
+          v-if="company.presentationDate">
+          {{ company.presentationDate | moment('MM월 DD일') }} 설명회 예정
+        </v-chip>
+      </div>
+      <div class="d-flex justify-end mt-2">
+        <a :href="company.descriptionURL" target="_blank" class="mx-3 subtitle-1 font-weight-bold" style="color: #439474;">회사소개</a>
         <a :href="company.recruitURL" target="_blank" class="mx-2 subtitle-1 font-weight-bold" style="color: #439474;">채용공고</a>
       </div>
     </div>
@@ -24,6 +30,10 @@
 export default {
   name: 'Company',
   props: ['company'],
+  data: function () {
+    return {
+    }
+  }
 
 }
 </script>
@@ -36,8 +46,8 @@ h5 {
 
 img {
   background: white;
-  width: 160px;
-  height: 160px;
+  width: 150px;
+  height: 150px;
   object-fit: cover;
 }
 
@@ -46,8 +56,8 @@ img {
 }
 
 .companyLogo {
-  width: 200px;
-  height: 200px;
+  width: 180px;
+  height: 180px;
 }
 
 .companyContent {

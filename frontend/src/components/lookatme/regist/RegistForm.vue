@@ -93,7 +93,8 @@
 </template>
 
 <script>
-export default {
+import Axios from 'axios';
+export default {    
     data() {
         return {
             url: "images/lookatme/img.jpg",
@@ -198,16 +199,30 @@ export default {
             if (!this.valid) {
                 alert('필수 항목을 입력해주세요.')
             } else {
-            let lookatme = new FormData();
-            lookatme.append('image', this.image);
-            lookatme.append('files', this.files);
-            lookatme.append('category', this.category.code);
-            lookatme.append('title', this.title);
-            lookatme.append('content', this.content);
-            
-            for (var test of lookatme.entries()) {
-                console.log(test[0] + ',' + test[1]);
-            }
+                let lookatme= new FormData();
+                let formData = new FormData();
+                let userEmail = 'test@test.com';
+                // let data= {
+                //     thumbnail: this.image,
+                //     video: this.files,
+                //     category: this.category.code,
+                //     title: this.title;
+                // }
+                lookatme.append('thumbnail', this.image);
+                lookatme.append('video', this.files);
+                lookatme.append('category', this.category.code);
+                lookatme.append('title', this.title);
+                lookatme.append('content', this.content);
+                formData.append('lookatme', lookatme);
+                formData.append('userEmail', userEmail);
+                // lookatme.append('userEmail', userEmail);
+                Axios.post('/lookatme/upload', formData, {
+                baseURL: "http://localhost:8888/",
+                headers: { 'Content-Type': 'multipart/form-data' }
+            }).then( ({data}) => {
+                console.log(data)
+            })
+            .catch( err => console.log(err))
             }
         },
         cancle() {

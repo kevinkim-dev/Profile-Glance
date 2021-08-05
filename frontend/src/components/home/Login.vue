@@ -59,14 +59,14 @@
 </template>
 
 <script>
+import Http from '@/http.js'
+
 export default {
   data: function() {
     return {
       user_email: '',
       user_password: '',
-      // login_button_style: {
-      //   background: '#439474'
-      // }
+      isCompany: false
     }
   },
   computed: {
@@ -114,14 +114,19 @@ export default {
         userEmail: this.user_email, 
         userPassword: this.user_password
       }
-      this.$store.dispatch('requestLogin', body)
-      if (localStorage.getItem('user_token')) {
-        console.log('save complete')
-        console.log(this.$store.state.token)
-        return this.$emit('close')
-      } else {
-        return alert('로그인 실패')
-      }
+      // this.$store.dispatch('requestLogin', body)
+      Http.post('/user/login', body)
+      .then(res => {
+        localStorage.setItem('token', res.data)
+        localStorage.setItem('is_company', this.isCompany)
+        localStorage.setItem('id', this.user_email)
+        this.$router.push('lookatme')
+        location.reload()
+      })
+      .catch(err => {
+        console.log('catch')
+        console.log(err)
+      })
     }
   }
 }

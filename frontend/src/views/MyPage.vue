@@ -82,7 +82,7 @@ export default {
     }
   },
   created() {
-    this.userName = this.$store.state.mypage.userInfo.userName
+    this.userName = this.$store.state.mypage.data.userData.userNickname
   }
 }
 </script>

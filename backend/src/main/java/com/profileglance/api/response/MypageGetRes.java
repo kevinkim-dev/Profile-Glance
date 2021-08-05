@@ -37,6 +37,15 @@ public class MypageGetRes {
     @ApiModelProperty(name="포트폴리오2")
     String portfolio2;
 
+    @ApiModelProperty(name = "유저 닉네임")
+    String userNickname;
+
+    @ApiModelProperty(name = "역할")
+    boolean isAdmin;
+
+    @ApiModelProperty(name = "사진")
+    String userImg;
+
     public MypageGetRes(String userName, String userEmail, String birth, String major1, String major2, Long countLike, Long countVideo, String portfolio1, String portfolio2) {
         this.userName = userName;
         this.userEmail = userEmail;
@@ -47,5 +56,20 @@ public class MypageGetRes {
         this.countVideo = countVideo;
         this.portfolio1 = portfolio1;
         this.portfolio2 = portfolio2;
+    }
+
+    public MypageGetRes(String userName, String userEmail, String birth, String major1, String major2, Long countLike, Long countVideo, String portfolio1, String portfolio2, String userNickname, boolean isAdmin, String userImg) {
+        this.userName = userName;
+        this.userEmail = userEmail;
+        this.birth = birth;
+        this.major1 = major1;
+        this.major2 = major2;
+        this.countLike = countLike;
+        this.countVideo = countVideo;
+        this.portfolio1 = portfolio1;
+        this.portfolio2 = portfolio2;
+        this.userNickname = userNickname;
+        this.isAdmin = isAdmin;
+        this.userImg = userImg;
     }
 }

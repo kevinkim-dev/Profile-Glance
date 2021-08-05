@@ -110,6 +110,9 @@ public class UserServiceImpl implements UserService{
                 ,lookatmeRepository.countByUser_UserEmail(userEmail)
                 ,user.getPortfolio1()
                 ,user.getPortfolio2()
+                ,user.getUserNickname()
+                ,user.isAdmin()
+                ,user.getUserImg()
         );
         return mypageGetRes;
     }
@@ -127,6 +130,9 @@ public class UserServiceImpl implements UserService{
                 ,lookatmeRepository.countByUser_UserEmail(user.getUserEmail())
                 ,user.getPortfolio1()
                 ,user.getPortfolio2()
+                ,user.getUserNickname()
+                ,user.isAdmin()
+                ,user.getUserImg()
         );
         return mypageGetRes;
     }

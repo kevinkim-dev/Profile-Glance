@@ -64,7 +64,11 @@ export default new Vuex.Store({
     },
     UPDATE_USER_INFO(state, userData) {
       state.data.userData = userData
-      state.userType = 1
+      if (userData.isAdmin) {
+        state.userType = 0
+      } else {
+        state.userType = 1
+      }
     },
     UPDATE_COMPANY_INFO(state, companyData) {
       state.data.companyData = companyData
@@ -72,9 +76,6 @@ export default new Vuex.Store({
     },
     REQUEST_LOGOUT(state) {
       console.log('requestlogout')
-      localStorage.removeItem('token')
-      localStorage.removeItem('is_company')
-      localStorage.removeItem('id')
       state.data = 1
       state.token = 1
       state.userType = 1

@@ -53,6 +53,9 @@
         },
         methods: {
             clickLogout() {
+                localStorage.removeItem('token')
+                localStorage.removeItem('login_type')
+                localStorage.removeItem('id')
                 this.$router.push('/')
                 this.$store.dispatch('requestLogout')
                 location.reload()

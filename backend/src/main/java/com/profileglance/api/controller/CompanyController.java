@@ -103,4 +103,5 @@ public class CompanyController {
             return ResponseEntity.status(201).body(BaseResponseBody.of(201, "좋아요를 눌렀습니다."));
         }
     }
+
 }

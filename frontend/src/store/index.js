@@ -1,5 +1,5 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
 
 import banner from './banner/index';
 import product from './product/index';
@@ -9,12 +9,12 @@ import insta from './insta/index';
 import mypage from './mypage/index';
 import wanted from './wanted/index';
 import lookatme from './lookatme/index';
-
+import createPersistedState from 'vuex-persistedstate';
 import Axios from 'axios';
-import Http from '../http.js'
+import Http from '../http.js';
 import VueRouter from 'vue-router';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
@@ -27,6 +27,7 @@ export default new Vuex.Store({
     wanted,
     lookatme,
   },
+  plugins: [createPersistedState()],
   state: {
     token: '',
     // 0: 관리자, 1: 일반유저, 2: 기업유저
@@ -52,61 +53,82 @@ export default new Vuex.Store({
         companyName: '',
         companyPhone: '',
         companyImg: '',
-      }
-    }
+      },
+    },
   },
   mutations: {
     SET_TOKEN(state, token) {
-      state.token = token
+      state.token = token;
     },
     DELETE_TOKEN(state) {
-      state.token = ''
+      state.token = '';
     },
     UPDATE_USER_INFO(state, userData) {
-      state.data.userData = userData
-      if (userData.isAdmin) {
-        state.userType = 0
+      state.data.userData = userData;
+      if (userData.admin) {
+        state.userType = 0;
       } else {
-        state.userType = 1
+        state.userType = 1;
       }
     },
     UPDATE_COMPANY_INFO(state, companyData) {
-      state.data.companyData = companyData
-      state.userType = 2
+      state.data.companyData = companyData;
+      state.userType = 2;
     },
     REQUEST_LOGOUT(state) {
-      console.log('requestlogout')
-      state.data = 1
-      state.token = 1
-      state.userType = 1
-    }
+      console.log('requestlogout');
+      state.data = {
+        userData: {
+          userEmail: '',
+          userName: '',
+          userNickname: '',
+          userBirth: '',
+          major1: '',
+          major2: '',
+          countLike: 0,
+          countVideo: 0,
+          portfolio1: '',
+          portfolio2: '',
+          userImg: '',
+        },
+        companyData: {
+          companyId: '',
+          companyEmail: '',
+          companyName: '',
+          companyPhone: '',
+          companyImg: '',
+        },
+      };
+      state.token = 1;
+      state.userType = 1;
+    },
   },
   actions: {
     setToken({ commit }, token) {
-      commit('SET_TOKEN', token)
+      commit('SET_TOKEN', token);
     },
     updateUserInfo({ commit }, userData) {
-      commit('UPDATE_USER_INFO', userData)
+      commit('UPDATE_USER_INFO', userData);
     },
     updateCompanyInfo({ commit }, companyData) {
-      commit('UPDATE_COMPANY_INFO', companyData)
+      commit('UPDATE_COMPANY_INFO', companyData);
     },
     requestDeleteUser({ commit }) {
-      console.log('delete')
+      console.log('delete');
       Http.delete('/user/delete/' + 'test2@test.com')
-      .then(res => {
-        console.log('then')
-        commit('DELETE_TOKEN')
-        localStorage.removeItem('user_token')
-        location.href = "http://localhost:8080"
-      })
-      .catch(err => {
-        console.log('catch')
-        console.log(err)
-      })
+        .then((res) => {
+          console.log('then');
+          commit('DELETE_TOKEN');
+          localStorage.removeItem('user_token');
+          location.href = 'http://localhost:8080';
+        })
+        .catch((err) => {
+          console.log('catch');
+          console.log(err);
+        });
     },
     requestLogout({ commit }) {
-      commit('REQUEST_LOGOUT')
+      commit('REQUEST_LOGOUT');
     },
-  }
-})
+  },
+});

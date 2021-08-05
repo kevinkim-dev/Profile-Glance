@@ -43,7 +43,7 @@ public class CompanyServiceImpl implements CompanyService{
 
         //서버용
         String baseDir = "/home/ubuntu/profile_glance/dist/ServerFiles";
-        String filePath = baseDir + "/CompanyLogo/ " + companyPostReq.getCompanyId() + ".jpg";
+        String filePath = baseDir + "/CompanyLogo/" + companyPostReq.getCompanyId() + ".jpg";
 
         try{
             companyPostReq.getCompanyImg().transferTo(new File(filePath));

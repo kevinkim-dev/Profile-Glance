@@ -175,7 +175,8 @@ export default {
     },
     getImg(file) {
       // console.log(file);
-      return require('@/../public/ServerFiles/Thumbnail/' + file);
+      // return require('@/../public/ServerFiles/Thumbnail/' + file);
+      return 'http://profileglance.site/ServerFiles/Thumbnail/' + file;
     },
     searchMethod() {
       this.search = this.test;

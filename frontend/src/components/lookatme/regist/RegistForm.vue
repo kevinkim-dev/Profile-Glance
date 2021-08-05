@@ -200,7 +200,7 @@ export default {
       } else {
         console.log(this.image);
         let lookatme = new FormData();
-        let userEmail = 'test@test.com';
+        let userEmail = this.$store.state.data.userData.userEmail;
         lookatme.append('thumbnail', this.image);
         lookatme.append('video', this.files);
         lookatme.append('category', this.category.codeName);
@@ -209,7 +209,7 @@ export default {
         lookatme.append('userEmail', userEmail);
         Axios.post('/lookatme/upload', lookatme, {
           // baseURL: "http://localhost:8888/",
-          baseURL: 'http://52.79.113.179:8888/',
+          baseURL: 'http://52.79.113.173:8888/',
           headers: { 'Content-Type': 'multipart/form-data' },
         })
           .then(({ data }) => {

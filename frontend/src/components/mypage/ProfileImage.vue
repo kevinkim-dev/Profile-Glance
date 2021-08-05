@@ -1,7 +1,7 @@
 <template>
   <div class="profile-image-whole">
     <div class="profile-image-box">
-      <img class="profile-image" :src="imgSrc" alt="logo.png" />
+      <img class="profile-image" :src="getImg()" alt="logo.png" />
     </div>
     <div class="filebox imageEdit" v-if="isMyProfile">
       <label for="ex_file">사진 편집</label>
@@ -16,7 +16,9 @@ import Axios from 'axios';
 export default {
   data() {
     return {
-      imgSrc: 'images/mypage/rabbit.jpg',
+      //   imgSrc:
+      //     'http://profileglance.site/ServerFiles/UserImg/' +
+      //     this.$store.state.mypage.data.userData.userImg,
     };
   },
   props: {
@@ -33,7 +35,7 @@ export default {
   methods: {
     changeImage: function(e) {
       const file = e.target.files[0];
-      const userEmail = 'test5@test.com';
+      const userEmail = this.$store.state.mypage.data.userData.userEmail;
       const formData = new FormData();
       formData.append('userImg', file);
       formData.append('userEmail', userEmail);
@@ -45,8 +47,18 @@ export default {
         .then(({ data }) => {
           console.log(data);
           this.imgSrc = URL.createObjectURL(e.target.files[0]);
+          location.reload();
         })
         .catch((err) => console.log(err));
+    },
+    getImg() {
+      // console.log(file);
+      // return require('@/../public/ServerFiles/Thumbnail/' + file);
+      console.log('이거에요' + this.$store.state.mypage.data.userData.userImg);
+      return (
+        'http://profileglance.site/ServerFiles/UserImg/' +
+        this.$store.state.mypage.data.userData.userImg
+      );
     },
   },
 };

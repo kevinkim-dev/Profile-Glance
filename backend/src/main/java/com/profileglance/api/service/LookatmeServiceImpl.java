@@ -101,6 +101,14 @@ public class LookatmeServiceImpl implements LookatmeService{
         String thumbnailPath = baseDir + "\\Thumbnail\\" + lookatmePostReq.getTitle() + user.getUserNickname() + ".jpg";
         String thumbnailfile = lookatmePostReq.getTitle() + user.getUserNickname() + ".jpg";
 
+        //서버용
+//        String baseDir = "/home/ubuntu/profile_glance/dist/ServerFiles";
+//
+//        String videoPath = baseDir + "/Video/" + lookatmePostReq.getTitle() + user.getUserNickname() + ".mp4";
+//        String videofile = lookatmePostReq.getTitle() + user.getUserNickname() + ".mp4";
+//        String thumbnailPath = baseDir + "/Thumbnail/" + lookatmePostReq.getTitle() + user.getUserNickname() + ".jpg";
+//        String thumbnailfile = lookatmePostReq.getTitle() + user.getUserNickname() + ".jpg";
+
         try{
             lookatmePostReq.getVideo().transferTo(new File(videoPath));
             if(check){
@@ -147,6 +155,14 @@ public class LookatmeServiceImpl implements LookatmeService{
         String videofile = lookatmePostReq.getTitle() + user.getUserNickname() + ".mp4";
         String thumbnailPath = baseDir + "\\Thumbnail\\" + lookatmePostReq.getTitle() + user.getUserNickname() + ".jpg";
         String thumbnailfile = lookatmePostReq.getTitle() + user.getUserNickname() + ".jpg";
+
+        // 서버용
+//        String baseDir = "/home/ubuntu/profile_glance/dist/ServerFiles";
+//
+//        String videoPath = baseDir + "/Video/" + lookatmePostReq.getTitle() + user.getUserNickname() + ".mp4";
+//        String videofile = lookatmePostReq.getTitle() + user.getUserNickname() + ".mp4";
+//        String thumbnailPath = baseDir + "/Thumbnail/" + lookatmePostReq.getTitle() + user.getUserNickname() + ".jpg";
+//        String thumbnailfile = lookatmePostReq.getTitle() + user.getUserNickname() + ".jpg";
 
         try{
             lookatmePostReq.getVideo().transferTo(new File(videoPath));

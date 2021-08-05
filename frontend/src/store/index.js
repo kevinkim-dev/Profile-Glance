@@ -30,27 +30,29 @@ export default new Vuex.Store({
   state: {
     token: '',
     // 0: 관리자, 1: 일반유저, 2: 기업유저
-    userType: 1,
+    userType: 0,
     userId: 1,
-    userData: {
-      userEmail: '',
-      userName: '',
-      userNickname: '',
-      userBirth: '',
-      major1: '',
-      major2: '',
-      countLike: 0,
-      countVideo: 0,
-      portfolio1: '',
-      portfolio2: '',
-      userImg: '',
-    },
-    companyData: {
-      companyId: '',
-      companyEmail: '',
-      companyName: '',
-      companyPhone: '',
-      companyImg: '',
+    data: {
+      userData: {
+        userEmail: '',
+        userName: '',
+        userNickname: '',
+        userBirth: '',
+        major1: '',
+        major2: '',
+        countLike: 0,
+        countVideo: 0,
+        portfolio1: '',
+        portfolio2: '',
+        userImg: '',
+      },
+      companyData: {
+        companyId: '',
+        companyEmail: '',
+        companyName: '',
+        companyPhone: '',
+        companyImg: '',
+      }
     }
   },
   mutations: {
@@ -61,12 +63,21 @@ export default new Vuex.Store({
       state.token = ''
     },
     UPDATE_USER_INFO(state, userData) {
-      state.userData = userData
+      state.data.userData = userData
       state.userType = 1
     },
     UPDATE_COMPANY_INFO(state, companyData) {
-      state.companyData = companyData
+      state.data.companyData = companyData
       state.userType = 2
+    },
+    REQUEST_LOGOUT(state) {
+      console.log('requestlogout')
+      localStorage.removeItem('token')
+      localStorage.removeItem('is_company')
+      localStorage.removeItem('id')
+      state.data = 1
+      state.token = 1
+      state.userType = 1
     }
   },
   actions: {
@@ -92,6 +103,9 @@ export default new Vuex.Store({
         console.log('catch')
         console.log(err)
       })
+    },
+    requestLogout({ commit }) {
+      commit('REQUEST_LOGOUT')
     },
   }
 })

@@ -117,36 +117,16 @@ export default {
       // this.$store.dispatch('requestLogin', body)
       Http.post('/user/login', body)
       .then(res => {
-        console.log('then')
-        console.log(res.data)
-        this.$store.dispatch('setToken', res.data)
-        localStorage.setItem('user_token', res.data)
-        Http.get('/user/myinfo/' + this.user_email)
-        .then(res => {
-          console.log('info')
-          console.log(res)
-          if (!isCompany) {
-            this.$store.dispatch('updateUserInfo', res.data)
-          } else {
-            this/$store.dispatch('updateCompanyInfo', res.data)
-          }
-        })
-        .catch(err => {
-          console.log(err)
-        })
+        localStorage.setItem('token', res.data)
+        localStorage.setItem('is_company', this.isCompany)
+        localStorage.setItem('id', this.user_email)
+        this.$router.push('lookatme')
+        location.reload()
       })
       .catch(err => {
         console.log('catch')
         console.log(err)
       })
-      this.$router.push('lookatme')
-      // if (localStorage.getItem('user_token')) {
-      //   console.log('save complete')
-      //   console.log(this.$store.state.token)
-      //   return this.$emit('close')
-      // } else {
-      //   return alert('로그인 실패')
-      // }
     }
   }
 }

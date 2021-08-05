@@ -14,7 +14,7 @@
 export default {
   methods: {
     clickCompanySignUp() {
-      this.$router.push('companysignup')
+      this.$router.push('companysignup  ')
     }
   }
 }

@@ -5,7 +5,7 @@
             <div class="wrap_header">
                 <!-- Logo -->
                 <a href="" class="logo">
-                    <img src="images/icons/logo.png" alt="IMG-LOGO">
+                    <img src="images/icons/pgpg.png" alt="IMG-LOGO">
                 </a>
                 <!-- Menu -->
                 <div class="wrap_menu">
@@ -25,12 +25,14 @@
                 </div>
                 <!-- Header Icon -->
                 <div class="header-icons">
-                    <router-link :to="{name: 'mypage'}" tag="li" active-class="sale-not" exact>
-                        <a href="#" class="header-wrapicon1 dis-block">
-                            <img src="images/icons/icon-header-01.png" class="header-icon1" alt="ICON">
-                        </a>
-                    </router-link>
-                    <span class="linedivide1"></span>
+                    <ul class="main_menu">
+                        <a @click="clickLogout">로그아웃</a>              
+                        <span class="linedivide1"></span>
+                        <a @click="clickMypage">마이페이지</a>              
+                        <!-- <router-link :to="{name: 'mypage'}" tag="li" active-class="sale-not" exact>
+                            <a>마이페이지</a> 
+                        </router-link> -->
+                    </ul>
                 </div>
             </div>
         </div>
@@ -48,6 +50,17 @@
                 totalCartPrice: 'totalPrice',
                 totalCartQty: 'totalQty'
             })
+        },
+        methods: {
+            clickLogout() {
+                this.$router.push('/')
+                this.$store.dispatch('requestLogout')
+                location.reload()
+            },
+            clickMypage() {
+                this.$store.dispatch('mypage/showMypage', this.$store.state)
+                this.$router.push('/mypage')
+            }
         }
     }
 </script>

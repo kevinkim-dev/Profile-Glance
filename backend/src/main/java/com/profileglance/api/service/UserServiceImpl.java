@@ -141,7 +141,8 @@ public class UserServiceImpl implements UserService{
     public boolean uploadUserImg(MultipartFile files, String userEmail) {
 
         Optional<User> user = userRepository.findByUserEmail(userEmail);
-        String baseDir = "C:\\profile_glance\\ServerFiles";
+//        String baseDir = "C:\\profile_glance\\ServerFiles";
+        String baseDir = "C:\\Users\\multicampus\\Documents\\S05P13A402\\frontend\\public\\ServerFiles";
         String filePath = baseDir + "\\UserImg\\" + userEmail + ".jpg";
 
         try {
@@ -151,7 +152,7 @@ public class UserServiceImpl implements UserService{
         }
 
         user.ifPresent(uploadUser->{
-            uploadUser.setUserImg((filePath));
+            uploadUser.setUserImg(userEmail + ".jpg");
             userRepository.save(uploadUser);
         });
 

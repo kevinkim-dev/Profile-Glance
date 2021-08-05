@@ -2,6 +2,7 @@ package com.profileglance.api.service;
 
 import com.profileglance.api.request.CompanyPostReq;
 import com.profileglance.api.response.CompanyLikeListGetRes;
+import com.profileglance.api.response.CompanyMypageGetRes;
 import com.profileglance.db.entity.Company;
 import com.profileglance.db.entity.User;
 import com.profileglance.db.entity.UserLike;
@@ -36,7 +37,8 @@ public class CompanyServiceImpl implements CompanyService{
     @Override
     public Boolean createCompany(CompanyPostReq companyPostReq) {
 
-        String baseDir = "C:\\profile_glance\\ServerFiles";
+//        String baseDir = "C:\\profile_glance\\ServerFiles";
+        String baseDir = "C:\\Users\\multicampus\\Documents\\S05P13A402\\frontend\\public\\ServerFiles";
         String filePath = baseDir + "\\CompanyLogo\\" + companyPostReq.getCompanyId() + ".jpg";
 
         try{
@@ -51,7 +53,7 @@ public class CompanyServiceImpl implements CompanyService{
                 .companyEmail(companyPostReq.getCompanyEmail())
                 .companyPassword(passwordEncoder.encode(companyPostReq.getCompanyPassword()))
                 .companyPhone(companyPostReq.getCompanyPhone())
-                .companyImg(filePath)
+                .companyImg(companyPostReq.getCompanyId() + ".jpg")
                 .build()
         );
 
@@ -100,5 +102,19 @@ public class CompanyServiceImpl implements CompanyService{
         }else{
             return false;
         }
+    }
+
+    // 기업회원 아이디로 정보 조회
+    @Override
+    public CompanyMypageGetRes companyInfo(String companyId){
+        Company company = companyRepository.findByCompanyId(companyId).get();
+        CompanyMypageGetRes companyMypageGetRes = new CompanyMypageGetRes(
+                company.getCompanyId()
+                ,company.getCompanyName()
+                ,company.getCompanyEmail()
+                ,company.getCompanyPhone()
+                ,company.getCompanyImg()
+        );
+        return companyMypageGetRes;
     }
 }

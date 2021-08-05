@@ -93,10 +93,13 @@ public class LookatmeServiceImpl implements LookatmeService{
 
         String categoryName = lookatmePostReq.getCategory();
 
-        String baseDir = "C:\\profile_glance\\ServerFiles";
-        String videoPath = baseDir + "\\Video\\" + lookatmePostReq.getTitle() + ".mp4";
-        String thumbnailPath = baseDir + "\\Thumbnail\\" + lookatmePostReq.getTitle() + ".jpg";
+//        String baseDir = "C:\\profile_glance\\ServerFiles";
+        String baseDir = "C:\\Users\\multicampus\\Documents\\S05P13A402\\frontend\\public\\ServerFiles";
 
+        String videoPath = baseDir + "\\Video\\" + lookatmePostReq.getTitle() + user.getUserNickname() + ".mp4";
+        String videofile = lookatmePostReq.getTitle() + user.getUserNickname() + ".mp4";
+        String thumbnailPath = baseDir + "\\Thumbnail\\" + lookatmePostReq.getTitle() + user.getUserNickname() + ".jpg";
+        String thumbnailfile = lookatmePostReq.getTitle() + user.getUserNickname() + ".jpg";
 
         try{
             lookatmePostReq.getVideo().transferTo(new File(videoPath));
@@ -114,11 +117,11 @@ public class LookatmeServiceImpl implements LookatmeService{
 
         if(!check){
             lookatme = lookatmeRepository.save(Lookatme.builder().title(lookatmePostReq.getTitle())
-                    .content(lookatmePostReq.getContent()).video(videoPath).view(0L)
+                    .content(lookatmePostReq.getContent()).video(videofile).view(0L)
                     .user(user).category(category).build());
         }else{
             lookatme = lookatmeRepository.save(Lookatme.builder().title(lookatmePostReq.getTitle())
-                    .content(lookatmePostReq.getContent()).thumbnail(thumbnailPath).video(videoPath).view(0L)
+                    .content(lookatmePostReq.getContent()).video(videofile).thumbnail(thumbnailfile).view(0L)
                     .user(user).category(category).build());
         }
 
@@ -133,14 +136,22 @@ public class LookatmeServiceImpl implements LookatmeService{
     public Boolean updateLookatme(LookatmePostReq lookatmePostReq) {
 
         System.out.println("룩앳미 업데이트 서비스 입니다.");
+        User user = userRepository.findByUserEmail(lookatmePostReq.getUserEmail()).get();
 
-        String baseDir = "C:\\profile_glance\\ServerFiles";
-        String videoPath = baseDir + "\\Video\\" + lookatmePostReq.getTitle() + ".mp4";
-        String thumbnailPath = baseDir + "\\Thumbnail\\" + lookatmePostReq.getTitle() + ".jpg";
+        boolean check = (lookatmePostReq.getThumbnail() != null && !lookatmePostReq.getThumbnail().isEmpty());
+
+        //        String baseDir = "C:\\profile_glance\\ServerFiles";
+        String baseDir = "C:\\Users\\multicampus\\Documents\\S05P13A402\\frontend\\public\\ServerFiles";
+
+        String videoPath = baseDir + "\\Video\\" + lookatmePostReq.getTitle() + user.getUserNickname() + ".mp4";
+        String videofile = lookatmePostReq.getTitle() + user.getUserNickname() + ".mp4";
+        String thumbnailPath = baseDir + "\\Thumbnail\\" + lookatmePostReq.getTitle() + user.getUserNickname() + ".jpg";
+        String thumbnailfile = lookatmePostReq.getTitle() + user.getUserNickname() + ".jpg";
 
         try{
             lookatmePostReq.getVideo().transferTo(new File(videoPath));
-            lookatmePostReq.getThumbnail().transferTo(new File(thumbnailPath));
+            if(check)
+                lookatmePostReq.getThumbnail().transferTo(new File(thumbnailPath));
         } catch (Exception e){
             return false;
         }
@@ -149,8 +160,9 @@ public class LookatmeServiceImpl implements LookatmeService{
 
         lookatme.setTitle(lookatmePostReq.getTitle());
         lookatme.setContent(lookatmePostReq.getContent());
-        lookatme.setVideo(videoPath);
-        lookatme.setThumbnail(thumbnailPath);
+        lookatme.setVideo(videofile);
+        if(check)
+            lookatme.setThumbnail(thumbnailfile);
         lookatme.setCategory(categoryRepository.findByCategoryName(lookatmePostReq.getCategory()).get());
 
         lookatmeRepository.save(lookatme);

@@ -58,7 +58,7 @@ public class LookatmeController {
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
     }
 
-    @PostMapping("/searchByTitle/")
+    @PostMapping("/searchByTitle")
     @ApiOperation(value = "룩앳미 제목 검색", notes = "<strong>재목</strong>를 통해 검색 한다.")
     public ResponseEntity<List<LookatmePostRes>> searchByTitle(@RequestBody Map<String, String> title) {
 
@@ -68,7 +68,7 @@ public class LookatmeController {
         return new ResponseEntity<List<LookatmePostRes>>(list, HttpStatus.OK);
     }
 
-    @PostMapping("/searchByNickname/")
+    @PostMapping("/searchByNickname")
     @ApiOperation(value = "룩앳미 닉네임으로 검색", notes = "<strong>닉네임</strong>을 통해 검색 한다.")
     public ResponseEntity<List<LookatmePostRes>> searchByNickname(@RequestBody Map<String, String> nickname) {
 

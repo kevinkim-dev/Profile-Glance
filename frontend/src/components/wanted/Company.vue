@@ -1,7 +1,7 @@
 <template class="col-sm-12 col-2">
   <div class="company d-flex align-center m-2 px-3 py-4" style="border: solid 3px #C0DDD1;">
     <div class="companyLogo d-flex align-center justify-center">
-      <img class="rounded" :src="company.companyImg" :alt="company.companyName">
+      <img class="rounded" :src="getImgPath()" :alt="company.companyName">
     </div>
     <div class="companyContent ms-5">
       <div class="d-flex align-center justify-space-between">
@@ -15,7 +15,7 @@
         <v-chip
           label
           v-if="company.presentationDate">
-          {{ company.presentationDate | moment('MM월 DD일') }} 설명회 예정
+          {{ company.presentationDate | moment('MM월 DD일 HH:mm') }} 설명회
         </v-chip>
       </div>
       <div class="d-flex justify-end mt-2">
@@ -32,6 +32,11 @@ export default {
   props: ['company'],
   data: function () {
     return {
+    }
+  },
+  methods: {
+    getImgPath: function () {
+      return require("@/../public/ServerFiles/CompanyLogo/"+ this.company.companyImg )
     }
   }
 

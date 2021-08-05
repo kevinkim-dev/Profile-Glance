@@ -142,11 +142,11 @@ public class UserServiceImpl implements UserService{
 
         Optional<User> user = userRepository.findByUserEmail(userEmail);
 //        String baseDir = "C:\\profile_glance\\ServerFiles";
-        String baseDir = "C:\\Users\\multicampus\\Documents\\S05P13A402\\frontend\\public\\ServerFiles";
-        String filePath = baseDir + "\\UserImg\\" + userEmail + ".jpg";
+//        String baseDir = "C:\\Users\\multicampus\\Documents\\S05P13A402\\frontend\\public\\ServerFiles";
+//        String filePath = baseDir + "\\UserImg\\" + userEmail + ".jpg";
         //서버용
-//        String baseDir = "/home/ubuntu/profile_glance/dist/ServerFiles";
-//        String filePath = baseDir + "/UserImg/" + userEmail + ".jpg";
+        String baseDir = "/home/ubuntu/profile_glance/dist/ServerFiles";
+        String filePath = baseDir + "/UserImg/" + userEmail + ".jpg";
 
         try {
             files.transferTo(new File(filePath));

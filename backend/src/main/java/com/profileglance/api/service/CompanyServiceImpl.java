@@ -38,12 +38,12 @@ public class CompanyServiceImpl implements CompanyService{
     public Boolean createCompany(CompanyPostReq companyPostReq) {
 
 //        String baseDir = "C:\\profile_glance\\ServerFiles";
-        String baseDir = "C:\\Users\\multicampus\\Documents\\S05P13A402\\frontend\\public\\ServerFiles";
-        String filePath = baseDir + "\\CompanyLogo\\" + companyPostReq.getCompanyId() + ".jpg";
+//        String baseDir = "C:\\Users\\multicampus\\Documents\\S05P13A402\\frontend\\public\\ServerFiles";
+//        String filePath = baseDir + "\\CompanyLogo\\" + companyPostReq.getCompanyId() + ".jpg";
 
         //서버용
-//        String baseDir = "/home/ubuntu/profile_glance/dist/ServerFiles";
-//        String filePath = baseDir + "/CompanyLogo/ " + companyPostReq.getCompanyId() + ".jpg";
+        String baseDir = "/home/ubuntu/profile_glance/dist/ServerFiles";
+        String filePath = baseDir + "/CompanyLogo/ " + companyPostReq.getCompanyId() + ".jpg";
 
         try{
             companyPostReq.getCompanyImg().transferTo(new File(filePath));

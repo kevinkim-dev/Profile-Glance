@@ -3,6 +3,7 @@ package com.profileglance.api.controller;
 import com.profileglance.api.request.CompanyLoginPostReq;
 import com.profileglance.api.request.CompanyPostReq;
 import com.profileglance.api.response.CompanyLikeListGetRes;
+import com.profileglance.api.response.CompanyMypageGetRes;
 import com.profileglance.api.service.CompanyService;
 import com.profileglance.common.response.BaseResponseBody;
 import com.profileglance.config.JwtTokenProvider;
@@ -102,6 +103,14 @@ public class CompanyController {
             companyService.addLikeByCompany(userEmail,companyId);
             return ResponseEntity.status(201).body(BaseResponseBody.of(201, "좋아요를 눌렀습니다."));
         }
+    }
+
+    // 기업회원 아이디로 내 정보 찾기
+    @GetMapping("/companyinfo/{companyId}")
+    @ApiOperation(value = "기업회원 아이디로 정보 가져오기", notes = "기업 테이블에 있는것들 전부 준다.")
+    public ResponseEntity<CompanyMypageGetRes> companyInfoByCompanyId(@PathVariable("companyId") String companyId){
+        CompanyMypageGetRes companyMypageGetRes = companyService.companyInfo(companyId);
+        return new ResponseEntity<CompanyMypageGetRes>(companyMypageGetRes, HttpStatus.OK);
     }
 
 }

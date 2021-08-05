@@ -2,6 +2,7 @@ package com.profileglance.api.service;
 
 import com.profileglance.api.request.CompanyPostReq;
 import com.profileglance.api.response.CompanyLikeListGetRes;
+import com.profileglance.api.response.CompanyMypageGetRes;
 import com.profileglance.db.entity.Company;
 import com.profileglance.db.entity.User;
 import com.profileglance.db.entity.UserLike;
@@ -17,4 +18,5 @@ public interface CompanyService {
     boolean isHitLike(String userEmail,String companyId);
     void addLikeByCompany(String userEmail, String companyId);
     void deleteLikeByCompany(String userEmail, String companyId);
+    CompanyMypageGetRes companyInfo(String companyId);
 }

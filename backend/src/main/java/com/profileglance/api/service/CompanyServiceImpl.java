@@ -37,7 +37,8 @@ public class CompanyServiceImpl implements CompanyService{
     @Override
     public Boolean createCompany(CompanyPostReq companyPostReq) {
 
-        String baseDir = "C:\\profile_glance\\ServerFiles";
+//        String baseDir = "C:\\profile_glance\\ServerFiles";
+        String baseDir = "C:\\Users\\multicampus\\Documents\\S05P13A402\\frontend\\public\\ServerFiles";
         String filePath = baseDir + "\\CompanyLogo\\" + companyPostReq.getCompanyId() + ".jpg";
 
         try{
@@ -52,7 +53,7 @@ public class CompanyServiceImpl implements CompanyService{
                 .companyEmail(companyPostReq.getCompanyEmail())
                 .companyPassword(passwordEncoder.encode(companyPostReq.getCompanyPassword()))
                 .companyPhone(companyPostReq.getCompanyPhone())
-                .companyImg(filePath)
+                .companyImg(companyPostReq.getCompanyId() + ".jpg")
                 .build()
         );
 

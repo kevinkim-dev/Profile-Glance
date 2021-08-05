@@ -59,14 +59,14 @@
 </template>
 
 <script>
+import Http from '@/http.js'
+
 export default {
   data: function() {
     return {
       user_email: '',
       user_password: '',
-      // login_button_style: {
-      //   background: '#439474'
-      // }
+      isCompany: false
     }
   },
   computed: {
@@ -114,14 +114,39 @@ export default {
         userEmail: this.user_email, 
         userPassword: this.user_password
       }
-      this.$store.dispatch('requestLogin', body)
-      if (localStorage.getItem('user_token')) {
-        console.log('save complete')
-        console.log(this.$store.state.token)
-        return this.$emit('close')
-      } else {
-        return alert('로그인 실패')
-      }
+      // this.$store.dispatch('requestLogin', body)
+      Http.post('/user/login', body)
+      .then(res => {
+        console.log('then')
+        console.log(res.data)
+        this.$store.dispatch('setToken', res.data)
+        localStorage.setItem('user_token', res.data)
+        Http.get('/user/myinfo/' + this.user_email)
+        .then(res => {
+          console.log('info')
+          console.log(res)
+          if (!isCompany) {
+            this.$store.dispatch('updateUserInfo', res.data)
+          } else {
+            this/$store.dispatch('updateCompanyInfo', res.data)
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      })
+      .catch(err => {
+        console.log('catch')
+        console.log(err)
+      })
+      this.$router.push('lookatme')
+      // if (localStorage.getItem('user_token')) {
+      //   console.log('save complete')
+      //   console.log(this.$store.state.token)
+      //   return this.$emit('close')
+      // } else {
+      //   return alert('로그인 실패')
+      // }
     }
   }
 }

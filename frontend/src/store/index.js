@@ -30,18 +30,28 @@ export default new Vuex.Store({
   state: {
     token: '',
     // 0: 관리자, 1: 일반유저, 2: 기업유저
-    userType: 0,
+    userType: 1,
     userId: 1,
-    userEmail: 'test6@test.com',
-    userName: 'test6',
-    userNickname: 'test6',
-    userBirth: '1995-10-30',
-    userPhone: '010-1010-1010',
-    major1: '전자',
-    major2: '기계',
-    companyLike: 0,
-    portfolio1: 'git',
-    portfolio2: 'git',
+    userData: {
+      userEmail: '',
+      userName: '',
+      userNickname: '',
+      userBirth: '',
+      major1: '',
+      major2: '',
+      countLike: 0,
+      countVideo: 0,
+      portfolio1: '',
+      portfolio2: '',
+      userImg: '',
+    },
+    companyData: {
+      companyId: '',
+      companyEmail: '',
+      companyName: '',
+      companyPhone: '',
+      companyImg: '',
+    }
   },
   mutations: {
     SET_TOKEN(state, token) {
@@ -50,21 +60,24 @@ export default new Vuex.Store({
     DELETE_TOKEN(state) {
       state.token = ''
     },
+    UPDATE_USER_INFO(state, userData) {
+      state.userData = userData
+      state.userType = 1
+    },
+    UPDATE_COMPANY_INFO(state, companyData) {
+      state.companyData = companyData
+      state.userType = 2
+    }
   },
   actions: {
-    requestLogin({ commit }, body) {
-      console.log('login')
-      Http.post('/user/login', body)
-      .then(res => {
-        console.log('then')
-        console.log(res.data)
-        commit('SET_TOKEN', res.data)
-        localStorage.setItem('user_token', res.data)
-      })
-      .catch(err => {
-        console.log('catch')
-        console.log(err)
-      })
+    setToken({ commit }, token) {
+      commit('SET_TOKEN', token)
+    },
+    updateUserInfo({ commit }, userData) {
+      commit('UPDATE_USER_INFO', userData)
+    },
+    updateCompanyInfo({ commit }, companyData) {
+      commit('UPDATE_COMPANY_INFO', companyData)
     },
     requestDeleteUser({ commit }) {
       console.log('delete')

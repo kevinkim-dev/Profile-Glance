@@ -79,7 +79,7 @@
                 >
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
-                      v-model="registRecruitForm.presentationDate"
+                      v-model="pptDate"
                       label="설명회 날짜"
                       prepend-icon="mdi-calendar"
                       readonly
@@ -88,13 +88,16 @@
                     ></v-text-field>
                   </template>
                   <v-date-picker
-                    v-model="registRecruitForm.presentationDate"
+                    v-model="pptDate"
                     @input="descriptionCalendar=false"
                   ></v-date-picker>
                 </v-menu>
               </v-col>
               <v-col cols="6">
-                <v-text-field type="time" label="설명회 시작 시각">
+                <v-text-field
+                  type="time"
+                  v-model="pptTime"
+                  label="설명회 시작 시각">
                 </v-text-field>
               </v-col>
             </v-row>
@@ -150,9 +153,11 @@ export default {
             '전문직', '의류', '생산제조', '건설', '유통무역', '미디어',
             '교육', '특수계층/공공', '연구직' ],
       recruitDate: [],
+      pptDate: '',
+      pptTime: '',
       registRecruitForm: {
         career: '',
-        companyId: 'kakao',
+        companyId: 'samsung',
         descriptionURL: '',
         job: '',
         jobDetail: '',
@@ -175,6 +180,11 @@ export default {
         this.registRecruitForm.recruitEndDate = this.recruitDate[1]
       }
     },
+    pptTime () {
+      if (this.pptTime) {
+        this.registRecruitForm.presentationDate = this.pptDate + ' ' + this.pptTime
+      }
+    }
   },
   methods: {
     registRecruit () {

@@ -6,6 +6,7 @@ import com.profileglance.api.response.InterviewListGetRes;
 import com.profileglance.api.response.LookatmePostRes;
 import com.profileglance.api.response.MypageGetRes;
 import com.profileglance.common.response.BaseResponseBody;
+import com.profileglance.config.DirPathConfig;
 import com.profileglance.db.entity.Interview;
 import com.profileglance.db.entity.Lookatme;
 import com.profileglance.db.entity.User;
@@ -37,6 +38,9 @@ public class UserServiceImpl implements UserService{
     UserLikeRepository userLikeRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    static DirPathConfig dirPathConfig = new DirPathConfig();
+    static String baseDir = dirPathConfig.baseDir;
 
     @Override
     public User createUser(UserPostReq userPostReq) {
@@ -91,12 +95,6 @@ public class UserServiceImpl implements UserService{
         return true;
     }
 
-//    @Override
-//    public User myinfo(String userEmail) {
-//        User user = userRepository.findByUserEmail(userEmail).get();
-//        return user;
-//    }
-
     @Override
     public MypageGetRes myInfo(String userEmail){
         User user = userRepository.findByUserEmail(userEmail).get();
@@ -141,12 +139,8 @@ public class UserServiceImpl implements UserService{
     public boolean uploadUserImg(MultipartFile files, String userEmail) {
 
         Optional<User> user = userRepository.findByUserEmail(userEmail);
-//        String baseDir = "C:\\profile_glance\\ServerFiles";
-//        String baseDir = "C:\\Users\\multicampus\\Documents\\S05P13A402\\frontend\\public\\ServerFiles";
-//        String filePath = baseDir + "\\UserImg\\" + userEmail + ".jpg";
-        //서버용
-        String baseDir = "/home/ubuntu/profile_glance/dist/ServerFiles";
         String filePath = baseDir + "/UserImg/" + userEmail + ".jpg";
+
 
         try {
             files.transferTo(new File(filePath));

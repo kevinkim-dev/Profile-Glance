@@ -2,6 +2,7 @@ package com.profileglance.api.service;
 
 import com.profileglance.api.request.LookatmePostReq;
 import com.profileglance.api.response.LookatmePostRes;
+import com.profileglance.config.DirPathConfig;
 import com.profileglance.db.entity.Category;
 import com.profileglance.db.entity.Lookatme;
 import com.profileglance.db.entity.User;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +29,9 @@ public class LookatmeServiceImpl implements LookatmeService{
 
     @Autowired
     CategoryRepository categoryRepository;
+
+    static DirPathConfig dirPathConfig = new DirPathConfig();
+    static String baseDir = dirPathConfig.baseDir;
 
     @Override
     public List<LookatmePostRes> searchByCategory(String category, Long limit) {
@@ -92,21 +97,10 @@ public class LookatmeServiceImpl implements LookatmeService{
         boolean check = (lookatmePostReq.getThumbnail() != null && !lookatmePostReq.getThumbnail().isEmpty());
 
         String categoryName = lookatmePostReq.getCategory();
-
-//        String baseDir = "C:\\profile_glance\\ServerFiles";
-//        String baseDir = "C:\\Users\\multicampus\\Documents\\S05P13A402\\frontend\\public\\ServerFiles";
-//
-//        String videoPath = baseDir + "\\Video\\" + lookatmePostReq.getTitle() + user.getUserNickname() + ".mp4";
-//        String videofile = lookatmePostReq.getTitle() + user.getUserNickname() + ".mp4";
-//        String thumbnailPath = baseDir + "\\Thumbnail\\" + lookatmePostReq.getTitle() + user.getUserNickname() + ".jpg";
-//        String thumbnailfile = lookatmePostReq.getTitle() + user.getUserNickname() + ".jpg";
-
-        //서버용
-        String baseDir = "/home/ubuntu/profile_glance/dist/ServerFiles";
-        String videoPath = baseDir + "/Video/" + lookatmePostReq.getTitle() + user.getUserNickname() + ".mp4";
-        String videofile = lookatmePostReq.getTitle() + user.getUserNickname() + ".mp4";
-        String thumbnailPath = baseDir + "/Thumbnail/" + lookatmePostReq.getTitle() + user.getUserNickname() + ".jpg";
-        String thumbnailfile = lookatmePostReq.getTitle() + user.getUserNickname() + ".jpg";
+        String videoPath = baseDir + "/Video/" + LocalDateTime.now() + user.getUserNickname() + ".mp4";
+        String videofile = LocalDateTime.now() + user.getUserNickname() + ".mp4";
+        String thumbnailPath = baseDir + "/Thumbnail/" + LocalDateTime.now() + user.getUserNickname() + ".jpg";
+        String thumbnailfile = LocalDateTime.now() + user.getUserNickname() + ".jpg";
 
         try{
             lookatmePostReq.getVideo().transferTo(new File(videoPath));
@@ -147,20 +141,10 @@ public class LookatmeServiceImpl implements LookatmeService{
 
         boolean check = (lookatmePostReq.getThumbnail() != null && !lookatmePostReq.getThumbnail().isEmpty());
 
-        //        String baseDir = "C:\\profile_glance\\ServerFiles";
-//        String baseDir = "C:\\Users\\multicampus\\Documents\\S05P13A402\\frontend\\public\\ServerFiles";
-//
-//        String videoPath = baseDir + "\\Video\\" + lookatmePostReq.getTitle() + user.getUserNickname() + ".mp4";
-//        String videofile = lookatmePostReq.getTitle() + user.getUserNickname() + ".mp4";
-//        String thumbnailPath = baseDir + "\\Thumbnail\\" + lookatmePostReq.getTitle() + user.getUserNickname() + ".jpg";
-//        String thumbnailfile = lookatmePostReq.getTitle() + user.getUserNickname() + ".jpg";
-
-        // 서버용
-        String baseDir = "/home/ubuntu/profile_glance/dist/ServerFiles";
-        String videoPath = baseDir + "/Video/" + lookatmePostReq.getTitle() + user.getUserNickname() + ".mp4";
-        String videofile = lookatmePostReq.getTitle() + user.getUserNickname() + ".mp4";
-        String thumbnailPath = baseDir + "/Thumbnail/" + lookatmePostReq.getTitle() + user.getUserNickname() + ".jpg";
-        String thumbnailfile = lookatmePostReq.getTitle() + user.getUserNickname() + ".jpg";
+        String videoPath = baseDir + "/Video/" + LocalDateTime.now() + user.getUserNickname() + ".mp4";
+        String videofile = LocalDateTime.now() + user.getUserNickname() + ".mp4";
+        String thumbnailPath = baseDir + "/Thumbnail/" + LocalDateTime.now() + user.getUserNickname() + ".jpg";
+        String thumbnailfile = LocalDateTime.now() + user.getUserNickname() + ".jpg";
 
         try{
             lookatmePostReq.getVideo().transferTo(new File(videoPath));

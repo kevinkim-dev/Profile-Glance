@@ -3,6 +3,7 @@ package com.profileglance.api.service;
 import com.profileglance.api.request.CompanyPostReq;
 import com.profileglance.api.response.CompanyLikeListGetRes;
 import com.profileglance.api.response.CompanyMypageGetRes;
+import com.profileglance.config.DirPathConfig;
 import com.profileglance.db.entity.Company;
 import com.profileglance.db.entity.User;
 import com.profileglance.db.entity.UserLike;
@@ -34,15 +35,12 @@ public class CompanyServiceImpl implements CompanyService{
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    static DirPathConfig dirPathConfig = new DirPathConfig();
+    static String baseDir = dirPathConfig.baseDir;
+
     @Override
     public Boolean createCompany(CompanyPostReq companyPostReq) {
 
-//        String baseDir = "C:\\profile_glance\\ServerFiles";
-//        String baseDir = "C:\\Users\\multicampus\\Documents\\S05P13A402\\frontend\\public\\ServerFiles";
-//        String filePath = baseDir + "\\CompanyLogo\\" + companyPostReq.getCompanyId() + ".jpg";
-
-        //서버용
-        String baseDir = "/home/ubuntu/profile_glance/dist/ServerFiles";
         String filePath = baseDir + "/CompanyLogo/" + companyPostReq.getCompanyId() + ".jpg";
 
         try{

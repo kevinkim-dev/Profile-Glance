@@ -96,11 +96,12 @@ public class LookatmeServiceImpl implements LookatmeService{
 
         boolean check = (lookatmePostReq.getThumbnail() != null && !lookatmePostReq.getThumbnail().isEmpty());
 
+        String now = LocalDateTime.now().toString();
         String categoryName = lookatmePostReq.getCategory();
-        String videoPath = baseDir + "/Video/" + LocalDateTime.now() + user.getUserNickname() + ".mp4";
-        String videofile = LocalDateTime.now() + user.getUserNickname() + ".mp4";
-        String thumbnailPath = baseDir + "/Thumbnail/" + LocalDateTime.now() + user.getUserNickname() + ".jpg";
-        String thumbnailfile = LocalDateTime.now() + user.getUserNickname() + ".jpg";
+        String videoPath = baseDir + "/Video/" + now + user.getUserNickname() + ".mp4";
+        String videofile = now + user.getUserNickname() + ".mp4";
+        String thumbnailPath = baseDir + "/Thumbnail/" + now + user.getUserNickname() + ".jpg";
+        String thumbnailfile = now + user.getUserNickname() + ".jpg";
 
         try{
             lookatmePostReq.getVideo().transferTo(new File(videoPath));
@@ -141,10 +142,11 @@ public class LookatmeServiceImpl implements LookatmeService{
 
         boolean check = (lookatmePostReq.getThumbnail() != null && !lookatmePostReq.getThumbnail().isEmpty());
 
-        String videoPath = baseDir + "/Video/" + LocalDateTime.now() + user.getUserNickname() + ".mp4";
-        String videofile = LocalDateTime.now() + user.getUserNickname() + ".mp4";
-        String thumbnailPath = baseDir + "/Thumbnail/" + LocalDateTime.now() + user.getUserNickname() + ".jpg";
-        String thumbnailfile = LocalDateTime.now() + user.getUserNickname() + ".jpg";
+        String now = LocalDateTime.now().toString();
+        String videoPath = baseDir + "/Video/" + now + user.getUserNickname() + ".mp4";
+        String videofile = now + user.getUserNickname() + ".mp4";
+        String thumbnailPath = baseDir + "/Thumbnail/" + now + user.getUserNickname() + ".jpg";
+        String thumbnailfile = now + user.getUserNickname() + ".jpg";
 
         try{
             lookatmePostReq.getVideo().transferTo(new File(videoPath));

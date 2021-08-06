@@ -1,26 +1,31 @@
 package com.profileglance.api.controller;
 
 
+import com.profileglance.api.request.MypagePostReq;
 import com.profileglance.api.request.UserLoginPostReq;
+import com.profileglance.api.request.UserPostReq;
+import com.profileglance.api.response.InterviewListGetRes;
+import com.profileglance.api.response.LookatmePostRes;
+import com.profileglance.api.response.MypageGetRes;
 import com.profileglance.api.service.UserService;
 import com.profileglance.common.response.BaseResponseBody;
 import com.profileglance.config.JwtTokenProvider;
+import com.profileglance.db.entity.Interview;
+import com.profileglance.db.entity.Lookatme;
 import com.profileglance.db.entity.User;
 import com.profileglance.db.repository.UserRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.List;
 
 @Api(value = "유저 API", tags = {"User"})
 @RequestMapping("/user")
@@ -39,9 +44,9 @@ public class UserController {
     // 회원가입
     @PostMapping("/signup")
     @ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.")
-    public ResponseEntity<? extends BaseResponseBody> join(@RequestBody User user) {
+    public ResponseEntity<? extends BaseResponseBody> join(@RequestBody UserPostReq userPostReq) {
 
-        userService.createUser(user);
+        userService.createUser(userPostReq);
 
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
     }
@@ -64,18 +69,10 @@ public class UserController {
     @PostMapping("/uploadImg")
     @ApiOperation(value = "사진 업로드", notes = "<strong>파일 경로</strong>로 업로드한다.", produces = "multipart/form-date")
     public ResponseEntity<? extends BaseResponseBody> uploadUserImg(@RequestPart("userImg") MultipartFile files, @RequestParam("userEmail")String userEmail) {
-        try {
-            String baseDir = "C:\\Users\\multicampus\\Documents\\ServerFiles";
-            String filePath = baseDir + "\\" + userEmail + ".jpg";
-
-            if(userService.uploadUserImg(userEmail, filePath)) {
-                files.transferTo(new File(filePath));
-                return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
-            } else {
-                return ResponseEntity.status(666).body(BaseResponseBody.of(666, "No Email"));
-            }
-        } catch(Exception e) {
-            return ResponseEntity.status(999).body(BaseResponseBody.of(999, "Fail"));
+        if(userService.uploadUserImg(files, userEmail)) {
+            return ResponseEntity.status(201).body(BaseResponseBody.of(201, "사진 업로드 성공"));
+        } else {
+            return ResponseEntity.status(999).body(BaseResponseBody.of(999, "사진 업로드 실패"));
         }
     }
 
@@ -113,11 +110,43 @@ public class UserController {
     // 정보수정
     @PutMapping("/update")
     @ApiOperation(value = "정보수정", notes = "<strong>userEmail, major1, major2, Portfolio1, Portfolio2</strong>만 넣으면 됩니다.")
-    public ResponseEntity<User> update(@RequestBody User userUpdateInfo) {
+    public ResponseEntity<MypageGetRes> update(@RequestBody MypagePostReq mypagePostReq) {
 
-        User user = userService.updateUser(userUpdateInfo, userUpdateInfo.getUserEmail());
+        MypageGetRes mypageGetRes = userService.updateUser(mypagePostReq);
 
-        return new ResponseEntity<User>(user, HttpStatus.OK);
+        return new ResponseEntity<MypageGetRes>(mypageGetRes, HttpStatus.OK);
     }
 
+    // 내 정보 보기
+    @GetMapping("/myinfo/{userEmail}")
+    @ApiOperation(value = "내 정보 가져오기", notes = "회원 테이블에 있는것들 전부 준다.")
+    public ResponseEntity<MypageGetRes> myinfo(@PathVariable("userEmail") String userEmail){
+
+        MypageGetRes mypageGetRes = userService.myInfo(userEmail);
+
+        return new ResponseEntity<MypageGetRes>(mypageGetRes, HttpStatus.OK);
+    }
+
+    // 내 영상 목록 가져오기
+    @GetMapping("/myvideo/{userEmail}")
+    @ApiOperation(value = "내 영상 리스트 가져오기")
+    public ResponseEntity<List<LookatmePostRes>> myVideoList(@PathVariable("userEmail") String userEmail){
+
+        return new ResponseEntity<List<LookatmePostRes>>(userService.myVideoList(userEmail), HttpStatus.OK);
+    }
+
+    // 닉네임으로 내 정보 보기
+    @GetMapping("/myinfo/nickname/{userNickname}")
+    @ApiOperation(value = "닉네임으로 내 정보 가져오기", notes = "회원 테이블에 있는것들 전부 준다.")
+    public ResponseEntity<MypageGetRes> myInfoByUserNickname(@PathVariable("userNickname") String userNickname){
+        MypageGetRes mypageGetRes = userService.myInfoByNickname(userNickname);
+        return new ResponseEntity<MypageGetRes>(mypageGetRes, HttpStatus.OK);
+    }
+
+    // (마이페이지) 면접 일정 보기
+    @GetMapping("/myinterview/{userEmail}")
+    @ApiOperation(value = "나의 면접 일정 보기", notes = "userEmail을 주세용")
+    public ResponseEntity<List<InterviewListGetRes>> myInterview(@PathVariable("userEmail") String userEmail){
+        return new ResponseEntity<List<InterviewListGetRes>>(userService.myInterviewList(userEmail), HttpStatus.OK);
+    }
 }

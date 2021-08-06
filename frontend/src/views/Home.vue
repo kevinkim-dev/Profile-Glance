@@ -4,7 +4,6 @@
   <v-row justify="end" id="login-btn">
     <v-dialog
       v-model="isLoginViewd"
-      persistent
       max-width="600px"
     >
       <template v-slot:activator="{ on, attrs }">
@@ -17,11 +16,10 @@
           구르러 가기
         </v-btn>
       </template>
-      <login @close="closeLogin" @signup="openSignUp"/>
+      <login @close="closeLogin" @signup="openSignUp" />
     </v-dialog>
     <v-dialog
       v-model="isSignUpViewd"
-      persistent
       max-width="650px"
     > <sign-up @close="closeSignUp" @login="openLogin" />
     </v-dialog>

@@ -5,8 +5,11 @@ import store from './store/index'
 
 import moment from 'moment';
 import vuetify from './plugins/vuetify'
+import VueMoment from 'vue-moment'
 
 Vue.config.productionTip = false
+moment.locale("ko")
+Vue.use(VueMoment, { moment })
 
 Vue.filter('dateFormat', (value) => {
   return moment(value, 'YYYYMMDD').format('YYYY년 MM월 DD일');

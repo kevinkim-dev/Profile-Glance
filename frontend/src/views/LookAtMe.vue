@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <SlideBanner />
+    <!-- <SlideBanner /> -->
     <!-- <BestProductList /> -->
     <FeaturedProductList />
     <!-- <MiddleBanner />
@@ -18,6 +18,6 @@ export default {
   components: {
     SlideBanner,
     FeaturedProductList,
-  }
-}
+  },
+};
 </script>

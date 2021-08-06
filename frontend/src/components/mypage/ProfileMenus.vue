@@ -1,33 +1,51 @@
 <template>
   <div class="profile-menu-box d-flex flex-column justify-content-center">
     <div class="d-flex justify-content-around pt-10">
-        <profile-blue-button :isMe="isMe" />
-        <profile-red-button :isMe="isMe" />
-        <profile-green-button :isInterviewAvailable="isInterviewAvailable" />
+        <v-btn class="red-button"
+            color="white"
+            text
+            v-if="liked"
+            @click="clickLike"
+        >
+            좋아요 취소
+        </v-btn>
+        <v-btn class="blue-button"
+            color="white"
+            text
+            v-else
+            @click="clickLike"
+        >
+            좋아요
+        </v-btn>
+        <v-btn class="green-button"
+            color="white"
+            text
+        >
+            면접 신청
+        </v-btn>
     </div>
   </div>
 </template>
 
 <script>
-import ProfileRedButton from './buttons/ProfileRedButton.vue'
-import ProfileGreenButton from './buttons/ProfileGreenButton.vue'
-import ProfileBlueButton from './buttons/ProfileBlueButton.vue'
-
 export default {
-    components: {
-        ProfileRedButton,
-        ProfileGreenButton,
-        ProfileBlueButton
-    },
-    computed: {
-        isMe: function() {
-            return (this.$store.state.userType == this.$store.state.mypage.profileType) &&
-            (this.$store.state.userId == this.$store.state.mypage.profileId)
-        },
-        isInterviewAvailable: function() {
-            return (this.$store.state.userType == 2 && this.$store.state.mypage.profileType == 1)
+    data() {
+        return {
+            liked: Boolean
         }
+    },
+    methods: {
+        clickLike: function() {
+            //Axios통신(백앤드 구현 후 구현)
+            //좋아요 누른 유저 테이블에 있으면 제거 없으면 추가
+            this.liked = !this.liked
+        }
+    },
+    created: {
+        //Axios통신(백앤드 구현 후 구현)
+        //해당 기업이 좋아요 누른 유저 목록을 받아오는 통신
     }
+
 }
 </script>
 
@@ -36,5 +54,20 @@ export default {
     margin-left: 80px;
     width: 300px;
     height: 100px;  
+}
+
+.blue-button {
+    background: blue;
+    width: 130px;
+}
+
+.green-button {
+    background: green;
+    width: 130px;
+}
+
+.red-button {
+    background: red;
+    width: 130px;
 }
 </style>

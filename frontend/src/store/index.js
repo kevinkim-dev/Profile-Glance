@@ -15,7 +15,7 @@ import Http from '../http.js';
 import VueRouter from 'vue-router';
 
 Vue.use(Vuex);
-
+const DEVELOPMODE = false
 export default new Vuex.Store({
   modules: {
     banner,
@@ -28,7 +28,17 @@ export default new Vuex.Store({
     lookatme,
   },
   plugins: [createPersistedState()],
+  getters: {
+    fileURL: function () {
+      return DEVELOPMODE ? 'http://localhost:8080/': 'http://profileglance.site/'
+    },
+    DEVELOPMODE: function () {
+      return DEVELOPMODE
+    }
+  },
   state: {
+    // 개발모드면 true 배포모드면 false
+    // DEVELOPMODE: DEVELOPMODE,
     token: '',
     // 0: 관리자, 1: 일반유저, 2: 기업유저
     userType: 0,

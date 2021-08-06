@@ -90,8 +90,9 @@
 </template>
 
 <script>
-import Axios from 'axios';
 import router from '@/router';
+import http from '@/http.js';
+
 export default {
   data() {
     return {
@@ -207,9 +208,7 @@ export default {
         lookatme.append('title', this.title);
         lookatme.append('content', this.content);
         lookatme.append('userEmail', userEmail);
-        Axios.post('/lookatme/upload', lookatme, {
-          // baseURL: "http://localhost:8888/",
-          baseURL: 'http://52.79.113.173:8888/',
+        http.post('/lookatme/upload', lookatme, {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
           .then(({ data }) => {

@@ -137,7 +137,7 @@
   </section>
 </template>
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import InfiniteLoading from 'vue-infinite-loading';
 import Product from '@/components/Product.vue';
 import http from '@/http.js';
@@ -147,6 +147,9 @@ export default {
     ...mapState('product', {
       products: (state) => state.featuredProducts,
     }),
+    ...mapGetters([
+        'fileURL'
+      ]),
   },
   methods: {
     selectCategory(number, text) {
@@ -174,9 +177,7 @@ export default {
       return false;
     },
     getImg(file) {
-      // console.log(file);
-      // return require('@/../public/ServerFiles/Thumbnail/' + file);
-      return 'http://profileglance.site/ServerFiles/Thumbnail/' + file;
+      return this.fileURL + 'ServerFiles/Thumbnail/' + file;
     },
     searchMethod() {
       this.search = this.test;

@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import Http from '@/http.js';
+import http from '@/http.js';
 export default {
   data() {
     return {
@@ -116,7 +116,7 @@ export default {
       if (!this.valid) {
         alert('필수 항목을 입력해주세요.');
       } else {
-        Http.put('/user/update', this.editForm)
+        http.put('/user/update', this.editForm)
           .then(() => {
             alert('회원정보 수정이 완료되었습니다.');
             this.$store.dispatch('mypage/edit', this.editForm);

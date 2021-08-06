@@ -11,14 +11,12 @@
 </template>
 
 <script>
-import Axios from 'axios';
+import http from '@/http.js';
+import { mapGetters } from 'vuex'
 
 export default {
   data() {
     return {
-      //   imgSrc:
-      //     'http://profileglance.site/ServerFiles/UserImg/' +
-      //     this.$store.state.mypage.data.userData.userImg,
     };
   },
   props: {
@@ -31,6 +29,9 @@ export default {
         this.$store.state.userId == this.$store.state.mypage.profileId
       );
     },
+    ...mapGetters([
+        'fileURL',
+      ])
   },
   methods: {
     changeImage: function(e) {
@@ -39,9 +40,7 @@ export default {
       const formData = new FormData();
       formData.append('userImg', file);
       formData.append('userEmail', userEmail);
-      Axios.post('/user/uploadImg', formData, {
-        // baseURL: "http://localhost:8888/",
-        baseURL: 'http://52.79.113.173:8888/',
+      http.post('/user/uploadImg', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
         .then(({ data }) => {
@@ -56,7 +55,7 @@ export default {
       // return require('@/../public/ServerFiles/Thumbnail/' + file);
       console.log('이거에요' + this.$store.state.mypage.data.userData.userImg);
       return (
-        'http://profileglance.site/ServerFiles/UserImg/' +
+        this.fileURL + 'ServerFiles/UserImg/' +
         this.$store.state.mypage.data.userData.userImg
       );
     },

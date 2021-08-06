@@ -37,16 +37,18 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'Company',
   props: ['company'],
-  data: function() {
-    return {};
+  computed: {
+    ...mapGetters([
+      'fileURL'
+    ])
   },
   methods: {
     getImgPath: function() {
-      // return require("@/../public/ServerFiles/CompanyLogo/"+ this.company.companyImg )
-      return 'http://profileglance.site/ServerFiles/CompanyLogo/' + this.company.companyImg;
+      return this.fileURL + 'ServerFiles/CompanyLogo/' + this.company.companyImg;
     },
   },
 };

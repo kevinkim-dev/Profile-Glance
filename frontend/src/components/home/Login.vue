@@ -213,6 +213,8 @@ export default {
       }
     },
     clickCompanyLogin() {
+      console.log(this.$store.state.DEVELOPMODE)
+      
       if (!this.companyId) {
         return alert('아이디를 입력해주세요.')
       } else if (!this.companyPassword) {

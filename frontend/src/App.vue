@@ -39,32 +39,29 @@ export default {
     }
   },
   mounted () {
-    if (localStorage.getItem('token')) {
-      console.log('get info')
-      this.$store.dispatch('setToken', localStorage.getItem('token'))
-      if (localStorage.getItem('login_type') == 'user') {
-        console.log('get user info')
-        Http.get('/user/myinfo/' + localStorage.getItem('id'))
-        .then(res => {
-          console.log(res.data)
-          this.$store.dispatch('updateUserInfo', res.data)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-      } else if (localStorage.getItem('login_type') == 'company'){
-        console.log('get company info')
-        Http.get('/company/companyinfo/' + localStorage.getItem('id'))
-        .then(res => {
-          console.log('get company info good')
-          console.log(res.data)
-          this.$store.dispatch('updateCompanyInfo', res.data)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-      }
-    }
+    // if (localStorage.getItem('token')) {
+    //   if (localStorage.getItem('login_type') == 'user') {
+    //     Http.get('/user/myinfo/' + localStorage.getItem('id'))
+    //     .then(res => {
+    //       console.log(res.data)
+    //       this.$store.dispatch('updateUserInfo', res.data)
+    //     })
+    //     .catch(err => {
+    //       console.log(err)
+    //     })
+    //   } else if (localStorage.getItem('login_type') == 'company'){
+    //     console.log('get company info')
+    //     Http.get('/company/companyinfo/' + localStorage.getItem('id'))
+    //     .then(res => {
+    //       console.log('get company info good')
+    //       console.log(res.data)
+    //       this.$store.dispatch('updateCompanyInfo', res.data)
+    //     })
+    //     .catch(err => {
+    //       console.log(err)
+    //     })
+    //   }
+    // }
   }
 };
 </script>

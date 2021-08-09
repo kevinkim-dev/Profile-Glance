@@ -1,10 +1,5 @@
 <template>
   <div class="profile-interview-box">
-      <!-- <ul class="p-3">
-        <li>네이버 | 07.25 13:00 | <button>들어가기</button></li>
-        <li>쿠팡 | 07.27 15:00 | <button>들어가기</button></li>
-        <li>카카오 | 07.30 17:00 | <button>들어가기</button></li>
-      </ul> -->
       <ul v-for="(userInterview, idx) in userInterviews" :key="idx">
         <UserInterview :userInterview="userInterview" />
       </ul>

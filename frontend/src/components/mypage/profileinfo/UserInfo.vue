@@ -1,16 +1,16 @@
 <template>
 	<div class="d-flex">
 		<div class="d-flex flex-column justify-content-around">
-      <div class="infobox">이름: {{this.userInfo.userName}}</div>
-      <div class="infobox">생년월일: {{this.userInfo.birth}}</div>
-      <div class="infobox">좋아요 갯수: {{this.userInfo.countLike}}</div>
-      <div class="infobox">포토폴리오1: {{this.userInfo.portfolio1}}</div>
+      <div class="infobox">이름: {{userInfo.userName}}</div>
+      <div class="infobox">생년월일: {{userInfo.birth}}</div>
+      <div class="infobox">좋아요 갯수: {{userInfo.countLike}}</div>
+      <div class="infobox">포토폴리오1: {{userInfo.portfolio1}}</div>
 		</div>
     <div class="d-flex flex-column justify-content-around">
-      <div class="infobox">이메일: {{this.userInfo.userEmail}}</div>
+      <div class="infobox">이메일: {{userInfo.userEmail}}</div>
       <div class="infobox">전공: {{majors}}</div>
-      <div class="infobox">내 영상 갯수: {{this.userInfo.countVideo}}</div>
-      <div class="infobox">포토폴리오2: {{this.userInfo.portfolio2}}</div>
+      <div class="infobox">내 영상 갯수: {{userInfo.countVideo}}</div>
+      <div class="infobox">포토폴리오2: {{userInfo.portfolio2}}</div>
 		</div>
 	</div>
 </template>
@@ -19,22 +19,8 @@
 export default {
   data() {
     return {
-      userInfo: {
-        userEmail: String,
-        userName: String,
-        userNickname: String,
-        userBirth: String,
-        userPhone: String,
-        major1: String,
-        major2: String,
-        companyLike: Number,
-        portfolio1: String,
-        portfolio2: String,
-      }
+
     }
-  },
-  created() {
-    this.userInfo=this.$store.state.mypage.data.userData
   },
   computed: {
     majors() {
@@ -47,6 +33,9 @@ export default {
       } else {
         return major1 + major2
       }
+    },
+    userInfo() {
+      return this.$store.state.mypage.userData
     }
   }
 }

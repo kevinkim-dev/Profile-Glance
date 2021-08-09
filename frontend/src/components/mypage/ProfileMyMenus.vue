@@ -12,6 +12,7 @@
             color="white"
             text
             @click="clickDeleteButton"
+            v-if="this.isUser"
         >
             회원 탈퇴
         </v-btn>
@@ -21,9 +22,14 @@
 
 <script>
 export default {
+    data() {
+        return {
+            isUser: localStorage.getItem('login_type') == 'user'
+        }
+    },
     methods: {
         clickDeleteButton() {
-            this.$store.dispatch('requestDeleteUser')
+            this.$store.dispatch('requestDeleteUser', localStorage.getItem('user_email'))
         }
     }
 }

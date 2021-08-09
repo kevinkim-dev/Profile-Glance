@@ -101,7 +101,6 @@ export default {
     },
     mounted() {
       $(document).ready(function() {
-    console.log("hi");
     $("#down-btn").on("click", function(event) {
       console.log("click down");
       var offset = $("#home-bottom").offset();

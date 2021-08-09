@@ -1,19 +1,19 @@
 <template>
   <div>
-    <h1 class="text-center">{{this.userName}}</h1>
+    <h1 class="text-center">{{this.profileId}}</h1>
     <div class="profile m-t-50  ">
       <div class="profile-left-box m-r-100">
         <ProfileImage :isMyProfile="isMyProfile" />
         <ProfileMenus v-if="isMenuNeed" />
-        <ProfileMyMenus v-if="isMyProfile && userType != 0" @clickEditButton="openEditModal" />
+        <ProfileMyMenus v-if="isMyProfile && userType != 'admin'" @clickEditButton="openEditModal" />
       </div>
       <div class="profile-right-box">
-        <ProfileInfoButtons v-if="isMyProfile && userType != 0" @clickInfo="clickInfo" @clickInterviews="clickInterviews" />
+        <ProfileInfoButtons v-if="isMyProfile && userType != 'admin'" @clickInfo="clickInfo" @clickInterviews="clickInterviews" />
         <ProfileInterviews v-if="showInterview" />
         <ProfileInfos v-else />
       </div>
     </div><hr class="m-t-50">
-    <FeaturedProductList v-if="userType==1" />
+    <FeaturedProductList v-if="profileType=='user'" />
     <v-dialog
       v-model="isEditOpen"
       max-width="650px"
@@ -38,10 +38,11 @@ export default {
   name: 'profile',
   data() {
     return {
-      isEditOpen: false,
-      userName: String,
+      profileId: String,
+      profileType: String,
       showInterview: false,
-      isCompanySignUpOpen: false
+      isEditOpen: false,
+      isCompanySignUpOpen: false,
     }
   },
   components: {
@@ -57,14 +58,14 @@ export default {
   },
   computed: {
     isMenuNeed: function() {
-      return this.$store.state.userType == 2 && this.$store.state.mypage.profileType == 1
+      return localStorage.getItem('login_type') == 'company' && this.profileType == 'user'
     },
     isMyProfile: function() {
-      return (this.$store.state.userType == this.$store.state.mypage.profileType) &&
-      (this.$store.state.userId == this.$store.state.mypage.profileId)
+      const myType = localStorage.getItem('login_type')
+      return (myType == this.profileType) && (localStorage.getItem('id') == this.profileId)
     },
     userType: function() {
-      return this.$store.state.userType
+      return localStorage.getItem('login_type')
     }
   },
   methods: {
@@ -81,8 +82,21 @@ export default {
       this.showInterview = true
     }
   },
-  created() {
-    this.userName = this.$store.state.mypage.data.userData.userNickname
+  mounted() {
+    const info = {
+      'profileType': this.$route.params.loginType,
+      'id': this.$route.params.id
+    }
+    if (info.profileType == 'user') {
+      this.profileType = 'user'
+      this.profileId = info.id
+    } else if (info.profileType == 'company') {
+      this.profileType = 'company'
+      this.profileId = info.id
+    } else if (info.profileType == 'admin') {
+      this.profileType = 'admin'
+      this.profileId = '관리자'      
+    }
   }
 }
 </script>

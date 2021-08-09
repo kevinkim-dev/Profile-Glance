@@ -38,6 +38,11 @@ export default {
       return localStorage.getItem('token')
     }
   },
+  methods: {
+    refreshAll() {
+      this.$router.go()
+    }
+  },
   mounted () {
     // if (localStorage.getItem('token')) {
     //   if (localStorage.getItem('login_type') == 'user') {

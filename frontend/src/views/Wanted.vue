@@ -8,20 +8,20 @@
                 New Arrivals Women Collection 2018
             </p>
         </section> -->
-        <div class="d-flex justify-end">
-            <v-btn text large class="m-3 primary-color text-white rounded-0" @click="$router.push({ name: 'wantedregist' })">채용 공고 등록</v-btn>
-        </div>
+        <CompanySearch />
         <CompanyList />
     </div>
 </template>
 <script>
 import { mapState } from 'vuex';
 import CompanyList from '@/components/wanted/CompanyList.vue'
+import CompanySearch from '@/components/wanted/CompanySearch.vue'
 
 export default {
     name: 'Wanted',
     components: {
         CompanyList,
+        CompanySearch,
     },
     computed: {
         ...mapState('product', {

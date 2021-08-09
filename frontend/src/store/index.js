@@ -29,12 +29,12 @@ export default new Vuex.Store({
   },
   plugins: [createPersistedState()],
   getters: {
-    fileURL: function () {
-      return DEVELOPMODE ? 'http://localhost:8080/': 'http://profileglance.site/'
+    fileURL: function() {
+      return DEVELOPMODE ? 'https://localhost:8080/' : 'https://profileglance.site/';
     },
-    DEVELOPMODE: function () {
-      return DEVELOPMODE
-    }
+    DEVELOPMODE: function() {
+      return DEVELOPMODE;
+    },
   },
   state: {
     data: {

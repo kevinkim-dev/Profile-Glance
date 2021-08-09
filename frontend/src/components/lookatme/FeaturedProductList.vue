@@ -174,6 +174,12 @@ export default {
           break;
       }
       this.category = text;
+      this.limit = 0;
+      this.list = [];
+      this.infiniteId += 1;
+      if (this.$refs.InfiniteLoading) {
+        this.$refs.InfiniteLoading.stateChanger.reset();
+      }
       return false;
     },
     getImg(file) {
@@ -189,8 +195,8 @@ export default {
       }
     },
     infiniteHandler($state) {
-      console.log(this.search);
-      if (this.search == '') {
+      if (this.search == '' && this.category == '') {
+        
         http
           .post('/lookatme/orderByView', {
             limit: this.limit,
@@ -207,7 +213,8 @@ export default {
             }, 1000);
           })
           .catch((error) => {});
-      } else {
+      } else if (this.search != '' && this.category == '') {
+        
         if (this.select.code === 'TITLE') {
           console.log(this.search + ',' + this.select.code);
           http
@@ -250,9 +257,33 @@ export default {
             .catch((error) => {});
         }
       }
+      else if (this.category != '') {
+        http
+          .post('/lookatme/searchByCategory', {
+            category: this.category,
+            limit: this.limit,
+          })
+          .then((response) => {
+            setTimeout(() => {
+              if (response.data.length) {
+                this.list = this.list.concat(response.data);
+                this.limit += 10;
+                $state.loaded();
+              } else {
+                $state.complete();
+              }
+            }, 1000);
+          })
+          .catch((error) => {});
+      this.test = '';
+      this.search = '';
+      this.category = '';
+      }
     },
     lookatmeDetail(lookatmeId) {
       console.log(lookatmeId);
+      let lookatme_id = lookatmeId + "";
+      this.$router.push({name: 'lookatmedetail', query: {lookatme_id: lookatme_id}})
     },
   },
   created() {

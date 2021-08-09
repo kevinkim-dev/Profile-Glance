@@ -1,10 +1,8 @@
 import axios from 'axios';
-import store from './store/index'
-let baseURL = ''
-if (store.getters.DEVELOPMODE)
-  baseURL = 'http://localhost:8888/';
-else
-  baseURL = 'http://52.79.113.173:8888/';
+import store from './store/index';
+let baseURL = '';
+if (store.getters.DEVELOPMODE) baseURL = 'https://localhost:8877/';
+else baseURL = 'https://profileglance.site:8877/';
 
 export default axios.create({
   baseURL: baseURL,

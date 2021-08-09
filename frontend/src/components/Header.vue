@@ -5,7 +5,7 @@
             <div class="wrap_header">
                 <!-- Logo -->
                 <a href="" class="logo">
-                    <img src="images/icons/pgpg.png" alt="IMG-LOGO">
+                    <img src="/images/icons/pgpg.png" alt="IMG-LOGO">
                 </a>
                 <!-- Menu -->
                 <div class="wrap_menu">

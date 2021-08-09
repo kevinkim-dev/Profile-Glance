@@ -21,7 +21,7 @@ export default {
     };
   },
   props: {
-    isMyProfile: true,
+    isMyProfile: Boolean,
   },
   computed: {
     ...mapGetters([
@@ -46,18 +46,18 @@ export default {
         .catch((err) => console.log(err));
     },
     getImg() {
-      const myType = localStorage.getItem('login_type')
-      if (myType == 'user') {
+      const profileType = this.$route.params.loginType
+      if (profileType == 'user') {
         return (
           this.fileURL + 'ServerFiles/UserImg/' +
           this.$store.state.mypage.userData.userImg
         );
-      } else if (myType == 'company') {
+      } else if (profileType == 'company') {
         return (
           this.fileURL + 'ServerFiles/CompanyLogo/' +
           this.$store.state.mypage.companyData.companyImg
         );
-      } else if (myType == 'admin') {
+      } else if (profileType == 'admin') {
         return (
           this.fileURL + 'images/mypage/admin.png'
         )

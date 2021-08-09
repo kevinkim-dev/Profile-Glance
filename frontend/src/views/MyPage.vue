@@ -5,7 +5,7 @@
       <div class="profile-left-box m-r-100">
         <ProfileImage :isMyProfile="isMyProfile" />
         <ProfileMenus v-if="isMenuNeed" />
-        <ProfileMyMenus v-if="isMyProfile && userType != 'admin'" @clickEditButton="openEditModal" />
+        <ProfileMyMenus v-if="isMyProfile && userType == 'user'" @clickEditButton="openEditModal" />
       </div>
       <div class="profile-right-box">
         <ProfileInfoButtons v-if="isMyProfile && userType != 'admin'" @clickInfo="clickInfo" @clickInterviews="clickInterviews" />

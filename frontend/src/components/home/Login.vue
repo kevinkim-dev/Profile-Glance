@@ -247,6 +247,12 @@ export default {
         }
       }
     },
+    companyLogin() {
+      this.loginType = 'company'
+    },
+    userLogin() {
+      this.loginType = 'user'
+    },
   }
 }
 </script>

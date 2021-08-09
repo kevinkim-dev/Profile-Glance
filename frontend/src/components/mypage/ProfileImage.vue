@@ -55,7 +55,7 @@ export default {
       } else if (myType == 'company') {
         return (
           this.fileURL + 'ServerFiles/CompanyLogo/' +
-          this.$store.state.mypage.companyData.companyLogo
+          this.$store.state.mypage.companyData.companyImg
         );
       } else if (myType == 'admin') {
         return (

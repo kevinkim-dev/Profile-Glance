@@ -130,7 +130,6 @@
 </template>
 
 <script>
-import Axios from 'axios';
 import Http from '@/http.js';
 export default {
   data() {
@@ -222,7 +221,7 @@ export default {
             this.companySignupForm.passwordConfirm = '';
             this.companySignupForm.companyEmail = '';
             this.companySignupForm.companyPhone = '';
-            this.$router.push('mypage');
+            this.$router.push('/mypage/admin/관리자');
           })
           .catch((err) => {
             alert('기업회원 추가가 실패했습니다.');
@@ -263,7 +262,7 @@ export default {
       this.companySignupForm.passwordConfirm = '';
       this.companySignupForm.companyEmail = '';
       this.companySignupForm.companyPhone = '';
-      this.$router.push('mypage');
+      this.$router.push('/mypage/admin/관리자');
     },
     changeImage(e) {
       const file = e.target.files[0];

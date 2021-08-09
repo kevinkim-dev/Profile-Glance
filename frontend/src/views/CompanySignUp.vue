@@ -212,7 +212,7 @@ export default {
 
         Axios.post('company/signup', formData, {
           // baseURL: "http://localhost:8888/",
-          baseURL: 'http://52.79.113.173:8888/',
+          baseURL: 'http://52.79.113.173:8877/',
           headers: { 'Content-Type': 'multipart/form-data' },
         })
           .then((res) => {

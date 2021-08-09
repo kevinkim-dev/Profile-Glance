@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService{
                 .major2(userPostReq.getMajor2())
                 .userPhone(userPostReq.getUserPhone())
                 .companyLike(0l)
-                .userImg("")
+                .userImg("noimage.png")
                 .birth(userPostReq.getBirth())
                 .build());
     }

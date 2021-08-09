@@ -210,9 +210,7 @@ export default {
         formData.append('companyPhone', this.companySignupForm.companyPhone);
         formData.append('companyImg', this.companySignupForm.companyImg);
 
-        Axios.post('company/signup', formData, {
-          // baseURL: "http://localhost:8888/",
-          baseURL: 'http://52.79.113.173:8888/',
+        Http.post('company/signup', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
           .then((res) => {

@@ -36,7 +36,7 @@ export default new Router({
       component: Wanted,
     },
     {
-      path: '/wanted-regist',
+      path: '/wanted/regist',
       name: 'wantedregist',
       component: WantedRegist,
     },

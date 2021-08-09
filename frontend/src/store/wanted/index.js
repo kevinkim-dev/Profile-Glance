@@ -29,6 +29,16 @@ export default {
       .catch((err) => {
         console.log(err)
       })
+    },
+    searchJob: function ({ commit }, searchFilter) {
+      const URL = 'recruit/searchByJobName/' + searchFilter
+      Http.get(URL)
+      .then((res) => {
+        commit('SETCOMPANIES', res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     }
 
   }

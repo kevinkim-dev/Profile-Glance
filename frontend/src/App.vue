@@ -38,6 +38,11 @@ export default {
       return localStorage.getItem('token')
     }
   },
+  methods: {
+    refreshAll() {
+      this.$router.go()
+    }
+  },
   mounted () {
     if (localStorage.getItem('token')) {
       console.log('get info')

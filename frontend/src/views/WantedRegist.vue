@@ -224,6 +224,9 @@ export default {
         this.dateCalendar = false;
       }
     },
+    refreshAll() {
+      this.$router.go()
+    },
   },
 };
 </script>

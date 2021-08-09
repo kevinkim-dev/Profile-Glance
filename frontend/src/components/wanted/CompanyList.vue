@@ -1,16 +1,11 @@
 <template>
-  <div class="row d-flex justify-content-center">
-    <!-- <template v-for="company in companies">
-      <div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
-        <Company :company="company" />
-      </div>
-    </template> -->
+  <v-row class="row d-flex justify-content-center">
     <Company
       v-for="(company, idx) in companies"
       :key="idx+'company'"
       :company="company"
       />
-  </div>
+  </v-row>
 </template>
 <script>
   import { mapState } from 'vuex'
@@ -22,15 +17,11 @@
       Company,
     },
     computed: {
-      // ...mapState('product', {
-      //   products: state => state.products
-      // })
       ...mapState('wanted', {
         companies: state => state.companies
       })
     },
     created() {
-      // this.$store.dispatch('product/setProducts')
       this.$store.dispatch('wanted/setCompanies')
     },
   }

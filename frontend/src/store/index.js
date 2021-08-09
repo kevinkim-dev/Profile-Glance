@@ -15,7 +15,7 @@ import Http from '../http.js';
 import VueRouter from 'vue-router';
 
 Vue.use(Vuex);
-const DEVELOPMODE = false
+const DEVELOPMODE = true
 export default new Vuex.Store({
   modules: {
     banner,

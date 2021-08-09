@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import LookAtMe from './views/LookAtMe.vue'
 import LookAtMeRegist from './views/LookAtMeRegist.vue'
+import LookAtMeDetail from './views/LookAtMeDetail.vue'
 import Wanted from './views/Wanted.vue'
 import Features from './views/Features'
 import MyPage from './views/MyPage.vue'
@@ -29,6 +30,11 @@ export default new Router({
       path: '/lookatme-regist',
       name: 'lookatmeregist',
       component: LookAtMeRegist
+    },
+    {
+      path: '/lookatme-detail',
+      name: 'lookatmedetail',
+      component: LookAtMeDetail
     },
     {
       path: '/wanted',

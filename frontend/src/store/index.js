@@ -15,7 +15,7 @@ import Http from '../http.js';
 import VueRouter from 'vue-router';
 
 Vue.use(Vuex);
-const DEVELOPMODE = false
+const DEVELOPMODE = true
 export default new Vuex.Store({
   modules: {
     banner,
@@ -88,26 +88,27 @@ export default new Vuex.Store({
     REQUEST_LOGOUT(state) {
       console.log('requestlogout');
       state.data = {
-        userData: {
-          userEmail: '',
-          userName: '',
-          userNickname: '',
-          userBirth: '',
-          major1: '',
-          major2: '',
-          countLike: 0,
-          countVideo: 0,
-          portfolio1: '',
-          portfolio2: '',
-          userImg: '',
-        },
-        companyData: {
-          companyId: '',
-          companyEmail: '',
-          companyName: '',
-          companyPhone: '',
-          companyImg: '',
-        },
+        userData: Object
+        // userData: {
+        //   userEmail: '',
+        //   userName: '',
+        //   userNickname: '',
+        //   userBirth: '',
+        //   major1: '',
+        //   major2: '',
+        //   countLike: 0,
+        //   countVideo: 0,
+        //   portfolio1: '',
+        //   portfolio2: '',
+        //   userImg: '',
+        // },
+        // companyData: {
+        //   companyId: '',
+        //   companyEmail: '',
+        //   companyName: '',
+        //   companyPhone: '',
+        //   companyImg: '',
+        // },
       };
       state.token = 1;
       state.userType = 1;

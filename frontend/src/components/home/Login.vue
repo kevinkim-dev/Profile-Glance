@@ -33,7 +33,7 @@
                 x-large
                 color="white"
                 text
-                @click="clickCompanyLogin"
+                @click="clickLogin"
               >
                 로그인
               </v-btn>
@@ -91,7 +91,7 @@
                 x-large
                 color="white"
                 text
-                @click="clickUserLogin"
+                @click="clickLogin"
               >
                 로그인
               </v-btn>
@@ -187,55 +187,64 @@ export default {
       this.user_password = ''
       return this.$emit('signup')
     },
-    clickUserLogin() {
-      if (!this.user_email) {
-        return alert('이메일을 입력해주세요.')
-      } else if (!this.user_password) {
-        return alert('비밀번호를 입력해주세요.')
-      } else {
-        const body = {
-          userEmail: this.user_email, 
-          userPassword: this.user_password
+    clickLogin() {
+      if (this.loginType == 'user') {
+        if (!this.user_email) {
+          return alert('이메일을 입력해주세요.')
+        } else if (!this.user_password) {
+          return alert('비밀번호를 입력해주세요.')
+        } else {
+          const body = {
+            userEmail: this.user_email, 
+            userPassword: this.user_password
+          }
+          Http.post('/user/login', body)
+          .then(res => {
+            localStorage.setItem('token', res.data)
+            localStorage.setItem('login_type', this.loginType)
+            localStorage.setItem('user_email', this.user_email)
+            Http.get('/user/myinfo/' + localStorage.getItem('user_email'))
+            .then(res => {
+              localStorage.setItem('id', res.data.userNickname)
+              if (res.data.admin) {
+                localStorage.setItem('login_type', 'admin')
+                localStorage.setItem('id', '관리자')
+              }  
+            })
+            .catch(err => {
+              alert(err)
+            })
+            this.$router.push('lookatme')
+            location.reload()
+          })
+          .catch(err => {
+            console.log('catch')
+            console.log(err)
+          })
         }
-        // this.$store.dispatch('requestLogin', body)
-        Http.post('/user/login', body)
-        .then(res => {
-          localStorage.setItem('token', res.data)
-          localStorage.setItem('login_type', this.loginType)
-          localStorage.setItem('id', this.user_email)
-          this.$router.push('lookatme')
-          location.reload()
-        })
-        .catch(err => {
-          console.log('catch')
-          console.log(err)
-        })
-      }
-    },
-    clickCompanyLogin() {
-      console.log(this.$store.state.DEVELOPMODE)
-      
-      if (!this.companyId) {
-        return alert('아이디를 입력해주세요.')
-      } else if (!this.companyPassword) {
-        return alert('비밀번호를 입력해주세요.')
-      } else {
-        const body = {
-          companyId: this.companyId, 
-          companyPassword: this.companyPassword
+      } else if (this.loginType == 'company') {
+        if (!this.companyId) {
+          return alert('아이디를 입력해주세요.')
+        } else if (!this.companyPassword) {
+          return alert('비밀번호를 입력해주세요.')
+        } else {
+          const body = {
+            companyId: this.companyId, 
+            companyPassword: this.companyPassword
+          }
+          Http.post('/company/login', body)
+          .then(res => {
+            localStorage.setItem('token', res.data)
+            localStorage.setItem('login_type', this.loginType)
+            localStorage.setItem('id', this.companyId)
+            this.$router.push('lookatme')
+            location.reload()
+          })
+          .catch(err => {
+            console.log('catch')
+            console.log(err)
+          })
         }
-        Http.post('/company/login', body)
-        .then(res => {
-          localStorage.setItem('token', res.data)
-          localStorage.setItem('login_type', this.loginType)
-          localStorage.setItem('id', this.companyId)
-          this.$router.push('lookatme')
-          location.reload()
-        })
-        .catch(err => {
-          console.log('catch')
-          console.log(err)
-        })
       }
     },
     companyLogin() {

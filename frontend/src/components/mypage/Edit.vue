@@ -9,16 +9,16 @@
       <v-container>
         <v-row>
           <v-col class="py-0 written" cols="12" md="6">
-            이름: {{ this.$store.state.data.userData.userName }}
+            이름: {{ this.$store.state.mypage.userData.userName }}
           </v-col>
           <v-col class="py-0 written" cols="12" md="6">
-            생년월일: {{ this.$store.state.data.userData.birth }}
+            생년월일: {{ this.$store.state.mypage.userData.birth }}
           </v-col>
           <v-col class="py-0 written" cols="12" md="6">
-            닉네임: {{ this.$store.state.data.userData.userNickname }}
+            닉네임: {{ this.$store.state.mypage.userData.userNickname }}
           </v-col>
           <v-col class="py-0 written" cols="12" md="6">
-            이메일: {{ this.$store.state.data.userData.userEmail }}
+            이메일: {{ this.$store.state.mypage.userData.userEmail }}
           </v-col>
           <v-col class="py-0" cols="12">
             <v-text-field
@@ -102,7 +102,7 @@ export default {
       majorRules: [(v) => v.length <= 16 || '최대 16자까지 입력 가능합니다'],
       portfolioRules: [(v) => v.length <= 100 || '최대 100자까지 입력 가능합니다'],
       editForm: {
-        userEmail: this.$store.state.data.userData.userEmail,
+        userEmail: this.$store.state.mypage.userData.userEmail,
         userPhone: '',
         major1: '',
         major2: '',
@@ -126,6 +126,7 @@ export default {
             this.editForm.portfolio1 = '';
             this.editForm.portfolio2 = '';
             this.$emit('closeEditModal');
+            location.reload()
           })
           .catch((err) => {
             alert('회원정보 수정에 실패했습니다.');

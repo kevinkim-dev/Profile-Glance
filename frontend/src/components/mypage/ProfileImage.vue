@@ -3,7 +3,7 @@
     <div class="profile-image-box">
       <img class="profile-image" :src="getImg()" alt="logo.png" />
     </div>
-    <div class="filebox imageEdit" v-if="isMyProfile">
+    <div class="filebox imageEdit" v-if="isMyProfile && (this.userType == 'user')">
       <label for="ex_file">사진 편집</label>
       <input type="file" id="ex_file" @change="changeImage" ref="img" accept="img/*" multiple />
     </div>
@@ -17,18 +17,13 @@ import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
+      userType: localStorage.getItem('login_type')
     };
   },
   props: {
-    isMyProfile: true,
+    isMyProfile: Boolean,
   },
   computed: {
-    isMe: function() {
-      return (
-        this.$store.state.userType == this.$store.state.mypage.profileType &&
-        this.$store.state.userId == this.$store.state.mypage.profileId
-      );
-    },
     ...mapGetters([
         'fileURL',
       ])
@@ -36,7 +31,7 @@ export default {
   methods: {
     changeImage: function(e) {
       const file = e.target.files[0];
-      const userEmail = this.$store.state.mypage.data.userData.userEmail;
+      const userEmail = this.$store.state.mypage.userData.userEmail;
       const formData = new FormData();
       formData.append('userImg', file);
       formData.append('userEmail', userEmail);
@@ -51,13 +46,22 @@ export default {
         .catch((err) => console.log(err));
     },
     getImg() {
-      // console.log(file);
-      // return require('@/../public/ServerFiles/Thumbnail/' + file);
-      console.log('이거에요' + this.$store.state.mypage.data.userData.userImg);
-      return (
-        this.fileURL + 'ServerFiles/UserImg/' +
-        this.$store.state.mypage.data.userData.userImg
-      );
+      const profileType = this.$route.params.loginType
+      if (profileType == 'user') {
+        return (
+          this.fileURL + 'ServerFiles/UserImg/' +
+          this.$store.state.mypage.userData.userImg
+        );
+      } else if (profileType == 'company') {
+        return (
+          this.fileURL + 'ServerFiles/CompanyLogo/' +
+          this.$store.state.mypage.companyData.companyImg
+        );
+      } else if (profileType == 'admin') {
+        return (
+          this.fileURL + 'images/mypage/admin.png'
+        )
+      }
     },
   },
 };

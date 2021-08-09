@@ -25,32 +25,31 @@
       </v-dialog>
     </v-row>
     <v-container class="home-container home-top-box">
-      <v-row justify="center" id="logo" align="end">
-          <v-img
-            contain
-            max-height="20vh"
-            max-width="100vw"
-            src="images/icons/pgpg.png"
-          ></v-img>
-      </v-row>
-      <v-row justify="center" id="title">
-          <v-img
-            contain
-            height="20vh"
-            width="100vw"
-            src="images/icons/pg.png"
-          ></v-img>
-      </v-row>
-      <v-row justify="center" class="desc-btn" align="start">
-        <button type="button" id="down-btn">
-          <v-img
-              contain
-              max-height="20vh"
-              max-width="100vw"
-              src="images/icons/down.png"
+      <div >
+        <v-row justify="center" id="logo">
+            <v-img
+              max-height="150"
+              max-width="250"
+              src="images/icons/pgpg.png"
             ></v-img>
-        </button>
-      </v-row>
+        </v-row>
+        <v-row justify="center" id="title">
+            <v-img
+              height="140"
+              width="200"
+              src="images/icons/pg.png"
+            ></v-img>
+        </v-row>
+        <v-row justify="center" class="desc-btn">
+          <button type="button" id="down-btn">
+            <v-img
+                max-height="150"
+                max-width="250"
+                src="images/icons/down.png"
+              ></v-img>
+          </button>
+        </v-row>
+      </div>
     </v-container>
     <v-container class="home-container home-bottom-box">
       <div id="home-bottom"></div>
@@ -58,9 +57,8 @@
         <v-row justify="center" class="desc-btn" id="up-btn">
           <button type="button">
             <v-img
-                contain
-                max-height="20vh"
-                max-width="100vw"
+                max-height="150"
+                max-width="250"
                 src="images/icons/down.png"
                 style="transform:rotate(180deg)"
               ></v-img>
@@ -101,6 +99,7 @@ export default {
     },
     mounted() {
       $(document).ready(function() {
+    console.log("hi");
     $("#down-btn").on("click", function(event) {
       console.log("click down");
       var offset = $("#home-bottom").offset();
@@ -151,11 +150,11 @@ export default {
   padding: 20px;
 }
 #title {
-  padding: 40px;
-}
-/* #desc-btn {
   padding: 20px;
-} */
+}
+#desc-btn {
+  padding: 20px;
+}
 
 .home-container {
   position: relative;
@@ -165,7 +164,7 @@ export default {
 .home-top-box {
   display: flex;
   flex-direction: column;
-  /* justify-content: start; */
+  justify-content: center;
 }
 .home-bottom-box {
   display: flex;

@@ -1,10 +1,10 @@
 <template>
   <div class="profile-infobox">
-    <AdminInfo v-if="profileType==0" 
+    <AdminInfo v-if="profileType=='admin'" 
       @clickCompanySignUp="$emit('clickCompanySignUp')"
     />
-    <UserInfo v-else-if="profileType==1" />
-    <CompanyInfo v-else-if="profileType==2" />
+    <UserInfo v-else-if="profileType=='user'" />
+    <CompanyInfo v-else-if="profileType=='company'" />
   </div>
 </template>
 

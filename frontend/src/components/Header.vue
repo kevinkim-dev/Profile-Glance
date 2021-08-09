@@ -27,9 +27,6 @@
                         <a @click="clickLogout">로그아웃</a>              
                         <span class="linedivide1"></span>
                         <a @click="clickMypage">마이페이지</a>              
-                        <!-- <router-link :to="{name: 'mypage'}" tag="li" active-class="sale-not" exact>
-                            <a>마이페이지</a> 
-                        </router-link> -->
                     </ul>
                 </div>
             </div>
@@ -37,33 +34,34 @@
     </header>
 </template>
 <script>
-    import { mapState, mapGetters } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
-    export default {
-        computed: {
-            ...mapState('cart', {
-                cartItems: state => state.items
-            }),
-            ...mapGetters('cart', {
-                totalCartPrice: 'totalPrice',
-                totalCartQty: 'totalQty'
-            })
-        },
-        methods: {
-            clickLogout() {
-                localStorage.removeItem('token')
-                localStorage.removeItem('login_type')
-                localStorage.removeItem('id')
-                this.$router.push('/')
-                this.$store.dispatch('requestLogout')
-                location.reload()
-            },
-            clickMypage() {
-                this.$store.dispatch('mypage/showMypage', this.$store.state)
-                this.$router.push('/mypage')
-            }
-        }
-    }
+export default {
+	computed: {
+		...mapState('cart', {
+			cartItems: state => state.items
+		}),
+		...mapGetters('cart', {
+			totalCartPrice: 'totalPrice',
+			totalCartQty: 'totalQty'
+		})
+	},
+	methods: {
+		clickLogout() {
+			this.$store.dispatch('requestLogout')
+			this.$router.push('/')
+			location.reload()
+		},
+		clickMypage() {
+			const info = {
+				'profileType': localStorage.getItem('login_type'),
+				'id': localStorage.getItem('id')
+			}
+			this.$store.dispatch('mypage/getUserData', info)
+			this.$router.push('/mypage/' + info.profileType + '/' + info.id)
+		}
+	}
+}
 </script>
 <style>
 li.router-link-exact-active > a {

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import store from './store/index';
 let baseURL = '';
-if (store.getters.DEVELOPMODE) baseURL = 'http://localhost:8877/';
+if (store.getters.DEVELOPMODE) baseURL = 'https://localhost:8877/';
 else baseURL = 'https://profileglance.site:8877/';
 
 export default axios.create({

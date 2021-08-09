@@ -1,5 +1,5 @@
 <template>
-    <footer class="bg7 p-t-15 p-b-10 p-l-45 p-r-45">
+    <footer>
         <div class="t-center s-text6">
             Copyright © 2021 All rights reserved. | This page is made with A402 GullungTeam
         </div>
@@ -13,3 +13,14 @@ export default {
     name: 'Footer',
 }
 </script>
+<style>
+footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 15px 0;
+  background: #ECECEC;
+  text: #7D7D7D;
+}
+</style>

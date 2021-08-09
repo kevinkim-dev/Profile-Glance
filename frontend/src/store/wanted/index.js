@@ -6,7 +6,6 @@ export default {
   },
   mutations: {
     SETCOMPANIES: function (state, data) {
-      console.log(data)
       state.companies = data
     }
 
@@ -14,6 +13,16 @@ export default {
   actions: {
     setCompanies: function ({ commit }) {
       Http.get('/recruit/searchAll')
+      .then((res) => {
+        commit('SETCOMPANIES', res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+    searchCompany: function ({ commit }, searchWord) {
+      const URL = 'recruit/searchByCompanyName/' + searchWord
+      Http.get(URL)
       .then((res) => {
         commit('SETCOMPANIES', res.data)
       })

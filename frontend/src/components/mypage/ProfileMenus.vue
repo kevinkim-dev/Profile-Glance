@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import http from '@/http.js';
+
 export default {
     data() {
         return {
@@ -38,12 +40,41 @@ export default {
         clickLike: function() {
             //Axios통신(백앤드 구현 후 구현)
             //좋아요 누른 유저 테이블에 있으면 제거 없으면 추가
-            this.liked = !this.liked
+            const body = {
+                'companyId': localStorage.getItem('id'),
+                'userNickname': this.$route.params.id
+            }
+            http.post('/company/likecheckclick', body)
+            .then(res => {
+                console.log(res)
+                this.liked = !this.liked
+            })
+            .catch(err => {
+                console.log(err)
+            })
         }
     },
-    created: {
+    mounted() {
         //Axios통신(백앤드 구현 후 구현)
         //해당 기업이 좋아요 누른 유저 목록을 받아오는 통신
+        // const isLiked = (user) => user.userNickname == this.$route.params.id
+        // this.liked = this.$store.state.likeUserList.some(isLiked)
+        // console.log(this.liked)
+        const body = {
+            'companyId': localStorage.getItem('id'),
+            'userNickname': this.$route.params.id
+        }
+        http.post('/company/likecheck', body)
+        .then(res => {
+            if (res.status == 201) {
+                this.liked = false
+            } else if (res.status == 202) {
+                this.liked = true
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        })
     }
 
 }

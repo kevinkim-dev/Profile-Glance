@@ -167,7 +167,8 @@ export default {
       pptTime: '',
       registRecruitForm: {
         career: '',
-        companyId: this.$store.state.data.companyData.companyId,
+        companyId: localStorage.getItem('id'),
+        // companyId: this.$store.state.data.companyData.companyId,
         descriptionURL: '',
         job: '',
         jobDetail: '',

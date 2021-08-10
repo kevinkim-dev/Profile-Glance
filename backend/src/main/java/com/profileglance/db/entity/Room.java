@@ -33,5 +33,8 @@ public class Room {
 //    private String companyId;
 
     @Column(name = "room_category")
-    private Long roomCategory;
+    private String roomCategory;
+
+    @Column(name = "host")
+    private String host;
 }

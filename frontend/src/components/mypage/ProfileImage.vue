@@ -53,6 +53,8 @@ export default {
           this.$store.state.mypage.userData.userImg
         );
       } else if (profileType == 'company') {
+        console.log(this.fileURL + 'ServerFiles/CompanyLogo/' +
+          this.$store.state.mypage.companyData.companyImg)
         return (
           this.fileURL + 'ServerFiles/CompanyLogo/' +
           this.$store.state.mypage.companyData.companyImg
@@ -82,17 +84,18 @@ export default {
   overflow: hidden;
 }
 
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .imageEdit {
   position: relative;
   top: -20px;
   left: 270px;
 }
 
-.profile-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
 
 .filebox label {
   display: inline-block;

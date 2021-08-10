@@ -20,6 +20,7 @@
         <v-btn class="green-button"
             color="white"
             text
+            @click="$emit('openInterviewModal')"
         >
             면접 신청
         </v-btn>

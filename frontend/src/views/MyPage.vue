@@ -4,7 +4,7 @@
     <div class="profile m-t-50  ">
       <div class="profile-left-box m-r-100">
         <ProfileImage :isMyProfile="isMyProfile" />
-        <ProfileMenus v-if="isMenuNeed" />
+        <ProfileMenus v-if="isMenuNeed" @openInterviewModal="openInterviewModal" />
         <ProfileMyMenus v-if="isMyProfile && userType == 'user'" @clickEditButton="openEditModal" />
       </div>
       <div class="profile-right-box">
@@ -17,7 +17,12 @@
     <v-dialog
       v-model="isEditOpen"
       max-width="650px"
-    > <Edit @closeEditModal="closeEditModal" />
+    > <EditModal @closeEditModal="closeEditModal" class="mypageModal" />
+    </v-dialog>
+    <v-dialog
+      v-model="isInterviewModalOpen"
+      max-width="650px"
+    > <InterviewModal @closeInterviewModal="closeInterviewModal" class="mypageModal" />
     </v-dialog>
   </div>
 </template>
@@ -31,7 +36,8 @@ import ProfileMenus from '@/components/mypage/ProfileMenus.vue';
 import ProfileMyMenus from '@/components/mypage/ProfileMyMenus.vue';
 import ProfileVideos from '@/components/mypage/ProfileVideos.vue';
 import ProfileLookatme from '@/components/mypage/ProfileLookatme.vue';
-import Edit from '@/components/mypage/Edit.vue'
+import EditModal from '@/components/mypage/EditModal.vue'
+import InterviewModal from '@/components/mypage/InterviewModal.vue'
 
 
 export default {
@@ -41,6 +47,7 @@ export default {
       showInterview: false,
       isEditOpen: false,
       isCompanySignUpOpen: false,
+      isInterviewModalOpen: false,
     }
   },
   components: {
@@ -52,7 +59,8 @@ export default {
     ProfileMyMenus,
     ProfileVideos,
     ProfileLookatme,
-    Edit,
+    EditModal,
+    InterviewModal
   },
   computed: {
     isMenuNeed: function() {
@@ -78,6 +86,12 @@ export default {
     },
     closeEditModal: function() {
       this.isEditOpen = false
+    },
+    openInterviewModal: function() {
+      this.isInterviewModalOpen = true
+    },
+    closeInterviewModal: function() {
+      this.isInterviewModalOpen = false
     },
     clickInfo: function() {
       this.showInterview = false
@@ -127,4 +141,7 @@ export default {
   height: 400px;
 }
 
+.mypageModal {
+  z-index: 1100;
+}
 </style>

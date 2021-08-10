@@ -28,4 +28,8 @@ public class CompanyLikeListGetRes {
         this.userNickname = userNickname;
         this.companyId = companyId;
     }
+
+    public CompanyLikeListGetRes(String userNickname) {
+        this.userNickname = userNickname;
+    }
 }

@@ -36,8 +36,8 @@ public class Room {
     @Column(name = "room_category")
     private Long roomCategory;
 
-    @Column(name = "room_url")
-    private String roomUrl;
+    @Column(name = "session_id")
+    private String sessionId;
 
     @Column(name = "is_active", columnDefinition = "boolean default false")
     private boolean isActive;

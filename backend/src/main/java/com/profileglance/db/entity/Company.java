@@ -33,6 +33,9 @@ public class Company {
     @Column(name = "company_img")
     private String companyImg;
 
+    @Column(name = "company_dept")
+    private String companyDept;
+
     @OneToMany(mappedBy = "company")
     private List<UserLike> userLikes = new ArrayList<>();
 

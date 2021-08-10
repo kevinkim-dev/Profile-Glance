@@ -13,7 +13,7 @@
         <ProfileInfos v-else />
       </div>
     </div><hr class="m-t-50">
-    <FeaturedProductList v-if="profileType=='user'" />
+    <ProfileLookatme v-if="profileType=='user'" />
     <v-dialog
       v-model="isEditOpen"
       max-width="650px"
@@ -30,7 +30,7 @@ import ProfileInterviews from '@/components/mypage/ProfileInterviews.vue';
 import ProfileMenus from '@/components/mypage/ProfileMenus.vue';
 import ProfileMyMenus from '@/components/mypage/ProfileMyMenus.vue';
 import ProfileVideos from '@/components/mypage/ProfileVideos.vue';
-import FeaturedProductList from '@/components/lookatme/FeaturedProductList.vue';
+import ProfileLookatme from '@/components/mypage/ProfileLookatme.vue';
 import Edit from '@/components/mypage/Edit.vue'
 
 
@@ -51,7 +51,7 @@ export default {
     ProfileMenus,
     ProfileMyMenus,
     ProfileVideos,
-    FeaturedProductList,
+    ProfileLookatme,
     Edit,
   },
   computed: {

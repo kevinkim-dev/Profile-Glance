@@ -1,5 +1,6 @@
 package com.profileglance.api.controller;
 
+import com.profileglance.api.request.CompanyLikePostReq;
 import com.profileglance.api.request.CompanyLoginPostReq;
 import com.profileglance.api.request.CompanyPostReq;
 import com.profileglance.api.response.CompanyLikeListGetRes;
@@ -9,8 +10,8 @@ import com.profileglance.common.response.BaseResponseBody;
 import com.profileglance.config.JwtTokenProvider;
 import com.profileglance.db.entity.Company;
 import com.profileglance.db.entity.User;
-import com.profileglance.db.entity.UserLike;
 import com.profileglance.db.repository.CompanyRepository;
+import com.profileglance.db.repository.UserRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,7 @@ public class CompanyController {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final CompanyRepository companyRepository;
-
+    private final UserRepository userRepository;
     @Autowired
     CompanyService companyService;
 
@@ -72,16 +73,18 @@ public class CompanyController {
 
     // 좋아요 누른 유저 리스트
     @GetMapping("/userlike/{companyId}")
-    @ApiOperation(value = "좋아요 누른 유저 리스트", notes = "userName, userEmail, userNickname, companyId 반환")
+    @ApiOperation(value = "좋아요 누른 유저 리스트", notes = "userNickname 들을 리스트로 반환")
     public ResponseEntity<List<CompanyLikeListGetRes>> userLike(@PathVariable("companyId") String companyId){
        List<CompanyLikeListGetRes> companyLikeListGetResList = companyService.userLikeListByCompany(companyId);
         return new ResponseEntity<List<CompanyLikeListGetRes>>(companyLikeListGetResList, HttpStatus.OK);
     }
 
     // 단순히 좋아요를 눌렀는지를 판단.
-    @GetMapping("/likecheck")
+    @PostMapping("/likecheck")
     @ApiOperation(value = "좋아요를 눌렀는지 안눌렀는지 판단해서 statusCode 반환", notes = "좋아요가 눌러져있는거면 202, 좋아요를 누르지 않은 상태이면 201")
-    public ResponseEntity<? extends BaseResponseBody> likeCheck(@RequestParam String userEmail, @RequestParam String companyId){
+    public ResponseEntity<? extends BaseResponseBody> likeCheck(@RequestBody CompanyLikePostReq companyLikePostReq){
+        String userEmail = userRepository.findByUserNickname(companyLikePostReq.getUserNickname()).get().getUserEmail();
+        String companyId = companyLikePostReq.getCompanyId();
         if (companyService.isHitLike(userEmail, companyId)){
             return ResponseEntity.status(202).body(BaseResponseBody.of(202, "좋아요가 눌러져 있습니다."));
         }else{
@@ -90,9 +93,11 @@ public class CompanyController {
     }
 
     // 좋아요를 눌렀는지 안눌렀는지 판단해서 userlike 테이블에 추가/삭제를 함
-    @GetMapping("/likecheckclick")
+    @PostMapping("/likecheckclick")
     @ApiOperation(value = "좋아요를 눌렀는지 안눌렀는지 판단하고 userlike 테이블 추가 삭제함", notes = "좋아요를 취소했으면 202, 좋아요를 누른거면 201")
-    public ResponseEntity<? extends BaseResponseBody> likeCheckAndClick(@RequestParam String userEmail, @RequestParam String companyId){
+    public ResponseEntity<? extends BaseResponseBody> likeCheckAndClick(@RequestBody CompanyLikePostReq companyLikePostReq){
+        String userEmail = userRepository.findByUserNickname(companyLikePostReq.getUserNickname()).get().getUserEmail();
+        String companyId = companyLikePostReq.getCompanyId();
         if (companyService.isHitLike(userEmail, companyId)){
             // userlike 테이블에 있음
             // userlike 테이블에서 삭제해야함

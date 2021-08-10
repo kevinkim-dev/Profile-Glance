@@ -4,7 +4,9 @@ import com.profileglance.api.request.RecruitPostReq;
 import com.profileglance.api.response.LookatmePostRes;
 import com.profileglance.api.response.RecruitPostRes;
 import com.profileglance.api.service.RecruitService;
+import com.profileglance.api.service.RoomService;
 import com.profileglance.common.response.BaseResponseBody;
+import com.profileglance.db.entity.Room;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,9 @@ public class RecruitController {
 
     @Autowired
     RecruitService recruitService;
+
+    @Autowired
+    RoomService roomService;
 
     // 채용 등록
     @PostMapping("/upload")
@@ -65,6 +70,18 @@ public class RecruitController {
     public ResponseEntity<? extends BaseResponseBody> delete(@PathVariable("recruitId") Long recruitId) {
 
         recruitService.deleteRecruit(recruitId);
+
+        return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
+    }
+
+    // 채용 방 생성
+    @PostMapping("/createRoom")
+    @ApiOperation(value = "채용 방 생성", notes = "<strong>채용 방을 생성한다.</strong>")
+    public ResponseEntity<? extends BaseResponseBody> createRoom(@RequestBody String companyId) {
+
+        Room room = roomService.createRoom(companyId, "re");
+
+        recruitService.updateRecruit(room, companyId);
 
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
     }

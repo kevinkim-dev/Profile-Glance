@@ -18,4 +18,6 @@ public interface RecruitRepository extends JpaRepository<Recruit, Long> {
 
     @Transactional
     void deleteByRecruitId(Long recruitId);
+
+    Optional<Recruit> findByCompany_CompanyId(String companyId);
 }

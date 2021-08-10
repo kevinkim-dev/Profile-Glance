@@ -46,9 +46,6 @@ public class Company {
     private Interview interview;
 
     @OneToMany(mappedBy = "company")
-    private List<Room> rooms = new ArrayList<>();
-
-    @OneToMany(mappedBy = "company")
     private List<Recruit> recruits = new ArrayList<>();
 
 }

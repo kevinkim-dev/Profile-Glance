@@ -188,7 +188,7 @@ public class UserServiceImpl implements UserService{
                     ,i.getCompany().getCompanyId()
                     ,i.getInterviewDate()
                     ,i.getInterviewTime()
-                    ,i.getRoom().getRoomUrl()
+                    ,i.getRoom().getSessionId()
             ));
         }
         return interviewListGetRes;

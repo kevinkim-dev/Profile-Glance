@@ -15,7 +15,8 @@ import router from '../router';
 
 Vue.use(Vuex);
 // 개발모드면 true 배포모드면 false
-const DEVELOPMODE = true
+const DEVELOPMODE = true;
+// const DEVELOPMODE = false
 export default new Vuex.Store({
   modules: {
     banner,
@@ -37,19 +38,17 @@ export default new Vuex.Store({
     },
   },
   state: {
-    data: {
-      
-    },
+    data: {},
   },
   mutations: {
     REQUEST_LOGOUT(state) {
-      localStorage.removeItem('token')
-      localStorage.removeItem('login_type')
-      localStorage.removeItem('user_email')
-      localStorage.removeItem('id')
-      localStorage.removeItem('vuex')
-      router.push('/')
-      location.reload()
+      localStorage.removeItem('token');
+      localStorage.removeItem('login_type');
+      localStorage.removeItem('user_email');
+      localStorage.removeItem('id');
+      localStorage.removeItem('vuex');
+      router.push('/');
+      location.reload();
     },
   },
   actions: {

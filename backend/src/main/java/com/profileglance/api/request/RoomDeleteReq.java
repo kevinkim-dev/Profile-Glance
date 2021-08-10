@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("RoomReq")
+@ApiModel("RoomDeleteReq")
 public class RoomDeleteReq {
 
     @ApiModelProperty(name="세션 아이디")

@@ -1,6 +1,7 @@
 package com.profileglance.api.service;
 
 import com.profileglance.api.request.RoomDeleteReq;
+import com.profileglance.db.entity.Company;
 import com.profileglance.db.entity.Recruit;
 import com.profileglance.db.entity.Room;
 import com.profileglance.db.repository.CompanyRepository;
@@ -28,25 +29,25 @@ public class RoomServiceImpl implements RoomService {
     RecruitRepository recruitRepository;
 
     @Override
-    public Boolean deleteRoom(RoomDeleteReq roomReq) {
+    public Boolean deleteRoom(RoomDeleteReq roomDeleteReq) {
 
-        roomRepository.deleteBySessionIdAndHost(roomReq.getSessionId(), roomReq.getCompanyId());
-
-        return true;
-    }
-
-    @Override
-    public Boolean deleteInterview(RoomDeleteReq roomReq) {
-
-        interviewRepository.deleteByRoom_SessionId(roomReq.getSessionId());
+        roomRepository.deleteBySessionIdAndHost(roomDeleteReq.getSessionId(), roomDeleteReq.getCompanyId());
 
         return true;
     }
 
     @Override
-    public Boolean deleteRecruitSessionId(RoomDeleteReq roomReq) {
+    public Boolean deleteInterview(RoomDeleteReq roomDeleteReq) {
 
-        Recruit recruit = recruitRepository.findByCompany_CompanyId(roomReq.getCompanyId()).get();
+        interviewRepository.deleteByRoom_SessionId(roomDeleteReq.getSessionId());
+
+        return true;
+    }
+
+    @Override
+    public Boolean deleteRecruitSessionId(RoomDeleteReq roomDeleteReq) {
+
+        Recruit recruit = recruitRepository.findByCompany_CompanyId(roomDeleteReq.getCompanyId()).get();
 
         recruit.setRoom(null);
 
@@ -57,13 +58,28 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public String findRoomCategory(String sessionId) {
-
         Optional<Room> room = roomRepository.findBySessionId(sessionId);
         if(room.isPresent()) {
             return room.get().getRoomCategory();
         } else {
             return null;
         }
+    }
 
+    @Override
+    public Room createRoom(String companyId, String room_category) {
+        Company company = companyRepository.findByCompanyId(companyId).get();
+
+        Optional<Room> room = roomRepository.findBySessionId(company.getSessionId());
+        if (room.isPresent()) {
+            return room.get();
+        } else {
+            Room newroom = roomRepository.save(Room.builder()
+                    .sessionId(company.getSessionId())
+                    .host(companyId)
+                    .roomCategory(room_category)
+                    .build());
+            return newroom;
+        }
     }
 }

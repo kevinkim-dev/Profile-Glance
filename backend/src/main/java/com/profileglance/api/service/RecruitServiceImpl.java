@@ -2,12 +2,8 @@ package com.profileglance.api.service;
 
 import com.profileglance.api.request.RecruitPostReq;
 import com.profileglance.api.response.RecruitPostRes;
-import com.profileglance.db.entity.Company;
-import com.profileglance.db.entity.Job;
-import com.profileglance.db.entity.Recruit;
-import com.profileglance.db.repository.CompanyRepository;
-import com.profileglance.db.repository.JobRepository;
-import com.profileglance.db.repository.RecruitRepository;
+import com.profileglance.db.entity.*;
+import com.profileglance.db.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +21,9 @@ public class RecruitServiceImpl implements RecruitService{
 
     @Autowired
     JobRepository jobRepository;
+
+    @Autowired
+    RoomRepository roomRepository;
 
     @Override
     public Boolean uploadRecruit(RecruitPostReq recruitPostReq) {
@@ -137,5 +136,18 @@ public class RecruitServiceImpl implements RecruitService{
 
         return true;
     }
+
+    @Override
+    public Boolean updateRecruit(Room room, String companyId) {
+
+        Recruit recruit = recruitRepository.findByCompany_CompanyId(companyId).get();
+
+        recruit.setRoom(room);
+
+        recruitRepository.save(recruit);
+
+        return true;
+    }
+
 
 }

@@ -32,7 +32,7 @@ public class RoomController {
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
     }
 
-    // 면접 삭제
+    // 채용 session id 삭제
     @DeleteMapping("/deleteRecruitSessionId")
     @ApiOperation(value = "채용 session id 삭제", notes = "<strong>sessionId와 companyId</strong>를 통해 면접을 삭제한다.")
     public ResponseEntity<? extends BaseResponseBody> deleteRecruitSessionId(@RequestBody RoomDeleteReq roomReq) {
@@ -41,5 +41,14 @@ public class RoomController {
         roomService.deleteRoom(roomReq);
 
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
+    }
+
+    // session_id로 room_category 검색
+    @GetMapping("/findRoomCategory/{sessionId}")
+    @ApiOperation(value = "채용 session id 삭제", notes = "<strong>sessionId와 companyId</strong>를 통해 면접을 삭제한다.")
+    public String findRoomCategory(@PathVariable String sessionId) {
+
+        return roomService.findRoomCategory(sessionId);
+
     }
 }

@@ -2,12 +2,15 @@ package com.profileglance.api.service;
 
 import com.profileglance.api.request.RoomDeleteReq;
 import com.profileglance.db.entity.Recruit;
+import com.profileglance.db.entity.Room;
 import com.profileglance.db.repository.CompanyRepository;
 import com.profileglance.db.repository.InterviewRepository;
 import com.profileglance.db.repository.RecruitRepository;
 import com.profileglance.db.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class RoomServiceImpl implements RoomService {
@@ -54,6 +57,13 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public String findRoomCategory(String sessionId) {
-        return null;
+
+        Optional<Room> room = roomRepository.findBySessionId(sessionId);
+        if(room.isPresent()) {
+            return room.get().getRoomCategory();
+        } else {
+            return null;
+        }
+
     }
 }

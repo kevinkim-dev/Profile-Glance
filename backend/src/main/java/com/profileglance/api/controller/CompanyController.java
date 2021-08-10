@@ -3,6 +3,7 @@ package com.profileglance.api.controller;
 import com.profileglance.api.request.CompanyLikePostReq;
 import com.profileglance.api.request.CompanyLoginPostReq;
 import com.profileglance.api.request.CompanyPostReq;
+import com.profileglance.api.response.CompanyInterviewGetRes;
 import com.profileglance.api.response.CompanyLikeListGetRes;
 import com.profileglance.api.response.CompanyMypageGetRes;
 import com.profileglance.api.service.CompanyService;
@@ -118,4 +119,10 @@ public class CompanyController {
         return new ResponseEntity<CompanyMypageGetRes>(companyMypageGetRes, HttpStatus.OK);
     }
 
+    @GetMapping("/companyinterviewinfo/{companyId}")
+    @ApiOperation(value = "기업아이디로 인터뷰 테이블 정보 가져오기", notes = "유저닉네임, 인터뷰날짜, 인터뷰시간, 세션명 반환")
+    public ResponseEntity<List<CompanyInterviewGetRes>> companyInterviewInfoByCompanyId(@PathVariable("companyId") String companyId){
+        List<CompanyInterviewGetRes> companyInterviewGetResList = companyService.interviewList(companyId);
+        return new ResponseEntity<List<CompanyInterviewGetRes>>(companyInterviewGetResList, HttpStatus.OK);
+    }
 }

@@ -179,9 +179,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<InterviewListGetRes> myInterviewList(String userEmail){
+    public List<InterviewListGetRes> myInterviewList(String userNickname){
         List<InterviewListGetRes> interviewListGetRes = new ArrayList<>();
-        List<Interview> interviewList = interviewRepository.findAllByUser_UserEmail(userEmail);
+        List<Interview> interviewList = interviewRepository.findAllByUser_UserNickname(userNickname);
         for(Interview i : interviewList){
             interviewListGetRes.add(new InterviewListGetRes(
                     i.getUser().getUserName()

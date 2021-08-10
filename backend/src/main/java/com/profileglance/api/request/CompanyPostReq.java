@@ -31,4 +31,6 @@ public class CompanyPostReq {
     @ApiModelProperty(name="회사 로고")
     MultipartFile companyImg;
 
+    @ApiModelProperty(name = "회사 부서")
+    String companyDept;
 }

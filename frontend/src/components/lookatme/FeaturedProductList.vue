@@ -93,7 +93,7 @@
             :cols="3"
             v-for="video in list"
             :key="video.lookatmeId"
-            @click="lookatmeDetail(video.lookatmeId)"
+            @click="lookatmeDetail(video.lookatmeId, video.thumbnail, video.video)"
           >
             <v-card :loading="false" class="mx-2 my-12" max-width="374" height="400px">
               <template slot="progress">
@@ -280,10 +280,10 @@ export default {
       this.category = '';
       }
     },
-    lookatmeDetail(lookatmeId) {
-      console.log(lookatmeId);
+    lookatmeDetail(lookatmeId, thumbnail, video) {
       let lookatme_id = lookatmeId + "";
-      this.$router.push({name: 'lookatmedetail', query: {lookatme_id: lookatme_id}})
+      console.log(video);
+      this.$router.push({name: 'lookatmedetail', query: {lookatme_id: lookatme_id, thumbnail: thumbnail, video: video}});
     },
   },
   created() {

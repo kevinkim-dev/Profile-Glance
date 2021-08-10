@@ -2,7 +2,26 @@
     <v-container v-if="lookatme">
         <v-row>
             <v-col cols='8'>
-                영상
+                <div class="item">
+                    <div class="player">
+                        <video-player  class="vjs-custom-skin"
+                         ref="videoPlayer"
+                         :options="playerOptions"
+                         :playsinline="true"
+                         @play="onPlayerPlay($event)"
+                         @pause="onPlayerPause($event)"
+                         @ended="onPlayerEnded($event)"
+                         @loadeddata="onPlayerLoadeddata($event)"
+                         @waiting="onPlayerWaiting($event)"
+                         @playing="onPlayerPlaying($event)"
+                         @timeupdate="onPlayerTimeupdate($event)"
+                         @canplay="onPlayerCanplay($event)"
+                         @canplaythrough="onPlayerCanplaythrough($event)"
+                         @ready="playerReadied"
+                         @statechanged="playerStateChanged($event)">
+                        </video-player>
+                    </div>
+                </div>
             </v-col>
             <v-col cols='4'>
                 <div id="video_content">
@@ -16,7 +35,7 @@
                     </div>
                 </div>
                 <div v-show="isCreator">
-                    <v-btn block text x-large class="primary-color text-white rounded-0" >수정</v-btn>
+                    <v-btn block text x-large class="primary-color text-white rounded-0" @click="modifyLookatme">수정</v-btn>
                 </div>
             </v-col>
         </v-row>
@@ -29,7 +48,8 @@
             :cols="3"
             v-for="video in list"
             :key="video.lookatmeId"
-            @click="lookatmeDetail(video.lookatmeId)"
+            v-if="lookatme.lookatmeId != video.lookatmeId"
+            @click="lookatmeDetail(video.lookatmeId, video.thumbnail, video.video)"
           >
             <v-card :loading="false" class="mx-2 my-12" max-width="374" height="400px">
               <template slot="progress">
@@ -69,17 +89,31 @@
 import { mapGetters } from 'vuex';
 import http from '@/http.js';
 import InfiniteLoading from 'vue-infinite-loading';
+import 'video.js/dist/video-js.css';
+import { videoPlayer } from 'vue-video-player';
 export default {
     computed: {
     ...mapGetters([
         'fileURL'
       ]),
+      player() {
+          return this.$refs.videoPlayer.player
+      }
   },
     components: {
-        InfiniteLoading
+        InfiniteLoading,
+        videoPlayer
     },
     props: {
         lookatme_id: {
+            type: String,
+            default: '',
+        },
+        thumbnail: {
+            type: String,
+            default: '',
+        },
+        video: {
             type: String,
             default: '',
         }
@@ -91,6 +125,21 @@ export default {
             list: [],
             limit: 0,
             isCreator: false,
+             playerOptions: {
+          height: '352',
+          width: '780',
+          autoplay: true,
+          muted: true,
+          language: 'en',
+          playbackRates: [0.7, 1.0, 1.5, 2.0],
+          sources: [{
+            type: "video/mp4",
+            // src: "http://vjs.zencdn.net/v/oceans.mp4",
+            // src: this.fileURL + "ServerFiles/Video/" + this.video,
+            src: this.$store.getters.fileURL + "ServerFiles/Video/" + this.video,
+          }],
+          poster: this.$store.getters.fileURL + "ServerFiles/Thumbnail/" + this.thumbnail,
+        }
         }
     },
     async created() {
@@ -105,14 +154,44 @@ export default {
             if (this.lookatme.userNickName == localStorage.getItem('id'))
                 this.isCreator = true;
     },
+    mounted() {
+        setTimeout(() => {
+            this.player.muted(false)
+        }, 5000)
+    },
 
     methods: {
+    modifyLookatme() {
+        this.$router.push({name: 'lookatmemodify', params: {lookatme: this.lookatme}});
+    },
+    onPlayerPlay(player) {
+      },
+      onPlayerPause(player) {
+      },
+      onPlayerEnded(player) {
+      },
+      onPlayerLoadeddata(player) {
+      },
+      onPlayerWaiting(player) {
+      },
+      onPlayerPlaying(player) {
+      },
+      onPlayerTimeupdate(player) {
+      },
+      onPlayerCanplay(player) {
+      },
+      onPlayerCanplaythrough(player) {
+      },
+      playerStateChanged(playerCurrentState) {
+      },
+      playerReadied(player) {
+        player.currentTime(10)
+      },
     getImg(file) {
       return this.fileURL + 'ServerFiles/Thumbnail/' + file;
     },
     infiniteHandler($state) {
         let c = this.lookatme.category;
-        console.log(this.lookatme);
         http
           .post('/lookatme/searchByCategory', {
             category: this.category,
@@ -130,12 +209,20 @@ export default {
             }, 1000);
           })
           .catch((error) => {});
-        }
+        },
+    lookatmeDetail(lookatmeId, thumbnail, video) {
+      let lookatme_id = lookatmeId + "";
+      console.log(video);
+      this.$router.push({name: 'lookatmedetail', query: {lookatme_id: lookatme_id, thumbnail: thumbnail, video: video}});
+    },
     }
 }
 </script>
 
 <style>
+.vjs-custom-skin {
+    width: 100%;
+}
 #lookatme-view {
   overflow-y: scroll;
   height: 400px;

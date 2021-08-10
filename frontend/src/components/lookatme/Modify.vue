@@ -1,4 +1,5 @@
 <template>
+<div>
   <v-form v-model="valid">
     <v-container>
       <v-row justify="center">
@@ -8,7 +9,7 @@
             <v-img :src="url" max-height="150" max-width="250" />
             <v-col cols="3">
               <v-file-input
-                @click:clear="url = 'images/lookatme/img.jpg'"
+                @click:clear="url = this.$store.getters.fileURL + 'ServerFiles/Thumbnail/' + this.lookatme.thumbnail"
                 @change="previewImage"
                 v-model="image"
                 label="사진 파일"
@@ -18,19 +19,6 @@
               </v-file-input>
             </v-col>
           </v-row>
-        </v-col>
-      </v-row>
-      <v-row justify="center">
-        <v-col cols="4" align="right">동영상 파일</v-col>
-        <v-col>
-          <v-file-input
-            v-model="files"
-            required
-            :rules="[(v) => !!v || '필수 항목입니다']"
-            filled
-            label="영상 업로드"
-            show-size
-          ></v-file-input>
         </v-col>
       </v-row>
       <v-row justify="center">
@@ -75,8 +63,8 @@
     <v-container>
       <v-row justify="end">
         <v-col cols="3">
-          <v-btn block text x-large class="primary-color text-white rounded-0" @click="regist">
-            등록
+          <v-btn block text x-large class="primary-color text-white rounded-0" @click="modify">
+            수정
           </v-btn>
         </v-col>
         <v-col cols="3">
@@ -87,6 +75,7 @@
       </v-row>
     </v-container>
   </v-form>
+</div>
 </template>
 
 <script>
@@ -94,99 +83,87 @@ import router from '@/router';
 import http from '@/http.js';
 
 export default {
+    props: {
+        lookatme: {
+            type: [],
+            default: null,
+        }
+    },
+    mounted() {
+        console.log(this.lookatme);
+    },
   data() {
     return {
-      url: 'images/lookatme/img.jpg',
+      url: this.$store.getters.fileURL + "ServerFiles/Thumbnail/" + this.lookatme.thumbnail,
       image: null,
-      files: [],
       valid: false,
       category: {
-        codeName: '개발',
-        code: '1001',
+        codeName: this.lookatme.category,
       },
-      title: '',
-      content: '',
+      title: this.lookatme.title,
+      content: this.lookatme.content,
       kind: [
         {
           codeName: '개발',
-          code: '1001',
-        },
+          },
         {
           codeName: '테크',
-          code: '1002',
-        },
+          },
         {
           codeName: '교육',
-          code: '1003',
-        },
+          },
         {
           codeName: '서비스',
-          code: '2001',
         },
         {
           codeName: '영업/마케팅',
-          code: '2002',
-        },
+          },
         {
           codeName: '예체능',
-          code: '3001',
-        },
+          },
         {
           codeName: '연주',
           code: '3002',
         },
         {
           codeName: '노래',
-          code: '3003',
-        },
+          },
         {
           codeName: '연기',
-          code: '3004',
-        },
+          },
         {
           codeName: '영상',
-          code: '3005',
-        },
+          },
         {
           codeName: '코미디',
-          code: '3006',
-        },
+          },
         {
           codeName: '사진',
-          code: '3007',
-        },
+          },
         {
           codeName: '메이킹/만들기/손재주',
-          code: '3008',
-        },
+          },
         {
           codeName: '여행',
-          code: '3009',
-        },
+          },
         {
           codeName: '요리',
-          code: '3010',
-        },
+          },
         {
           codeName: '미술',
-          code: '3011',
-        },
+          },
         {
           codeName: '마술',
-          code: '3012',
-        },
+          },
         {
           codeName: '스포츠',
-          code: '4001',
-        },
+          },
         {
           codeName: '무술',
-          code: '4002',
-        },
+          },
         {
           codeName: '게임',
-          code: '4003',
-        },
+          },
       ],
     };
   },
@@ -194,9 +171,8 @@ export default {
     previewImage() {
       this.url = URL.createObjectURL(this.image);
     },
-    regist() {
+    modify() {
       var router = this.$router;
-      console.log(this.files);
       if (!this.valid) {
         alert('필수 항목을 입력해주세요.');
       } else {
@@ -204,7 +180,6 @@ export default {
         let lookatme = new FormData();
         let userEmail = localStorage.getItem('user_email');
         lookatme.append('thumbnail', this.image);
-        lookatme.append('video', this.files);
         lookatme.append('category', this.category.codeName);
         lookatme.append('title', this.title);
         lookatme.append('content', this.content);
@@ -221,7 +196,7 @@ export default {
       }
     },
     cancle() {
-      router.push({ name: 'lookatme' });
+      router.go(-1);
     },
   },
 };

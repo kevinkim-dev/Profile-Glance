@@ -24,7 +24,7 @@ public class RoomController {
     // 면접 삭제
     @DeleteMapping("/deleteInterview")
     @ApiOperation(value = "면접 삭제", notes = "<strong>sessionId와 companyId</strong>를 통해 면접을 삭제한다.")
-    public ResponseEntity<? extends BaseResponseBody> delete(@RequestBody RoomDeleteReq roomReq) {
+    public ResponseEntity<? extends BaseResponseBody> deleteInterview(@RequestBody RoomDeleteReq roomReq) {
 
         roomService.deleteInterview(roomReq);
         roomService.deleteRoom(roomReq);
@@ -32,5 +32,14 @@ public class RoomController {
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
     }
 
+    // 면접 삭제
+    @DeleteMapping("/deleteRecruitSessionId")
+    @ApiOperation(value = "채용 session id 삭제", notes = "<strong>sessionId와 companyId</strong>를 통해 면접을 삭제한다.")
+    public ResponseEntity<? extends BaseResponseBody> deleteRecruitSessionId(@RequestBody RoomDeleteReq roomReq) {
 
+        roomService.deleteRecruitSessionId(roomReq);
+        roomService.deleteRoom(roomReq);
+
+        return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
+    }
 }

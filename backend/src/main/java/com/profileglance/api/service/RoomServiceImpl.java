@@ -1,8 +1,10 @@
 package com.profileglance.api.service;
 
 import com.profileglance.api.request.RoomDeleteReq;
+import com.profileglance.db.entity.Recruit;
 import com.profileglance.db.repository.CompanyRepository;
 import com.profileglance.db.repository.InterviewRepository;
+import com.profileglance.db.repository.RecruitRepository;
 import com.profileglance.db.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,9 @@ public class RoomServiceImpl implements RoomService {
 
     @Autowired
     InterviewRepository interviewRepository;
+
+    @Autowired
+    RecruitRepository recruitRepository;
 
     @Override
     public Boolean deleteRoom(RoomDeleteReq roomReq) {
@@ -37,6 +42,13 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Boolean deleteRecruitSessionId(RoomDeleteReq roomReq) {
+
+        Recruit recruit = recruitRepository.findByCompany_CompanyId(roomReq.getCompanyId()).get();
+
+        recruit.setRoom(null);
+
+        recruitRepository.save(recruit);
+
         return true;
     }
 

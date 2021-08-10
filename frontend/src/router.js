@@ -9,6 +9,7 @@ import Features from './views/Features'
 import MyPage from './views/MyPage.vue'
 import CompanySignUp from './views/CompanySignUp.vue'
 import WantedRegist from './views/WantedRegist.vue'
+import Presentation from './views/Presentation.vue'
 
 Vue.use(Router)
 
@@ -60,6 +61,11 @@ export default new Router({
       path: '/companysignup',
       name: 'companysignup',
       component: CompanySignUp
+    },
+    {
+      path: '/presentation',
+      name: 'presentation',
+      component: Presentation
     }
   ]
 })

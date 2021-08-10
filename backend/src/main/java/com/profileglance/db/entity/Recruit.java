@@ -36,7 +36,7 @@ public class Recruit {
 //    private Long roomId;
 
     @OneToOne
-    @JoinColumn(name = "room_id")
+    @JoinColumn(name = "session_id")
     private Room room;
 
     @Column(name = "description_url")

@@ -17,8 +17,8 @@ public class Room {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "room_id")
-    private Long roomId;
+    @Column(name = "session_id")
+    private String sessionId;
 
     @OneToMany(mappedBy = "room")
     private List<RoomInfo> roomInfos = new ArrayList<>();
@@ -26,19 +26,12 @@ public class Room {
     @OneToOne(mappedBy = "room")
     private Interview interview;
 
+    @OneToOne(mappedBy = "room")
+    private Recruit recruit;
+
 //    @Column(name = "company_id")
 //    private String companyId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id")
-    private Company company;
-
     @Column(name = "room_category")
     private Long roomCategory;
-
-    @Column(name = "session_id")
-    private String sessionId;
-
-    @Column(name = "is_active", columnDefinition = "boolean default false")
-    private boolean isActive;
 }

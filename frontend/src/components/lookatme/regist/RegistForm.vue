@@ -201,7 +201,7 @@ export default {
       } else {
         console.log(this.image);
         let lookatme = new FormData();
-        let userEmail = this.$store.state.data.userData.userEmail;
+        let userEmail = localStorage.getItem('user_email');
         lookatme.append('thumbnail', this.image);
         lookatme.append('video', this.files);
         lookatme.append('category', this.category.codeName);
@@ -213,6 +213,7 @@ export default {
         })
           .then(({ data }) => {
             alert('등록 성공!');
+            console.log(data)
             router.push({ name: 'lookatme' });
           })
           .catch((err) => console.log(err));

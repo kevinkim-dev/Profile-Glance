@@ -30,7 +30,7 @@ export default new Vuex.Store({
   plugins: [createPersistedState()],
   getters: {
     fileURL: function() {
-      return DEVELOPMODE ? 'https://localhost:8080/' : 'https://profileglance.site/';
+      return DEVELOPMODE ? 'http://localhost:8080/' : 'https://profileglance.site/';
     },
     DEVELOPMODE: function() {
       return DEVELOPMODE;

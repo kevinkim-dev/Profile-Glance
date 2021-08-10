@@ -101,7 +101,8 @@ export default {
                 this.category = response.data.category;
             })
             .catch((error) => {});
-            if (this.lookatme.userNickName == this.$store.state.data.userData.userNickname)
+            // if (this.lookatme.userNickName == this.$store.state.data.userData.userNickname)
+            if (this.lookatme.userNickName == localStorage.getItem('id'))
                 this.isCreator = true;
     },
 

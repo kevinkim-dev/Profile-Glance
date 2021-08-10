@@ -21,8 +21,6 @@
 
 <script>
 export default {
-    data() {
-    },
     methods: {
         clickDeleteButton() {
             this.$store.dispatch('requestDeleteUser', localStorage.getItem('user_email'))

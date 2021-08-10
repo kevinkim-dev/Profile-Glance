@@ -8,15 +8,34 @@
 					<!-- <p>
 						<label>Participant</label>
 						<input v-model="myUserName" class="form-control" type="text" required>
-					</p>
+					</p> -->
 					<p>
 						<label>Session</label>
-						<input v-model="mySessionId" class="form-control" type="text" required>
+						<input v-model="mySessionId" class="form-control" type="text">
+					</p>
+					<p class="text-center">
+						<button class="btn btn-lg btn-success" @click="joinSession('sessionA')">join session</button>
+					</p>
+          <!-- <p class="text-center">
+						<button class="btn btn-lg btn-success" @click="createSession(mySessionId)">create session</button>
+					</p> -->
+          <!-- <p class="text-center">
+						<button class="btn btn-lg btn-success" @click="getAllSessions()">subscriber로 참여</button>
 					</p> -->
 					<p class="text-center">
-						<button class="btn btn-lg btn-success" @click="joinSession()">설명회 개설</button>
+						<button class="btn btn-lg btn-success" @click="createPresentation('line5')">설명회개설</button>
+					</p>
+					<p class="text-center">
+						<button class="btn btn-lg btn-success" @click="joinPresentation('line5')">LIVE-ON</button>
+					</p>
+					<p class="text-center">
+						<button class="btn btn-lg btn-success" @click="getSession('line')">세션정보 가져오기</button>
 					</p>
 				</div>
+        <p>전체 세션 목록</p>
+        <div v-for="(session, idx) in sessions.content" :key="idx+'sessions'">
+          {{ session.sessionId }}
+        </div>
 			</div>
 		</div>
 
@@ -29,8 +48,11 @@
 				<user-video :stream-manager="mainStreamManager"/>
 			</div> -->
 			<div id="video-container" class="col-md-6">
+        <p>publisher</p>
 				<user-video :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
-				<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
+				<p>subscribers</p>
+        <user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
+				{{ subscribers }}
 			</div>
 			<div class="chat-box">
 				<div ref="chatDisplay" class="chat-display">
@@ -97,8 +119,9 @@ export default {
 				id: localStorage.getItem('id'),
 				nickname: localStorage.getItem('id')
 			},
-			mySessionId: 'SessionA',
+			mySessionId: localStorage.getItem('id'),
 			// myUserName: 'Participant' + Math.floor(Math.random() * 100),
+      sessions: [],
 		}
 	},
 	computed: {
@@ -107,7 +130,127 @@ export default {
 		}
 	},
 	methods: {
-		joinSession () {
+		// 채용설명회 개설
+    createPresentation (sessionId) {
+			this.OV = new OpenVidu();
+			this.session = this.OV.initSession();
+
+			// On every new Stream received...
+			this.session.on('streamCreated', ({ stream }) => {
+				const subscriber = this.session.subscribe(stream);
+				this.subscribers.push(subscriber);
+			});
+
+			// On every Stream destroyed...
+			this.session.on('streamDestroyed', ({ stream }) => {
+				const index = this.subscribers.indexOf(stream.streamManager, 0);
+				if (index >= 0) {
+					this.subscribers.splice(index, 1);
+				}
+			});
+			this.session.on('signal:my-chat', event => {
+        this.chats.push(JSON.parse(event.data));
+        setTimeout(this.chat_on_scroll, 10);
+      });
+			// On every asynchronous exception...
+			this.session.on('exception', ({ exception }) => {
+				console.warn(exception);
+			});
+
+			// 1. 기업회원이 갖고있는 세션아이디(sessionId)에 해당하는 세션 생성
+			this.createSession(sessionId)
+			.then((data) => {
+				// 2. 만들어진 세션에 해당하는 토큰 생성
+				this.createToken(data, 'PUBLISHER')
+				// 3. 만들어진 토큰으로 세션 연결
+				.then((token) => {
+					this.session.connect(token, { clientData: this.getUserInfo.id })
+					.then(() => {
+						// 4. publisher로 들어감
+						let publisher = this.OV.initPublisher(undefined, {
+							audioSource: undefined, // The source of audio. If undefined default microphone
+							videoSource: undefined, // The source of video. If undefined default webcam
+							publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
+							publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
+							resolution: '640x480',  // The resolution of your video
+							frameRate: 30,			// The frame rate of your video
+							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
+							mirror: false       	// Whether to mirror your local video or not
+						});
+						this.mainStreamManager = publisher;
+						this.publisher = publisher;
+
+						this.session.publish(this.publisher);
+					})
+					.catch(error => {
+						console.log('There was an error connecting to the session:', error.code, error.message);
+					});
+				}
+				)}
+			)
+		},
+		joinPresentation (sessionId) {
+			this.OV = new OpenVidu();
+			this.session = this.OV.initSession();
+
+			// On every new Stream received...
+			this.session.on('streamCreated', ({ stream }) => {
+				const subscriber = this.session.subscribe(stream);
+				this.subscribers.push(subscriber);
+			});
+
+			// On every Stream destroyed...
+			this.session.on('streamDestroyed', ({ stream }) => {
+				const index = this.subscribers.indexOf(stream.streamManager, 0);
+				if (index >= 0) {
+					this.subscribers.splice(index, 1);
+				}
+			});
+			this.session.on('signal:my-chat', event => {
+        this.chats.push(JSON.parse(event.data));
+        setTimeout(this.chat_on_scroll, 10);
+      });
+			// On every asynchronous exception...
+			this.session.on('exception', ({ exception }) => {
+				console.warn(exception);
+			});
+
+			this.getSession(sessionId)
+			.then((data) => {
+				console.log('1')
+				this.createToken(data, 'SUBSCRIBER')
+				.then((token) => {
+					console.log('2')
+					this.session.connect(token, { clientData: this.getUserInfo.id })
+					// console.log('2.5')
+					.then(() => {
+						console.log('3')
+						this.session.on('streamCreated', ({ stream }) => {
+						const subscriber = this.session.subscribe(stream);
+						this.subscribers.push(subscriber);
+					});
+					})
+				})
+			})
+		},
+		// 모든 세션 목록 가져오는 함수
+    getAllSessions () {
+      axios
+					.get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`, {
+						auth: {
+							username: 'OPENVIDUAPP',
+							password: OPENVIDU_SERVER_SECRET,
+						},
+					})
+      .then((res) => {
+        this.sessions = res.data
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+		// 기존의 joinSession
+		joinSession (sessionId) {
 			// --- Get an OpenVidu object ---
 			this.OV = new OpenVidu();
 
@@ -142,7 +285,8 @@ export default {
 
 			// 'getToken' method is simulating what your server-side should do.
 			// 'token' parameter should be retrieved and returned by your own backend
-			this.getToken(this.mySessionId).then(token => {
+			// getToken: 세션생성 -> 세션에 해당하는 토큰까지 생성 -> 그 토큰으로 세션 연결!
+			this.getToken(sessionId).then(token => {
 				this.session.connect(token, { clientData: this.myUserName })
 					.then(() => {
 
@@ -203,12 +347,39 @@ export default {
 		 *   2) Create a Connection in OpenVidu Server (POST /openvidu/api/sessions/<SESSION_ID>/connection)
 		 *   3) The Connection.token must be consumed in Session.connect() method
 		 */
-
+		// sessionid로 session 생성 -> 그 세션 아이디로 토큰 create
 		getToken (mySessionId) {
 			return this.createSession(mySessionId).then(sessionId => this.createToken(sessionId));
 		},
-
+		getSession (sessionId) {
+			return new Promise((resolve, reject) => {
+				axios
+					.get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}`, {
+						auth: {
+							username: 'OPENVIDUAPP',
+							password: OPENVIDU_SERVER_SECRET,
+						},
+					})
+      .then((res) => {
+				console.log('getSession 성공')
+        console.log(res.data.id)
+				resolve(res.data.id)
+      })
+      .catch(error => {
+				if (error.response.status === 409) {
+					resolve(sessionId);
+				} else {
+					console.warn(`No connection to OpenVidu Server. This may be a certificate error at ${OPENVIDU_SERVER_URL}`);
+					if (window.confirm(`No connection to OpenVidu Server. This may be a certificate error at ${OPENVIDU_SERVER_URL}\n\nClick OK to navigate and accept it. If no certificate warning is shown, then check that your OpenVidu Server is up and running at "${OPENVIDU_SERVER_URL}"`)) {
+						location.assign(`${OPENVIDU_SERVER_URL}/accept-certificate`);
+					}
+					reject(error.response);
+				}
+			});
+			})
+		},
 		// See https://docs.openvidu.io/en/stable/reference-docs/REST-API/#post-openviduapisessions
+    // sessionid로 session 생성
 		createSession (sessionId) {
 			return new Promise((resolve, reject) => {
 				axios
@@ -220,8 +391,12 @@ export default {
 							password: OPENVIDU_SERVER_SECRET,
 						},
 					})
-					.then(response => response.data)
-					.then(data => resolve(data.id))
+					.then(response => {
+            // console.log(response)
+            response.data})
+					.then(data => {
+            resolve(data.id)
+            console.log(data.id)})
 					.catch(error => {
 						if (error.response.status === 409) {
 							resolve(sessionId);
@@ -237,10 +412,13 @@ export default {
 		},
 
 		// See https://docs.openvidu.io/en/stable/reference-docs/REST-API/#post-openviduapisessionsltsession_idgtconnection
-		createToken (sessionId) {
+		// sessionid에 해당하는 세션의 토큰 생성
+		createToken (sessionId, role) {
 			return new Promise((resolve, reject) => {
 				axios
-					.post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}/connection`, {}, {
+					.post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}/connection`, {
+						role: role,
+					}, {
 						auth: {
 							username: 'OPENVIDUAPP',
 							password: OPENVIDU_SERVER_SECRET,
@@ -255,6 +433,7 @@ export default {
 					.catch(error => reject(error.response));
 			});
 		},
+		// 채팅 기능
 		submitMsg () {
       if (this.sendMsg.trim() === '') return;
       const sendData = {
@@ -277,5 +456,8 @@ export default {
         });
     },
 	},
+  created () {
+    this.getAllSessions()
+  }
 }
 </script>

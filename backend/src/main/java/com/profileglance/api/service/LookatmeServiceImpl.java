@@ -13,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -96,7 +98,10 @@ public class LookatmeServiceImpl implements LookatmeService{
 
         boolean check = (lookatmePostReq.getThumbnail() != null && !lookatmePostReq.getThumbnail().isEmpty());
 
-        String now = LocalDateTime.now().toString();
+        Date nowTime = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+        String now = format.format(nowTime);
+
         String categoryName = lookatmePostReq.getCategory();
         String videoPath = baseDir + "/Video/" + now + user.getUserNickname() + ".mp4";
         String videofile = now + user.getUserNickname() + ".mp4";

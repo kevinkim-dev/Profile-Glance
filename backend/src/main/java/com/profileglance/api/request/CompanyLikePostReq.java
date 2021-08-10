@@ -14,6 +14,6 @@ public class CompanyLikePostReq {
     @ApiModelProperty(name="회사 아이디")
     String companyId;
 
-    @ApiModelProperty(name="유저 이메일")
+    @ApiModelProperty(name="유저 닉네임")
     String userNickname;
 }

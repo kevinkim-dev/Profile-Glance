@@ -73,7 +73,7 @@ public class CompanyController {
 
     // 좋아요 누른 유저 리스트
     @GetMapping("/userlike/{companyId}")
-    @ApiOperation(value = "좋아요 누른 유저 리스트", notes = "userName, userEmail, userNickname, companyId 반환")
+    @ApiOperation(value = "좋아요 누른 유저 리스트", notes = "userNickname 들을 리스트로 반환")
     public ResponseEntity<List<CompanyLikeListGetRes>> userLike(@PathVariable("companyId") String companyId){
        List<CompanyLikeListGetRes> companyLikeListGetResList = companyService.userLikeListByCompany(companyId);
         return new ResponseEntity<List<CompanyLikeListGetRes>>(companyLikeListGetResList, HttpStatus.OK);

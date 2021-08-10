@@ -16,6 +16,8 @@ public interface RecruitRepository extends JpaRepository<Recruit, Long> {
 
     List<Recruit> findAllByOrderByRecruitEndDate();
 
+    Optional<Recruit> findByCompany_CompanyId(String companyId);
+
     @Transactional
     void deleteByRecruitId(Long recruitId);
 

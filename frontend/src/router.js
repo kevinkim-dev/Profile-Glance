@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import LookAtMe from './views/LookAtMe.vue'
 import LookAtMeRegist from './views/LookAtMeRegist.vue'
 import LookAtMeDetail from './views/LookAtMeDetail.vue'
+import LookAtMeModify from './views/LookAtMeModify.vue'
 import Wanted from './views/Wanted.vue'
 import Features from './views/Features'
 import MyPage from './views/MyPage.vue'
@@ -35,6 +36,12 @@ export default new Router({
       path: '/lookatme-detail',
       name: 'lookatmedetail',
       component: LookAtMeDetail
+    },
+    {
+      path: '/lookatme-modify',
+      name: 'lookatmemodify',
+      component: LookAtMeModify,
+      props: true
     },
     {
       path: '/wanted',

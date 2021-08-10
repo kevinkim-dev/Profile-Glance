@@ -16,7 +16,6 @@ import java.util.List;
 public class Room {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "session_id")
     private String sessionId;
 
@@ -33,5 +32,8 @@ public class Room {
 //    private String companyId;
 
     @Column(name = "room_category")
-    private Long roomCategory;
+    private String roomCategory;
+
+    @Column(name = "host")
+    private String host;
 }

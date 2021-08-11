@@ -23,13 +23,13 @@ public class InterviewListGetRes {
     String interviewTime;
 
     @ApiModelProperty(name = "면접방 주소")
-    String roomUrl;
+    String sessionId;
 
-    public InterviewListGetRes(String userName, String companyId, String interviewDate, String interviewTime, String roomUrl) {
+    public InterviewListGetRes(String userName, String companyId, String interviewDate, String interviewTime, String sessionId) {
         this.userName = userName;
         this.companyId = companyId;
         this.interviewDate = interviewDate;
         this.interviewTime = interviewTime;
-        this.roomUrl = roomUrl;
+        this.sessionId = sessionId;
     }
 }

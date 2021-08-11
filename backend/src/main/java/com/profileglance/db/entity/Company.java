@@ -36,14 +36,14 @@ public class Company {
     @Column(name = "company_dept")
     private String companyDept;
 
+    @Column(name = "session_id")
+    private String sessionId;
+
     @OneToMany(mappedBy = "company")
     private List<UserLike> userLikes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "company")
-    private List<Interview> interviews = new ArrayList<>();
-
-    @OneToMany(mappedBy = "company")
-    private List<Room> rooms = new ArrayList<>();
+    @OneToOne(mappedBy = "company")
+    private Interview interview;
 
     @OneToMany(mappedBy = "company")
     private List<Recruit> recruits = new ArrayList<>();

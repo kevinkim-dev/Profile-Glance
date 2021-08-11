@@ -1,13 +1,16 @@
 package com.profileglance.api.service;
 
 import com.profileglance.api.request.CompanyPostReq;
+import com.profileglance.api.response.CompanyInterviewGetRes;
 import com.profileglance.api.response.CompanyLikeListGetRes;
 import com.profileglance.api.response.CompanyMypageGetRes;
 import com.profileglance.config.DirPathConfig;
 import com.profileglance.db.entity.Company;
+import com.profileglance.db.entity.Interview;
 import com.profileglance.db.entity.User;
 import com.profileglance.db.entity.UserLike;
 import com.profileglance.db.repository.CompanyRepository;
+import com.profileglance.db.repository.InterviewRepository;
 import com.profileglance.db.repository.UserLikeRepository;
 import com.profileglance.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +36,8 @@ public class CompanyServiceImpl implements CompanyService{
     UserRepository userRepository;
 
     @Autowired
+    InterviewRepository interviewRepository;
+    @Autowired
     PasswordEncoder passwordEncoder;
 
     static DirPathConfig dirPathConfig = new DirPathConfig();
@@ -56,6 +61,8 @@ public class CompanyServiceImpl implements CompanyService{
                 .companyPassword(passwordEncoder.encode(companyPostReq.getCompanyPassword()))
                 .companyPhone(companyPostReq.getCompanyPhone())
                 .companyImg(companyPostReq.getCompanyId() + ".jpg")
+                .companyDept(companyPostReq.getCompanyDept())
+                .sessionId(companyPostReq.getCompanyId()+companyPostReq.getCompanyDept())
                 .build()
         );
 
@@ -87,10 +94,7 @@ public class CompanyServiceImpl implements CompanyService{
 
         for (UserLike u : userLikes){
             companyLikeListGetResList.add(new CompanyLikeListGetRes(
-                    u.getUser().getUserName()
-                    ,u.getUser().getUserEmail()
-                    ,u.getUser().getUserNickname()
-                    ,u.getCompany().getCompanyId()
+                    u.getUser().getUserNickname()
             ));
         }
         return companyLikeListGetResList;
@@ -118,5 +122,22 @@ public class CompanyServiceImpl implements CompanyService{
                 ,company.getCompanyImg()
         );
         return companyMypageGetRes;
+    }
+
+    @Override
+    public List<CompanyInterviewGetRes> interviewList(String companyId){
+        List<CompanyInterviewGetRes> companyInterviewGetResList = new ArrayList<>();
+        List<Interview> interviewList = interviewRepository.findAllByCompany_CompanyId(companyId);
+
+        for (Interview i : interviewList){
+            companyInterviewGetResList.add(new CompanyInterviewGetRes(
+                    i.getUser().getUserNickname()
+                    ,i.getInterviewDate()
+                    ,i.getInterviewTime()
+                    ,i.getRoom().getSessionId()
+            ));
+        }
+
+        return companyInterviewGetResList;
     }
 }

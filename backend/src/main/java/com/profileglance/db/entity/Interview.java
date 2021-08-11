@@ -26,7 +26,7 @@ public class Interview {
 //    @Column(name = "company_id")
 //    private String companyId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Company company;
 
@@ -34,7 +34,7 @@ public class Interview {
 //    private Long roomId;
 
     @OneToOne
-    @JoinColumn(name = "room_id")
+    @JoinColumn(name = "session_id")
     private Room room;
 
     @Column(name = "interview_date")

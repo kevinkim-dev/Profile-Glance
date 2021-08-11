@@ -13,6 +13,7 @@
       text
       @click="clickWanteds"
       :style="this.wantedStyle"
+      v-if="loginType == 'company'"
     >
       원티드 목록
     </v-btn>
@@ -62,6 +63,11 @@ export default {
       this.infoStyle.background='#C0DDD1'
       this.$emit('clickInterviews')
     },
+  },
+  computed: {
+    loginType() {
+      return localStorage.getItem('login_type')
+    }
   }
 
 }

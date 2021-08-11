@@ -17,9 +17,9 @@
     </div>
     <v-btn class="interview-button"
       color="white" text x-large
-      @click="enterInterview"
+      @click="$router.push({ name: 'presentation' })"
     >
-      입장
+      설명회개설
     </v-btn>
   </v-card>
 </template>

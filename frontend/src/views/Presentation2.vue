@@ -22,18 +22,49 @@
 
 		<div id="session" v-if="session">
 			<div id="session-header">
-				<h1 id="session-title">{{ mySessionId }}</h1>
+				<h1 id="session-title">{{ getUserInfo.id }} 설명회</h1>
 				<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
 			</div>
 			<div id="main-video" class="col-md-6">
         <p>mainStreamManager</p>
 				<user-video :stream-manager="mainStreamManager"/>
 			</div>
-			<div id="video-container" class="col-md-6">
+			<!-- <div id="video-container" class="col-md-6">
         <p>publisher</p>
 				<user-video :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
 				<p>subscribers</p>
         <user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
+			</div> -->
+			<div class="chat-box">
+				<div ref="chatDisplay" class="chat-display">
+					<div v-for="(chat, index) in chats" :key="index" class="chat-line">
+						<div v-if="chat.userId === getUserInfo.id" class="my-comment">
+							<div>
+								<span class="participant-name">[{{ chat.nickname }}] </span><span class="chat-msg">{{ chat.msg }}</span>
+							</div>
+						</div>
+						<div v-else class="other-comment">
+							<div>
+								<span class="participant-name other">[{{ chat.nickname }}] </span
+								><span class="chat-msg">{{ chat.msg }}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br>
+				<div class="msg-wrapper">
+					<div class="msg-guide">
+						<!-- <img :src="getUserInfo.profileImage" class="user-profile" /> -->
+						{{ getUserInfo.nickname }}
+					</div>
+					<input
+						v-model="sendMsg"
+						type="text"
+						class="msg-input"
+						placeholder="메세지를 입력해주세요"
+						@keydown.enter="submitMsg"
+					/>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -58,9 +89,18 @@ export default {
 			mainStreamManager: undefined,
 			publisher: undefined,
 			subscribers: [],
+			chats: [],
+			sendMsg: '',
 			mySessionId: 'SessionA',
 			myUserName: 'Participant' + Math.floor(Math.random() * 100),
+			getUserInfo: {
+				id: localStorage.getItem('id'),
+				nickname: localStorage.getItem('id'),
+			}
 		}
+	},
+	created () {
+		this.joinSession()
 	},
 	methods: {
 		joinSession () {
@@ -83,6 +123,10 @@ export default {
 					this.subscribers.splice(index, 1);
 				}
 			});
+			this.session.on('signal:my-chat', event => {
+        this.chats.push(JSON.parse(event.data));
+        setTimeout(this.chat_on_scroll, 10);
+      });
 			// On every asynchronous exception...
 			this.session.on('exception', ({ exception }) => {
 				console.warn(exception);
@@ -90,8 +134,8 @@ export default {
 			// --- Connect to the session with a valid user token ---
 			// 'getToken' method is simulating what your server-side should do.
 			// 'token' parameter should be retrieved and returned by your own backend
-			this.getToken(this.mySessionId).then(token => {
-				this.session.connect(token, { clientData: this.myUserName })
+			this.getToken(this.getUserInfo.id).then(token => {
+				this.session.connect(token, { clientData: this.getUserInfo.id })
 					.then(() => {
 						// --- Get your own camera stream with the desired properties ---
 						let publisher = this.OV.initPublisher(undefined, {
@@ -185,6 +229,27 @@ export default {
 					.catch(error => reject(error.response));
 			});
 		},
+		submitMsg () {
+      if (this.sendMsg.trim() === '') return;
+      const sendData = {
+        userId: this.getUserInfo.id,
+        nickname: this.getUserInfo.nickname,
+        msg: this.sendMsg,
+      };
+      this.sendMsg = '';
+      this.session
+        .signal({
+          data: JSON.stringify(sendData), // Any string (optional)
+          to: [], // Array of Connection objects (optional. Broadcast to everyone if empty)
+          type: 'my-chat', // The type of message (optional)
+        })
+        .then(() => {
+          console.log('Message successfully sent');
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
 	}
 }
 </script>

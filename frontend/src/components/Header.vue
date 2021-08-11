@@ -15,9 +15,9 @@
                             <router-link :to="{name: 'wanted'}" tag="li" exact>
                                 <a>원티드</a>
                             </router-link>
-                            <router-link :to="{name: 'presentation'}" tag="li" exact>
+                            <!-- <router-link :to="{name: 'presentation'}" tag="li" exact>
                                 <a>오픈비두</a>
-                            </router-link>
+                            </router-link> -->
                         </ul>
                     </nav>
                 </div>

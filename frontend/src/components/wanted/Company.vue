@@ -13,7 +13,7 @@
           <h4>{{ company.companyName }}</h4>
           <v-btn
             text rounded class="third-color text-white"
-            @click="$router.push('/presentation/' + company.companyName)">live-on</v-btn>
+            @click="$router.push({ name: 'userpresentation', params: { companyname: company.companyName}})">live-on</v-btn>
         </div>
         <br />
         <h5>{{ company.career }}</h5>

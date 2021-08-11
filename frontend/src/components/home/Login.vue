@@ -187,7 +187,7 @@ export default {
       this.user_password = ''
       return this.$emit('signup')
     },
-    clickLogin() {
+    async clickLogin() {
       if (this.loginType == 'user') {
         if (!this.user_email) {
           return alert('이메일을 입력해주세요.')
@@ -198,12 +198,12 @@ export default {
             userEmail: this.user_email, 
             userPassword: this.user_password
           }
-          Http.post('/user/login', body)
-          .then(res => {
+          await Http.post('/user/login', body)
+          .then(async(res) => {
             localStorage.setItem('token', res.data)
             localStorage.setItem('login_type', this.loginType)
             localStorage.setItem('user_email', this.user_email)
-            Http.get('/user/myinfo/' + localStorage.getItem('user_email'))
+            await Http.get('/user/myinfo/' + localStorage.getItem('user_email'))
             .then(res => {
               localStorage.setItem('id', res.data.userNickname)
               if (res.data.admin) {

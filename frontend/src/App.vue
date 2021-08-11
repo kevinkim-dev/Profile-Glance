@@ -2,7 +2,7 @@
   <v-app>
     <div v-if="isLogin">
       <Header />
-      <router-view />
+      <router-view :key="$route.fullPath"/>
       <Footer />
     </div>
     <div v-else>

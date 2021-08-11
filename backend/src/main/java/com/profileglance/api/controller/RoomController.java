@@ -45,7 +45,7 @@ public class RoomController {
 
     // session_id로 room_category 검색
     @GetMapping("/findRoomCategory/{sessionId}")
-    @ApiOperation(value = "채용 session id 삭제", notes = "<strong>sessionId와 companyId</strong>를 통해 면접을 삭제한다.")
+    @ApiOperation(value = "session_id로 room_category 검색", notes = "session_id로 room_category 검색")
     public String findRoomCategory(@PathVariable String sessionId) {
 
         return roomService.findRoomCategory(sessionId);

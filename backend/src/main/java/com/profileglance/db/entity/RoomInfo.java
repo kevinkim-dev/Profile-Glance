@@ -21,7 +21,7 @@ public class RoomInfo {
 //    private Long roomId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id")
+    @JoinColumn(name = "session_id")
     private Room room;
 
     @Column(name = "company_id")

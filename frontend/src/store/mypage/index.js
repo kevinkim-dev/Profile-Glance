@@ -55,6 +55,7 @@ export default {
       if (info.profileType == 'user') {
         Http.get('/user/myinfo/nickname/' + info.id)
         .then(res => {
+          console.log(res.data)
           commit('SET_USER_DATA', res.data)
         })
         .catch(err => {

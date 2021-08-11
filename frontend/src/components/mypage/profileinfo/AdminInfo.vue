@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn class="pg-button me-1" color="white" text @click="clickCompanySignUp">
+    <v-btn class="pg-button me-1" color="white" text @click="clickCompanySignUp" v-if="isAdmin">
       기업회원 추가
     </v-btn>
   </div>
@@ -13,6 +13,11 @@ export default {
       this.$router.push('/companysignup');
     },
   },
+  computed: {
+    isAdmin() {
+      return localStorage.getItem('login_type') == 'admin'
+    }
+  }
 };
 </script>
 

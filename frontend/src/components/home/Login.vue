@@ -237,6 +237,7 @@ export default {
             localStorage.setItem('token', res.data)
             localStorage.setItem('login_type', this.loginType)
             localStorage.setItem('id', this.companyId)
+            this.$store.dispatch('getLikeUserList', this.companyId)
             this.$router.push('lookatme')
             location.reload()
           })

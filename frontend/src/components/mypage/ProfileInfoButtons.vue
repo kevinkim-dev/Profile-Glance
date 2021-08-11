@@ -8,6 +8,14 @@
     >
       회원 정보
     </v-btn>
+    <v-btn class="pg-button me-1"
+      color="white"
+      text
+      @click="clickWanteds"
+      :style="this.wantedStyle"
+    >
+      원티드 목록
+    </v-btn>
     <v-btn class="pg-button"
       color="white"
       text
@@ -27,6 +35,9 @@ export default {
       infoStyle: {
         background: '#439474'
       },
+      wantedStyle: {
+        background: '#C0DDD1'
+      },
       interviewStyle: {
         background: '#C0DDD1'
       },
@@ -35,12 +46,20 @@ export default {
   methods: {
     clickInfo() {
       this.infoStyle.background='#439474'
+      this.wantedStyle.background='#C0DDD1'
       this.interviewStyle.background='#C0DDD1'
       this.$emit('clickInfo')
     },
-    clickInterview() {
+    clickWanteds() {
+      this.wantedStyle.background='#439474'
       this.infoStyle.background='#C0DDD1'
+      this.interviewStyle.background='#C0DDD1'
+      this.$emit('clickWanteds')
+    },
+    clickInterview() {
       this.interviewStyle.background='#439474'
+      this.wantedStyle.background='#C0DDD1'
+      this.infoStyle.background='#C0DDD1'
       this.$emit('clickInterviews')
     },
   }

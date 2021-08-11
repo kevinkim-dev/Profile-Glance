@@ -36,9 +36,9 @@
           <td class="text-right">
             <v-btn class="wanted-button"
               color="white" text
-              @click="clickWanted"
+              @click="$router.push({name: 'companypresentation'})"
             >
-              입장
+              설명회개설
             </v-btn>
           </td>
         </tr>

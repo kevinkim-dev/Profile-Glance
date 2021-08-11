@@ -1,9 +1,9 @@
 <template>
   <v-app>
     <div v-if="isLogin">
-      <Header />
+      <Header v-if="inNotSession" />
       <router-view :key="$route.fullPath" />
-      <Footer />
+      <Footer v-if="inNotSession" />
     </div>
     <div v-else>
       <Home />
@@ -35,6 +35,10 @@ export default {
     isLogin: function() {
       return localStorage.getItem('token');
     },
+    inNotSession: function() {
+      console.log(localStorage.getItem('isSession') != 'true')
+      return localStorage.getItem('isSession') != 'true'
+    }
   },
   methods: {
     refreshAll() {

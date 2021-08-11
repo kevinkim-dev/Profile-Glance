@@ -1,9 +1,27 @@
 <template>
-<div v-if="streamManager">
+<div v-if="streamManager" id="video-box">
 	<ov-video :stream-manager="streamManager"/>
-	<div><p>{{ clientData }}</p></div>
+	<div id="video-info">{{ clientData }}</div>
 </div>
 </template>
+
+<style>
+#video-box {
+	position: relative;
+	padding: 0px;
+}
+
+#video-info {
+	position: absolute;
+	bottom: 0px;
+	left: 0%;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	padding-left: 13px;
+	padding-right: 13px;
+	background: #eee;
+}
+</style>
 
 <script>
 import OvVideo from './OvVideo';

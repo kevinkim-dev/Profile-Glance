@@ -27,11 +27,19 @@
           <v-form v-model="valid">
             <v-container>
               <v-row>
-                <v-col class="py-0" cols="12" md="12">
+                <v-col class="py-0" cols="6" md="6">
                   <v-text-field
                     v-model="companySignupForm.companyName"
                     :rules="nameRules"
                     label="이름*"
+                    required
+                  ></v-text-field>
+                </v-col>
+                <v-col class="py-0" cols="6" md="6">
+                  <v-text-field
+                    v-model="companySignupForm.companyDepartment"
+                    :rules="nameRules"
+                    label="부서*"
                     required
                   ></v-text-field>
                 </v-col>
@@ -179,6 +187,7 @@ export default {
         companyEmail: '',
         companyPhone: '',
         companyImg: File,
+        companyDepartment: '',
       },
       isIdDoubleChecked: false,
     };
@@ -208,6 +217,7 @@ export default {
         formData.append('companyPassword', this.companySignupForm.companyPassword);
         formData.append('companyPhone', this.companySignupForm.companyPhone);
         formData.append('companyImg', this.companySignupForm.companyImg);
+        formData.append('companyDept', this.companySignupForm.companyDepartment);
 
         Http.post('company/signup', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -221,6 +231,7 @@ export default {
             this.companySignupForm.passwordConfirm = '';
             this.companySignupForm.companyEmail = '';
             this.companySignupForm.companyPhone = '';
+            this.companySignupForm.companyDepartment = '';
             this.$router.push('/mypage/admin/관리자');
           })
           .catch((err) => {
@@ -262,6 +273,7 @@ export default {
       this.companySignupForm.passwordConfirm = '';
       this.companySignupForm.companyEmail = '';
       this.companySignupForm.companyPhone = '';
+      this.companySignupForm.companyDepartment = '';
       this.$router.push('/mypage/admin/관리자');
     },
     changeImage(e) {

@@ -42,4 +42,8 @@ public class Interview {
 
     @Column(name = "interview_time")
     private String interviewTime;
+
+    @Column(name = "company_session_id")
+    private String csId;
+
 }

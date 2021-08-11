@@ -58,4 +58,7 @@ public class Recruit {
 
     @Column(name = "presentation_date")
     private String presentationDate;
+
+    @Column(name = "company_session_id")
+    private String csId;
 }

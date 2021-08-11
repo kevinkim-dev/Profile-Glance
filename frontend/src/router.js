@@ -12,6 +12,8 @@ import CompanySignUp from './views/CompanySignUp.vue'
 import WantedRegist from './views/WantedRegist.vue'
 import CompanyPresentation from './views/CompanyPresentation.vue'
 import UserPresentation from './views/UserPresentation.vue'
+import CompanyInterview from './views/CompanyInterview.vue'
+import UserInterview from './views/UserInterview.vue'
 
 Vue.use(Router)
 
@@ -76,9 +78,19 @@ export default new Router({
       component: CompanyPresentation
     },
     {
-      path: '/presentation/:companyname',
+      path: '/user/presentation/:companyname',
       name: 'userpresentation',
       component: UserPresentation
+    },
+    {
+      path: '/company/interview/:sessionid',
+      name: 'companyinterview',
+      component: CompanyInterview
+    },
+    {
+      path: '/user/interview/:sessionid',
+      name: 'userinterview',
+      component: UserInterview
     }
   ]
 })

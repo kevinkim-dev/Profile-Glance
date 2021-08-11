@@ -20,4 +20,6 @@ public interface RecruitService {
     Boolean deleteRecruit(Long recruitId);
 
     Boolean updateRecruit(Room room, String companyId);
+
+//    Boolean checkCSID(String csId);
 }

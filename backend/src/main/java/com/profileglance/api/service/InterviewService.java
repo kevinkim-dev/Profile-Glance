@@ -9,4 +9,7 @@ public interface InterviewService {
     Boolean createInterview(InterviewPostReq interviewPostReq);
 
     Interview updateSesstion(Room room, String userNickname, String companyId);
+
+    Boolean checkCSID(String userNickName, String csId);
+
 }

@@ -38,10 +38,18 @@
           </td>
           <td class="text-right">
             <v-btn class="interview-button"
+              v-if="userType=='company'"
               color="white" text
-              @click="clickInterview"
+              @click="$router.push({ name: 'companyinterview', params: { sessionid: 'line' }})"
             >
-              입장
+              면접장 개설
+            </v-btn>
+            <v-btn class="interview-button"
+              v-else
+              color="white" text
+              @click="$router.push({ name: 'userinterview', params: { sessionid: 'line' }})"
+            >
+              면접장 입장
             </v-btn>
           </td>
         </tr>
@@ -68,7 +76,8 @@ export default {
         this.interviews =  res.data
       })
     } else if (this.userType == 'company') {
-      http.get('/company/companyinterviewinfo/' + this.$route.params.id) 
+      // http.get('/company/companyinterviewinfo/' + this.$route.params.id)
+      http.get('/company/companyinterviewinfo/' + 'lineit')  
       .then(res => {
         console.log(res.data)
         this.interviews =  res.data

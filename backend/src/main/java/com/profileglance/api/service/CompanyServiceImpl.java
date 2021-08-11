@@ -4,15 +4,10 @@ import com.profileglance.api.request.CompanyPostReq;
 import com.profileglance.api.response.CompanyInterviewGetRes;
 import com.profileglance.api.response.CompanyLikeListGetRes;
 import com.profileglance.api.response.CompanyMypageGetRes;
+import com.profileglance.api.response.RecruitPostRes;
 import com.profileglance.config.DirPathConfig;
-import com.profileglance.db.entity.Company;
-import com.profileglance.db.entity.Interview;
-import com.profileglance.db.entity.User;
-import com.profileglance.db.entity.UserLike;
-import com.profileglance.db.repository.CompanyRepository;
-import com.profileglance.db.repository.InterviewRepository;
-import com.profileglance.db.repository.UserLikeRepository;
-import com.profileglance.db.repository.UserRepository;
+import com.profileglance.db.entity.*;
+import com.profileglance.db.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,6 +32,10 @@ public class CompanyServiceImpl implements CompanyService{
 
     @Autowired
     InterviewRepository interviewRepository;
+
+    @Autowired
+    RecruitRepository recruitRepository;
+
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -125,9 +124,9 @@ public class CompanyServiceImpl implements CompanyService{
     }
 
     @Override
-    public List<CompanyInterviewGetRes> interviewList(String companyId){
+    public List<CompanyInterviewGetRes> interviewList(String csId){
         List<CompanyInterviewGetRes> companyInterviewGetResList = new ArrayList<>();
-        List<Interview> interviewList = interviewRepository.findAllByCompany_CompanyId(companyId);
+        List<Interview> interviewList = interviewRepository.findAllByCompany_SessionId(csId);
 
         for (Interview i : interviewList){
             String sessionId = null;
@@ -143,5 +142,35 @@ public class CompanyServiceImpl implements CompanyService{
         }
 
         return companyInterviewGetResList;
+    }
+
+    @Override
+    public List<RecruitPostRes> recruitList(String csId) {
+        List<RecruitPostRes> recruitPostResList = new ArrayList<>();
+        List<Recruit> recruits = recruitRepository.findAllByCsId(csId);
+
+        for(Recruit recruit : recruits) {
+            String sessionId = null;
+            if(recruit.getRoom() != null) {
+                sessionId = recruit.getRoom().getSessionId();
+            }
+
+            recruitPostResList.add(new RecruitPostRes(
+                    recruit.getRecruitId()
+                    ,recruit.getCompany().getCompanyName()
+                    ,recruit.getCompany().getCompanyImg()
+                    ,recruit.getJob().getJobName()
+                    ,recruit.getDescriptionURL()
+                    ,recruit.getRecruitURL()
+                    ,recruit.getCareer()
+                    ,recruit.getJobDetail()
+                    ,recruit.getRecruitStartDate()
+                    ,recruit.getRecruitEndDate()
+                    ,recruit.getPresentationDate()
+                    ,sessionId
+            ));
+        }
+
+        return recruitPostResList;
     }
 }

@@ -111,6 +111,7 @@ public class UserServiceImpl implements UserService{
                 ,user.getUserNickname()
                 ,user.isAdmin()
                 ,user.getUserImg()
+                ,user.getUserPhone()
         );
         return mypageGetRes;
     }

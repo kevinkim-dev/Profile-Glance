@@ -130,11 +130,15 @@ public class CompanyServiceImpl implements CompanyService{
         List<Interview> interviewList = interviewRepository.findAllByCompany_CompanyId(companyId);
 
         for (Interview i : interviewList){
+            String sessionId = null;
+            if (i.getRoom() != null){
+                sessionId = i.getRoom().getSessionId();
+            }
             companyInterviewGetResList.add(new CompanyInterviewGetRes(
                     i.getUser().getUserNickname()
                     ,i.getInterviewDate()
                     ,i.getInterviewTime()
-                    ,i.getRoom().getSessionId()
+                    ,sessionId
             ));
         }
 

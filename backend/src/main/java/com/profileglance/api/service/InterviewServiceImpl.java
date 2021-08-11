@@ -8,6 +8,7 @@ import com.profileglance.db.repository.CompanyRepository;
 import com.profileglance.db.repository.InterviewRepository;
 import com.profileglance.db.repository.RoomRepository;
 import com.profileglance.db.repository.UserRepository;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,7 @@ public class InterviewServiceImpl implements InterviewService{
                     .company(companyRepository.findByCompanyId(interviewPostReq.getCompanyId()).get())
                     .interviewTime(interviewPostReq.getInterviewTime())
                     .interviewDate(interviewPostReq.getInterviewDate())
+                    .csId(companyRepository.findByCompanyId(interviewPostReq.getCompanyId()).get().getSessionId())
                     .build()
             );
             return true;
@@ -49,6 +51,17 @@ public class InterviewServiceImpl implements InterviewService{
         updateinterview.setRoom(room);
         interviewRepository.save(updateinterview);
         return updateinterview;
+    }
+
+    @Override
+    public Boolean checkCSID(String userNickName, String csId) {
+        Optional<Interview> interview = interviewRepository.findByUser_UserNicknameAndCsId(userNickName, csId);
+
+        if(interview.isPresent() && interview.get().getRoom() != null) {
+            return true;
+        } else {
+            return  false;
+        }
     }
 
 }

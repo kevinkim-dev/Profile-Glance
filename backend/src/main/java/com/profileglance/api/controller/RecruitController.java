@@ -1,5 +1,6 @@
 package com.profileglance.api.controller;
 
+import com.profileglance.api.request.InterviewCheckPostReq;
 import com.profileglance.api.request.RecruitPostReq;
 import com.profileglance.api.response.LookatmePostRes;
 import com.profileglance.api.response.RecruitPostRes;
@@ -85,4 +86,16 @@ public class RecruitController {
 
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
     }
+
+//    @GetMapping("/checkCSID/{csId}")
+//    @ApiOperation(value = "채용설명회 세션 있는지 확인", notes = "채용설명회 세션 있는지 확인")
+//    public ResponseEntity<? extends BaseResponseBody> checkCSID(@PathVariable("csId") String csId) {
+//        Boolean check = recruitService.checkCSID(csId);
+//        if(check) {
+//            return ResponseEntity.status(201).body(BaseResponseBody.of(201, "있음"));
+//        } else {
+//            return ResponseEntity.status(202).body(BaseResponseBody.of(202, "없음"));
+//        }
+//    }
+
 }

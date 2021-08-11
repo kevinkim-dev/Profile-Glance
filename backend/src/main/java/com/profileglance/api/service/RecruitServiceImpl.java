@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class RecruitServiceImpl implements RecruitService{
+public class RecruitServiceImpl implements RecruitService {
 
     @Autowired
     RecruitRepository recruitRepository;
@@ -60,7 +60,13 @@ public class RecruitServiceImpl implements RecruitService{
         List<Recruit> recruitList = recruitRepository.findAllByCompany_CompanyNameContaining(companyName);
         List<RecruitPostRes> recruitPostResList = new ArrayList<>();
 
-        for(Recruit recruit : recruitList) {
+        for (Recruit recruit : recruitList) {
+
+            String sessionId = null;
+            if (recruit.getRoom() != null) {
+                sessionId = recruit.getRoom().getSessionId();
+            }
+
             recruitPostResList.add(new RecruitPostRes(
                     recruit.getRecruitId(),
                     recruit.getCompany().getCompanyName(),
@@ -72,7 +78,8 @@ public class RecruitServiceImpl implements RecruitService{
                     recruit.getJobDetail(),
                     recruit.getRecruitStartDate(),
                     recruit.getRecruitEndDate(),
-                    recruit.getPresentationDate()
+                    recruit.getPresentationDate(),
+                    sessionId
             ));
         }
 
@@ -86,7 +93,12 @@ public class RecruitServiceImpl implements RecruitService{
         List<Recruit> recruitList = recruitRepository.findAllByJob_JobName(jobName);
         List<RecruitPostRes> recruitPostResList = new ArrayList<>();
 
-        for(Recruit recruit : recruitList) {
+        for (Recruit recruit : recruitList) {
+            String sessionId = null;
+            if (recruit.getRoom() != null) {
+                sessionId = recruit.getRoom().getSessionId();
+            }
+
             recruitPostResList.add(new RecruitPostRes(
                     recruit.getRecruitId(),
                     recruit.getCompany().getCompanyName(),
@@ -98,7 +110,8 @@ public class RecruitServiceImpl implements RecruitService{
                     recruit.getJobDetail(),
                     recruit.getRecruitStartDate(),
                     recruit.getRecruitEndDate(),
-                    recruit.getPresentationDate()
+                    recruit.getPresentationDate(),
+                    sessionId
             ));
         }
 
@@ -110,7 +123,12 @@ public class RecruitServiceImpl implements RecruitService{
         List<Recruit> recruitList = recruitRepository.findAllByOrderByRecruitEndDate();
         List<RecruitPostRes> recruitPostResList = new ArrayList<>();
 
-        for(Recruit recruit : recruitList) {
+        for (Recruit recruit : recruitList) {
+            String sessionId = null;
+            if (recruit.getRoom() != null) {
+                sessionId = recruit.getRoom().getSessionId();
+            }
+
             recruitPostResList.add(new RecruitPostRes(
                     recruit.getRecruitId(),
                     recruit.getCompany().getCompanyName(),
@@ -122,7 +140,8 @@ public class RecruitServiceImpl implements RecruitService{
                     recruit.getJobDetail(),
                     recruit.getRecruitStartDate(),
                     recruit.getRecruitEndDate(),
-                    recruit.getPresentationDate()
+                    recruit.getPresentationDate(),
+                    sessionId
             ));
         }
 

@@ -44,6 +44,7 @@ public class RecruitServiceImpl implements RecruitService {
                 .recruitStartDate(recruitPostReq.getRecruitStartDate())
                 .recruitEndDate(recruitPostReq.getRecruitEndDate())
                 .presentationDate(recruitPostReq.getPresentationDate())
+                .csId(companyRepository.findByCompanyId(recruitPostReq.getCompanyId()).get().getSessionId())
                 .build()
         );
 
@@ -168,5 +169,17 @@ public class RecruitServiceImpl implements RecruitService {
         return true;
     }
 
+//    @Override
+//    public Boolean checkCSID(String csId) {
+//        List<Recruit> recruits = recruitRepository.findAllByCsId(csId);
+//
+//        for(Recruit recruit : recruits) {
+//            if(recruit.getRoom() != null) {
+//                return true;
+//            }
+//        }
+//
+//        return false;
+//    }
 
 }

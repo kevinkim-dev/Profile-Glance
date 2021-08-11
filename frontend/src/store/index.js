@@ -16,7 +16,7 @@ import http from '../http.js';
 Vue.use(Vuex);
 // 개발모드면 true 배포모드면 false
 const DEVELOPMODE = true;
-// const DEVELOPMODE = false
+// const DEVELOPMODE = false;
 export default new Vuex.Store({
   modules: {
     banner,
@@ -39,7 +39,7 @@ export default new Vuex.Store({
   },
   state: {
     data: {
-      likeUserList: Array
+      likeUserList: Array,
     },
   },
   mutations: {
@@ -53,13 +53,14 @@ export default new Vuex.Store({
       location.reload();
     },
     SET_LIKE_USER_LIST(state, data) {
-      state.likeUserList = data
-    }
+      state.likeUserList = data;
+    },
   },
   actions: {
     requestDeleteUser({ commit }, userEmail) {
       console.log(userEmail);
-      http.delete('/user/delete/' + userEmail)
+      http
+        .delete('/user/delete/' + userEmail)
         .then((res) => {
           console.log('then');
           commit('REQUEST_LOGOUT');
@@ -73,14 +74,15 @@ export default new Vuex.Store({
       commit('REQUEST_LOGOUT');
     },
     getLikeUserList({ commit }, companyId) {
-      http.get('/company/userlike/' + companyId)
-      .then(res => {
-        console.log(res)
-        commit('SET_LIKE_USER_LIST', res.data)
-      })
-      .catch(err => {
-        console.log(err)
-      })
-    }
+      http
+        .get('/company/userlike/' + companyId)
+        .then((res) => {
+          console.log(res);
+          commit('SET_LIKE_USER_LIST', res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
 });

@@ -26,7 +26,7 @@ public class Interview {
 //    @Column(name = "company_id")
 //    private String companyId;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Company company;
 

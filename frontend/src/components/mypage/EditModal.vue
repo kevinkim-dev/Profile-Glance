@@ -146,7 +146,7 @@ export default {
   mounted() {
     console.log(localStorage.getItem('user_info'))
     const userData = this.$store.state.mypage.userData
-    // this.editForm.userPhone = userData.userPhone
+    this.editForm.userPhone = userData.userPhone
     this.editForm.major1 = userData.major1
     this.editForm.major2 = userData.major2
     this.editForm.portfolio1 = userData.portfolio1

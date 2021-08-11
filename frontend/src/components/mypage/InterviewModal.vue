@@ -100,9 +100,22 @@ export default {
           alert('면접 시간을 선택해주세요.');
         }
       } else {
-        //인터뷰 신청 axios
-        alert(this.interviewDate + this.interviewTime)
-        this.$emit('closeInterviewModal');
+        //인터뷰 신청 axios 
+        const body = {
+          'companyId': localStorage.getItem('id'),
+          'interviewDate': this.interviewDate,
+          'interviewTime': this.interviewTime,
+          'userNickname': this.$route.params.id
+        }
+        console.log(body)
+        http.post('/interview/createinterview', body)
+        .then(res => {
+          alert('성공')
+          location.reload()
+        })
+        .catch(err => {
+          console.log(err)
+        })
       }
     },
     closeInterviewModal() {

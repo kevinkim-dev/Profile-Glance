@@ -184,12 +184,16 @@ public class UserServiceImpl implements UserService{
         List<InterviewListGetRes> interviewListGetRes = new ArrayList<>();
         List<Interview> interviewList = interviewRepository.findAllByUser_UserNickname(userNickname);
         for(Interview i : interviewList){
+            String sessionId = null;
+            if (i.getRoom() != null){
+                sessionId = i.getRoom().getSessionId();
+            }
             interviewListGetRes.add(new InterviewListGetRes(
                     i.getUser().getUserName()
                     ,i.getCompany().getCompanyId()
                     ,i.getInterviewDate()
                     ,i.getInterviewTime()
-                    ,i.getRoom().getSessionId()
+                    ,sessionId
             ));
         }
         return interviewListGetRes;

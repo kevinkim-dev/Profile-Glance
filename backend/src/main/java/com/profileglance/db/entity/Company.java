@@ -42,8 +42,8 @@ public class Company {
     @OneToMany(mappedBy = "company")
     private List<UserLike> userLikes = new ArrayList<>();
 
-    @OneToOne(mappedBy = "company")
-    private Interview interview;
+    @OneToMany(mappedBy = "company")
+    private List<Interview> interviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "company")
     private List<Recruit> recruits = new ArrayList<>();

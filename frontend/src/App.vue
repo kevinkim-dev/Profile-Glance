@@ -2,13 +2,12 @@
   <v-app>
     <div v-if="isLogin">
       <Header />
-      <router-view :key="$route.fullPath"/>
+      <router-view :key="$route.fullPath" />
       <Footer />
     </div>
     <div v-else>
       <Home />
     </div>
-
 
     <!-- <v-main>
       <HelloWorld/>
@@ -20,7 +19,7 @@
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
 import Home from '@/views/Home.vue';
-import Http from '@/http.js'
+import Http from '@/http.js';
 
 export default {
   name: 'App',
@@ -28,20 +27,19 @@ export default {
   components: {
     Header,
     Footer,
-    Home
+    Home,
   },
 
-  data: () => ({
-  }),
+  data: () => ({}),
   computed: {
     isLogin: function() {
-      return localStorage.getItem('token')
-    }
+      return localStorage.getItem('token');
+    },
   },
   methods: {
     refreshAll() {
-      this.$router.go()
-    }
+      this.$router.go();
+    },
   },
 };
 </script>

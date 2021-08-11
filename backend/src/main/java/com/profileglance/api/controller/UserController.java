@@ -144,9 +144,9 @@ public class UserController {
     }
 
     // (마이페이지) 면접 일정 보기
-    @GetMapping("/myinterview/{userEmail}")
-    @ApiOperation(value = "나의 면접 일정 보기", notes = "userEmail을 주세용")
-    public ResponseEntity<List<InterviewListGetRes>> myInterview(@PathVariable("userEmail") String userEmail){
-        return new ResponseEntity<List<InterviewListGetRes>>(userService.myInterviewList(userEmail), HttpStatus.OK);
+    @GetMapping("/myinterview/{userNickname}")
+    @ApiOperation(value = "나의 면접 일정 보기", notes = "userNickname을 주세용")
+    public ResponseEntity<List<InterviewListGetRes>> myInterview(@PathVariable("userNickname") String userNickname){
+        return new ResponseEntity<List<InterviewListGetRes>>(userService.myInterviewList(userNickname), HttpStatus.OK);
     }
 }

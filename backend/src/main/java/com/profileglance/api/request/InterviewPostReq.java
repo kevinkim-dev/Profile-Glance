@@ -24,11 +24,4 @@ public class InterviewPostReq {
 
     @ApiModelProperty(name = "면접 시간")
     String interviewTime;
-
-    public InterviewPostReq(String userNickname, String companyId, String interviewDate, String interviewTime) {
-        this.userNickname = userNickname;
-        this.companyId = companyId;
-        this.interviewDate = interviewDate;
-        this.interviewTime = interviewTime;
-    }
 }

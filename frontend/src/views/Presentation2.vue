@@ -29,12 +29,12 @@
         <p>mainStreamManager</p>
 				<user-video :stream-manager="mainStreamManager"/>
 			</div>
-			<!-- <div id="video-container" class="col-md-6">
+			<div id="video-container" class="col-md-6">
         <p>publisher</p>
 				<user-video :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
 				<p>subscribers</p>
         <user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
-			</div> -->
+			</div>
 			<div class="chat-box">
 				<div ref="chatDisplay" class="chat-display">
 					<div v-for="(chat, index) in chats" :key="index" class="chat-line">
@@ -97,12 +97,18 @@ export default {
 			getUserInfo: {
 				id: localStorage.getItem('id'),
 				nickname: localStorage.getItem('id'),
-			}
+			},
+			isCompany: localStorage.getItem('login_type') === 'company'? true:false
 		}
 	},
 	created () {
 		this.joinSession()
 	},
+	computed: {
+		isPublisher: function () {
+			return this.isCompany && (this.companyId === this.getUserInfo.id)? true:false
+		}
+ 	},
 	methods: {
 		joinSession () {
 			// --- Get an OpenVidu object ---
@@ -114,8 +120,10 @@ export default {
 			// --- Specify the actions when events take place in the session ---
 			// On every new Stream received...
 			this.session.on('streamCreated', ({ stream }) => {
-				const subscriber = this.session.subscribe(stream);
-				this.subscribers.push(subscriber);
+				if (!this.isPublisher) {
+					const subscriber = this.session.subscribe(stream);
+					this.subscribers.push(subscriber);
+				}
 			});
 			// On every Stream destroyed...
 			this.session.on('streamDestroyed', ({ stream }) => {
@@ -138,21 +146,25 @@ export default {
 			this.getToken(this.companyId).then(token => {
 				this.session.connect(token, { clientData: this.getUserInfo.id })
 					.then(() => {
-						// --- Get your own camera stream with the desired properties ---
-						let publisher = this.OV.initPublisher(undefined, {
-							audioSource: undefined, // The source of audio. If undefined default microphone
-							videoSource: undefined, // The source of video. If undefined default webcam
-							publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
-							publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
-							resolution: '640x480',  // The resolution of your video
-							frameRate: 30,			// The frame rate of your video
-							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
-							mirror: false       	// Whether to mirror your local video or not
-						});
-						this.mainStreamManager = publisher;
-						this.publisher = publisher;
-						// --- Publish your stream ---
-						this.session.publish(this.publisher);
+						if (this.isPublisher) {
+							// --- Get your own camera stream with the desired properties ---
+							let publisher = this.OV.initPublisher(undefined, {
+								audioSource: undefined, // The source of audio. If undefined default microphone
+								videoSource: undefined, // The source of video. If undefined default webcam
+								publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
+								publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
+								resolution: '640x480',  // The resolution of your video
+								frameRate: 30,			// The frame rate of your video
+								insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
+								mirror: false       	// Whether to mirror your local video or not
+							});
+							this.mainStreamManager = publisher;
+							this.publisher = publisher;
+							// --- Publish your stream ---
+							this.session.publish(this.publisher);
+						} else {
+
+						}
 					})
 					.catch(error => {
 						console.log('There was an error connecting to the session:', error.code, error.message);

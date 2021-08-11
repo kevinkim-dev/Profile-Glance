@@ -9,7 +9,7 @@ import Features from './views/Features'
 import MyPage from './views/MyPage.vue'
 import CompanySignUp from './views/CompanySignUp.vue'
 import WantedRegist from './views/WantedRegist.vue'
-import Presentation from './views/Presentation.vue'
+import Presentation2 from './views/Presentation2.vue'
 
 Vue.use(Router)
 
@@ -65,7 +65,7 @@ export default new Router({
     {
       path: '/presentation',
       name: 'presentation',
-      component: Presentation
+      component: Presentation2
     }
   ]
 })

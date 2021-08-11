@@ -23,13 +23,13 @@
 						<button class="btn btn-lg btn-success" @click="getAllSessions()">subscriber로 참여</button>
 					</p> -->
 					<p class="text-center">
-						<button class="btn btn-lg btn-success" @click="createPresentation('line5')">설명회개설</button>
+						<button class="btn btn-lg btn-success" @click="createPresentation('line6')">설명회개설</button>
 					</p>
 					<p class="text-center">
-						<button class="btn btn-lg btn-success" @click="joinPresentation('line5')">LIVE-ON</button>
+						<button class="btn btn-lg btn-success" @click="joinPresentation('line6')">LIVE-ON</button>
 					</p>
 					<p class="text-center">
-						<button class="btn btn-lg btn-success" @click="getSession('line')">세션정보 가져오기</button>
+						<button class="btn btn-lg btn-success" @click="getSession('line6')">세션정보 가져오기</button>
 					</p>
 				</div>
         <p>전체 세션 목록</p>
@@ -134,6 +134,7 @@ export default {
     createPresentation (sessionId) {
 			this.OV = new OpenVidu();
 			this.session = this.OV.initSession();
+			console.log(this.session)
 
 			// On every new Stream received...
 			this.session.on('streamCreated', ({ stream }) => {
@@ -256,6 +257,8 @@ export default {
 
 			// --- Init a session ---
 			this.session = this.OV.initSession();
+			console.log('init a session')
+			console.log(this.session)
 
 			// --- Specify the actions when events take place in the session ---
 
@@ -351,6 +354,7 @@ export default {
 		getToken (mySessionId) {
 			return this.createSession(mySessionId).then(sessionId => this.createToken(sessionId));
 		},
+
 		getSession (sessionId) {
 			return new Promise((resolve, reject) => {
 				axios
@@ -362,8 +366,11 @@ export default {
 					})
       .then((res) => {
 				console.log('getSession 성공')
-        console.log(res.data.id)
-				resolve(res.data.id)
+        console.log(typeof res)
+				console.log(res)
+				console.log(typeof res.data)
+				console.log(res.data)
+				resolve(res.data)
       })
       .catch(error => {
 				if (error.response.status === 409) {

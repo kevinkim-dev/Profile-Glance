@@ -70,7 +70,7 @@ export default new Router({
       component: CompanySignUp
     },
     {
-      path: '/presentation',
+      path: '/presentation/:companyid',
       name: 'presentation',
       component: Presentation2
     }

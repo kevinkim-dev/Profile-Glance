@@ -22,7 +22,7 @@
 
 		<div id="session" v-if="session">
 			<div id="session-header">
-				<h1 id="session-title">{{ getUserInfo.id }} 설명회</h1>
+				<h1 id="session-title">{{ companyId }} 설명회</h1>
 				<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
 			</div>
 			<div id="main-video" class="col-md-6">
@@ -84,6 +84,7 @@ export default {
 	},
 	data () {
 		return {
+			companyId: this.$route.params.companyid,
 			OV: undefined,
 			session: undefined,
 			mainStreamManager: undefined,
@@ -134,7 +135,7 @@ export default {
 			// --- Connect to the session with a valid user token ---
 			// 'getToken' method is simulating what your server-side should do.
 			// 'token' parameter should be retrieved and returned by your own backend
-			this.getToken(this.getUserInfo.id).then(token => {
+			this.getToken(this.companyId).then(token => {
 				this.session.connect(token, { clientData: this.getUserInfo.id })
 					.then(() => {
 						// --- Get your own camera stream with the desired properties ---

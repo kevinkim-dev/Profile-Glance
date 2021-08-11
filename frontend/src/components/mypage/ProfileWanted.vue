@@ -17,7 +17,7 @@
     </div>
     <v-btn class="interview-button"
       color="white" text x-large
-      @click="$router.push({ name: 'presentation' })"
+      @click="$router.push('/presentation/' + company.companyName)"
     >
       설명회개설
     </v-btn>

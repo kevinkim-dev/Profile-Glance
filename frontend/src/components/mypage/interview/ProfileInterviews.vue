@@ -26,6 +26,7 @@
           v-for="(interview, i) in interviews"
           :key="i"
         >
+          {{ interview }}
           <td>{{ interviewId(interview) }}</td>
           <td>{{ interview.interviewDate }} {{ interview.interviewTime }}</td>
           <td class="text-left">
@@ -38,16 +39,16 @@
           </td>
           <td class="text-right">
             <v-btn class="interview-button"
-              v-if="userType=='company'"
+              v-if="(userType=='company')&&(!interview.sessionId)"
               color="white" text
-              @click="$router.push({ name: 'companyinterview', params: { sessionid: 'line' }})"
+              @click="$router.push({ name: 'companyinterview', params: { sessionid: interview.csId, interviewee: interviewId(interview) }})"
             >
               면접장 개설
             </v-btn>
             <v-btn class="interview-button"
-              v-else
+              v-else-if="interviews.sessionId"
               color="white" text
-              @click="$router.push({ name: 'userinterview', params: { sessionid: 'line' }})"
+              @click="$router.push({ name: 'userinterview', params: { sessionid: interviews.sessionId }})"
             >
               면접장 입장
             </v-btn>
@@ -76,8 +77,7 @@ export default {
         this.interviews =  res.data
       })
     } else if (this.userType == 'company') {
-      // http.get('/company/companyinterviewinfo/' + this.$route.params.id)
-      http.get('/company/companyinterviewinfo/' + 'lineit')  
+      http.get('/company/companyinterviewinfo/' + this.$route.params.id)
       .then(res => {
         console.log(res.data)
         this.interviews =  res.data

@@ -1,11 +1,6 @@
 <template>
   <div class="home">
-    <!-- <SlideBanner /> -->
-    <!-- <BestProductList /> -->
     <LookatmeList />
-    <!-- <MiddleBanner />
-    <BlogArticles />
-    <InstagramArticles /> -->
   </div>
 </template>
 

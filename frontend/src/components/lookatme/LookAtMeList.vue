@@ -26,6 +26,7 @@
           </v-col>
           <v-col cols="1">
             <v-btn color="green"
+              v-if="isUser"
               ><router-link :to="{ name: 'lookatmeregist' }" exact>업로드</router-link></v-btn
             >
           </v-col>
@@ -95,7 +96,7 @@
             :key="video.lookatmeId"
             @click="lookatmeDetail(video.lookatmeId, video.thumbnail, video.video)"
           >
-            <v-card :loading="false" class="mx-2 my-12" width="320" height="300px">
+            <v-card :loading="false" class="mx-2 my-12 lookatme" width="320" height="300px">
               <template slot="progress">
                 <v-progress-linear
                   color="deep-purple"
@@ -150,6 +151,9 @@ export default {
   computed: {
     ...mapState('product', {
       products: (state) => state.featuredProducts,
+      isUser() {
+        return localStorage.getItem('login_type') == 'user'
+      }
     }),
     ...mapGetters([
         'fileURL'
@@ -432,5 +436,9 @@ export default {
 .created:hover {
   overflow: visible;
   background-color: white;
+}
+
+.lookatme:hover {
+  cursor: pointer;
 }
 </style>

@@ -169,6 +169,7 @@ export default {
 			mySessionId: '',
 			myUserName: '',
 			sessionId: this.$route.params.sessionid,
+			recruitId: this.$route.params.recruitid,
 			width: Number,
 			originalSize: Object,
 			fullSize: Object,
@@ -177,7 +178,9 @@ export default {
 	created () {
     this.mySessionId = this.sessionId
     this.myUserName = localStorage.getItem('id')
-		http.post('/recruit/createRoom', this.myUserName)
+		const body = {companyId: this.myUserName, recruitId: this.recruitId}
+		console.log(body)
+		http.post('/recruit/createRoom', body)
 		.then((res) => {
 			console.log(res)
 		})
@@ -271,7 +274,7 @@ export default {
 		},
 		leaveSession () {
 			// --- Leave the session by calling 'disconnect' method over the Session object ---
-			const body = {companyId: this.myUserName, sessionId: this.sessionId}
+			const body = {companyId: this.myUserName, sessionId: this.sessionId, recruitId: this.recruitId}
 			http.post('/room/deleteRecruitSessionId', body)
 			if (this.session) this.session.disconnect();
 			this.session = undefined;

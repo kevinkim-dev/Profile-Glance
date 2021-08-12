@@ -29,7 +29,6 @@
           v-for="wanted in wanteds"
           :key="wanted.recruitId"
         >
-        {{ wanted }}
           <td>{{ wanted.job }}</td>
           <td>{{ wanted.jobDetail }}</td>
           <td>{{ wanted.career }}</td>
@@ -38,7 +37,7 @@
             <v-btn class="wanted-button"
               color="white" text
               v-if="wanted.sessionId===null"
-              @click="$router.push({name: 'companypresentation', params: { sessionid: wanted.csId }})"
+              @click="$router.push({name: 'companypresentation', params: { sessionid: wanted.csId, recruitid: wanted.recruitId }})"
             >
               설명회개설
             </v-btn>
@@ -72,14 +71,6 @@ export default {
       }) 
   },
   methods: {
-    // openPresentation() {
-    //   localStorage.setItem('isSession', true)
-    //   this.$router.push({name: 'companypresentation', params: { sessionid: wanted.csId }})
-    // },
-    // joinPresentation() {
-    //   localStorage.setItem('isSession', true)
-    //   this.$router.push({name: 'userpresentation', params: { sessionid: wanted.csId }})
-    // },
   }
 }
 </script>

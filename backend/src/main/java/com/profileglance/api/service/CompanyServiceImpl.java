@@ -139,6 +139,7 @@ public class CompanyServiceImpl implements CompanyService{
                     ,i.getInterviewDate()
                     ,i.getInterviewTime()
                     ,sessionId
+                    ,i.getCsId()
             ));
         }
 

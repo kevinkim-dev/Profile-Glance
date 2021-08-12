@@ -13,7 +13,7 @@ import lombok.Setter;
 public class RecruitRoomPostReq {
 
     @ApiModelProperty(name="채용 아이디")
-    String recruitId;
+    Long recruitId;
 
     @ApiModelProperty(name="회사 아이디")
     String companyId;

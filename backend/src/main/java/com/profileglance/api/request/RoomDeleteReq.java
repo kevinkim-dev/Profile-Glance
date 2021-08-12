@@ -15,5 +15,8 @@ public class RoomDeleteReq {
 
     @ApiModelProperty(name="회사 아이디")
     String companyId;
+
+    @ApiModelProperty(name="채용 아이디")
+    Long recruitId;
     
 }

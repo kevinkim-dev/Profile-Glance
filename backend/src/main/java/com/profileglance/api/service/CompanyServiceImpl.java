@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -61,7 +60,9 @@ public class CompanyServiceImpl implements CompanyService{
                 .companyPhone(companyPostReq.getCompanyPhone())
                 .companyImg(companyPostReq.getCompanyId() + ".jpg")
                 .companyDept(companyPostReq.getCompanyDept())
-                .sessionId(companyPostReq.getCompanyId()+companyPostReq.getCompanyDept())
+                .sessionId(companyPostReq.getCompanyNameEng()+companyPostReq.getCompanyDeptEng())
+                .companyNameEng(companyPostReq.getCompanyNameEng())
+                .companyDeptEng(companyPostReq.getCompanyDeptEng())
                 .build()
         );
 

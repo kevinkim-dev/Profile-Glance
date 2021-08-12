@@ -22,7 +22,7 @@ public class RoomController {
     RoomService roomService;
 
     // 면접 삭제
-    @DeleteMapping("/deleteInterview")
+    @PostMapping("/deleteInterview")
     @ApiOperation(value = "면접 삭제", notes = "<strong>sessionId와 companyId</strong>를 통해 면접을 삭제한다.")
     public ResponseEntity<? extends BaseResponseBody> deleteInterview(@RequestBody RoomDeleteReq roomReq) {
 
@@ -33,7 +33,7 @@ public class RoomController {
     }
 
     // 채용 session id 삭제
-    @DeleteMapping("/deleteRecruitSessionId")
+    @PostMapping("/deleteRecruitSessionId")
     @ApiOperation(value = "채용 session id 삭제", notes = "<strong>sessionId와 companyId</strong>를 통해 면접을 삭제한다.")
     public ResponseEntity<? extends BaseResponseBody> deleteRecruitSessionId(@RequestBody RoomDeleteReq roomReq) {
 

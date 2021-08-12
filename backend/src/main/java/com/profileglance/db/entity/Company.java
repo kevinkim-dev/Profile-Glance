@@ -39,6 +39,12 @@ public class Company {
     @Column(name = "session_id")
     private String sessionId;
 
+    @Column(name = "company_name_eng")
+    private String companyNameEng;
+
+    @Column(name = "company_dept_eng")
+    private String companyDeptEng;
+
     @OneToMany(mappedBy = "company")
     private List<UserLike> userLikes = new ArrayList<>();
 

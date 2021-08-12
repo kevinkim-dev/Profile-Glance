@@ -73,7 +73,8 @@ export default {
   },
   methods: {
     clickWanted() {
-      alert('설명회 열기')
+      localStorage.setItem('isSession', true)
+      this.$router.push({name: 'companypresentation'})
     }
   }
 }

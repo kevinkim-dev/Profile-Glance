@@ -37,9 +37,25 @@
                 </v-col>
                 <v-col class="py-0" cols="6" md="6">
                   <v-text-field
+                    v-model="companySignupForm.companyEngName"
+                    :rules="nameRules"
+                    label="영문 이름*"
+                    required
+                  ></v-text-field>
+                </v-col>
+                <v-col class="py-0" cols="6" md="6">
+                  <v-text-field
                     v-model="companySignupForm.companyDepartment"
                     :rules="nameRules"
                     label="부서*"
+                    required
+                  ></v-text-field>
+                </v-col>
+                <v-col class="py-0" cols="6" md="6">
+                  <v-text-field
+                    v-model="companySignupForm.companyEngDepartment"
+                    :rules="nameRules"
+                    label="영문 부서*"
                     required
                   ></v-text-field>
                 </v-col>
@@ -181,6 +197,7 @@ export default {
       ],
       companySignupForm: {
         companyName: '',
+        companyEngName: '',
         companyId: '',
         companyPassword: '',
         passwordConfirm: '',
@@ -188,6 +205,7 @@ export default {
         companyPhone: '',
         companyImg: File,
         companyDepartment: '',
+        companyEngDepartment: '',
       },
       isIdDoubleChecked: false,
     };
@@ -213,11 +231,13 @@ export default {
 
         formData.append('companyId', this.companySignupForm.companyId);
         formData.append('companyName', this.companySignupForm.companyName);
+        formData.append('companyNameEng', this.companySignupForm.companyEngName)
         formData.append('companyEmail', this.companySignupForm.companyEmail);
         formData.append('companyPassword', this.companySignupForm.companyPassword);
         formData.append('companyPhone', this.companySignupForm.companyPhone);
         formData.append('companyImg', this.companySignupForm.companyImg);
         formData.append('companyDept', this.companySignupForm.companyDepartment);
+        formData.append('companyDeptEng', this.companySignupForm.companyEngDepartment)
 
         Http.post('company/signup', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -226,12 +246,14 @@ export default {
             console.log(res);
             alert('기업회원 추가가 완료되었습니다.');
             this.companySignupForm.companyName = '';
+            this.companySignupForm.companyEngName = '';
             this.companySignupForm.companyId = '';
             this.companySignupForm.companyPassword = '';
             this.companySignupForm.passwordConfirm = '';
             this.companySignupForm.companyEmail = '';
             this.companySignupForm.companyPhone = '';
             this.companySignupForm.companyDepartment = '';
+            this.companySignupForm.companyEngDepartment = '';
             this.$router.push('/mypage/admin/관리자');
           })
           .catch((err) => {

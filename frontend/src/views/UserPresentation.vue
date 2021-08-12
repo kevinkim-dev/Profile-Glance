@@ -93,10 +93,11 @@ export default {
 			sendMsg: '',
 			mySessionId: '',
 			myUserName: '',
+			sessionId: this.$route.params.sessionid,
 		}
 	},
 	created () {
-    this.mySessionId = this.companyName
+    this.mySessionId = this.sessionId
     this.myUserName = localStorage.getItem('id')
 		this.joinSession()
 	},

@@ -70,6 +70,7 @@
 </template>
 
 <script>
+import http from '@/http.js';
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import UserVideo from '@/components/live/UserVideo';
@@ -91,11 +92,16 @@ export default {
 			sendMsg: '',
 			mySessionId: '',
 			myUserName: '',
+			sessionId: this.$route.params.sessionid,
 		}
 	},
 	created () {
-    this.mySessionId = localStorage.getItem('id')
+    this.mySessionId = this.sessionId
     this.myUserName = localStorage.getItem('id')
+		http.post('/recruit/createRoom', this.myUserName)
+		.then((res) => {
+			console.log(res)
+		})
 		this.joinSession()
 	},
   beforeDestroy () {
@@ -174,6 +180,8 @@ export default {
 		},
 		leaveSession () {
 			// --- Leave the session by calling 'disconnect' method over the Session object ---
+			const body = {companyId: this.myUserName, sessionId: this.sessionId}
+			http.post('/room/deleteRecruitSessionId', body)
 			if (this.session) this.session.disconnect();
 			this.session = undefined;
 			this.mainStreamManager = undefined;

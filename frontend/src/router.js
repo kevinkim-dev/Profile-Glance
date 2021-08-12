@@ -73,12 +73,12 @@ export default new Router({
       component: CompanySignUp
     },
     {
-      path: '/company/presentation',
+      path: '/company/presentation/:sessionid',
       name: 'companypresentation',
       component: CompanyPresentation
     },
     {
-      path: '/user/presentation/:companyname',
+      path: '/user/presentation/:sessionid',
       name: 'userpresentation',
       component: UserPresentation
     },

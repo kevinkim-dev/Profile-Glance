@@ -47,7 +47,8 @@ public class InterviewServiceImpl implements InterviewService{
 
     @Override
     public Interview updateSesstion(Room room, String userNickname, String companyId) {
-        Interview updateinterview = interviewRepository.findByUser_UserNicknameAndCompany_CompanyId(userNickname, companyId).get();
+        String sessionId = companyRepository.findByCompanyId(companyId).get().getSessionId();
+        Interview updateinterview = interviewRepository.findByUser_UserNicknameAndCompany_SessionId(userNickname, sessionId).get();
         updateinterview.setRoom(room);
         interviewRepository.save(updateinterview);
         return updateinterview;

@@ -48,7 +48,6 @@
 							v-model="sendMsg"
 							type="textarea"
 							id="session-message-input"
-							placeholder="메세지를 입력해주세요"
 							class="pt-2 pb-5 ps-2 pe-2"
 							@keydown.enter="submitMsg"
 						/>
@@ -58,7 +57,7 @@
 		</div>
 	</div>
 </template>
-<style>
+<style scoped>
 #session-background {
 	background-color: rgb(80, 75, 75);
 	/* border: solid 1px white; */
@@ -82,6 +81,7 @@
 	padding-top: 30px;
 	padding-bottom: 30px;
 	border-bottom: solid rgb(151, 151, 151) 2px;
+	position: absolute;
 }
 
 #session-body {
@@ -129,10 +129,6 @@
 #session-message-box {
 	padding: 10px;
 	overflow: auto;
-}
-
-.msg-guide {
-	/* border-bottom: solid rgb(151, 151, 151) 1px; */
 }
 
 #session-message-send {

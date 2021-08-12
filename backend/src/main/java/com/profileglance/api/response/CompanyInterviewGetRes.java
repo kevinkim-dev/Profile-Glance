@@ -22,10 +22,14 @@ public class CompanyInterviewGetRes {
     @ApiModelProperty(name = "세션명")
     String sessionId;
 
-    public CompanyInterviewGetRes(String userNickname, String interviewDate, String interviewTime, String sessionId) {
+    @ApiModelProperty(name = "company_session_id")
+    String csId;
+
+    public CompanyInterviewGetRes(String userNickname, String interviewDate, String interviewTime, String sessionId, String csId) {
         this.userNickname = userNickname;
         this.interviewDate = interviewDate;
         this.interviewTime = interviewTime;
         this.sessionId = sessionId;
+        this.csId = csId;
     }
 }

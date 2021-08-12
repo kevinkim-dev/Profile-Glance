@@ -7,9 +7,9 @@
             :cols="3"
             v-for="video in list"
             :key="video.lookatmeId"
-            @click="lookatmeDetail(video.lookatmeId)"
+            @click="lookatmeDetail(video.lookatmeId, video.thumbnail, video.video)"
           >
-            <v-card :loading="false" class="mx-2 my-12" max-width="374" height="400px">
+            <v-card :loading="false" class="mx-2 my-12" width="320" height="300px">
               <template slot="progress">
                 <v-progress-linear
                   color="deep-purple"
@@ -17,14 +17,14 @@
                   indeterminate
                 ></v-progress-linear>
               </template>
-              <v-img height="250" :src="getImg(video.thumbnail)"> </v-img>
+              <v-img height="172" width="304" :src="getImg(video.thumbnail)"> </v-img>
               <!-- {{video.thumbnail}} -->
               <v-card-title
                 ><div class="title">{{ video.title }}</div></v-card-title
               >
               <v-card-text>
                 <v-row align="center" class="mx-0">
-                  <div class="grey--text ms-4">게시일 : {{ video.createdAt }}</div>
+                  <div class="grey--text ms-4 created">게시일 : {{ $moment(video.createdAt).format("YYYY년 MMMM do dddd HH시 mm분") }}</div>
                 </v-row>
                 <div class="my-4 text-subtitle-1">
                   {{ video.userNickName }}
@@ -47,6 +47,11 @@ import { mapState, mapGetters } from 'vuex';
 import InfiniteLoading from 'vue-infinite-loading';
 import Product from '@/components/Product.vue';
 import http from '@/http.js';
+import Vue from 'vue';
+import VueMoment from 'vue-moment';
+import moment from 'moment';
+moment.locale('ko');
+Vue.use(VueMoment, {moment});
 
 export default {
   computed: {
@@ -81,10 +86,10 @@ export default {
         })
         .catch((error) => {});
     },
-    lookatmeDetail(lookatmeId) {
-      console.log(lookatmeId);
+    lookatmeDetail(lookatmeId, thumbnail, video) {
       let lookatme_id = lookatmeId + "";
-      this.$router.push({name: 'lookatmedetail', query: {lookatme_id: lookatme_id}})
+      console.log(video);
+      this.$router.push({name: 'lookatmedetail', query: {lookatme_id: lookatme_id, thumbnail: thumbnail, video: video}});
     },
   },
   created() {
@@ -130,5 +135,19 @@ export default {
   white-space: nowrap;
   width: 230px;
   overflow: hidden;
+}
+.title:hover {
+  overflow: visible;
+}
+.created {
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 230px;
+  overflow: hidden;
+}
+.created:hover {
+  overflow: visible;
+  background-color: white;
 }
 </style>

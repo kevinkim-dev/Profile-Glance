@@ -79,11 +79,29 @@ export default {
 			sendMsg: '',
 			mySessionId: '',
 			myUserName: '',
+			isHost: false,
 		}
 	},
 	created () {
     this.mySessionId = this.sessionId
     this.myUserName = localStorage.getItem('id')
+		// 면접방 존재하는지 확인
+		const body = {csId: this.sessionId, userNickname: this.myUserName}
+		http.post('/interview/checkCSID', body)
+		.then((res) => {
+			// 없으면(202면) 넣어주기
+			const statusCode = res.data.statusCode
+			console.log(statusCode)
+			if (statusCode === 202) {
+				console.log('여기')
+				this.isHost = true
+				const body = {companyId: this.myUserName, userNickname: this.interviewee}
+				http.post('/interview/createroom', body)
+				.then((res) => {
+					console.log(res)
+				})
+			}
+		})
 		this.joinSession()
 	},
   beforeDestroy () {
@@ -96,6 +114,14 @@ export default {
   },
 	methods: {
     exitPresentation () {
+			console.log('ishost확인 전')
+			console.log(this.isHost)
+			if (this.isHost) {
+				console.log('확인 후')
+				const body = {companyId: this.myUserName, sessionId: this.sessionId}
+				console.log(body)
+				http.post('/room/deleteInterview', body)
+			}
       this.leaveSession()
       this.$router.go(-1)
     },

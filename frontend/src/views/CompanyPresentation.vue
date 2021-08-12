@@ -1,6 +1,6 @@
 <template>
 	<div id="session-background" class="d-flex justify-content-center align-items-center">
-		<div class="elevation-10 session-whole" ref="whole2" v-if="isFullScreen">
+		<!-- <div class="elevation-10 session-whole" ref="whole2" v-if="isFullScreen">
 			<div id="session-video2" class="d-flex justify-content-center">
 				<user-video :stream-manager="mainStreamManager"/>
 				<div class="d-flex flex-column justify-content-start" id="fullscreen-column">
@@ -9,8 +9,8 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="elevation-10 session-whole" ref="whole" v-else >
+		</div> -->
+		<div class="elevation-10 session-whole" ref="whole">
 			<div id="session-header" ref="header">
 				<h1 id="session-title">{{ mySessionId }} 설명회</h1>
 				<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="exitPresentation" value="Leave session">
@@ -18,11 +18,11 @@
 			<div id="session-body">
 				<div id="session-video" class="d-flex justify-content-center">
 					<user-video :stream-manager="mainStreamManager"/>
-					<div class="d-flex flex-column justify-content-start" id="fullscreen-column">
+					<!-- <div class="d-flex flex-column justify-content-start" id="fullscreen-column">
 						<div id="fullscreen-box">
 							<img src="/images/presentation/fullscreen.png" alt="fullscreen.png" id="fullscreen-icon" @click="fullscreenOn">
 						</div>
-					</div>
+					</div> -->
 				</div>
 				<div id="session-message">
 					<div ref="chatDisplay" id="session-message-box">
@@ -81,7 +81,7 @@
 	padding-top: 30px;
 	padding-bottom: 30px;
 	border-bottom: solid rgb(151, 151, 151) 2px;
-	position: absolute;
+	width: 100%;
 }
 
 #session-body {
@@ -158,7 +158,6 @@ export default {
 	},
 	data () {
 		return {
-			screenSize: String,
 			isFullScreen: false,
 			OV: undefined,
 			session: undefined,
@@ -170,7 +169,7 @@ export default {
 			myUserName: '',
 			sessionId: this.$route.params.sessionid,
 			recruitId: this.$route.params.recruitid,
-			width: Number,
+			screenSize: String,
 			originalSize: Object,
 			fullSize: Object,
 		}
@@ -252,6 +251,7 @@ export default {
 				this.session
           .connect(token, { clientData: this.myUserName })
 					.then(() => {
+						console.log(this.screenSize)
 						let publisher = this.OV.initPublisher(undefined, {
 							audioSource: undefined, // The source of audio. If undefined default microphone
 								videoSource: undefined, // The source of video. If undefined default webcam

@@ -12,7 +12,7 @@ public interface InterviewRepository extends JpaRepository<Interview, Long> {
     List<Interview> findAllByUser_UserNickname(String userNickname);
     List<Interview> findAllByCompany_CompanyId(String companyId);
     List<Interview> findAllByCompany_SessionId(String sessionId);
-    Optional<Interview> findByUser_UserNicknameAndCompany_CompanyId(String userNickname, String companyId);
+    Optional<Interview> findByUser_UserNicknameAndCompany_SessionId(String userNickname, String sessionId);
     Optional<Interview> findByUser_UserNicknameAndCsId(String userNickname, String scId);
 
     @Transactional

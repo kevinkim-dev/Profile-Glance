@@ -33,4 +33,10 @@ public class CompanyPostReq {
 
     @ApiModelProperty(name = "회사 부서")
     String companyDept;
+
+    @ApiModelProperty(name = "회사 이름 영문")
+    String companyNameEng;
+
+    @ApiModelProperty(name = "회사 부서 영문")
+    String companyDeptEng;
 }

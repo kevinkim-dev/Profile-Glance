@@ -53,6 +53,7 @@
 </template>
 
 <script>
+import http from '@/http.js';
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import UserVideo from '@/components/live/UserVideo';
@@ -70,6 +71,7 @@ export default {
 			session: undefined,
 			mainStreamManager: undefined,
       sessionId: this.$route.params.sessionid,
+			interviewee: this.$route.params.interviewee,
       publisher: undefined,
 			subscribers: [],
       publishers: [],

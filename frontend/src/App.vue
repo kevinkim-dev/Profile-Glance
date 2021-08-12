@@ -36,7 +36,7 @@ export default {
       return localStorage.getItem('token');
     },
     inNotSession: function() {
-      console.log(localStorage.getItem('isSession') != 'true')
+      return !this.$route.params.sessionid
       return localStorage.getItem('isSession') != 'true'
     }
   },

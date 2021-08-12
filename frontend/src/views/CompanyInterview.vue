@@ -86,9 +86,10 @@ export default {
     this.mySessionId = this.sessionId
     this.myUserName = localStorage.getItem('id')
 		// 면접방 존재하는지 확인
-		const body = {csId: this.sessionId, userNickname: this.myUserName}
+		const body = {csId: this.sessionId, userNickname: this.interviewee}
 		http.post('/interview/checkCSID', body)
 		.then((res) => {
+			console.log('두두둥장')
 			// 없으면(202면) 넣어주기
 			const statusCode = res.data.statusCode
 			console.log(statusCode)

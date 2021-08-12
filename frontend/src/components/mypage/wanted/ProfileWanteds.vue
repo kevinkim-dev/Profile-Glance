@@ -72,10 +72,14 @@ export default {
       }) 
   },
   methods: {
-    clickWanted() {
-      localStorage.setItem('isSession', true)
-      this.$router.push({name: 'companypresentation'})
-    }
+    // openPresentation() {
+    //   localStorage.setItem('isSession', true)
+    //   this.$router.push({name: 'companypresentation', params: { sessionid: wanted.csId }})
+    // },
+    // joinPresentation() {
+    //   localStorage.setItem('isSession', true)
+    //   this.$router.push({name: 'userpresentation', params: { sessionid: wanted.csId }})
+    // },
   }
 }
 </script>

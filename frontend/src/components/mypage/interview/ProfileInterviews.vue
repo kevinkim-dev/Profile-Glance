@@ -45,9 +45,16 @@
               면접장 개설
             </v-btn>
             <v-btn class="interview-button"
+              v-else-if="userType=='company'"
+              color="white" text
+              @click="$router.push({ name: 'companyinterview', params: { sessionid: interview.csId, interviewee: interviewId(interview) }})"
+            >
+              면접장 입장
+            </v-btn>
+            <v-btn class="interview-button"
               v-else-if="interview.sessionId"
               color="white" text
-              @click="$router.push({ name: 'userinterview', params: { sessionid: interviews.sessionId }})"
+              @click="$router.push({ name: 'userinterview', params: { sessionid: interview.sessionId }})"
             >
               면접장 입장
             </v-btn>

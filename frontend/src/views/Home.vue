@@ -146,6 +146,7 @@ export default {
   position: sticky;
   top: 50px;
   margin-right: 50px;
+  z-index: 1000;
 }
 #logo {
   padding: 20px;
@@ -172,4 +173,5 @@ export default {
   flex-direction: column;
   justify-content: center;
 }
+
 </style>

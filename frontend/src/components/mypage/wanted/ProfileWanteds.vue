@@ -36,9 +36,17 @@
           <td class="text-right">
             <v-btn class="wanted-button"
               color="white" text
-              @click="$router.push({name: 'companypresentation'})"
+              @click="clickWanted"
+              v-if="!wanted.sessionId"
             >
               설명회개설
+            </v-btn>
+            <v-btn class="wanted-button"
+              color="white" text
+              @click="clickWanted"
+              v-else
+            >
+              설명회참여
             </v-btn>
           </td>
         </tr>
@@ -64,7 +72,8 @@ export default {
   },
   methods: {
     clickWanted() {
-      alert('설명회 열기')
+      localStorage.setItem('isSession', true)
+      this.$router.push({name: 'companypresentation'})
     }
   }
 }

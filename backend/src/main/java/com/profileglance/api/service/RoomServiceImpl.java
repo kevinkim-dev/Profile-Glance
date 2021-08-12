@@ -47,7 +47,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public Boolean deleteRecruitSessionId(RoomDeleteReq roomDeleteReq) {
 
-        Recruit recruit = recruitRepository.findByCompany_CompanyId(roomDeleteReq.getCompanyId()).get();
+        Recruit recruit = recruitRepository.findByCompany_CompanyIdAndRecruitId(roomDeleteReq.getCompanyId(),roomDeleteReq.getRecruitId()).get();
 
         recruit.setRoom(null);
 

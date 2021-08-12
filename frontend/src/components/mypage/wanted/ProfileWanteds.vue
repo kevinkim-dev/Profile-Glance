@@ -38,7 +38,7 @@
             <v-btn class="wanted-button"
               color="white" text
               v-if="wanted.sessionId===null"
-              @click="$router.push({name: 'companypresentation', params: { sessionid: wanted.csId }})"
+              @click="$router.push({name: 'companypresentation', params: { sessionid: wanted.csId, recruitid: wanted.recruitId }})"
             >
               설명회개설
             </v-btn>

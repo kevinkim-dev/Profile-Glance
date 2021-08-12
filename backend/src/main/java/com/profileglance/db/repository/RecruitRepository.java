@@ -18,6 +18,7 @@ public interface RecruitRepository extends JpaRepository<Recruit, Long> {
     List<Recruit> findAllByOrderByRecruitEndDate();
 
     Optional<Recruit> findByCompany_CompanyId(String companyId);
+    Optional<Recruit> findByCompany_CompanyIdAndRecruitId(String companyId, Long recruitId);
 
     List<Recruit> findAllByCsId(String scId);
 

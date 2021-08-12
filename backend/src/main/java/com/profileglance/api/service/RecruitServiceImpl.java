@@ -161,9 +161,9 @@ public class RecruitServiceImpl implements RecruitService {
     }
 
     @Override
-    public Boolean updateRecruit(Room room, String companyId) {
+    public Boolean updateRecruit(Room room, String companyId, Long recruitId) {
 
-        Recruit recruit = recruitRepository.findByCompany_CompanyId(companyId).get();
+        Recruit recruit = recruitRepository.findByCompany_CompanyIdAndRecruitId(companyId, recruitId).get();
 
         recruit.setRoom(room);
 

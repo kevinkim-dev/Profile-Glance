@@ -26,10 +26,15 @@
             <v-col cols='4'>
                 <div id="video_content">
                     <div id="video_main">
-                        <h1>{{lookatme.title}}</h1><br>
-                        {{lookatme.createdAt}}<br>
+                        <div id="content">
+                        <h2 class="video_title">{{lookatme.title}}</h2>
+                        </div>
                         <br>
-                        <a>{{lookatme.userNickName}}</a><br>
+                        조회수: &nbsp;{{lookatme.view}}회<br>
+                        <br>
+                        게시일: &nbsp;{{ $moment(lookatme.createdAt).format("YYYY년 MMMM do dddd HH시 mm분") }}<br>
+                        <br>
+                        <a @click="userPage(lookatme.userNickName)">{{lookatme.userNickName}}</a><br>
                         <br>
                         {{lookatme.content}}<br>
                     </div>
@@ -51,7 +56,7 @@
             v-if="lookatme.lookatmeId != video.lookatmeId"
             @click="lookatmeDetail(video.lookatmeId, video.thumbnail, video.video)"
           >
-            <v-card :loading="false" class="mx-2 my-12" max-width="374" height="400px">
+            <v-card :loading="false" class="mx-2 my-12" width="320" height="300px">
               <template slot="progress">
                 <v-progress-linear
                   color="deep-purple"
@@ -59,15 +64,15 @@
                   indeterminate
                 ></v-progress-linear>
               </template>
-              <v-img height="250" :src="getImg(video.thumbnail)"> </v-img>
+              <v-img height="172" width="304" :src="getImg(video.thumbnail)"> </v-img>
               <!-- {{video.thumbnail}} -->
               <v-card-title
                 ><div class="title">{{ video.title }}</div></v-card-title
               >
               <v-card-text>
                 <v-row align="center" class="mx-0">
-                  <div class="grey--text ms-4">게시일 : {{ video.createdAt }}</div>
-                </v-row>
+                  <div class="grey--text ms-4 created">게시일 : {{ $moment(video.createdAt).format("YYYY년 MMMM do dddd HH시 mm분") }}</div>
+                 </v-row>
                 <div class="my-4 text-subtitle-1">
                   {{ video.userNickName }}
                 </div>
@@ -91,6 +96,11 @@ import http from '@/http.js';
 import InfiniteLoading from 'vue-infinite-loading';
 import 'video.js/dist/video-js.css';
 import { videoPlayer } from 'vue-video-player';
+import Vue from 'vue';
+import VueMoment from 'vue-moment';
+import moment from 'moment';
+moment.locale('ko');
+Vue.use(VueMoment, {moment});
 export default {
     computed: {
     ...mapGetters([
@@ -161,6 +171,9 @@ export default {
     },
 
     methods: {
+    userPage(userNickName) {
+			this.$router.push('/mypage/user/' + userNickName);
+    },
     modifyLookatme() {
         this.$router.push({name: 'lookatmemodify', params: {lookatme: this.lookatme}});
     },
@@ -232,6 +245,20 @@ export default {
 #lookatme-view::-webkit-scrollbar {
   display: none;
 }
+#content {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+.video_title {
+  display: table-cell;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.video_title:hover {
+    overflow: visible;
+}
 .title {
   display: block;
   text-overflow: ellipsis;
@@ -239,10 +266,24 @@ export default {
   width: 230px;
   overflow: hidden;
 }
+.title:hover {
+  overflow: visible;
+}
+.created {
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 230px;
+  overflow: hidden;
+}
+.created:hover {
+  overflow: visible;
+  background-color: white;
+}
 #video_content {
 background: rgba(0, 0, 0, 0.1);
   overflow-y: scroll;
-  height: 300px;
+  height: 352px;
   width: 100%;
   overflow-x: hidden;
   padding: 10px;

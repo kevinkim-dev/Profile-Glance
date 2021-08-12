@@ -194,6 +194,7 @@ public class UserServiceImpl implements UserService{
                     ,i.getInterviewDate()
                     ,i.getInterviewTime()
                     ,sessionId
+                    ,i.getCsId()
             ));
         }
         return interviewListGetRes;

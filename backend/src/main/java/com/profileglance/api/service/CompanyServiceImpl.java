@@ -169,6 +169,7 @@ public class CompanyServiceImpl implements CompanyService{
                     ,recruit.getRecruitEndDate()
                     ,recruit.getPresentationDate()
                     ,sessionId
+                    ,recruit.getCsId()
             ));
         }
 

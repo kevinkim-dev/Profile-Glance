@@ -80,7 +80,8 @@ public class RecruitServiceImpl implements RecruitService {
                     recruit.getRecruitStartDate(),
                     recruit.getRecruitEndDate(),
                     recruit.getPresentationDate(),
-                    sessionId
+                    sessionId,
+                    recruit.getCsId()
             ));
         }
 
@@ -112,7 +113,8 @@ public class RecruitServiceImpl implements RecruitService {
                     recruit.getRecruitStartDate(),
                     recruit.getRecruitEndDate(),
                     recruit.getPresentationDate(),
-                    sessionId
+                    sessionId,
+                    recruit.getCsId()
             ));
         }
 
@@ -142,7 +144,8 @@ public class RecruitServiceImpl implements RecruitService {
                     recruit.getRecruitStartDate(),
                     recruit.getRecruitEndDate(),
                     recruit.getPresentationDate(),
-                    sessionId
+                    sessionId,
+                    recruit.getCsId()
             ));
         }
 

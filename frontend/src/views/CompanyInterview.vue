@@ -1,57 +1,142 @@
 <template>
-	<div id="main-container" class="container">
-		<div id="session" v-if="session">
+	<div id="session-background" class="d-flex justify-content-center align-items-center">
+		<div class="elevation-10 session-whole" v-if="session">
 			<div id="session-header">
 				<h1 id="session-title">화상면접장</h1>
 				<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="exitPresentation" value="Leave session">
 			</div>
-      <h3>면접대상자</h3>
-			<div id="main-video" class="col-md-6">
-				<user-video :stream-manager="mainStreamManager"/>
-			</div>
-			<div id="video-container" class="d-flex col-md-6">
-        <h3>나=publisher</h3>
-				<user-video :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
-				<h3>다른 면접관=publishers</h3>
-        <user-video v-for="pub in publishers" :key="pub.stream.connection.connectionId+'2'" :stream-manager="pub"/>
-        <!-- <p>subscribers</p>
-        <user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/> -->
-			</div>
-			<div class="chat-box">
-				<div ref="chatDisplay" class="chat-display">
-					<div v-for="(chat, index) in chats" :key="index" class="chat-line">
-						<div v-if="chat.userId === myUserName" class="my-comment">
-							<div>
-								<span class="participant-name">[{{ chat.nickname }}] </span><span class="chat-msg">{{ chat.msg }}</span>
-							</div>
-						</div>
-						<div v-else class="other-comment">
-							<div>
-								<span class="participant-name other">[{{ chat.nickname }}] </span
-								><span class="chat-msg">{{ chat.msg }}</span>
-							</div>
-						</div>
-					</div>
+			<div id="session-body">
+				<div id="session-video" ref="size" class="d-flex row">
+					<user-video :stream-manager="mainStreamManager" class="col-6"/>
+					<user-video :stream-manager="publisher" class="col-6" @click.native="updateMainVideoStreamManager(publisher)"/>
+					<user-video v-for="pub in publishers" class="col-6" :key="pub.stream.connection.connectionId+'2'" :stream-manager="pub"/>
 				</div>
-				<br>
-				<div class="msg-wrapper">
-					<div class="msg-guide">
-						<!-- <img :src="getUserInfo.profileImage" class="user-profile" /> -->
-						{{ myUserName.nickname }}
+				<div id="session-message">
+					<div ref="chatDisplay" id="session-message-box">
+						<div v-for="(chat, index) in chats" :key="index" class="chat-line">
+							<div v-if="chat.userId === myUserName" class="my-comment">
+								<div>
+									<span class="participant-name">[{{ chat.nickname }}] </span><span class="chat-msg">{{ chat.msg }}</span>
+								</div>
+							</div>
+							<div v-else class="other-comment">
+								<div>
+									<span class="participant-name other">[{{ chat.nickname }}] </span
+									><span class="chat-msg">{{ chat.msg }}</span>
+								</div>
+							</div>
+						</div>
 					</div>
-					<input
-						v-model="sendMsg"
-						type="text"
-						class="msg-input"
-						placeholder="메세지를 입력해주세요"
-						@keydown.enter="submitMsg"
-					/>
+					<div id="session-message-send">
+						<div class="msg-guide p-2 fs-4" >
+							내 메시지
+						</div>
+						<input
+							v-model="sendMsg"
+							type="textarea"
+							id="session-message-input"
+							placeholder="메세지를 입력해주세요"
+							class="pt-2 pb-5 ps-2 pe-2"
+							@keydown.enter="submitMsg"
+						/>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </template>
+<style scoped>
+#session-background {
+	background-color: rgb(80, 75, 75);
+	/* border: solid 1px white; */
+	height: 100vh;
+	width: 100vw;
+}
 
+.session-whole {
+	width: 95%;
+	height: 95%;
+	background-color: white;
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+#session-header {
+	display: flex;
+	justify-content: space-between;
+	height: 15%;
+	padding-left: 80px;
+	padding-right: 80px;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	border-bottom: solid rgb(151, 151, 151) 2px;
+}
+
+#session-body {
+	height: 85%;
+	display: flex;
+	/* justify-content: space-between; */
+	position: relative;
+}
+
+#session-video {
+	width: 76%;
+	height: 100%;
+	position: absolute;
+	margin-left: 0px;
+	margin-bottom: 0px;
+	margin-right: 0px;
+	margin-top: 0px;
+}
+
+#session-video2 {
+	width: 100%;
+}
+
+#fullscreen-box {
+	width: 30px;
+	height: 30px;
+}
+
+#fullscreen-icon {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+#fullscreen-icon:hover {
+	cursor: pointer;
+}
+
+#session-message {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	position: absolute;
+	right: 0px;
+	height: 100%;
+	width: 24%;
+	background-color: #eee;
+	border-left: solid rgb(151, 151, 151) 1px;
+}
+
+#session-message-box {
+	padding: 10px;
+	overflow: auto;
+}
+
+
+#session-message-send {
+	border-top: solid rgb(151, 151, 151) 1px;
+	/* position: relative; */
+}
+
+#session-message-input {
+	/* position: absolute; */
+	/* white-space: pre-line; */
+	width: 100%;
+}
+</style>
 <script>
 import http from '@/http.js';
 import axios from 'axios';
@@ -80,6 +165,8 @@ export default {
 			mySessionId: '',
 			myUserName: '',
 			isHost: false,
+			size: Object,
+			videoSize: String
 		}
 	},
 	created () {
@@ -103,6 +190,14 @@ export default {
 				})
 			}
 		})
+		this.joinSession()
+	},
+	mounted() {
+		this.size = {
+			'height': this.$refs.size.clientHeight / 2,
+			'width': this.$refs.size.clientWidth / 2
+		}
+		this.videoSize = this.size.width + 'x' + this.size.height
 		this.joinSession()
 	},
   beforeDestroy () {
@@ -194,7 +289,7 @@ export default {
 								videoSource: undefined, // The source of video. If undefined default webcam
 								publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
 								publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
-								resolution: '300x200',  // The resolution of your video
+								resolution: this.videoSize,  // The resolution of your video
 								frameRate: 30,			// The frame rate of your video
 								insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
 								mirror: false,       	// Whether to mirror your local video or not

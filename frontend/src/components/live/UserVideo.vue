@@ -5,7 +5,7 @@
 </div>
 </template>
 
-<style>
+<style scope>
 #video-box {
 	position: relative;
 	padding: 0px;

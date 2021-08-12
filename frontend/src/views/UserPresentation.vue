@@ -1,74 +1,132 @@
 <template>
-	<div id="main-container" class="container">
-		<div id="join" v-if="!session">
-			<div id="img-div"><img src="resources/images/openvidu_grey_bg_transp_cropped.png" /></div>
-			<div id="join-dialog" class="jumbotron vertical-center">
-				<h1>Join a video session</h1>
-				<div class="form-group">
-					<p>
-						<label>Participant</label>
-						<input v-model="myUserName" class="form-control" type="text" required>
-					</p>
-					<p>
-						<label>Session</label>
-						<input v-model="mySessionId" class="form-control" type="text" required>
-					</p>
-					<p class="text-center">
-						<button class="btn btn-lg btn-success" @click="joinSession()">Join!</button>
-					</p>
-				</div>
-			</div>
-		</div>
-
-		<div id="session" v-if="session">
-			<div id="session-header">
+	<div id="session-background" class="d-flex justify-content-center align-items-center">
+		<div class="elevation-10 session-whole" ref="whole" >
+			<div id="session-header" ref="header">
 				<h1 id="session-title">{{ mySessionId }} 설명회</h1>
 				<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="exitPresentation" value="Leave session">
 			</div>
-			<div id="main-video" class="col-md-6">
-        <p>mainStreamManager</p>
-				<user-video :stream-manager="mainStreamManager"/>
-			</div>
-			<!-- <div id="video-container" class="col-md-6">
-        <p>publisher</p>
-				<user-video :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
-				<p>subscribers</p>
-        <user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
-			</div> -->
-			<div class="chat-box">
-				<div ref="chatDisplay" class="chat-display">
-					<div v-for="(chat, index) in chats" :key="index" class="chat-line">
-						<div v-if="chat.userId === myUserName" class="my-comment">
-							<div>
-								<span class="participant-name">[{{ chat.nickname }}] </span><span class="chat-msg">{{ chat.msg }}</span>
-							</div>
-						</div>
-						<div v-else class="other-comment">
-							<div>
-								<span class="participant-name other">[{{ chat.nickname }}] </span
-								><span class="chat-msg">{{ chat.msg }}</span>
-							</div>
-						</div>
-					</div>
+			<div id="session-body">
+				<div id="session-video" class="d-flex justify-content-center">
+					<user-video :stream-manager="mainStreamManager"/>
 				</div>
-				<br>
-				<div class="msg-wrapper">
-					<div class="msg-guide">
-						<!-- <img :src="getUserInfo.profileImage" class="user-profile" /> -->
-						{{ myUserName }}
+				<div id="session-message">
+					<div ref="chatDisplay" id="session-message-box">
+						<div v-for="(chat, index) in chats" :key="index" class="chat-line">
+							<div v-if="chat.userId === myUserName" class="my-comment">
+								<div>
+									<span class="participant-name">[{{ chat.nickname }}] </span><span class="chat-msg">{{ chat.msg }}</span>
+								</div>
+							</div>
+							<div v-else class="other-comment">
+								<div>
+									<span class="participant-name other">[{{ chat.nickname }}] </span
+									><span class="chat-msg">{{ chat.msg }}</span>
+								</div>
+							</div>
+						</div>
 					</div>
-					<input
-						v-model="sendMsg"
-						type="text"
-						class="msg-input"
-						placeholder="메세지를 입력해주세요"
-						@keydown.enter="submitMsg"
-					/>
+					<div id="session-message-send">
+						<div class="msg-guide p-2 fs-4" >
+							내 메시지
+						</div>
+						<input
+							v-model="sendMsg"
+							type="textarea"
+							id="session-message-input"
+							class="pt-2 pb-5 ps-2 pe-2"
+							@keydown.enter="submitMsg"
+						/>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </template>
+<style scoped>
+#session-background {
+	background-color: rgb(80, 75, 75);
+	/* border: solid 1px white; */
+	height: 100vh;
+	width: 100vw;
+}
+
+.session-whole {
+	width: 95%;
+	height: 95%;
+	background-color: white;
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+#session-header {
+	display: flex;
+	justify-content: space-between;
+	padding-left: 80px;
+	padding-right: 80px;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	border-bottom: solid rgb(151, 151, 151) 2px;
+	width: 100%;
+}
+
+#session-body {
+	display: flex;
+	justify-content: space-between;
+	position: relative;
+}
+
+#session-video {
+	width: 76%;
+}
+
+#session-video2 {
+	width: 100%;
+}
+
+#fullscreen-box {
+	width: 30px;
+	height: 30px;
+}
+
+#fullscreen-icon {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+#fullscreen-icon:hover {
+	cursor: pointer;
+}
+
+#session-message {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	position: absolute;
+	right: 0px;
+	height: 100%;
+	width: 24%;
+	background-color: #eee;
+	scroll-behavior: auto;
+	border-left: solid rgb(151, 151, 151) 1px;
+}
+
+#session-message-box {
+	padding: 10px;
+	overflow: auto;
+}
+
+#session-message-send {
+	border-top: solid rgb(151, 151, 151) 1px;
+	/* position: relative; */
+}
+
+#session-message-input {
+	/* position: absolute; */
+	/* white-space: pre-line; */
+	width: 100%;
+}
+</style>
 
 <script>
 import axios from 'axios';

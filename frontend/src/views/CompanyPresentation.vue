@@ -1,13 +1,28 @@
 <template>
-	<div id="session-background">
-		<div class="m-5 elevation-10" id="session-whole">
-			<div id="session-header">
+	<div id="session-background" class="d-flex justify-content-center align-items-center">
+		<div class="elevation-10 session-whole" ref="whole2" v-if="isFullScreen">
+			<div id="session-video2" class="d-flex justify-content-center">
+				<user-video :stream-manager="mainStreamManager"/>
+				<div class="d-flex flex-column justify-content-start" id="fullscreen-column">
+					<div id="fullscreen-box">
+						<img src="/images/presentation/fullscreen.png" alt="fullscreen.png" id="fullscreen-icon" @click="fullscreenOff">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="elevation-10 session-whole" ref="whole" v-else >
+			<div id="session-header" ref="header">
 				<h1 id="session-title">{{ mySessionId }} 설명회</h1>
 				<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="exitPresentation" value="Leave session">
 			</div>
 			<div id="session-body">
-				<div id="session-video">
+				<div id="session-video" class="d-flex justify-content-center">
 					<user-video :stream-manager="mainStreamManager"/>
+					<div class="d-flex flex-column justify-content-start" id="fullscreen-column">
+						<div id="fullscreen-box">
+							<img src="/images/presentation/fullscreen.png" alt="fullscreen.png" id="fullscreen-icon" @click="fullscreenOn">
+						</div>
+					</div>
 				</div>
 				<div id="session-message">
 					<div ref="chatDisplay" id="session-message-box">
@@ -26,14 +41,15 @@
 						</div>
 					</div>
 					<div id="session-message-send">
-						<div class="msg-guide">
+						<div class="msg-guide p-2 fs-4" >
 							내 메시지
 						</div>
 						<input
 							v-model="sendMsg"
-							type="text"
-							class="msg-input"
+							type="textarea"
+							id="session-message-input"
 							placeholder="메세지를 입력해주세요"
+							class="pt-2 pb-5 ps-2 pe-2"
 							@keydown.enter="submitMsg"
 						/>
 					</div>
@@ -44,22 +60,27 @@
 </template>
 <style>
 #session-background {
-	background-color: #eee;
-	border: solid 1px white;
+	background-color: rgb(80, 75, 75);
+	/* border: solid 1px white; */
 	height: 100vh;
 	width: 100vw;
 }
 
-#session-whole {
+.session-whole {
+	width: 95%;
+	height: 95%;
 	background-color: white;
-	border-radius: 10px;
+	border-radius: 5px;
 	overflow: hidden;
 }
 
 #session-header {
 	display: flex;
 	justify-content: space-between;
-	padding: 20px;
+	padding-left: 80px;
+	padding-right: 80px;
+	padding-top: 30px;
+	padding-bottom: 30px;
 	border-bottom: solid rgb(151, 151, 151) 2px;
 }
 
@@ -70,7 +91,26 @@
 }
 
 #session-video {
-	margin-left: 80px;	
+	width: 76%;
+}
+
+#session-video2 {
+	width: 100%;
+}
+
+#fullscreen-box {
+	width: 30px;
+	height: 30px;
+}
+
+#fullscreen-icon {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+#fullscreen-icon:hover {
+	cursor: pointer;
 }
 
 #session-message {
@@ -80,19 +120,30 @@
 	position: absolute;
 	right: 0px;
 	height: 100%;
-	width: 22%;
+	width: 24%;
 	background-color: #eee;
 	scroll-behavior: auto;
+	border-left: solid rgb(151, 151, 151) 1px;
 }
 
 #session-message-box {
-	padding: 5px;
+	padding: 10px;
 	overflow: auto;
 }
 
+.msg-guide {
+	/* border-bottom: solid rgb(151, 151, 151) 1px; */
+}
+
 #session-message-send {
-	padding: 5px;
 	border-top: solid rgb(151, 151, 151) 1px;
+	/* position: relative; */
+}
+
+#session-message-input {
+	/* position: absolute; */
+	/* white-space: pre-line; */
+	width: 100%;
 }
 </style>
 
@@ -110,6 +161,8 @@ export default {
 	},
 	data () {
 		return {
+			screenSize: String,
+			isFullScreen: false,
 			OV: undefined,
 			session: undefined,
 			mainStreamManager: undefined,
@@ -118,44 +171,58 @@ export default {
 			sendMsg: '',
 			mySessionId: '',
 			myUserName: '',
+			width: Number,
+			originalSize: Object,
+			fullSize: Object,
 		}
 	},
 	created () {
     this.mySessionId = localStorage.getItem('id')
     this.myUserName = localStorage.getItem('id')
+	},
+	mounted() {
+		this.originalSize = {
+			'height': this.$refs.whole.clientHeight - this.$refs.header.clientHeight,
+			'width': (this.$refs.whole.clientHeight - this.$refs.header.clientHeight)*16/9
+		}
+		this.fullSize = {
+			'height': this.$refs.whole.clientHeight,
+			'width': this.$refs.whole.clientHeight*16/9
+		}
+		this.screenSize = this.originalSize.width + 'x' + this.originalSize.height
 		this.joinSession()
 	},
   beforeDestroy () {
-    this.leaveSession()
+		this.leaveSession()
   },
 	methods: {
-    exitPresentation () {
+		exitPresentation () {
 			localStorage.removeItem('isSession')
       this.leaveSession()
       this.$router.go(-1)
     },
     chat_on_scroll() {
-      this.$refs.chatDisplay.scrollTop = this.$refs.chatDisplay.scrollHeight;
+			this.$refs.chatDisplay.scrollTop = this.$refs.chatDisplay.scrollHeight;
     },
     submitMsg () {
-      if (this.sendMsg.trim() === '') return;
+			if (this.sendMsg.trim() === '') return;
       const sendData = {
-        userId: this.myUserName,
+				userId: this.myUserName,
         nickname: this.myUserName,
         msg: this.sendMsg,
       };
       this.sendMsg = '';
       this.session
         .signal({
-          data: JSON.stringify(sendData), // Any string (optional)
+					data: JSON.stringify(sendData), // Any string (optional)
           to: [], // Array of Connection objects (optional. Broadcast to everyone if empty)
           type: 'my-chat', // The type of message (optional)
         })
         .then(() => {
-          console.log('Message successfully sent');
+					console.log('Message successfully sent');
         })
         .catch(error => {
-          console.error(error);
+					console.error(error);
         });
     },
 		joinSession () {
@@ -166,7 +233,7 @@ export default {
 			// --- Specify the actions when events take place in the session ---
 			// On every new Stream received...
 			this.session.on('signal:my-chat', event => {
-        this.chats.push(JSON.parse(event.data));
+				this.chats.push(JSON.parse(event.data));
         setTimeout(this.chat_on_scroll, 10);
       });
 			// On every asynchronous exception...
@@ -181,11 +248,11 @@ export default {
           .connect(token, { clientData: this.myUserName })
 					.then(() => {
 						let publisher = this.OV.initPublisher(undefined, {
-								audioSource: undefined, // The source of audio. If undefined default microphone
+							audioSource: undefined, // The source of audio. If undefined default microphone
 								videoSource: undefined, // The source of video. If undefined default webcam
 								publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
 								publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
-								resolution: '960x540',  // The resolution of your video
+								resolution: this.screenSize,  // The resolution of your video
 								frameRate: 30,			// The frame rate of your video
 								insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
 								mirror: false       	// Whether to mirror your local video or not
@@ -254,6 +321,22 @@ export default {
 					.catch(error => reject(error.response));
 			});
 		},
+		fullscreenOn() {
+			this.screenSize = this.fullSize.width + 'x' + this.fullSize.height
+			this.joinSession()
+			setTimeout(this.setFullScreen, 400)
+		},
+		fullscreenOff() {
+			this.screenSize = this.originalSize.width + 'x' + this.originalSize.height
+			this.joinSession()
+			setTimeout(this.unsetFullScreen, 400)
+		},
+		setFullScreen() {
+			this.isFullScreen = true
+		},
+		unsetFullScreen() {
+			this.isFullScreen = false
+		}
 	}
 }
 </script>

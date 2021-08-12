@@ -13,13 +13,14 @@
 
 #video-info {
 	position: absolute;
-	bottom: 0px;
+	top: 0px;
 	left: 0%;
 	padding-top: 1px;
 	padding-bottom: 1px;
 	padding-left: 13px;
 	padding-right: 13px;
 	background: #eee;
+	border-end-end-radius: 5px;
 }
 </style>
 

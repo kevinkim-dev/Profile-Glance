@@ -123,13 +123,26 @@ public class LookatmeServiceImpl implements LookatmeService{
         Lookatme lookatme = null;
 
         if(!check){
-            lookatme = lookatmeRepository.save(Lookatme.builder().title(lookatmePostReq.getTitle())
-                    .content(lookatmePostReq.getContent()).video(videofile).view(0L)
-                    .user(user).category(category).build());
+            lookatme = lookatmeRepository.save(Lookatme.builder()
+                    .title(lookatmePostReq.getTitle())
+                    .content(lookatmePostReq.getContent())
+                    .video(videofile)
+                    .view(0L)
+                    .user(user)
+                    .category(category)
+                    .createdAt(now)
+                    .build());
         }else{
-            lookatme = lookatmeRepository.save(Lookatme.builder().title(lookatmePostReq.getTitle())
-                    .content(lookatmePostReq.getContent()).video(videofile).thumbnail(thumbnailfile).view(0L)
-                    .user(user).category(category).build());
+            lookatme = lookatmeRepository.save(Lookatme.builder()
+                    .title(lookatmePostReq.getTitle())
+                    .content(lookatmePostReq.getContent())
+                    .video(videofile)
+                    .thumbnail(thumbnailfile)
+                    .view(0L)
+                    .user(user)
+                    .category(category)
+                    .createdAt(now)
+                    .build());
         }
 
         user.getLookatmes().add(lookatme);

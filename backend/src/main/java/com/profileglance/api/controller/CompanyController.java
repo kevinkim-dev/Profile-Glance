@@ -120,18 +120,20 @@ public class CompanyController {
         return new ResponseEntity<CompanyMypageGetRes>(companyMypageGetRes, HttpStatus.OK);
     }
 
-    // 기업 회원 세션명으로 인터뷰 테이블 정보 가져오기
-    @GetMapping("/companyinterviewinfo/{csId}")
-    @ApiOperation(value = "기업 회원 세션명으로 인터뷰 테이블 정보 가져오기", notes = "유저닉네임, 인터뷰날짜, 인터뷰시간, 세션명 반환")
-    public ResponseEntity<List<CompanyInterviewGetRes>> companyInterviewInfoByCompanyId(@PathVariable("csId") String csId){
+    // 기업 회원 아이디로 인터뷰 테이블 정보 가져오기
+    @GetMapping("/companyinterviewinfo/{companyId}")
+    @ApiOperation(value = "기업 회원 아이디로 인터뷰 테이블 정보 가져오기", notes = "유저닉네임, 인터뷰날짜, 인터뷰시간, 세션명 반환")
+    public ResponseEntity<List<CompanyInterviewGetRes>> companyInterviewInfoByCompanyId(@PathVariable("companyId") String companyId){
+        String csId = companyRepository.findByCompanyId(companyId).get().getSessionId();
         List<CompanyInterviewGetRes> companyInterviewGetResList = companyService.interviewList(csId);
         return new ResponseEntity<List<CompanyInterviewGetRes>>(companyInterviewGetResList, HttpStatus.OK);
     }
 
-    // 기업 회원 세션명으로 채용 리스트 가져오기
-    @GetMapping("/companyrecruitinfo/{csId}")
-    @ApiOperation(value = "기업 회원 세션명으로 채용 리스트 가져오기", notes = "기업 회원 세션명으로 채용 리스트 가져오기")
-    public ResponseEntity<List<RecruitPostRes>> companyRecruitInfoByCompanyId(@PathVariable("csId") String csId){
+    // 기업 회원 아이디로 채용 리스트 가져오기
+    @GetMapping("/companyrecruitinfo/{companyId}")
+    @ApiOperation(value = "기업 회원 아이디로 채용 리스트 가져오기", notes = "기업 회원 세션명으로 채용 리스트 가져오기")
+    public ResponseEntity<List<RecruitPostRes>> companyRecruitInfoByCompanyId(@PathVariable("companyId") String companyId){
+        String csId = companyRepository.findByCompanyId(companyId).get().getSessionId();
         List<RecruitPostRes> recruitPostResList = companyService.recruitList(csId);
         return new ResponseEntity<List<RecruitPostRes>>(recruitPostResList, HttpStatus.OK);
     }

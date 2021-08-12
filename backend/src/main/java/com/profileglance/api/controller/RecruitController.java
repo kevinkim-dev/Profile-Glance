@@ -2,6 +2,7 @@ package com.profileglance.api.controller;
 
 import com.profileglance.api.request.InterviewCheckPostReq;
 import com.profileglance.api.request.RecruitPostReq;
+import com.profileglance.api.request.RecruitRoomPostReq;
 import com.profileglance.api.response.LookatmePostRes;
 import com.profileglance.api.response.RecruitPostRes;
 import com.profileglance.api.service.RecruitService;
@@ -78,11 +79,11 @@ public class RecruitController {
     // 채용 방 생성
     @PostMapping("/createRoom")
     @ApiOperation(value = "채용 방 생성", notes = "<strong>채용 방을 생성한다.</strong>")
-    public ResponseEntity<? extends BaseResponseBody> createRoom(@RequestBody String companyId) {
+    public ResponseEntity<? extends BaseResponseBody> createRoom(@RequestBody RecruitRoomPostReq recruitRoomPostReq) {
 
-        Room room = roomService.createRoom(companyId, "re");
+        Room room = roomService.createRoom(recruitRoomPostReq.getCompanyId(), "re");
 
-        recruitService.updateRecruit(room, companyId);
+        recruitService.updateRecruit(room, recruitRoomPostReq.getCompanyId(), recruitRoomPostReq.getRecruitId());
 
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
     }

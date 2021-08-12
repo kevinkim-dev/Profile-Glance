@@ -48,7 +48,10 @@ public class RecruitPostRes {
     @ApiModelProperty(name="설명회 일정")
     String presentationDate;
 
-    public RecruitPostRes(Long recruitId, String companyName, String companyImg, String job, String descriptionURL, String recruitURL, String career, String jobDetail, String recruitStartDate, String recruitEndDate, String presentationDate, String sessionId) {
+    @ApiModelProperty(name = "company_session_id")
+    String csId;
+
+    public RecruitPostRes(Long recruitId, String companyName, String companyImg, String job, String descriptionURL, String recruitURL, String career, String jobDetail, String recruitStartDate, String recruitEndDate, String presentationDate, String sessionId, String csId) {
         this.recruitId = recruitId;
         this.companyName = companyName;
         this.companyImg = companyImg;
@@ -61,5 +64,6 @@ public class RecruitPostRes {
         this.recruitEndDate = recruitEndDate;
         this.presentationDate = presentationDate;
         this.sessionId = sessionId;
+        this.csId = csId;
     }
 }

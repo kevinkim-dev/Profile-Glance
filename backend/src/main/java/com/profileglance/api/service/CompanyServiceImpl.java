@@ -119,6 +119,7 @@ public class CompanyServiceImpl implements CompanyService{
                 ,company.getCompanyEmail()
                 ,company.getCompanyPhone()
                 ,company.getCompanyImg()
+                ,company.getSessionId()
         );
         return companyMypageGetRes;
     }
@@ -168,6 +169,7 @@ public class CompanyServiceImpl implements CompanyService{
                     ,recruit.getRecruitEndDate()
                     ,recruit.getPresentationDate()
                     ,sessionId
+                    ,recruit.getCsId()
             ));
         }
 

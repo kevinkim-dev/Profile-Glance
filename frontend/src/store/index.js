@@ -15,8 +15,8 @@ import http from '../http.js';
 
 Vue.use(Vuex);
 // 개발모드면 true 배포모드면 false
-const DEVELOPMODE = true;
-// const DEVELOPMODE = false;
+// const DEVELOPMODE = true;
+const DEVELOPMODE = false;
 export default new Vuex.Store({
   modules: {
     banner,

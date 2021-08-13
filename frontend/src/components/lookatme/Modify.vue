@@ -174,7 +174,12 @@ export default {
     modify() {
       var router = this.$router;
       if (!this.valid) {
-        alert('필수 항목을 입력해주세요.');
+         Swal.fire({ 
+          icon: 'warning', // Alert 타입 
+          title: '필수 항목을 입력해주세요.', // Alert 제목 
+          text: '필수 항목을 모두 입력해야 회원가입이 가능합니다.', // Alert 내용 
+        });
+        // alert('필수 항목을 입력해주세요.');
       } else {
         console.log(this.image);
         let lookatme = new FormData();
@@ -188,7 +193,12 @@ export default {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
           .then(({ data }) => {
-            alert('등록 성공!');
+            Swal.fire({ 
+              icon: 'success', // Alert 타입 
+              title: '룩앳미 등록에 성공하였습니다.', // Alert 제목 
+              text: '등록한 룩앳미 확인이 가능합니다.', // Alert 내용 
+            });
+            // alert('등록 성공!');
             console.log(data)
             router.push({ name: 'lookatme' });
           })

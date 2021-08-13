@@ -10,6 +10,7 @@
     "moment": "^2.24.0",
     "openvidu-browser": "2.19.0",
     "sass-loader": "^10.2.0",
+    "sweetalert2": "^11.1.2",
     "url-search-params-polyfill": "^8.1.1",
     "vue": "^2.6.6",
     "vue-infinite-loading": "^2.4.5",

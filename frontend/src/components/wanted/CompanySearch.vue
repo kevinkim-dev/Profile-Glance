@@ -108,7 +108,12 @@ export default {
     },
     searchCompany: function () {
       if (!this.searchWord) {
-        alert('검색어를 입력해주세요.')
+        Swal.fire({ 
+          icon: 'warning', // Alert 타입 
+          title: '검색어를 입력해주세요.', // Alert 제목 
+          text: '검색어를 입력해야 검색이 가능합니다.', // Alert 내용 
+        });
+        // alert('검색어를 입력해주세요.')
       } else {
         this.$store.dispatch('wanted/searchCompany', this.searchWord)
       }

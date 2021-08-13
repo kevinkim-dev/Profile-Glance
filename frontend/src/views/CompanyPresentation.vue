@@ -12,8 +12,17 @@
 		</div> -->
 		<div class="elevation-10 session-whole" ref="whole">
 			<div id="session-header" ref="header">
-				<h1 id="session-title">{{ mySessionId }} 설명회</h1>
-				<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="exitPresentation" value="Leave session">
+				<h1 id="session-title">{{ myUserName }} 채용 설명회</h1>
+				<p v-if="totalViewers>=0">현재 {{ totalViewers }}명 시청중</p>
+				<p v-else>현재 0명 시청중</p>
+				<p>{{ runningTime }}</p>
+				<Dialog
+				:buttonText="'설명회 종료'"
+				:dialogTitle="'알림'"
+				:dialogContent="'설명회를 종료하시겠습니까?'"
+				:buttonO="'네'"
+				:buttonX="'아니오'"
+				@clickO="exitPresentation"/>
 			</div>
 			<div id="session-body">
 				<div id="session-video" class="d-flex justify-content-center">
@@ -148,6 +157,7 @@ import http from '@/http.js';
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import UserVideo from '@/components/live/UserVideo';
+import Dialog from '@/components/Dialog'
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 const OPENVIDU_SERVER_URL = "https://profileglance.site:8011";
 const OPENVIDU_SERVER_SECRET = "1234";
@@ -155,6 +165,7 @@ export default {
 	name: 'CompanyPresentation',
 	components: {
 		UserVideo,
+		Dialog,
 	},
 	data () {
 		return {
@@ -169,9 +180,20 @@ export default {
 			myUserName: '',
 			sessionId: this.$route.params.sessionid,
 			recruitId: this.$route.params.recruitid,
+			total: 0,
+			startTime: undefined,
+			timeGap: undefined,
 			screenSize: String,
 			originalSize: Object,
 			fullSize: Object,
+		}
+	},
+	computed: {
+		totalViewers: function () {
+			return this.total-1
+		},
+		runningTime: function () {
+			return this.timeGap
 		}
 	},
 	created () {
@@ -195,14 +217,61 @@ export default {
 		}
 		this.screenSize = this.originalSize.width + 'x' + this.originalSize.height
 		this.joinSession()
+		console.log('시작')
+		// 시작 시간 DB에 저장하기 -> 리턴받은 시간 data에 저장
+		var now = new Date()
+		this.startTime = now
+		console.log(now)
+		setInterval(this.calcRunningTime, 1000)
+		axios.get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${this.sessionId}/connection`, {
+			auth: {
+				username: 'OPENVIDUAPP',
+				password: OPENVIDU_SERVER_SECRET,
+			},
+		})
+		.then((res) => {
+			console.log(res)
+		})
+		.catch((err) => {
+			console.log(err)
+		})
 	},
   beforeDestroy () {
+		this.removeSession()
 		this.leaveSession()
   },
 	methods: {
+		calcRunningTime () {
+			const moment = require('moment')
+			const now = moment()
+			const startTime = moment(this.startTime)
+			const hours = moment.duration(now.diff(startTime)).hours()
+			const minutes = moment.duration(now.diff(startTime)).minutes()
+			const seconds = moment.duration(now.diff(startTime)).seconds()
+			const editedHours = hours >= 10 ? hours: '0'+hours
+			const editedMinutes = minutes >= 10 ? minutes: '0'+minutes
+			const editedSeconds = seconds >= 10 ? seconds: '0'+seconds
+			this.timeGap = editedHours+':'+editedMinutes+':'+editedSeconds
+		},
+		removeSession () {
+			axios.delete(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${this.sessionId}`, {
+			auth: {
+				username: 'OPENVIDUAPP',
+				password: OPENVIDU_SERVER_SECRET,
+			},
+			})
+			.then((res) => {
+				console.log(res)
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+		},
+		// 설명회종료 버튼
 		exitPresentation () {
 			localStorage.removeItem('isSession')
       this.leaveSession()
+			this.removeSession()
       this.$router.go(-1)
     },
     chat_on_scroll() {
@@ -229,6 +298,20 @@ export default {
 					console.error(error);
         });
     },
+		updateTotalViewers () {
+			axios.get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${this.sessionId}/connection`, {
+			auth: {
+				username: 'OPENVIDUAPP',
+				password: OPENVIDU_SERVER_SECRET,
+			},
+			})
+			.then((res) => {
+				this.total = res.data.numberOfElements
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+		},
 		joinSession () {
 			// --- Get an OpenVidu object ---
 			this.OV = new OpenVidu();
@@ -240,6 +323,10 @@ export default {
 				this.chats.push(JSON.parse(event.data));
         setTimeout(this.chat_on_scroll, 10);
       });
+			this.session.on('signal:joinsignal', event => {
+				console.log('받았다!')
+				this.updateTotalViewers()
+			})
 			// On every asynchronous exception...
 			this.session.on('exception', ({ exception }) => {
 				console.warn(exception);

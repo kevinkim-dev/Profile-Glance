@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1 class="text-center">{{profileId}}</h1>
-    <div class="profile m-t-50  ">
+    <h1 class="text-center m-t-30">{{profileId}}</h1>
+    <div class="profile m-t-30  ">
       <div class="profile-left-box m-r-100">
         <ProfileImage :isMyProfile="isMyProfile" />
         <ProfileMenus v-if="isMenuNeed" @openInterviewModal="openInterviewModal" />
@@ -14,7 +14,7 @@
         <ProfileWanteds v-if="infoCategory == 'wanted'" />
       </div>
     </div><hr class="m-t-50">
-    <ProfileLookatme v-if="profileType=='user'" />
+    <ProfileLookatme v-if="profileType=='user'" :profileId="profileId" />
     <v-dialog
       v-model="isEditOpen"
       max-width="650px"
@@ -107,16 +107,6 @@ export default {
     }
   },
   mounted() {
-    // if (info.profileType == 'user') {
-    //     this.profileType = 'user'
-    //   this.profileId = info.id
-    // } else if (info.profileType == 'company') {
-    //     this.profileType = 'company'
-    //   this.profileId = info.id
-    // } else if (info.profileType == 'admin') {
-    //     this.profileType = 'admin'
-    //   this.profileId = '관리자'      
-    // }
     const info = {
       'profileType': this.$route.params.loginType,
       'id': this.$route.params.id

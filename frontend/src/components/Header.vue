@@ -4,7 +4,7 @@
         <div class="container-menu-header">
             <div class="wrap_header">
                 <!-- Logo -->
-                <img style="max-width: 100px; background: none;" class="img-fluid" src="/images/icons/pgpg.png" alt="IMG-LOGO">
+                <img style="max-width: 50px; background: none;" class="img-fluid" src="/images/icons/pgpg.png" alt="IMG-LOGO">
                 <!-- Menu -->
                 <div class="wrap_menu">
                     <nav class="menu">
@@ -15,9 +15,6 @@
                             <router-link :to="{name: 'wanted'}" tag="li" exact>
                                 <a>원티드</a>
                             </router-link>
-                            <!-- <router-link :to="{name: 'presentation'}" tag="li" exact>
-                                <a>오픈비두</a>
-                            </router-link> -->
                         </ul>
                     </nav>
                 </div>
@@ -68,7 +65,4 @@ li.router-link-exact-active > a {
     color: #439474;
     font-weight: bold;
 }
-/* header {
-    background-color: #C0DDD1;
-} */
 </style>

@@ -198,6 +198,7 @@ export default {
               await Http.get('/user/myinfo/' + localStorage.getItem('user_email'))
                 .then((res) => {
                   localStorage.setItem('id', res.data.userNickname);
+                  localStorage.setItem('profile', res.data.userImg)
                   if (res.data.admin) {
                     localStorage.setItem('login_type', 'admin');
                     localStorage.setItem('id', '관리자');

@@ -1,9 +1,9 @@
 <template>
-  <section class="newproduct bgwhite p-t-45 p-b-105">
+  <section class="newproduct bgwhite p-b-105">
     <div class="container">
-      <div class="sec-title p-b-60">
+      <div class="sec-title">
         <v-row>
-          <v-col cols="3">
+          <v-col cols="3" class="py-0">
             <v-select
               v-model="select"
               :items="kind"
@@ -14,7 +14,7 @@
               single-line
             ></v-select>
           </v-col>
-          <v-col cols="8">
+          <v-col cols="8" class="py-0">
             <v-text-field
               v-model="test"
               append-icon="mdi-magnify"
@@ -24,7 +24,7 @@
               v-on:keypress.enter="searchMethod"
             ></v-text-field>
           </v-col>
-          <v-col cols="1">
+          <v-col cols="1" class="pb-0">
             <v-btn color="green"
               v-if="isUser"
               ><router-link :to="{ name: 'lookatmeregist' }" exact>업로드</router-link></v-btn

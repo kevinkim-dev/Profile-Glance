@@ -21,8 +21,8 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Lookatme> lookatmes = new ArrayList<>();
 
-    @OneToOne(mappedBy = "user")
-    private RoomInfo roomInfo;
+//    @OneToOne(mappedBy = "user")
+//    private RoomInfo roomInfo;
 
     @OneToMany(mappedBy = "user")
     private List<Interview> interviews = new ArrayList<>();

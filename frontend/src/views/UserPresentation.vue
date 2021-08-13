@@ -2,8 +2,16 @@
 	<div id="session-background" class="d-flex justify-content-center align-items-center">
 		<div class="elevation-10 session-whole" ref="whole" >
 			<div id="session-header" ref="header">
-				<h1 id="session-title">{{ mySessionId }} 설명회</h1>
-				<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="exitPresentation" value="Leave session">
+				<h1 id="session-title">{{ mySessionId }} 채용설명회</h1>
+				<p v-if="totalViewers>=0">{{ totalViewers }}명 시청중</p>
+				<p v-else>0명 시청중</p>
+				<Dialog
+				:buttonText="'설명회 나가기'"
+				:dialogTitle="'알림'"
+				:dialogContent="'설명회를 나가시겠습니까?'"
+				:buttonO="'네'"
+				:buttonX="'아니오'"
+				@clickO="exitPresentation"/>
 			</div>
 			<div id="session-body">
 				<div id="session-video" class="d-flex justify-content-center">
@@ -132,6 +140,7 @@
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import UserVideo from '@/components/live/UserVideo';
+import Dialog from '@/components/Dialog'
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 const OPENVIDU_SERVER_URL = "https://profileglance.site:8011";
 const OPENVIDU_SERVER_SECRET = "1234";
@@ -139,6 +148,7 @@ export default {
 	name: 'UserPresentation',
 	components: {
 		UserVideo,
+		Dialog
 	},
 	data () {
 		return {
@@ -152,12 +162,31 @@ export default {
 			mySessionId: '',
 			myUserName: '',
 			sessionId: this.$route.params.sessionid,
+			total: 0,
+		}
+	},
+	computed: {
+		totalViewers: function () {
+			return this.total-1
 		}
 	},
 	created () {
     this.mySessionId = this.sessionId
     this.myUserName = localStorage.getItem('id')
 		this.joinSession()
+		console.log('시작')
+		axios.get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${this.sessionId}/connection`, {
+			auth: {
+				username: 'OPENVIDUAPP',
+				password: OPENVIDU_SERVER_SECRET,
+			},
+		})
+		.then((res) => {
+			console.log(res)
+		})
+		.catch((err) => {
+			console.log(err)
+		})
 	},
   beforeDestroy () {
     this.leaveSession()
@@ -191,6 +220,34 @@ export default {
           console.error(error);
         });
     },
+		sendJoinSignal () {
+			this.session
+				.signal({
+					data: '들어왔다',
+					to: [],
+					type: 'joinsignal'
+				})
+				.then(() => {
+					console.log('joinsignal 보냄')
+				})
+				.catch((err) => {
+					console.log(err)
+				})
+		},
+		updateTotalViewers () {
+			axios.get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${this.sessionId}/connection`, {
+			auth: {
+				username: 'OPENVIDUAPP',
+				password: OPENVIDU_SERVER_SECRET,
+			},
+			})
+			.then((res) => {
+				this.total = res.data.numberOfElements
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+		},
 		joinSession () {
 			// --- Get an OpenVidu object ---
 			this.OV = new OpenVidu();
@@ -214,6 +271,10 @@ export default {
         this.chats.push(JSON.parse(event.data));
         setTimeout(this.chat_on_scroll, 10);
       });
+			this.session.on('signal:joinsignal', event => {
+				console.log('받았다!')
+				this.updateTotalViewers()
+			})
 			// On every asynchronous exception...
 			this.session.on('exception', ({ exception }) => {
 				console.warn(exception);
@@ -224,7 +285,9 @@ export default {
 			this.getToken(this.mySessionId).then(token => {
 				this.session
           .connect(token, { clientData: this.myUserName })
-					.then(() => {})
+					.then(() => {
+						this.sendJoinSignal()
+					})
 					.catch(error => {
 						console.log('There was an error connecting to the session:', error.code, error.message);
 					});
@@ -233,7 +296,8 @@ export default {
 		},
 		leaveSession () {
 			// --- Leave the session by calling 'disconnect' method over the Session object ---
-			if (this.session) this.session.disconnect();
+			if (this.session) this.sendJoinSignal();
+			this.session.disconnect();
 			this.session = undefined;
 			this.mainStreamManager = undefined;
 			this.subscribers = [];

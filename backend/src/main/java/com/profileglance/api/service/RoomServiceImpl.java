@@ -4,10 +4,8 @@ import com.profileglance.api.request.RoomDeleteReq;
 import com.profileglance.db.entity.Company;
 import com.profileglance.db.entity.Recruit;
 import com.profileglance.db.entity.Room;
-import com.profileglance.db.repository.CompanyRepository;
-import com.profileglance.db.repository.InterviewRepository;
-import com.profileglance.db.repository.RecruitRepository;
-import com.profileglance.db.repository.RoomRepository;
+import com.profileglance.db.entity.RoomInfo;
+import com.profileglance.db.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +25,9 @@ public class RoomServiceImpl implements RoomService {
 
     @Autowired
     RecruitRepository recruitRepository;
+
+    @Autowired
+    RoomInfoRepository roomInfoRepository;
 
     @Override
     public Boolean deleteRoom(RoomDeleteReq roomDeleteReq) {
@@ -81,5 +82,33 @@ public class RoomServiceImpl implements RoomService {
                     .build());
             return newroom;
         }
+    }
+
+    @Override
+    public Boolean leaveSession(String viewer, String sessionId) {
+        try {
+            roomInfoRepository.deleteByViewerAndRoom_SessionId(viewer, sessionId);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    @Override
+    public Boolean joinSession(String viewer, String sessionId){
+        try {
+            roomInfoRepository.save(RoomInfo.builder()
+                    .room(roomRepository.findBySessionId(sessionId).get())
+                    .viewer(viewer)
+                    .build());
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    @Override
+    public Long countViewer(String sessionId) {
+        return roomInfoRepository.countByRoom_SessionId(sessionId);
     }
 }

@@ -15,4 +15,10 @@ public interface RoomService {
 
     Room createRoom(String companyId, String room_category);
 
+    Boolean leaveSession(String viewer, String sessionId);
+
+    Boolean joinSession(String viewer, String sessionId);
+
+    Long countViewer(String sessionId);
+
 }

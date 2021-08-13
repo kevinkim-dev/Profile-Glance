@@ -108,6 +108,11 @@ public class LookatmeServiceImpl implements LookatmeService{
         String thumbnailPath = baseDir + "/Thumbnail/" + now + user.getUserNickname() + ".jpg";
         String thumbnailfile = now + user.getUserNickname() + ".jpg";
 
+        // 썸네일이 없는경우
+        if(!check){
+            thumbnailfile = "noThumbnail.png";
+        }
+
         try{
             lookatmePostReq.getVideo().transferTo(new File(videoPath));
             if(check){
@@ -122,28 +127,17 @@ public class LookatmeServiceImpl implements LookatmeService{
 
         Lookatme lookatme = null;
 
-        if(!check){
-            lookatme = lookatmeRepository.save(Lookatme.builder()
-                    .title(lookatmePostReq.getTitle())
-                    .content(lookatmePostReq.getContent())
-                    .video(videofile)
-                    .view(0L)
-                    .user(user)
-                    .category(category)
-                    .createdAt(now)
-                    .build());
-        }else{
-            lookatme = lookatmeRepository.save(Lookatme.builder()
-                    .title(lookatmePostReq.getTitle())
-                    .content(lookatmePostReq.getContent())
-                    .video(videofile)
-                    .thumbnail(thumbnailfile)
-                    .view(0L)
-                    .user(user)
-                    .category(category)
-                    .createdAt(now)
-                    .build());
-        }
+        lookatme = lookatmeRepository.save(Lookatme.builder()
+                .title(lookatmePostReq.getTitle())
+                .content(lookatmePostReq.getContent())
+                .video(videofile)
+                .thumbnail(thumbnailfile)
+                .view(0L)
+                .user(user)
+                .category(category)
+                .createdAt(now)
+                .build());
+
 
         user.getLookatmes().add(lookatme);
 

@@ -211,8 +211,13 @@ export default {
               location.reload();
             })
             .catch((err) => {
-              console.log('catch');
-              console.log(err);
+              Swal.fire({ 
+                icon: 'warning', // Alert 타입 
+                title: '아이디 / 비밀번호가\n 맞지 않습니다.', // Alert 제목 
+                text: '아이디 / 비밀번호를 다시 확인해주세요.', // Alert 내용 
+              });
+              // console.log('catch');
+              // console.log(err);
             });
         }
       } else if (this.loginType == 'company') {
@@ -235,8 +240,13 @@ export default {
               location.reload();
             })
             .catch((err) => {
-              console.log('catch');
-              console.log(err);
+              Swal.fire({ 
+                icon: 'warning', // Alert 타입 
+                title: '아이디 / 비밀번호가\n 맞지 않습니다.', // Alert 제목 
+                text: '아이디 / 비밀번호를 다시 확인해주세요.', // Alert 내용 
+              });
+              // console.log('catch');
+              // console.log(err);
             });
         }
       }
@@ -273,5 +283,9 @@ u:hover {
 .signup {
   font-size: 16px;
   font-weight: bold;
+}
+
+.swal2-popup {
+  font-size: 0.8rem;
 }
 </style>

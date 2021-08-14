@@ -26,6 +26,7 @@
           v-for="(interview, i) in interviews"
           :key="i"
         >
+          <td>{{ interview }}</td>
           <td>{{ interviewId(interview) }}</td>
           <td>{{ interview.interviewDate }} {{ interview.interviewTime }}</td>
           <td class="text-left">

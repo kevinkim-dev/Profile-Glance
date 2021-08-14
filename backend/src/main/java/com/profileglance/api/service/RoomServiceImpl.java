@@ -1,6 +1,7 @@
 package com.profileglance.api.service;
 
 import com.profileglance.api.request.RoomDeleteReq;
+import com.profileglance.api.request.RoomInterviewDeleteReq;
 import com.profileglance.db.entity.Company;
 import com.profileglance.db.entity.Recruit;
 import com.profileglance.db.entity.Room;
@@ -38,7 +39,15 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Boolean deleteInterview(RoomDeleteReq roomDeleteReq) {
+    public Boolean deleteRoom(RoomInterviewDeleteReq roomDeleteReq) {
+
+        roomRepository.deleteBySessionIdAndHost(roomDeleteReq.getSessionId(), roomDeleteReq.getCompanyId());
+
+        return true;
+    }
+
+    @Override
+    public Boolean deleteInterview(RoomInterviewDeleteReq roomDeleteReq) {
 
         interviewRepository.deleteByRoom_SessionId(roomDeleteReq.getSessionId());
 

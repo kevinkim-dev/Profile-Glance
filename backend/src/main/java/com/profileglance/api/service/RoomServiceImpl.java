@@ -68,7 +68,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Room createRoom(String companyId, String room_category) {
+    public Room createRoom(String companyId, String room_category, String createAt) {
         Company company = companyRepository.findByCompanyId(companyId).get();
 
         Optional<Room> room = roomRepository.findBySessionId(company.getSessionId());
@@ -79,6 +79,7 @@ public class RoomServiceImpl implements RoomService {
                     .sessionId(company.getSessionId())
                     .host(companyId)
                     .roomCategory(room_category)
+                    .createAt(createAt)
                     .build());
             return newroom;
         }
@@ -110,5 +111,10 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public Long countViewer(String sessionId) {
         return roomInfoRepository.countByRoom_SessionId(sessionId);
+    }
+
+    @Override
+    public String findRoomTime(String sessionId) {
+        return roomRepository.findBySessionId(sessionId).get().getCreateAt();
     }
 }

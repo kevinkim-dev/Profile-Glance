@@ -79,4 +79,11 @@ public class RoomController {
         return roomService.countViewer(sessionId);
     }
 
+    // session_id로 room create 시간 가져오기
+    @GetMapping("/findRoomTime/{sessionId}")
+    @ApiOperation(value = "session_id로 room create 시간 가져오기", notes = "session_id로 room create 시간 가져오기")
+    public String findRoomTime(@PathVariable("sessionId") String sessionId){
+        return roomService.findRoomTime(sessionId);
+    }
+
 }

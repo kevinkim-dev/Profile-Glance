@@ -18,4 +18,7 @@ public class RecruitRoomPostReq {
     @ApiModelProperty(name="회사 아이디")
     String companyId;
 
+    @ApiModelProperty(name="회사 아이디")
+    String createAt;
+
 }

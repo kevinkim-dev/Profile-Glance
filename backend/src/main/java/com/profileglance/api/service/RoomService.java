@@ -13,7 +13,7 @@ public interface RoomService {
 
     String findRoomCategory(String sessionId);
 
-    Room createRoom(String companyId, String room_category);
+    Room createRoom(String companyId, String room_category, String createAt);
 
     Boolean leaveSession(String viewer, String sessionId);
 
@@ -21,4 +21,5 @@ public interface RoomService {
 
     Long countViewer(String sessionId);
 
+    String findRoomTime(String sessionId);
 }

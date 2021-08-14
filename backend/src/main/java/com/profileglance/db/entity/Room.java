@@ -36,4 +36,8 @@ public class Room {
 
     @Column(name = "host")
     private String host;
+
+    @Column(name = "create_at")
+    private String createAt;
+
 }

@@ -3,7 +3,13 @@
 		<div class="elevation-10 session-whole" v-if="session">
 			<div id="session-header">
 				<h1 id="session-title">화상면접장</h1>
-				<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="exitPresentation" value="Leave session">
+				<Dialog
+				:buttonText="'면접장 퇴장'"
+				:dialogTitle="'알림'"
+				:dialogContent="'면접장을 퇴장하시겠습니까?'"
+				:buttonO="'네'"
+				:buttonX="'아니오'"
+				@clickO="exitInterview"/>
 			</div>
 			<div id="session-body">
 				<div id="session-video" ref="size" class="d-flex row">
@@ -140,6 +146,7 @@
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import UserVideo from '@/components/live/UserVideo';
+import Dialog from '@/components/Dialog'
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 const OPENVIDU_SERVER_URL = "https://profileglance.site:8011";
 const OPENVIDU_SERVER_SECRET = "1234";
@@ -147,6 +154,7 @@ export default {
 	name: 'UserInterview',
 	components: {
 		UserVideo,
+		Dialog
 	},
 	data () {
 		return {
@@ -187,7 +195,7 @@ export default {
     }
   },
 	methods: {
-    exitPresentation () {
+    exitInterview () {
       this.leaveSession()
       this.$router.go(-1)
     },
@@ -256,7 +264,7 @@ export default {
 								videoSource: undefined, // The source of video. If undefined default webcam
 								publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
 								publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
-								resolution: this.videoSize,  // The resolution of your video
+								resolution: '640x480',  // The resolution of your video
 								frameRate: 30,			// The frame rate of your video
 								insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
 								mirror: false,       	// Whether to mirror your local video or not

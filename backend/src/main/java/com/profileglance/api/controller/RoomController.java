@@ -2,6 +2,7 @@ package com.profileglance.api.controller;
 
 import com.profileglance.api.request.RoomInfoPostReq;
 import com.profileglance.api.request.RoomDeleteReq;
+import com.profileglance.api.request.RoomInterviewDeleteReq;
 import com.profileglance.api.service.RoomService;
 import com.profileglance.common.response.BaseResponseBody;
 import io.swagger.annotations.Api;
@@ -24,10 +25,10 @@ public class RoomController {
     // 면접 삭제
     @PostMapping("/deleteInterview")
     @ApiOperation(value = "면접 삭제", notes = "<strong>sessionId와 companyId</strong>를 통해 면접을 삭제한다.")
-    public ResponseEntity<? extends BaseResponseBody> deleteInterview(@RequestBody RoomDeleteReq roomReq) {
+    public ResponseEntity<? extends BaseResponseBody> deleteInterview(@RequestBody RoomInterviewDeleteReq roomInterviewDeleteReq) {
 
-        roomService.deleteInterview(roomReq);
-        roomService.deleteRoom(roomReq);
+        roomService.deleteInterview(roomInterviewDeleteReq);
+        roomService.deleteRoom(roomInterviewDeleteReq);
 
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
     }

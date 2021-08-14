@@ -1,13 +1,16 @@
 package com.profileglance.api.service;
 
 import com.profileglance.api.request.RoomDeleteReq;
+import com.profileglance.api.request.RoomInterviewDeleteReq;
 import com.profileglance.db.entity.Room;
 
 public interface RoomService {
 
     Boolean deleteRoom(RoomDeleteReq roomDeleteReq);
 
-    Boolean deleteInterview(RoomDeleteReq roomDeleteReq);
+    Boolean deleteRoom(RoomInterviewDeleteReq roomDeleteReq);
+
+    Boolean deleteInterview(RoomInterviewDeleteReq roomDeleteReq);
 
     Boolean deleteRecruitSessionId(RoomDeleteReq roomDeleteReq);
 

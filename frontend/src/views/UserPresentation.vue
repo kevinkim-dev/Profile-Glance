@@ -5,6 +5,7 @@
 				<h1 id="session-title">{{ mySessionId }} 채용설명회</h1>
 				<p v-if="totalViewers>=0">{{ totalViewers }}명 시청중</p>
 				<p v-else>0명 시청중</p>
+				<p>{{ runningTime }}</p>
 				<Dialog
 				:buttonText="'설명회 나가기'"
 				:dialogTitle="'알림'"
@@ -137,6 +138,7 @@
 </style>
 
 <script>
+import http from '@/http.js';
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import UserVideo from '@/components/live/UserVideo';
@@ -163,35 +165,49 @@ export default {
 			myUserName: '',
 			sessionId: this.$route.params.sessionid,
 			total: 0,
+			startTime: undefined,
+			timeGap: undefined,
 		}
 	},
 	computed: {
 		totalViewers: function () {
 			return this.total-1
+		},
+		runningTime: function () {
+			return this.timeGap
 		}
 	},
 	created () {
     this.mySessionId = this.sessionId
     this.myUserName = localStorage.getItem('id')
 		this.joinSession()
-		console.log('시작')
-		axios.get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${this.sessionId}/connection`, {
-			auth: {
-				username: 'OPENVIDUAPP',
-				password: OPENVIDU_SERVER_SECRET,
-			},
-		})
+		http.get(`/room/findRoomTime/${this.mySessionId}`)
 		.then((res) => {
-			console.log(res)
+			this.startTime = res.data
 		})
 		.catch((err) => {
 			console.log(err)
 		})
+		setInterval(this.calcRunningTime, 1000)
+	},
+	mounted () {
 	},
   beforeDestroy () {
     this.leaveSession()
   },
 	methods: {
+		calcRunningTime () {
+			const moment = require('moment')
+			const now = moment()
+			const startTime = moment(this.startTime)
+			const hours = moment.duration(now.diff(startTime)).hours()
+			const minutes = moment.duration(now.diff(startTime)).minutes()
+			const seconds = moment.duration(now.diff(startTime)).seconds()
+			const editedHours = hours >= 10 ? hours: '0'+hours
+			const editedMinutes = minutes >= 10 ? minutes: '0'+minutes
+			const editedSeconds = seconds >= 10 ? seconds: '0'+seconds
+			this.timeGap = editedHours+':'+editedMinutes+':'+editedSeconds
+		},
     exitPresentation () {
       this.leaveSession()
       this.$router.push({name: 'wanted'})

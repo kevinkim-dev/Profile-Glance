@@ -199,11 +199,17 @@ export default {
 	created () {
     this.mySessionId = this.sessionId
     this.myUserName = localStorage.getItem('id')
-		const body = {companyId: this.myUserName, recruitId: this.recruitId}
-		console.log(body)
+		var now = new Date().toISOString()
+		this.startTime = now
+		// console.log(now)
+		const body = {companyId: this.myUserName, recruitId: this.recruitId, createAt: now}
+		// console.log(body)
 		http.post('/recruit/createRoom', body)
 		.then((res) => {
 			console.log(res)
+		})
+		.catch((err) => {
+			console.log(err)
 		})
 	},
 	mounted() {
@@ -218,23 +224,11 @@ export default {
 		this.screenSize = this.originalSize.width + 'x' + this.originalSize.height
 		this.joinSession()
 		console.log('시작')
-		// 시작 시간 DB에 저장하기 -> 리턴받은 시간 data에 저장
-		var now = new Date()
-		this.startTime = now
-		console.log(now)
+		// // 시작 시간 DB에 저장하기 -> 리턴받은 시간 data에 저장
+		// var now = new Date()
+		// this.startTime = now
+		// console.log(now)
 		setInterval(this.calcRunningTime, 1000)
-		axios.get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${this.sessionId}/connection`, {
-			auth: {
-				username: 'OPENVIDUAPP',
-				password: OPENVIDU_SERVER_SECRET,
-			},
-		})
-		.then((res) => {
-			console.log(res)
-		})
-		.catch((err) => {
-			console.log(err)
-		})
 	},
   beforeDestroy () {
 		this.removeSession()

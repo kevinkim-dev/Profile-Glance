@@ -2,8 +2,8 @@
   <v-form v-model="valid">
     <v-container>
       <v-row justify="center">
-        <v-col cols="4" align="right"><div id="thumb">썸네일</div> </v-col>
-        <v-col cols="8">
+        <v-col cols="3" align="right"><div id="thumb">썸네일</div> </v-col>
+        <v-col>
           <v-row>
             <v-img :src="url" max-height="150" max-width="250" />
             <v-col cols="3">
@@ -21,8 +21,8 @@
         </v-col>
       </v-row>
       <v-row justify="center">
-        <v-col cols="4" align="right">동영상 파일</v-col>
-        <v-col>
+        <v-col cols="3" align="right">동영상 파일</v-col>
+        <v-col cols="7" align="left">
           <v-file-input
             v-model="files"
             required
@@ -32,10 +32,12 @@
             show-size
           ></v-file-input>
         </v-col>
+        <v-col>
+        </v-col>
       </v-row>
       <v-row justify="center">
-        <v-col cols="4" align="right">카테고리</v-col>
-        <v-col>
+        <v-col cols="3" align="right">카테고리</v-col>
+        <v-col cols="7">
           <v-select
             v-model="category"
             :items="kind"
@@ -47,10 +49,12 @@
             single-line
           ></v-select>
         </v-col>
+        <v-col >
+        </v-col>
       </v-row>
       <v-row justify="center">
-        <v-col cols="4" align="right">제목</v-col>
-        <v-col>
+        <v-col cols="3" align="right">제목</v-col>
+        <v-col cols="7">
           <v-text-field
             v-model="title"
             required
@@ -58,10 +62,12 @@
             filled
           ></v-text-field>
         </v-col>
+        <v-col >
+        </v-col>
       </v-row>
       <v-row justify="center">
-        <v-col cols="4" align="right">내용</v-col>
-        <v-col>
+        <v-col cols="3" align="right">내용</v-col>
+        <v-col cols="7">
           <v-text-field
             v-model="content"
             required
@@ -70,19 +76,24 @@
             height="300"
           ></v-text-field>
         </v-col>
+        <v-col>
+        </v-col>
+        <v-col />
       </v-row>
     </v-container>
-    <v-container>
+    <v-container style="height: 200px">
       <v-row justify="end">
-        <v-col cols="3">
+        <v-col cols="2">
           <v-btn block text x-large class="primary-color text-white rounded-0" @click="regist">
             등록
           </v-btn>
         </v-col>
-        <v-col cols="3">
+        <v-col cols="2">
           <v-btn block text x-large class="secondary-color text-white rounded-0" @click="cancle">
             취소
           </v-btn>
+        </v-col>
+        <v-col cols='2'>
         </v-col>
       </v-row>
     </v-container>

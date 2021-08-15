@@ -1,22 +1,24 @@
 <template>
-  <div class="profile-infobox elevation-2">
-    <AdminInfo v-if="profileType=='admin'" 
-      @clickCompanySignUp="$emit('clickCompanySignUp')"
-    />
-    <UserInfo v-else-if="profileType=='user'" :userLike="userLike" />
-    <CompanyInfo v-else-if="profileType=='company'" />
+  <div>
+    <div class="profile-infobox elevation-2" v-if="profileType!='company'">
+      <AdminInfo v-if="profileType=='admin'" 
+        @clickCompanySignUp="$emit('clickCompanySignUp')"
+      />
+      <UserInfo v-else-if="profileType=='user'" :userLike="userLike" />
+    </div>
+    <CompanyLikeUsers v-if="profileType=='company'" />
   </div>
 </template>
 
 <script>
 import AdminInfo from "./profileinfo/AdminInfo.vue"
-import CompanyInfo from "./profileinfo/CompanyInfo.vue"
+import CompanyLikeUsers from "./profileinfo/CompanyLikeUsers.vue"
 import UserInfo from "./profileinfo/UserInfo.vue"
 
 export default {
   components: {
     AdminInfo,
-    CompanyInfo,
+    CompanyLikeUsers,
     UserInfo,
   },
   props: {

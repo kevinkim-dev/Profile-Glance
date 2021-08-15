@@ -39,7 +39,6 @@ export default {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
         .then(({ data }) => {
-          console.log(data);
           this.imgSrc = URL.createObjectURL(e.target.files[0]);
           location.reload();
         })

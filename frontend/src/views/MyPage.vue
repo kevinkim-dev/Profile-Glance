@@ -6,6 +6,7 @@
         <ProfileImage :isMyProfile="isMyProfile" />
         <ProfileMenus v-if="isMenuNeed" @openInterviewModal="openInterviewModal" @unliked="unliked" @liked="liked" />
         <ProfileMyMenus v-if="isMyProfile && userType == 'user'" @clickEditButton="openEditModal" />
+        <CompanyInfo v-if="userType == 'company'" />
       </div>
       <div class="profile-right-box">
         <ProfileInfoButtons v-if="isMyProfile && userType != 'admin'" @clickInfo="clickInfo" @clickInterviews="clickInterviews" @clickWanteds="clickWanteds"/>
@@ -34,6 +35,7 @@ import ProfileInfos from '@/components/mypage/ProfileInfos.vue';
 import ProfileInfoButtons from '@/components/mypage/ProfileInfoButtons.vue';
 import ProfileInterviews from '@/components/mypage/interview/ProfileInterviews.vue';
 import ProfileWanteds from '@/components/mypage/wanted/ProfileWanteds.vue';
+import CompanyInfo from '@/components/mypage/profileinfo/CompanyInfo.vue';
 import ProfileMenus from '@/components/mypage/ProfileMenus.vue';
 import ProfileMyMenus from '@/components/mypage/ProfileMyMenus.vue';
 import ProfileVideos from '@/components/mypage/ProfileVideos.vue';
@@ -64,7 +66,8 @@ export default {
     ProfileLookatme,
     EditModal,
     InterviewModal,
-    ProfileWanteds
+    ProfileWanteds,
+    CompanyInfo
   },
   computed: {
     isMenuNeed: function() {

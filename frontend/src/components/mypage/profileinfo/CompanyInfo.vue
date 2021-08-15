@@ -24,6 +24,5 @@ export default {
 
 <style>
 .infobox {
-  width: 400px;
 }
 </style>

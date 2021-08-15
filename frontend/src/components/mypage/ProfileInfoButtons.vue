@@ -6,7 +6,7 @@
       @click="clickInfo"
       :style="this.infoStyle"
     >
-      회원 정보
+      {{this.firstButton}}
     </v-btn>
     <v-btn class="pg-button me-1"
       color="white"
@@ -32,6 +32,7 @@
 export default {
   data() {
     return {
+      firstButton: String,
       showInterview: false,
       infoStyle: {
         background: '#439474'
@@ -68,8 +69,14 @@ export default {
     loginType() {
       return localStorage.getItem('login_type')
     }
+  },
+  mounted() {
+    if (localStorage.getItem('login_type') == 'user') {
+      this.firstButton = '회원정보'
+    } else {
+      this.firstButton = '관심유저 목록'
+    }
   }
-
 }
 </script>
 

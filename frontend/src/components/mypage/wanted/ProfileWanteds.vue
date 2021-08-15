@@ -66,7 +66,6 @@ export default {
   mounted() {
     http.get('/company/companyrecruitinfo/' + this.$route.params.id) 
       .then(res => {
-        console.log(res.data)
         this.wanteds =  res.data
       }) 
   },

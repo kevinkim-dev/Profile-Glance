@@ -37,7 +37,7 @@ export default {
   background-color: #eee;
   display: flex;
   padding: 30px;
-  height: 100%;
+  height: 368px;
   font-size: 20px;
   border-radius: 4px;
 }

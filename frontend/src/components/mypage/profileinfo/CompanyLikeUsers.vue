@@ -40,7 +40,7 @@ export default {
 }
 
 .user-card {
-  border: 2px grey solid;
+  border: 2px rgb(158, 158, 158) solid;
   border-radius: 4px;
   overflow: hidden;
   height: 100px;

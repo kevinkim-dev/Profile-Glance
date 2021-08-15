@@ -6,7 +6,7 @@
     <div class="m-l-10">{{ this.likeUser.userNickname }}</div>
     <v-btn class="interview-button elevation-1"
               color="white" text
-              @click="clickProfile(this.likeUser.userNickname)"
+              @click="clickProfile(likeUser.userNickname)"
             >
               프로필 보기
     </v-btn>

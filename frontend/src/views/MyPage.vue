@@ -6,7 +6,7 @@
         <ProfileImage :isMyProfile="isMyProfile" />
         <ProfileMenus v-if="isMenuNeed" @openInterviewModal="openInterviewModal" @unliked="unliked" @liked="liked" />
         <ProfileMyMenus v-if="isMyProfile && userType == 'user'" @clickEditButton="openEditModal" />
-        <CompanyInfo v-if="userType == 'company'" />
+        <CompanyInfo v-if="profileType == 'company'" />
       </div>
       <div class="profile-right-box">
         <ProfileInfoButtons v-if="isMyProfile && userType != 'admin'" @clickInfo="clickInfo" @clickInterviews="clickInterviews" @clickWanteds="clickWanteds"/>

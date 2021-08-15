@@ -77,11 +77,18 @@ export default {
 			this.$store.dispatch('mypage/getUserData', info)
 			this.$router.push('/mypage/' + info.profileType + '/' + info.id)
 		},
-        getImg() {
-            return (
-                this.fileURL + 'ServerFiles/UserImg/' +
-                localStorage.getItem('profile')
-            );
+		getImg() {
+            if (localStorage.getItem('login_type') == 'user') {
+                return (
+                    this.fileURL + 'ServerFiles/UserImg/' +
+                    localStorage.getItem('profile')
+                )
+            } else {
+                return (
+                    this.fileURL + 'ServerFiles/companyLogo/' +
+                    localStorage.getItem('profile')
+                )
+            }
         },
 	}
 }

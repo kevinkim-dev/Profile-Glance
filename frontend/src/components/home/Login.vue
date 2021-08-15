@@ -236,6 +236,13 @@ export default {
               localStorage.setItem('login_type', this.loginType);
               localStorage.setItem('id', this.companyId);
               this.$store.dispatch('getLikeUserList', this.companyId);
+              Http.get('/company/companyinfo/' + this.companyId)
+              .then((res) => {
+                localStorage.setItem('profile', res.data.companyImg)
+              })
+              .catch((err) => {
+                alert(err);
+              });
               this.$router.push('lookatme');
               location.reload();
             })

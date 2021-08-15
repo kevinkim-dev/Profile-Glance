@@ -439,6 +439,7 @@ export default {
 }
 
 .lookatme:hover {
+  /* cursor: url("logo.png"), pointer; */
   cursor: pointer;
 }
 </style>

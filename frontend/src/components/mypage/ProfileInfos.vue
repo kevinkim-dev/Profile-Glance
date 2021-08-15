@@ -34,11 +34,12 @@ export default {
 
 <style>
 .profile-infobox {
-  background-color: #eee;
+  background-color: #EAF5F1;
   display: flex;
   padding: 30px;
-  height: 368px;
+  height: 400px;
   font-size: 20px;
   border-radius: 4px;
+  width: 800px;
 }
 </style>

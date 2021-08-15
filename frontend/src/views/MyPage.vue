@@ -1,18 +1,20 @@
 <template>
   <div>
     <h1 class="text-center m-t-30">{{profileId}}</h1>
-    <div class="profile m-t-30  ">
-      <div class="profile-left-box m-r-100">
+    <div class="profile m-t-30">
+      <div class="profile-left-box m-l-50 elevation-2">
         <ProfileImage :isMyProfile="isMyProfile" />
         <ProfileMenus v-if="isMenuNeed" @openInterviewModal="openInterviewModal" @unliked="unliked" @liked="liked" />
         <ProfileMyMenus v-if="isMyProfile && userType == 'user'" @clickEditButton="openEditModal" />
         <CompanyInfo v-if="profileType == 'company'" />
       </div>
-      <div class="profile-right-box">
+      <div class="profile-right-box d-flex">
+        <div>
+          <ProfileInterviews v-if="infoCategory == 'interview'" />
+          <ProfileInfos v-if="infoCategory == 'info'" :userLike="this.userLike" />
+          <ProfileWanteds v-if="infoCategory == 'wanted'" />
+        </div>
         <ProfileInfoButtons v-if="isMyProfile && userType != 'admin'" @clickInfo="clickInfo" @clickInterviews="clickInterviews" @clickWanteds="clickWanteds"/>
-        <ProfileInterviews v-if="infoCategory == 'interview'" />
-        <ProfileInfos v-if="infoCategory == 'info'" :userLike="this.userLike" />
-        <ProfileWanteds v-if="infoCategory == 'wanted'" />
       </div>
     </div><hr class="m-t-50">
     <ProfileLookatme v-if="profileType=='user'" :profileId="profileId" />
@@ -139,14 +141,16 @@ export default {
   flex-direction: column;
   justify-content: center;
   height: 400px;
-  width: 400px;
+  width: 300px;
+  background-color: #EAF5F1;
+  border-radius: 6px;
 }
 
 .profile-right-box {
   display: flex;
-  flex-direction: column;
-  width: 800px;
+  width: 860px;
   height: 400px;
+  margin-left: 70px;
 }
 
 .mypageModal {

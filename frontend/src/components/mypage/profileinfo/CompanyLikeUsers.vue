@@ -34,10 +34,14 @@ export default {
   border: solid #eee 1px;
   border-radius: 4px;
   padding: 20px;
-  height: 368px;
+  height: 400px;
+  width: 800px;
   overflow: auto;
   scroll-behavior: smooth;
+  -ms-overflow-style: none;
 }
+
+.like-user-box::-webkit-scrollbar{ display: none;}
 
 .user-card {
   border: 2px rgb(158, 158, 158) solid;
@@ -45,4 +49,5 @@ export default {
   overflow: hidden;
   height: 100px;
 }
+
 </style>

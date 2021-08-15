@@ -1,6 +1,6 @@
 <template>
-  <div class="profile-menu-box d-flex flex-column justify-content-center">
-    <div class="d-flex justify-content-around pt-10">
+  <div class="profile-menu-box d-flex flex-column justify-content-center m-b-20">
+    <div class="d-flex justify-content-center pt-10">
         <v-btn class="red-button"
             color="white"
             text
@@ -17,7 +17,7 @@
         >
             좋아요
         </v-btn>
-        <v-btn class="green-button"
+        <v-btn class="green-button m-l-10"
             color="white"
             text
             @click="$emit('openInterviewModal')"
@@ -88,23 +88,22 @@ export default {
 
 <style>
 .profile-menu-box {
-    margin-left: 80px;
     width: 300px;
     height: 100px;  
 }
 
 .blue-button {
     background: blue;
-    width: 130px;
+    width: 100px;
 }
 
 .green-button {
     background: green;
-    width: 130px;
+    width: 100px;
 }
 
 .red-button {
     background: red;
-    width: 130px;
+    width: 100px;
 }
 </style>

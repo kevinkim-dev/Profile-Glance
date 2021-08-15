@@ -3,7 +3,7 @@
 		<div class="d-flex flex-column justify-content-around">
       <div class="infobox">이름: {{userInfo.userName}}</div>
       <div class="infobox">생년월일: {{userInfo.birth}}</div>
-      <div class="infobox">좋아요 갯수: {{userInfo.countLike}}</div>
+      <div class="infobox">좋아요 갯수: {{this.userLike}}</div>
       <div class="infobox">포토폴리오1: {{userInfo.portfolio1}}</div>
 		</div>
     <div class="d-flex flex-column justify-content-around">
@@ -17,10 +17,8 @@
 
 <script>
 export default {
-  data() {
-    return {
-
-    }
+  props: {
+    userLike: Number
   },
   computed: {
     majors() {
@@ -37,7 +35,10 @@ export default {
     userInfo() {
       return this.$store.state.mypage.userData
     }
-  }
+  },
+  // mounted() {
+  //   this.userLike = this.$store.state.mypage.userData.countLike
+  // }
 }
 </script>
 

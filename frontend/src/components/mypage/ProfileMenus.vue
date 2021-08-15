@@ -48,6 +48,11 @@ export default {
             http.post('/company/likecheckclick', body)
             .then(res => {
                 console.log(res)
+                if (this.liked == true) {
+                    this.$emit('unliked')
+                } else {
+                    this.$emit('liked')
+                }
                 this.liked = !this.liked
             })
             .catch(err => {

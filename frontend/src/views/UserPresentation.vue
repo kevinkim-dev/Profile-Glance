@@ -19,34 +19,54 @@
 					<user-video :stream-manager="mainStreamManager"/>
 				</div>
 				<div id="session-message">
-					<div ref="chatDisplay" id="session-message-box">
-						<div v-for="(chat, index) in chats" :key="index" class="chat-line">
-							<div v-if="chat.userId === myUserName" class="my-comment">
-								<div>
-									<span class="participant-name">[{{ chat.nickname }}] </span><span class="chat-msg">{{ chat.msg }}</span>
-								</div>
-							</div>
-							<div v-else class="other-comment">
-								<div>
-									<span class="participant-name other">[{{ chat.nickname }}] </span
-									><span class="chat-msg">{{ chat.msg }}</span>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div id="session-message-send">
-						<div class="msg-guide p-2 fs-4" >
-							내 메시지
-						</div>
-						<input
-							v-model="sendMsg"
-							type="textarea"
-							id="session-message-input"
-							class="pt-2 pb-5 ps-2 pe-2"
-							@keydown.enter="submitMsg"
-						/>
-					</div>
-				</div>
+          <div ref="chatDisplay" id="session-message-box">
+            <div v-for="(chat, index) in chats" :key="index" class="chat-line">
+              <div v-if="chat.userId === myUserName" class="my-comment">
+                <div>
+                  <!-- <span class="participant-name">[{{ chat.nickname }}] </span
+                  ><span class="chat-msg">{{ chat.msg }}</span> -->
+                  <div class="userInfo mb-2">
+                    <div class="chat-image-box mr-2">
+                      <img :src="getImg(chat)" class="chat-image" alt="profile_img">
+                    </div>
+                    <span class="participant-name">{{ chat.nickname }} </span>
+                  </div>
+                  <div class="chat-box mb-2">
+                    <span class="chat-msg">{{ chat.msg }}</span>
+                  </div>
+                </div>
+              </div>
+              <div v-else class="other-comment">
+                <div>
+                  <!-- <span class="participant-name other">[{{ chat.nickname }}] </span
+                  ><span class="chat-msg">{{ chat.msg }}</span> -->
+                  <div class="userInfo mb-2">
+                    <div class="chat-image-box mr-2">
+                      <img :src="getImg(chat)" class="chat-image" alt="profile_img">
+                    </div>
+                    <span class="participant-name other">{{ chat.nickname }} </span>
+                  </div>
+                  <div class="chat-box mb-2">
+                    <span class="chat-msg">{{ chat.msg }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="session-message-send">
+            <div class="msg-guide p-2 fs-4">
+              내 메시지
+            </div>
+            <input
+              v-model="sendMsg"
+              type="textarea"
+              id="session-message-input"
+              placeholder="메세지를 입력해주세요"
+              class="pt-2 pb-5 ps-2 pe-2"
+              @keydown.enter="submitMsg"
+            />
+          </div>
+        </div>
 			</div>
 		</div>
 	</div>
@@ -140,6 +160,7 @@
 <script>
 import http from '@/http.js';
 import axios from 'axios';
+import { mapGetters } from 'vuex';
 import { OpenVidu } from 'openvidu-browser';
 import UserVideo from '@/components/live/UserVideo';
 import Dialog from '@/components/Dialog'
@@ -175,7 +196,10 @@ export default {
 		},
 		runningTime: function () {
 			return this.timeGap
-		}
+		},
+		...mapGetters([
+      'fileURL',
+    ]),
 	},
 	created () {
     this.mySessionId = this.sessionId
@@ -196,6 +220,19 @@ export default {
     this.leaveSession()
   },
 	methods: {
+		getImg(chat) {
+        if (chat.loginType == 'user') {
+            return (
+                this.fileURL + 'ServerFiles/UserImg/' +
+                chat.img
+            )
+        } else {
+            return (
+                this.fileURL + 'ServerFiles/companyLogo/' +
+                chat.img
+            )
+        }
+    },
 		calcRunningTime () {
 			const moment = require('moment')
 			const now = moment()

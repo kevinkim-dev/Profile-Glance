@@ -81,7 +81,7 @@ public class RecruitController {
     @ApiOperation(value = "채용 방 생성", notes = "<strong>채용 방을 생성한다.</strong>")
     public ResponseEntity<? extends BaseResponseBody> createRoom(@RequestBody RecruitRoomPostReq recruitRoomPostReq) {
 
-        Room room = roomService.createRoom(recruitRoomPostReq.getCompanyId(), "re");
+        Room room = roomService.createRoom(recruitRoomPostReq.getCompanyId(), "re", recruitRoomPostReq.getCreateAt());
 
         recruitService.updateRecruit(room, recruitRoomPostReq.getCompanyId(), recruitRoomPostReq.getRecruitId());
 

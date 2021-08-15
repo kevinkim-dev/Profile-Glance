@@ -1,20 +1,20 @@
 <template>
   <div>
-    <h1 class="text-center">{{profileId}}</h1>
-    <div class="profile m-t-50  ">
+    <h1 class="text-center m-t-30">{{profileId}}</h1>
+    <div class="profile m-t-30  ">
       <div class="profile-left-box m-r-100">
         <ProfileImage :isMyProfile="isMyProfile" />
-        <ProfileMenus v-if="isMenuNeed" @openInterviewModal="openInterviewModal" />
+        <ProfileMenus v-if="isMenuNeed" @openInterviewModal="openInterviewModal" @unliked="unliked" @liked="liked" />
         <ProfileMyMenus v-if="isMyProfile && userType == 'user'" @clickEditButton="openEditModal" />
       </div>
       <div class="profile-right-box">
         <ProfileInfoButtons v-if="isMyProfile && userType != 'admin'" @clickInfo="clickInfo" @clickInterviews="clickInterviews" @clickWanteds="clickWanteds"/>
         <ProfileInterviews v-if="infoCategory == 'interview'" />
-        <ProfileInfos v-if="infoCategory == 'info'" />
+        <ProfileInfos v-if="infoCategory == 'info'" :userLike="this.userLike" />
         <ProfileWanteds v-if="infoCategory == 'wanted'" />
       </div>
     </div><hr class="m-t-50">
-    <ProfileLookatme v-if="profileType=='user'" />
+    <ProfileLookatme v-if="profileType=='user'" :profileId="profileId" />
     <v-dialog
       v-model="isEditOpen"
       max-width="650px"
@@ -50,6 +50,7 @@ export default {
       isEditOpen: false,
       isCompanySignUpOpen: false,
       isInterviewModalOpen: false,
+      userLike: Number,
     }
   },
   components: {
@@ -104,24 +105,22 @@ export default {
     },
     clickWanteds: function() {
       this.infoCategory = 'wanted'
-    }
+    },
+    unliked: function() {
+      this.userLike -= 1
+    },
+    liked: function() {
+      this.userLike += 1
+    },
+
   },
   mounted() {
-    // if (info.profileType == 'user') {
-    //     this.profileType = 'user'
-    //   this.profileId = info.id
-    // } else if (info.profileType == 'company') {
-    //     this.profileType = 'company'
-    //   this.profileId = info.id
-    // } else if (info.profileType == 'admin') {
-    //     this.profileType = 'admin'
-    //   this.profileId = '관리자'      
-    // }
     const info = {
       'profileType': this.$route.params.loginType,
       'id': this.$route.params.id
     }
     this.$store.dispatch('mypage/getUserData', info)
+    this.userLike = this.$store.state.mypage.userData.countLike
   }
 }
 </script>

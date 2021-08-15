@@ -3,145 +3,212 @@
 		<div class="elevation-10 session-whole" v-if="session">
 			<div id="session-header">
 				<h1 id="session-title">화상면접장</h1>
-				<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="exitPresentation" value="Leave session">
+				<Dialog
+				:buttonText="'면접장 퇴장'"
+				:dialogTitle="'알림'"
+				:dialogContent="'면접장을 퇴장하시겠습니까?'"
+				:buttonO="'네'"
+				:buttonX="'아니오'"
+				@clickO="exitInterview"/>
 			</div>
 			<div id="session-body">
-				<div id="session-video" ref="size" class="d-flex row">
-					<user-video :stream-manager="mainStreamManager" class="col-6"/>
-					<user-video :stream-manager="publisher" class="col-6" @click.native="updateMainVideoStreamManager(publisher)"/>
-					<user-video v-for="pub in publishers" class="col-6" :key="pub.stream.connection.connectionId+'2'" :stream-manager="pub"/>
+				<div id="session-video" ref="size" class="d-inline-flex row">
+					<div id="session-video" ref="size" class="container">
+          <div id="video-container" class="d-flex col-md-12">
+            <user-video
+              :stream-manager="publisher"
+              @click.native="updateMainVideoStreamManager(publisher)"
+            />
+            <user-video
+              v-for="pub in publishers"
+              :key="pub.stream.connection.connectionId + '2'"
+              :stream-manager="pub"
+            />
+          </div>
+        </div>
 				</div>
 				<div id="session-message">
-					<div ref="chatDisplay" id="session-message-box">
-						<div v-for="(chat, index) in chats" :key="index" class="chat-line">
-							<div v-if="chat.userId === myUserName" class="my-comment">
-								<div>
-									<span class="participant-name">[{{ chat.nickname }}] </span><span class="chat-msg">{{ chat.msg }}</span>
-								</div>
-							</div>
-							<div v-else class="other-comment">
-								<div>
-									<span class="participant-name other">[{{ chat.nickname }}] </span
-									><span class="chat-msg">{{ chat.msg }}</span>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div id="session-message-send">
-						<div class="msg-guide p-2 fs-4" >
-							내 메시지
-						</div>
-						<input
-							v-model="sendMsg"
-							type="textarea"
-							id="session-message-input"
-							placeholder="메세지를 입력해주세요"
-							class="pt-2 pb-5 ps-2 pe-2"
-							@keydown.enter="submitMsg"
-						/>
-					</div>
-				</div>
+          <div ref="chatDisplay" id="session-message-box">
+            <div v-for="(chat, index) in chats" :key="index" class="chat-line">
+              <div v-if="chat.userId === myUserName" class="my-comment">
+                <div>
+                  <div class="userInfo mb-2">
+                    <div class="chat-image-box mr-2">
+                      <img :src="getImg(chat)" class="chat-image" alt="profile_img">
+                    </div>
+                    <span class="participant-name">{{ chat.nickname }} </span>
+                  </div>
+                  <div class="chat-box mb-2">
+                    <span class="chat-msg">{{ chat.msg }}</span>
+                  </div>
+                </div>
+              </div>
+              <div v-else class="other-comment">
+                <div>
+                  <div class="userInfo mb-2">
+                    <div class="chat-image-box mr-2">
+                      <img :src="getImg(chat)" class="chat-image" alt="profile_img">
+                    </div>
+                    <span class="participant-name other">{{ chat.nickname }} </span>
+                  </div>
+                  <div class="chat-box mb-2">
+                    <span class="chat-msg">{{ chat.msg }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="session-message-send">
+            <div class="msg-guide p-2 fs-4">
+              내 메시지
+            </div>
+            <input
+              v-model="sendMsg"
+              type="textarea"
+              id="session-message-input"
+              placeholder="메세지를 입력해주세요"
+              class="pt-2 pb-5 ps-2 pe-2"
+              @keydown.enter="submitMsg"
+            />
+          </div>
+        </div>
 			</div>
 		</div>
 	</div>
 </template>
-<style scoped>
+<style>
+
+.chat-box {
+  padding: 5px;
+  background-color: #C0DDD1;
+  border-radius: 5px;
+}
+
+.userInfo {
+  height: 35px;
+  display: flex;
+  align-items: center;
+}
+
+.participant-name {
+  height: 30px;
+  line-height: 25px;
+}
+
+.chat-image-box {
+    height: 30px;
+    width: 30px;
+    border-radius: 70%;
+    overflow: hidden;
+}
+
+.chat-image {
+    width: 100%;
+    height: 100%;   
+    object-fit: cover;
+}
+
 #session-background {
-	background-color: rgb(80, 75, 75);
-	/* border: solid 1px white; */
-	height: 100vh;
-	width: 100vw;
+  background-color: rgb(80, 75, 75);
+  /* border: solid 1px white; */
+  height: 100vh;
+  width: 100vw;
 }
 
 .session-whole {
-	width: 95%;
-	height: 95%;
-	background-color: white;
-	border-radius: 5px;
-	overflow: hidden;
+  width: 95%;
+  height: 95%;
+  background-color: white;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 #session-header {
-	display: flex;
-	justify-content: space-between;
-	height: 15%;
-	padding-left: 80px;
-	padding-right: 80px;
-	padding-top: 30px;
-	padding-bottom: 30px;
-	border-bottom: solid rgb(151, 151, 151) 2px;
+  display: flex;
+  justify-content: space-between;
+  height: 15%;
+  padding-left: 80px;
+  padding-right: 80px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  border-bottom: solid rgb(151, 151, 151) 2px;
 }
 
 #session-body {
-	height: 85%;
-	display: flex;
-	/* justify-content: space-between; */
-	position: relative;
+  height: 85%;
+  display: flex;
+  /* justify-content: space-between; */
+  position: relative;
 }
 
 #session-video {
-	width: 76%;
-	height: 100%;
-	position: absolute;
-	margin-left: 0px;
-	margin-bottom: 0px;
-	margin-right: 0px;
-	margin-top: 0px;
+  width: 70vw;
+  height: 70vh;
+  position: absolute;
+  margin-left: 1vw;
+  margin-bottom: 0px;
+  margin-right: 2vw;
+  margin-top: 0px;
 }
 
 #session-video2 {
-	width: 100%;
+  width: 100%;
 }
 
 #fullscreen-box {
-	width: 30px;
-	height: 30px;
+  width: 30px;
+  height: 30px;
 }
 
 #fullscreen-icon {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 #fullscreen-icon:hover {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 #session-message {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	position: absolute;
-	right: 0px;
-	height: 100%;
-	width: 24%;
-	background-color: #eee;
-	border-left: solid rgb(151, 151, 151) 1px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: absolute;
+  right: 0px;
+  height: 100%;
+  width: 24%;
+  background-color: #eee;
+  border-left: solid rgb(151, 151, 151) 1px;
 }
 
 #session-message-box {
-	padding: 10px;
-	overflow: auto;
+  padding: 10px;
+  overflow: auto;
 }
 
-
 #session-message-send {
-	border-top: solid rgb(151, 151, 151) 1px;
-	/* position: relative; */
+  border-top: solid rgb(151, 151, 151) 1px;
+  /* position: relative; */
 }
 
 #session-message-input {
-	/* position: absolute; */
-	/* white-space: pre-line; */
-	width: 100%;
+  /* position: absolute; */
+  /* white-space: pre-line; */
+  width: 100%;
+}
+video {
+  width: 100%;
+  height: auto;
 }
 </style>
 <script>
 import http from '@/http.js';
 import axios from 'axios';
+import { mapGetters } from 'vuex';
 import { OpenVidu } from 'openvidu-browser';
 import UserVideo from '@/components/live/UserVideo';
+import Dialog from '@/components/Dialog'
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 const OPENVIDU_SERVER_URL = "https://profileglance.site:8011";
 const OPENVIDU_SERVER_SECRET = "1234";
@@ -149,12 +216,12 @@ export default {
 	name: 'CompanyInterview',
 	components: {
 		UserVideo,
+		Dialog
 	},
 	data () {
 		return {
 			OV: undefined,
 			session: undefined,
-			mainStreamManager: undefined,
       sessionId: this.$route.params.sessionid,
 			interviewee: this.$route.params.interviewee,
       publisher: undefined,
@@ -169,6 +236,14 @@ export default {
 			videoSize: String
 		}
 	},
+	computed: {
+    changedPublishers: function () {
+      return publishers
+    },
+		...mapGetters([
+      'fileURL',
+    ]),
+  },
 	created () {
     this.mySessionId = this.sessionId
     this.myUserName = localStorage.getItem('id')
@@ -183,53 +258,87 @@ export default {
 			if (statusCode === 202) {
 				console.log('여기')
 				this.isHost = true
-				const body = {companyId: this.myUserName, userNickname: this.interviewee}
+				var now = new Date().toISOString()
+				this.startTime = now
+				const body = {companyId: this.myUserName, userNickname: this.interviewee, createAt: now}
 				http.post('/interview/createroom', body)
 				.then((res) => {
 					console.log(res)
 				})
+				.catch((err) => {
+					console.log(err)
+				})
 			}
 		})
-		this.joinSession()
 	},
 	mounted() {
-		this.size = {
-			'height': this.$refs.size.clientHeight / 2,
-			'width': this.$refs.size.clientWidth / 2
-		}
-		this.videoSize = this.size.width + 'x' + this.size.height
+		// this.size = {
+		// 	'height': this.$refs.size.clientHeight / 2,
+		// 	'width': this.$refs.size.clientWidth / 2
+		// }
+		// this.videoSize = this.size.width + 'x' + this.size.height
 		this.joinSession()
 	},
   beforeDestroy () {
     this.leaveSession()
   },
-  computed: {
-    changedPublishers: function () {
-      return publishers
-    }
-  },
 	methods: {
-    exitPresentation () {
+		getImg(chat) {
+        if (chat.loginType == 'user') {
+            return (
+                this.fileURL + 'ServerFiles/UserImg/' +
+                chat.img
+            )
+        } else {
+            return (
+                this.fileURL + 'ServerFiles/companyLogo/' +
+                chat.img
+            )
+        }
+    },
+		removeSession () {
+			axios.delete(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${this.sessionId}`, {
+			auth: {
+				username: 'OPENVIDUAPP',
+				password: OPENVIDU_SERVER_SECRET,
+			},
+			})
+			.then((res) => {
+				console.log(res)
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+		},
+    exitInterview () {
 			console.log('ishost확인 전')
 			console.log(this.isHost)
+      this.leaveSession()
 			if (this.isHost) {
 				console.log('확인 후')
 				const body = {companyId: this.myUserName, sessionId: this.sessionId}
 				console.log(body)
 				http.post('/room/deleteInterview', body)
+				.then((res) => {
+					this.removeSession()
+				})
+				.catch((err) => {
+					console.log(err)
+				})
 			}
-      this.leaveSession()
       this.$router.go(-1)
     },
     chat_on_scroll() {
       this.$refs.chatDisplay.scrollTop = this.$refs.chatDisplay.scrollHeight;
     },
-    submitMsg () {
+    submitMsg() {
       if (this.sendMsg.trim() === '') return;
       const sendData = {
         userId: this.myUserName,
         nickname: this.myUserName,
         msg: this.sendMsg,
+        loginType: localStorage.getItem('login_type'),
+        img: localStorage.getItem('profile')
       };
       this.sendMsg = '';
       this.session
@@ -241,7 +350,7 @@ export default {
         .then(() => {
           console.log('Message successfully sent');
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
         });
     },
@@ -254,13 +363,7 @@ export default {
 			// On every new Stream received...
       this.session.on('streamCreated', ({ stream }) => {
         const subscriber = this.session.subscribe(stream);
-        const type = JSON.parse(stream.connection.data).type
-        // user면 면접대상자이므로 mainstream에 넣기, 아니면 기업이므로 publishers에 넣기
-        if (type === 'user') {
-          this.mainStreamManager = subscriber
-        } else {
-          this.publishers.push(subscriber)
-        }
+        this.publishers.push(subscriber)
 			});
 			// On every Stream destroyed...
 			this.session.on('streamDestroyed', ({ stream }) => {
@@ -282,18 +385,17 @@ export default {
 			// 'token' parameter should be retrieved and returned by your own backend
 			this.getToken(this.mySessionId).then(token => {
 				this.session
-          .connect(token, { clientData: this.myUserName, type: 'company' })
+          .connect(token, { clientData: this.myUserName })
 					.then(() => {
 						let publisher = this.OV.initPublisher(undefined, {
 								audioSource: undefined, // The source of audio. If undefined default microphone
 								videoSource: undefined, // The source of video. If undefined default webcam
 								publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
 								publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
-								resolution: this.videoSize,  // The resolution of your video
+								resolution: '1280x720',  // The resolution of your video
 								frameRate: 30,			// The frame rate of your video
 								insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
 								mirror: false,       	// Whether to mirror your local video or not
-                type: 'company',
               });
 							this.publisher = publisher;
 							// --- Publish your stream ---

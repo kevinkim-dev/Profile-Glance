@@ -1,5 +1,6 @@
 <template>
   <section class="newproduct bgwhite">
+    <h1 class="text-center m-t-30">룩앳미 목록</h1>
     <div class="container">
       <div id="lookatme-view">
         <v-row>
@@ -54,6 +55,9 @@ moment.locale('ko');
 Vue.use(VueMoment, {moment});
 
 export default {
+  props: {
+    profileId: String
+  },
   computed: {
     ...mapState('product', {
       products: (state) => state.featuredProducts,

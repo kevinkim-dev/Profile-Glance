@@ -38,7 +38,7 @@ public class InterviewController {
     @PostMapping("/createroom")
     @ApiOperation(value = "인터뷰 방 만들기", notes = "room을 생성하고 interview 테이블에 session_id 추가")
     public ResponseEntity<? extends BaseResponseBody> createInterviewRoom(@RequestBody InterviewRoomPostReq interviewRoomPostReq) {
-        Room room = roomService.createRoom(interviewRoomPostReq.getCompanyId(), "in");
+        Room room = roomService.createRoom(interviewRoomPostReq.getCompanyId(), "in", interviewRoomPostReq.getCreateAt());
         interviewService.updateSesstion(room, interviewRoomPostReq.getUserNickname(), interviewRoomPostReq.getCompanyId());
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "성공"));
     }

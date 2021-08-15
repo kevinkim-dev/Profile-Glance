@@ -2,17 +2,21 @@
 	<div id="session-background" class="d-flex justify-content-center align-items-center">
 		<div class="elevation-10 session-whole" ref="whole" >
 			<div id="session-header" ref="header">
-				<h1 id="session-title">{{ mySessionId }} 채용설명회</h1>
-				<p v-if="totalViewers>=0">{{ totalViewers }}명 시청중</p>
-				<p v-else>0명 시청중</p>
-				<p>{{ runningTime }}</p>
-				<Dialog
-				:buttonText="'설명회 나가기'"
-				:dialogTitle="'알림'"
-				:dialogContent="'설명회를 나가시겠습니까?'"
-				:buttonO="'네'"
-				:buttonX="'아니오'"
-				@clickO="exitPresentation"/>
+				<h1 id="session-title">{{ companyName }} 채용설명회</h1>
+				<div class="d-flex flex-column pt-7">
+					<Dialog
+					:buttonText="'설명회 나가기'"
+					:dialogTitle="'알림'"
+					:dialogContent="'설명회를 나가시겠습니까?'"
+					:buttonO="'네'"
+					:buttonX="'아니오'"
+					@clickO="exitPresentation"/>
+					<div class="d-flex mt-2">
+						<p v-if="totalViewers>=0"><i class="fas fa-user"></i> {{ totalViewers }}</p>
+						<p class="mx-1" v-else><i class="fas fa-user"></i> 0</p>
+						<p class="mx-1"><i class="fas fa-clock"></i> {{ runningTime }}</p>
+					</div>
+				</div>
 			</div>
 			<div id="session-body">
 				<div id="session-video" class="d-flex justify-content-center">
@@ -90,8 +94,9 @@
 #session-header {
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 	padding-left: 80px;
-	padding-right: 80px;
+	padding-right: 30px;
 	padding-top: 30px;
 	padding-bottom: 30px;
 	border-bottom: solid rgb(151, 151, 151) 2px;
@@ -201,6 +206,26 @@ export default {
       'fileURL',
     ]),
 	},
+	watch: {
+		subscribers: function () {
+			if (this.subscribers.length == 0) {
+				Swal.fire({ 
+						icon: 'warning', // Alert 타입 
+						title: '설명회가 종료되었습니다.', // Alert 제목 
+						showCancelButton: false,
+						showConfirmButton: true,
+						showDenyButton: false,
+						confirmButtonColor: '#439474',
+						confirmButtonText: `나가기`,
+				})
+				.then((res) => {
+						if(res.isConfirmed) {
+								return this.exitPresentation()
+						}
+				})
+			}
+		}
+	},
 	created () {
     this.mySessionId = this.sessionId
     this.myUserName = localStorage.getItem('id')
@@ -258,6 +283,8 @@ export default {
         userId: this.myUserName,
         nickname: this.myUserName,
         msg: this.sendMsg,
+				loginType: localStorage.getItem('login_type'),
+        img: localStorage.getItem('profile')
       };
       this.sendMsg = '';
       this.session

@@ -1,9 +1,9 @@
 <template>
-  <div class="profile-infobox">
+  <div class="profile-infobox elevation-2">
     <AdminInfo v-if="profileType=='admin'" 
       @clickCompanySignUp="$emit('clickCompanySignUp')"
     />
-    <UserInfo v-else-if="profileType=='user'" />
+    <UserInfo v-else-if="profileType=='user'" :userLike="userLike" />
     <CompanyInfo v-else-if="profileType=='company'" />
   </div>
 </template>
@@ -19,6 +19,9 @@ export default {
     CompanyInfo,
     UserInfo,
   },
+  props: {
+    userLike: Number
+  },
   computed: {
     profileType() {
       return this.$store.state.mypage.profileType
@@ -29,10 +32,11 @@ export default {
 
 <style>
 .profile-infobox {
-  display: flex;
   background-color: #eee;
+  display: flex;
   padding: 30px;
   height: 100%;
   font-size: 20px;
+  border-radius: 4px;
 }
 </style>

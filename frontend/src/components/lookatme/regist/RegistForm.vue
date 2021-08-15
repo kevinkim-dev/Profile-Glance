@@ -1,101 +1,84 @@
 <template>
   <v-form v-model="valid">
-    <v-container>
-      <v-row justify="center">
-        <v-col cols="3" align="right"><div id="thumb">썸네일</div> </v-col>
-        <v-col>
-          <v-row>
-            <v-img :src="url" max-height="150" max-width="250" />
-            <v-col cols="3">
+    <v-container style="max-width: 800px; background: #EAF5F1;">
+      <v-row class="justify-center">
+        <!-- <v-col cols="3" align="right"><div id="thumb">썸네일</div> </v-col> -->
+        <v-col cols="12">
+          <v-row class="justify-center">
+            <v-col cols="4">
+              <v-img :src="url" max-height="150" max-width="250" />
+            </v-col>
+            <v-col cols="6">
               <v-file-input
                 @click:clear="url = 'images/lookatme/img.jpg'"
                 @change="previewImage"
                 v-model="image"
-                label="사진 파일"
-                filled
+                label="썸네일 업로드"
                 prepend-icon="mdi-camera"
               >
               </v-file-input>
+              <v-file-input
+                v-model="files"
+                required
+                :rules="[(v) => !!v || '필수 항목입니다']"
+                label="영상 업로드"
+                show-size
+              ></v-file-input>
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col>
+          <v-row>
+            <v-col cols="2">
+              <v-select
+                v-model="category"
+                :items="kind"
+                item-text="codeName"
+                item-value="code"
+                label="카테고리"
+                return-object
+                single-line
+              ></v-select>
+            </v-col>
+            <v-col cols="10">
+              <v-text-field
+                v-model="title"
+                required
+                label="제목"
+                :rules="[(v) => !!v || '필수 항목입니다']"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col cols="12">
+          <v-row>
+            <v-col>
+              <v-textarea
+                v-model="content"
+                required
+                label="내용"
+                :rules="[(v) => !!v || '필수 항목입니다']"
+              ></v-textarea>
             </v-col>
           </v-row>
         </v-col>
       </v-row>
-      <v-row justify="center">
-        <v-col cols="3" align="right">동영상 파일</v-col>
-        <v-col cols="7" align="left">
-          <v-file-input
-            v-model="files"
-            required
-            :rules="[(v) => !!v || '필수 항목입니다']"
-            filled
-            label="영상 업로드"
-            show-size
-          ></v-file-input>
-        </v-col>
-        <v-col>
-        </v-col>
-      </v-row>
-      <v-row justify="center">
-        <v-col cols="3" align="right">카테고리</v-col>
-        <v-col cols="7">
-          <v-select
-            v-model="category"
-            :items="kind"
-            item-text="codeName"
-            item-value="code"
-            label="Select"
-            filled
-            return-object
-            single-line
-          ></v-select>
-        </v-col>
-        <v-col >
-        </v-col>
-      </v-row>
-      <v-row justify="center">
-        <v-col cols="3" align="right">제목</v-col>
-        <v-col cols="7">
-          <v-text-field
-            v-model="title"
-            required
-            :rules="[(v) => !!v || '필수 항목입니다']"
-            filled
-          ></v-text-field>
-        </v-col>
-        <v-col >
-        </v-col>
-      </v-row>
-      <v-row justify="center">
-        <v-col cols="3" align="right">내용</v-col>
-        <v-col cols="7">
-          <v-text-field
-            v-model="content"
-            required
-            :rules="[(v) => !!v || '필수 항목입니다']"
-            filled
-            height="300"
-          ></v-text-field>
-        </v-col>
-        <v-col>
-        </v-col>
-        <v-col />
-      </v-row>
     </v-container>
-    <v-container style="height: 200px">
-      <v-row justify="end">
-        <v-col cols="2">
-          <v-btn block text x-large class="primary-color text-white rounded-0" @click="regist">
-            등록
-          </v-btn>
-        </v-col>
-        <v-col cols="2">
-          <v-btn block text x-large class="secondary-color text-white rounded-0" @click="cancle">
-            취소
-          </v-btn>
-        </v-col>
-        <v-col cols='2'>
-        </v-col>
-      </v-row>
+    <v-container style="max-width: 800px; height: 200px;">
+      <v-col>
+        <v-row class="d-flex justify-content-end">
+          <v-col cols="3">
+            <v-btn block text x-large class="primary-color text-white rounded-0" @click="regist">
+              등록
+            </v-btn>
+          </v-col>
+          <v-col cols="3">
+            <v-btn block text x-large class="secondary-color text-white rounded-0" @click="cancel">
+              취소
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-col>
     </v-container>
   </v-form>
 </template>
@@ -139,7 +122,7 @@ export default {
           code: '2002',
         },
         {
-          codeName: '예체능',
+          codeName: '춤',
           code: '3001',
         },
         {
@@ -213,6 +196,7 @@ export default {
           icon: 'warning', // Alert 타입 
           title: '필수 항목을 입력해주세요.', // Alert 제목 
           text: '필수 항목을 모두 입력해야 등록이 가능합니다.', // Alert 내용 
+          confirmButtonColor: '#439474',
         });
         // alert('필수 항목을 입력해주세요.');
       } else {
@@ -233,6 +217,7 @@ export default {
               icon: 'success', // Alert 타입 
               title: '룩앳미 등록에 성공하였습니다.', // Alert 제목 
               text: '등록한 룩앳미 확인이 가능합니다.', // Alert 내용 
+              confirmButtonColor: '#439474',
             });
             // alert('등록 성공!');
             console.log(data)
@@ -241,8 +226,22 @@ export default {
           .catch((err) => console.log(err));
       }
     },
-    cancle() {
-      router.push({ name: 'lookatme' });
+    cancel() {
+      Swal.fire({ 
+          icon: 'question', // Alert 타입 
+          title: '작성을 취소하시겠습니까?', // Alert 제목
+          text: '작성된 내용은 저장되지 않습니다.', 
+          showCancelButton: true,
+          showConfirmButton: true,
+          confirmButtonColor: '#439474',
+          confirmButtonText: `예`,
+          cancelButtonText: `아니오`,
+      })
+      .then((res) => {
+          if(res.isConfirmed) {
+              router.push({ name: 'lookatme' });
+          }
+      })
     },
   },
 };

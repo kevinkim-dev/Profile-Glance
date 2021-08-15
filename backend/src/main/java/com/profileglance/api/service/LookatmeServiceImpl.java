@@ -56,7 +56,8 @@ public class LookatmeServiceImpl implements LookatmeService{
                     l.getCategory().getCategoryName(),
                     l.getView(),
                     l.getVideoLike(),
-                    l.getCreatedAt()
+                    l.getCreatedAt(),
+                    l.getUser().getUserImg()
             ));
         }
 
@@ -83,7 +84,8 @@ public class LookatmeServiceImpl implements LookatmeService{
                     l.getCategory().getCategoryName(),
                     l.getView(),
                     l.getVideoLike(),
-                    l.getCreatedAt()
+                    l.getCreatedAt(),
+                    l.getUser().getUserImg()
             ));
         }
 
@@ -204,7 +206,8 @@ public class LookatmeServiceImpl implements LookatmeService{
                     l.getCategory().getCategoryName(),
                     l.getView(),
                     l.getVideoLike(),
-                    l.getCreatedAt()
+                    l.getCreatedAt(),
+                    l.getUser().getUserImg()
             ));
         }
 
@@ -233,7 +236,8 @@ public class LookatmeServiceImpl implements LookatmeService{
                     l.getCategory().getCategoryName(),
                     l.getView(),
                     l.getVideoLike(),
-                    l.getCreatedAt()
+                    l.getCreatedAt(),
+                    l.getUser().getUserImg()
             ));
         }
 
@@ -259,7 +263,8 @@ public class LookatmeServiceImpl implements LookatmeService{
                 lookatme.getCategory().getCategoryName(),
                 lookatme.getView(),
                 lookatme.getVideoLike(),
-                lookatme.getCreatedAt()
+                lookatme.getCreatedAt(),
+                lookatme.getUser().getUserImg()
         );
 
         return lookatmePostRes;

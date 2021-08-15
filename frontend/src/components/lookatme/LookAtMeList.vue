@@ -88,15 +88,16 @@
           </v-col>
         </v-row>
       </div>
-      <div id="lookatme-view">
+      <div id="lookatme-view" style="height: 800px; width: 100%;">
         <v-row>
           <v-col
+            style="padding-right: 10px"
             :cols="3"
             v-for="video in list"
             :key="video.lookatmeId"
             @click="lookatmeDetail(video.lookatmeId, video.thumbnail, video.video)"
-          >
-            <v-card :loading="false" class="mx-2 my-12 lookatme" width="320" height="300px">
+            >
+            <v-card :loading="false" class="mx-2 my-12 lookatme" width="250" height="300px" style="padding: 10px;">
               <template slot="progress">
                 <v-progress-linear
                   color="deep-purple"
@@ -104,7 +105,7 @@
                   indeterminate
                 ></v-progress-linear>
               </template>
-              <v-img height="172" width="304" :src="getImg(video.thumbnail)"> </v-img>
+              <v-img height="135" width="240" :src="getImg(video.thumbnail)"> </v-img>
               <!-- {{video.thumbnail}} -->
               <v-card-title
                 ><div class="title">{{ video.title }}</div></v-card-title
@@ -115,6 +116,8 @@
                 </v-row>
                 <div class="my-4 text-subtitle-1">
                   {{ video.userNickName }}
+                  <br>
+                  조회수 {{video.view}}회 <br>
                 </div>
               </v-card-text>
             </v-card>
@@ -124,7 +127,15 @@
           :identifier="infiniteId"
           @infinite="infiniteHandler"
           spinner="circles"
-        ></infinite-loading>
+        >
+          <div slot="no-more">
+            <br>
+            불러올 룩앳미가 없습니다</div>
+        <div slot="no-results">
+          <br>
+          불러올 룩앳미가 없습니다
+        </div>
+        </infinite-loading>
       </div>
       <!-- Slide2 -->
       <!-- <div class="wrap-slick2">
@@ -409,9 +420,9 @@ export default {
 <style>
 #lookatme-view {
   overflow-y: scroll;
-  height: 400px;
-  width: 100%;
   overflow-x: hidden;
+  margin-right: 15px;
+  margin-left: 0px;
 }
 #lookatme-view::-webkit-scrollbar {
   display: none;

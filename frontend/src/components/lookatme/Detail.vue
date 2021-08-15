@@ -34,7 +34,7 @@
                         <br>
                         게시일: &nbsp;{{ $moment(lookatme.createdAt).format("YYYY년 MMMM do dddd HH시 mm분") }}<br>
                         <br>
-                        <a @click="userPage(lookatme.userNickName)">{{lookatme.userNickName}}</a><br>
+                        <a @click="userPage(lookatme.userNickName)" title="클릭 시 해당 유저의 mypage로 이동합니다">{{lookatme.userNickName}}</a><br>
                         <br>
                         {{lookatme.content}}<br>
                     </div>
@@ -47,7 +47,7 @@
     <br>
     <div>
         관련 영상 목록
-        <div id="lookatme-view">
+        <div id="lookatme-view" style="height: 800px; width: 100%;">
         <v-row>
           <v-col
             :cols="3"
@@ -56,7 +56,7 @@
             v-if="lookatme.lookatmeId != video.lookatmeId"
             @click="lookatmeDetail(video.lookatmeId, video.thumbnail, video.video)"
           >
-            <v-card :loading="false" class="mx-2 my-12" width="320" height="300px">
+            <v-card :loading="false" class="mx-2 my-12" width="250" height="300px" style="padding: 10px;">
               <template slot="progress">
                 <v-progress-linear
                   color="deep-purple"
@@ -64,7 +64,7 @@
                   indeterminate
                 ></v-progress-linear>
               </template>
-              <v-img height="172" width="304" :src="getImg(video.thumbnail)"> </v-img>
+              <v-img height="135" width="240" :src="getImg(video.thumbnail)"> </v-img>
               <!-- {{video.thumbnail}} -->
               <v-card-title
                 ><div class="title">{{ video.title }}</div></v-card-title
@@ -84,7 +84,15 @@
         v-if="lookatme"
           @infinite="infiniteHandler"
           spinner="circles"
-        ></infinite-loading>
+        >
+        <div slot="no-more">
+            <br>
+            불러올 룩앳미가 없습니다</div>
+        <div slot="no-results">
+          <br>
+          불러올 룩앳미가 없습니다
+        </div>
+        </infinite-loading>
       </div>
     </div>
     </v-container>
@@ -198,7 +206,7 @@ export default {
       playerStateChanged(playerCurrentState) {
       },
       playerReadied(player) {
-        player.currentTime(10)
+        player.currentTime(0)
       },
     getImg(file) {
       return this.fileURL + 'ServerFiles/Thumbnail/' + file;

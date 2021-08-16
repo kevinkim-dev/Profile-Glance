@@ -65,4 +65,22 @@ public class InterviewServiceImpl implements InterviewService{
         }
     }
 
+    @Override
+    public Boolean deleteInterviewByUserNickname(String userNickname) {
+
+        List<Interview> interviews = interviewRepository.findAllByUser_UserNickname(userNickname);
+        System.out.println(interviews.size());
+
+        for(Interview interview : interviews) {
+//            interviewRepository.deleteByUser_UserNickname(userNickname);
+            String sessionId = interviewRepository.findSessionIdByUser_UserNickname(userNickname);
+            System.out.println(sessionId);
+            if(sessionId != null) {
+
+            }
+        }
+
+        return null;
+    }
+
 }

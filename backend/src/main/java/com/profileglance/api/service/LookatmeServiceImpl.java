@@ -270,4 +270,22 @@ public class LookatmeServiceImpl implements LookatmeService{
         return lookatmePostRes;
     }
 
+    @Override
+    public Boolean deleteLookatme(Long lookatmeId) {
+
+        lookatmeRepository.deleteByLookatmeId(lookatmeId);
+
+        return true;
+    }
+
+    @Override
+    public Boolean deleteLookatmeByUserNickname(String userNickname) {
+
+        System.out.println("룩엣미 서비스 들어옴~");
+
+        lookatmeRepository.deleteAllByUser_UserNickname(userNickname);
+
+        return true;
+    }
+
 }

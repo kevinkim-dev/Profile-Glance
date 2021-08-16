@@ -12,4 +12,6 @@ public interface InterviewService {
 
     Boolean checkCSID(String userNickName, String csId);
 
+    Boolean deleteInterviewByUserNickname(String userNickname);
+
 }

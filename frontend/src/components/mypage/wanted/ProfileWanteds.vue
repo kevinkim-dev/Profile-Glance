@@ -81,8 +81,17 @@ export default {
   height: 100%;
 }
 
+.wanted-table-box.theme--light.v-data-table {
+  background-color: #EAF5F1;
+}
+
+.wanted-table-box.theme--light.v-data-table--fixed-header thead tr th {
+  background-color: #EAF5F1;
+}
+
 .wanted-table {
-  background-color: #eee;
+  background-color: #C0DDD1;
+  border: black 1px solid;
 }
 
 .wanted-button {

@@ -47,7 +47,7 @@ public class LookatmeController {
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
     }
 
-    @PutMapping("/update")
+    @PostMapping("/update")
     @ApiOperation(value = "룩앳미 수정", notes = "<strong>룩앳미</strong>를 수정한다.")
     public ResponseEntity<? extends BaseResponseBody> updateLookatme(@ModelAttribute LookatmePostReq lookatmePostReq) {
 

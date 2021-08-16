@@ -184,22 +184,26 @@ export default {
         console.log(this.image);
         let lookatme = new FormData();
         let userEmail = localStorage.getItem('user_email');
-        lookatme.append('thumbnail', this.image);
+        lookatme.append('lookatmeId', this.lookatme.lookatmeId);
+        if(this.image != null){
+          lookatme.append('thumbnail', this.image);
+        }
         lookatme.append('category', this.category.codeName);
         lookatme.append('title', this.title);
         lookatme.append('content', this.content);
         lookatme.append('userEmail', userEmail);
-        http.post('/lookatme/upload', lookatme, {
+        http.post('/lookatme/update', lookatme, {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
           .then(({ data }) => {
             Swal.fire({ 
               icon: 'success', // Alert 타입 
-              title: '룩앳미 등록에 성공하였습니다.', // Alert 제목 
+              title: '룩앳미 수정에 성공하였습니다.', // Alert 제목 
               text: '등록한 룩앳미 확인이 가능합니다.', // Alert 내용 
             });
             // alert('등록 성공!');
             console.log(data)
+            // router.go(-1);
             router.push({ name: 'lookatme' });
           })
           .catch((err) => console.log(err));

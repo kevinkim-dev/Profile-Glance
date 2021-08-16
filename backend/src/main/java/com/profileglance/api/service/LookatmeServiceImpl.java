@@ -156,29 +156,29 @@ public class LookatmeServiceImpl implements LookatmeService{
 
         boolean check = (lookatmePostReq.getThumbnail() != null && !lookatmePostReq.getThumbnail().isEmpty());
 
-        String now = LocalDateTime.now().toString();
-        String videoPath = baseDir + "/Video/" + now + user.getUserNickname() + ".mp4";
-        String videofile = now + user.getUserNickname() + ".mp4";
-        String thumbnailPath = baseDir + "/Thumbnail/" + now + user.getUserNickname() + ".jpg";
-        String thumbnailfile = now + user.getUserNickname() + ".jpg";
+        System.out.println(lookatmePostReq.getTitle());
+        System.out.println(lookatmePostReq.getUserEmail());
+        System.out.println(lookatmePostReq.getLookatmeId());
 
+        Lookatme lookatme = lookatmeRepository.findByLookatmeId(lookatmePostReq.getLookatmeId()).get();
+        System.out.println("썸네일 바꾸는 거 하는중입니다.");
+        String thumbnailPath = baseDir + "/Thumbnail/" + lookatme.getThumbnail();
+
+        // 썸네일 수정
         try{
-            lookatmePostReq.getVideo().transferTo(new File(videoPath));
+            // 썸네일이 있으면 파일 저장.
             if(check)
-                lookatmePostReq.getThumbnail().transferTo(new File(thumbnailPath));
+            lookatmePostReq.getThumbnail().transferTo(new File(thumbnailPath));
         } catch (Exception e){
             return false;
         }
-
-        Lookatme lookatme = lookatmeRepository.findById(lookatmePostReq.getLookatmeId()).get();
-
+        // 제목
         lookatme.setTitle(lookatmePostReq.getTitle());
+        // 내용
         lookatme.setContent(lookatmePostReq.getContent());
-        lookatme.setVideo(videofile);
-        if(check)
-            lookatme.setThumbnail(thumbnailfile);
+        // 카테고리
         lookatme.setCategory(categoryRepository.findByCategoryName(lookatmePostReq.getCategory()).get());
-
+        
         lookatmeRepository.save(lookatme);
 
         return true;

@@ -30,7 +30,7 @@
             contain
             max-height="20vh"
             max-width="100vw"
-            src="images/icons/pgpg.png"
+            src="images/icons/logo.png"
           ></v-img>
       </v-row>
       <v-row justify="center" id="title">
@@ -38,7 +38,7 @@
             contain
             height="20vh"
             width="100vw"
-            src="images/icons/pg.png"
+            src="images/icons/logo_letter.png"
           ></v-img>
       </v-row>
       <v-row justify="center" class="desc-btn" align="start">

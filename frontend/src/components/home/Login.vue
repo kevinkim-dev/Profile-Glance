@@ -34,7 +34,7 @@
               >
                 로그인
               </v-btn>
-              <u @click="$emit('close')">아차차! 아이디를 잊으셨나요?</u>
+              <!-- <u @click="$emit('close')">아차차! 아이디를 잊으셨나요?</u> -->
             </v-col>
             <v-col cols="6">
               <v-btn
@@ -47,7 +47,7 @@
               >
                 취소
               </v-btn>
-              <u @click="$emit('close')">아차! 비밀번호를 잊으셨나요?</u>
+              <!-- <u @click="$emit('close')">아차! 비밀번호를 잊으셨나요?</u> -->
             </v-col>
           </v-row>
           <v-card-text class="text-center">
@@ -90,7 +90,7 @@
               >
                 로그인
               </v-btn>
-              <u @click="$emit('close')">아차차! 아이디를 잊으셨나요?</u>
+              <!-- <u @click="$emit('close')">아차차! 아이디를 잊으셨나요?</u> -->
             </v-col>
             <v-col cols="6">
               <v-btn
@@ -103,7 +103,7 @@
               >
                 취소
               </v-btn>
-              <u @click="$emit('close')">아차! 비밀번호를 잊으셨나요?</u>
+              <!-- <u @click="$emit('close')">아차! 비밀번호를 잊으셨나요?</u> -->
             </v-col>
           </v-row>
           <v-card-text class="text-center">

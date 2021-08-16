@@ -67,9 +67,39 @@
         </div>
 			</div>
 		</div>
+    <v-btn @click="isQuestion = true" class="d-none"></v-btn>
+    <v-snackbar v-model="isQuestion" :vertical="vertical" top light class="m-t-50"
+		>
+      <div id="question-header">
+				<div id="question-nickname">{{question.nickname}}님의 질문</div>
+				<v-btn color="indigo" text v-bind="attrs" @click="isQuestion = false" class="">
+					닫기
+				</v-btn>
+			</div>
+			<div id="question-content">{{question.msg}}</div>
+    </v-snackbar>
 	</div>
 </template>
 <style>
+#question-header {
+	display: flex;
+	justify-content: space-between;
+	border-bottom: rgb(82, 82, 82) solid 1px;
+	padding-left: 10px;
+	padding-right: 0px;
+	padding-bottom: 10px;
+}
+
+#question-nickname {
+	font-size: 20px;
+	padding-top: 8px;
+}
+
+#question-content {
+	padding-top: 20px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
 
 .chat-box {
   padding: 5px;
@@ -212,6 +242,8 @@ export default {
 	},
 	data () {
 		return {
+      timeout: 3000,
+			isQuestion: false,
 			OV: undefined,
 			session: undefined,
 			mainStreamManager: undefined,
@@ -224,7 +256,8 @@ export default {
 			mySessionId: '',
 			myUserName: '',
 			size: Object,
-			videoSize: String
+			videoSize: String,
+      question: Object,
 		}
 	},
 	created () {
@@ -311,6 +344,10 @@ export default {
 			this.session.on('signal:my-chat', event => {
         this.chats.push(JSON.parse(event.data));
         setTimeout(this.chat_on_scroll, 10);
+      });
+      this.session.on('signal:question', event => {
+        this.question = JSON.parse(event.data);
+				this.isQuestion = true
       });
 			// On every asynchronous exception...
 			this.session.on('exception', ({ exception }) => {

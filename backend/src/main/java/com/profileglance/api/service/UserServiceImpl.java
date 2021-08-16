@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService{
                 ,user.getBirth()
                 ,user.getMajor1()
                 ,user.getMajor2()
-                ,userLikeRepository.countByUser_UserEmail(userEmail)
+                ,user.getCompanyLike()
                 ,lookatmeRepository.countByUser_UserEmail(userEmail)
                 ,user.getPortfolio1()
                 ,user.getPortfolio2()
@@ -125,7 +125,7 @@ public class UserServiceImpl implements UserService{
                 ,user.getBirth()
                 ,user.getMajor1()
                 ,user.getMajor2()
-                ,userLikeRepository.countByUser_UserEmail(user.getUserEmail())
+                ,user.getCompanyLike()
                 ,lookatmeRepository.countByUser_UserEmail(user.getUserEmail())
                 ,user.getPortfolio1()
                 ,user.getPortfolio2()
@@ -205,5 +205,23 @@ public class UserServiceImpl implements UserService{
     @Override
     public Long likeCount(String userEmail){
         return userLikeRepository.countByUser_UserEmail(userEmail);
+    }
+
+    @Override
+    public void companyLikeChange(String userNickname, boolean flag){
+        User user = userRepository.findByUserNickname(userNickname).get();
+
+        long companylike = user.getCompanyLike();
+
+        if (flag){  // flag == true 이면 ++
+            user.setCompanyLike(companylike+1);
+
+        }else{      // flag == false 이면 --
+            if (user.getCompanyLike() > 0){
+                user.setCompanyLike(companylike-1);
+            }
+        }
+
+        userRepository.save(user);
     }
 }

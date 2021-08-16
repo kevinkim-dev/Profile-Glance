@@ -57,10 +57,9 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    requestDeleteUser({ commit }, userEmail) {
-      console.log(userEmail);
+    requestDeleteUser({ commit }, userNickname) {
       http
-        .delete('/user/delete/' + userEmail)
+        .delete('/user/delete/' + userNickname)
         .then((res) => {
           console.log('then');
           commit('REQUEST_LOGOUT');

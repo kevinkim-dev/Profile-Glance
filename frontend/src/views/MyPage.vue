@@ -44,7 +44,7 @@ import ProfileVideos from '@/components/mypage/ProfileVideos.vue';
 import ProfileLookatme from '@/components/mypage/ProfileLookatme.vue';
 import EditModal from '@/components/mypage/EditModal.vue'
 import InterviewModal from '@/components/mypage/InterviewModal.vue'
-
+import http from '@/http.js'
 
 export default {
   name: 'profile',
@@ -125,7 +125,12 @@ export default {
       'id': this.$route.params.id
     }
     this.$store.dispatch('mypage/getUserData', info)
-    this.userLike = this.$store.state.mypage.userData.countLike
+    if (info.profileType == 'user') {
+      http.get('user/myinfo/nickname/' + info.id)
+      .then((res) => {
+        this.userLike = res.data.countLike
+      })
+    }
   }
 }
 </script>

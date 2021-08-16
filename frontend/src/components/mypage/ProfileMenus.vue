@@ -98,12 +98,12 @@ export default {
 }
 
 .green-button {
-    background: green;
+    background: rgb(66, 197, 66);
     width: 100px;
 }
 
 .red-button {
-    background: red;
+    background: #ff5555;
     width: 100px;
 }
 </style>

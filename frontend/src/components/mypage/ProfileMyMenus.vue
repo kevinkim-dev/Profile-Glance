@@ -53,12 +53,12 @@ export default {
 }
 
 .blue-button {
-    background: #C0DCFD;
+    background: #469dff;
     width: 120px;
 }
 
 .red-button {
-    background: #FFC8C8;
+    background: #ff5555;
     width: 110px;
 }
 </style>

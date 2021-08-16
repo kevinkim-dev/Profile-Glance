@@ -36,7 +36,8 @@ export default {
       })
       .then((res) => {
           if(res.isConfirmed) {
-              this.$router.push('/mypage/user/' + userNickname)
+            this.$store.dispatch('mypage/getUserData', userNickname)
+            this.$router.push('/mypage/user/' + userNickname)
           }
       })
     },

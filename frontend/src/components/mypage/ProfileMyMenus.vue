@@ -40,7 +40,7 @@ export default {
             })
         },
         deleteUser() {
-            this.$store.dispatch('requestDeleteUser', localStorage.getItem('user_email'))
+            this.$store.dispatch('requestDeleteUser', this.$route.params.id)
         }
     }
 }

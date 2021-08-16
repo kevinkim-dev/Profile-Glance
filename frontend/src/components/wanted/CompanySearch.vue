@@ -1,13 +1,15 @@
 <template>
   <div>
-    <v-row class="d-flex justify-center">
-      <v-col class="d-flex align-center" cols="3">
-        <span
+    <v-row class="d-flex">
+      <v-col cols="2">
+      </v-col>
+      <v-col class="d-flex align-center" cols="2">
+        <!-- <span
           style="color: #439474; cursor: pointer;"
           class="mx-4 font-weight-bold"
           @click="searchAll">
           전체보기
-        </span>
+        </span> -->
         <v-select
           label="모집 직무"
           :items="jobFilter"
@@ -26,7 +28,11 @@
           @keypress.enter="searchCompany"
           :disabled="searchBarDisabled"
         ></v-text-field>
-        <v-btn
+      </v-col>
+      <v-col cols="1">
+      </v-col>
+      <v-col class="d-flex" cols="2">
+      <v-btn
           text
           large
           class="m-3 primary-color text-white rounded-0"
@@ -49,8 +55,9 @@ export default {
         companies: state => state.companies
       }),
       // 직무 필터링
-      searchFilter: '',
+      searchFilter: '전체보기',
       jobFilter: [
+        '전체보기',
         'IT',
         '마케팅',
         '영업',
@@ -72,7 +79,7 @@ export default {
   computed: {
     // 검색창 disable 여부 (필터링 했다면 true)
     searchBarDisabled: function () {
-      if (this.searchFilter) {
+      if (this.searchFilter != "전체보기") {
         return true
       } else {
         return false
@@ -86,7 +93,7 @@ export default {
       }
     },
     searchBarLabel: function () {
-      if (this.searchFilter) {
+      if (this.searchFilter != "전체보기") {
         return '검색창을 활성화하려면 전체보기를 누르세요'
       } else {
         return '기업명을 입력해주세요'
@@ -103,7 +110,7 @@ export default {
   methods: {
     searchAll: function () {
       this.searchWord = ''
-      this.searchFilter = ''
+      this.searchFilter = '전체보기'
       this.$store.dispatch('wanted/setCompanies')
     },
     searchCompany: function () {
@@ -119,7 +126,10 @@ export default {
       }
     },
     searchJob: function () {
-      this.$store.dispatch('wanted/searchJob', this.searchFilter)
+      if (this.searchFilter === '전체보기')
+        this.searchAll();
+      else
+        this.$store.dispatch('wanted/searchJob', this.searchFilter)
     }
   }
 

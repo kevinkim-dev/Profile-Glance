@@ -174,7 +174,7 @@ public class LookatmeServiceImpl implements LookatmeService{
 
         lookatme.setTitle(lookatmePostReq.getTitle());
         lookatme.setContent(lookatmePostReq.getContent());
-        lookatme.setVideo(videofile);
+//        lookatme.setVideo(videofile);
         if(check)
             lookatme.setThumbnail(thumbnailfile);
         lookatme.setCategory(categoryRepository.findByCategoryName(lookatmePostReq.getCategory()).get());

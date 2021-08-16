@@ -189,13 +189,13 @@ export default {
         lookatme.append('title', this.title);
         lookatme.append('content', this.content);
         lookatme.append('userEmail', userEmail);
-        http.post('/lookatme/upload', lookatme, {
+        http.post('/lookatme/update', lookatme, {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
           .then(({ data }) => {
             Swal.fire({ 
               icon: 'success', // Alert 타입 
-              title: '룩앳미 등록에 성공하였습니다.', // Alert 제목 
+              title: '룩앳미 수정에 성공하였습니다.', // Alert 제목 
               text: '등록한 룩앳미 확인이 가능합니다.', // Alert 내용 
             });
             // alert('등록 성공!');

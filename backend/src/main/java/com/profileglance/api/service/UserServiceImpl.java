@@ -174,7 +174,8 @@ public class UserServiceImpl implements UserService{
                     l.getCategory().getCategoryName(),
                     l.getView(),
                     l.getVideoLike(),
-                    l.getCreatedAt()
+                    l.getCreatedAt(),
+                    l.getUser().getUserImg()
             ));
         }
         return lookatmePostResList;

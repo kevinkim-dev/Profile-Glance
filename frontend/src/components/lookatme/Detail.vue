@@ -24,22 +24,35 @@
                 </div>
             </v-col>
             <v-col cols='4'>
-                <div id="video_content">
+                <div id="video_content" style="background: #EAF5F1; border-radius: 2%;">
                     <div id="video_main">
-                        <div id="content">
-                        <h2 class="video_title">{{lookatme.title}}</h2>
+                        <div id="content" class="my-5">
+                        <h3 class="video_title">{{lookatme.title}}</h3>
                         </div>
-                        <br>
-                        조회수: &nbsp;{{lookatme.view}}회<br>
-                        <br>
-                        게시일: &nbsp;{{ $moment(lookatme.createdAt).format("YYYY년 MMMM do dddd HH시 mm분") }}<br>
-                        <br>
-                        <a @click="userPage(lookatme.userNickName)" title="클릭 시 해당 유저의 mypage로 이동합니다">{{lookatme.userNickName}}</a><br>
-                        <br>
-                        {{lookatme.content}}<br>
+                        <div class="d-flex justify-content-between align-items-center my-2">
+                          <div class="d-flex align-items-center">
+                            <div class="chat-image-box mr-2">
+                              <img :src="getUserPic(lookatme.userImg)" class="chat-image" alt="profile_img">
+                            </div>
+                            <a @click="userPage(lookatme.userNickName)" title="클릭 시 해당 유저의 mypage로 이동합니다">{{lookatme.userNickName}}</a>
+                          </div>
+                          <div class="d-flex">
+                            <div>조회수 {{lookatme.view}}회</div>
+                            <div class="mx-1">
+                              ·
+                            </div>
+                            <div>
+                              {{ $moment(lookatme.createdAt).format("YYYY.MM.DD") }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="my-3">
+                          <hr>
+                          {{lookatme.content}}
+                        </div>
                     </div>
                 </div>
-                <div v-show="isCreator">
+                <div v-show="isCreator" class="my-2">
                     <v-btn block text x-large class="primary-color text-white rounded-0" @click="modifyLookatme">수정</v-btn>
                 </div>
             </v-col>
@@ -55,8 +68,8 @@
             :key="video.lookatmeId"
             v-if="lookatme.lookatmeId != video.lookatmeId"
             @click="lookatmeDetail(video.lookatmeId, video.thumbnail, video.video)"
-          >
-            <v-card :loading="false" class="mx-2 my-12" width="250" height="300px" style="padding: 10px;">
+            >
+            <v-card :loading="false" class="mx-1 lookatme" width="260" height="270px" style="padding: 10px;">
               <template slot="progress">
                 <v-progress-linear
                   color="deep-purple"
@@ -71,10 +84,26 @@
               >
               <v-card-text>
                 <v-row align="center" class="mx-0">
-                  <div class="grey--text ms-4 created">게시일 : {{ $moment(video.createdAt).format("YYYY년 MMMM do dddd HH시 mm분") }}</div>
-                 </v-row>
+                  <!-- <div class="grey--text ms-4 created">게시일 : {{ $moment(video.createdAt).format("YYYY년 MMMM do dddd HH시 mm분") }}</div>
+                  <div class="grey--text ms-4 created">{{ video.createdAt | moment("from", "now") }}</div> -->
+                </v-row>
                 <div class="my-4 text-subtitle-1">
-                  {{ video.userNickName }}
+                  <div class="d-flex">
+                    <div class="chat-image-box mr-2">
+                        <img :src="getUserPic(video.userImg)" class="chat-image" alt="profile_img">
+                    </div>
+                    <div>
+                      {{ video.userNickName }}
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-between my-1">
+                    <div>
+                      <i class="far fa-eye"></i> {{video.view}}  
+                    </div>
+                    <div>
+                      {{ video.createdAt | moment("from", "now") }}
+                    </div>  
+                  </div>
                 </div>
               </v-card-text>
             </v-card>
@@ -208,6 +237,9 @@ export default {
       playerReadied(player) {
         player.currentTime(0)
       },
+    getUserPic(file) {
+      return this.fileURL + 'ServerFiles/UserImg/' + file;
+    },
     getImg(file) {
       return this.fileURL + 'ServerFiles/Thumbnail/' + file;
     },
@@ -301,5 +333,16 @@ background: rgba(0, 0, 0, 0.1);
 }
 #video_main{
     margin: 15px;
+}
+.chat-image-box {
+    height: 20px;
+    width: 20px;
+    border-radius: 70%;
+    overflow: hidden;
+}
+.chat-image {
+    width: 100%;
+    height: 100%;   
+    object-fit: cover;
 }
 </style>

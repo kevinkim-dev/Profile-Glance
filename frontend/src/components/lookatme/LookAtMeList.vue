@@ -1,9 +1,15 @@
 <template>
   <section class="newproduct bgwhite p-b-105">
-    <div class="container">
+    <div class="container px-0">
       <div class="sec-title">
         <v-row>
-          <v-col cols="3" class="py-0">
+          <v-col cols="1" class="pb-0">
+            <v-btn
+            @click="changeCategoryVisible()">
+              카테고리
+            </v-btn>
+          </v-col>
+          <v-col cols="2" class="py-0">
             <v-select
               v-model="select"
               :items="kind"
@@ -25,14 +31,33 @@
             ></v-text-field>
           </v-col>
           <v-col cols="1" class="pb-0">
-            <v-btn color="green"
+            <v-btn
+              color="#439474"
+              class="white--text"
               v-if="isUser"
-              ><router-link :to="{ name: 'lookatmeregist' }" exact>업로드</router-link></v-btn
+              @click="$router.push({ name: 'lookatmeregist' })"
+              >업로드</v-btn
             >
           </v-col>
         </v-row>
       </div>
-      <div>
+      <div v-if="categoryVisible" class="mb-5">
+        <v-row>
+          <v-col class="text-center p-0" cols="1" v-for="(category, i) in categories" :key="i">
+            <v-btn
+              style="min-width: 77px;"
+              class="ma-2"
+              outlined
+              color="#439474"
+              @click="categoryFilter(category.title)"
+            >
+              {{ category.title}}
+            </v-btn>
+          </v-col>
+        </v-row>
+        <hr>
+      </div>
+      <!-- <div class="mb-10">
         <v-row>
           <v-col cols="3">
             <v-list-group v-model="no1" prepend-icon="mdi-bottle-tonic-plus">
@@ -87,17 +112,16 @@
             </v-list-group>
           </v-col>
         </v-row>
-      </div>
+      </div> -->
       <div id="lookatme-view" style="height: 800px; width: 100%;">
         <v-row>
           <v-col
-            style="padding-right: 10px"
             :cols="3"
             v-for="video in list"
             :key="video.lookatmeId"
             @click="lookatmeDetail(video.lookatmeId, video.thumbnail, video.video)"
             >
-            <v-card :loading="false" class="mx-2 my-12 lookatme" width="250" height="300px" style="padding: 10px;">
+            <v-card :loading="false" class="lookatme m-0" width="260" height="280px" style="border: rgb(158, 158, 158) solid 1px; padding: 10px;">
               <template slot="progress">
                 <v-progress-linear
                   color="deep-purple"
@@ -105,25 +129,57 @@
                   indeterminate
                 ></v-progress-linear>
               </template>
-              <v-img height="135" width="240" :src="getImg(video.thumbnail)"> </v-img>
+              <div style="position: relative;">
+                <!-- <v-chip
+                  class="category"
+                  color="#EAF5F1"
+                  label
+                  small
+                  text-color="black"
+                >
+                  {{ video.category }}
+                </v-chip> -->
+                <v-img class="thumbnail" height="135" width="240" :src="getImg(video.thumbnail)"> </v-img>
+                <div class="category">
+                  {{ video.category }}
+                </div>
+              </div>
               <!-- {{video.thumbnail}} -->
               <v-card-title
-                ><div class="title">{{ video.title }}</div></v-card-title
-              >
-              <v-card-text>
+                class="px-0"
+                >
+                <div class="title">
+                  {{ video.title }}</div>
+              </v-card-title>
+              <v-card-text class="px-1">
                 <v-row align="center" class="mx-0">
-                  <div class="grey--text ms-4 created">게시일 : {{ $moment(video.createdAt).format("YYYY년 MMMM do dddd HH시 mm분") }}</div>
+                  <!-- <div class="grey--text ms-4 created">게시일 : {{ $moment(video.createdAt).format("YYYY년 MMMM do dddd HH시 mm분") }}</div>
+                  <div class="grey--text ms-4 created">{{ video.createdAt | moment("from", "now") }}</div> -->
                 </v-row>
                 <div class="my-4 text-subtitle-1">
-                  {{ video.userNickName }}
-                  <br>
-                  조회수 {{video.view}}회 <br>
+                  <div class="d-flex">
+                    <div class="chat-image-box mr-2">
+                        <img :src="getUserPic(video.userImg)" class="chat-image" alt="profile_img">
+                    </div>
+                    <div>
+                      {{ video.userNickName }}
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-between my-1">
+                    <div>
+                      <i class="far fa-eye"></i> {{video.view}}  
+                    </div>
+                    <div>
+                      {{ video.createdAt | moment("from", "now") }}
+                    </div>  
+                  </div>
                 </div>
               </v-card-text>
             </v-card>
           </v-col>
         </v-row>
         <infinite-loading
+          class="m-t-150"
           :identifier="infiniteId"
           @infinite="infiniteHandler"
           spinner="circles"
@@ -171,6 +227,20 @@ export default {
       ]),
   },
   methods: {
+    changeCategoryVisible () {
+      this.categoryVisible = !this.categoryVisible
+    },
+    categoryFilter (category) {
+      this.category = category;
+      this.categoryVisible = false
+      this.limit = 0;
+      this.list = [];
+      this.infiniteId += 1;
+      if (this.$refs.InfiniteLoading) {
+        this.$refs.InfiniteLoading.stateChanger.reset();
+      }
+      return false;
+    },
     selectCategory(number, text) {
       switch (number) {
         case 1: {
@@ -203,6 +273,9 @@ export default {
     },
     getImg(file) {
       return this.fileURL + 'ServerFiles/Thumbnail/' + file;
+    },
+    getUserPic(file) {
+      return this.fileURL + 'ServerFiles/UserImg/' + file;
     },
     searchMethod() {
       this.search = this.test;
@@ -277,7 +350,25 @@ export default {
         }
       }
       else if (this.category != '') {
-        http
+        if(this.category == '전체'){
+          http
+          .post('/lookatme/orderByView', {
+            limit: this.limit,
+          })
+          .then((response) => {
+            setTimeout(() => {
+              if (response.data.length) {
+                this.list = this.list.concat(response.data);
+                this.limit += 10;
+                $state.loaded();
+              } else {
+                $state.complete();
+              }
+            }, 1000);
+          })
+          .catch((error) => {});
+        }else{
+          http
           .post('/lookatme/searchByCategory', {
             category: this.category,
             limit: this.limit,
@@ -294,6 +385,8 @@ export default {
             }, 1000);
           })
           .catch((error) => {});
+        }
+        
       this.test = '';
       this.search = '';
       this.category = '';
@@ -316,14 +409,17 @@ export default {
   },
   data() {
     return {
+      categoryVisible: false,
       list: [],
       no1: false,
       no2: false,
       no3: false,
       no4: false,
       infiniteId: +new Date(),
-      categories: {
-        no1: [
+      categories: [
+        {
+          title: '전체',
+        },
           {
             title: '개발',
           },
@@ -333,16 +429,9 @@ export default {
           {
             title: '교육',
           },
-        ],
-        no2: [
           {
             title: '서비스',
           },
-          {
-            title: '영업/마케팅',
-          },
-        ],
-        no3: [
           {
             title: '춤',
           },
@@ -365,7 +454,7 @@ export default {
             title: '사진',
           },
           {
-            title: '메이킹/만들기/손재주',
+            title: '손재주',
           },
           {
             title: '여행',
@@ -379,8 +468,6 @@ export default {
           {
             title: '마술',
           },
-        ],
-        no4: [
           {
             title: '스포츠',
           },
@@ -390,8 +477,10 @@ export default {
           {
             title: '게임',
           },
-        ],
-      },
+          {
+            title: '영업/마케팅',
+          },
+      ],
       category: '',
       limit: 0,
       isAll: true,
@@ -427,6 +516,25 @@ export default {
 #lookatme-view::-webkit-scrollbar {
   display: none;
 }
+.lookatme {
+  border: black solid 1px;
+}
+.thumbnail {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.category {
+  position: absolute;
+  top: 0px;
+  left: 0%;
+  background-color:#EAF5F1;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-right-radius: 4px;
+  opacity: 0.9;
+
+}
 .title {
   display: block;
   text-overflow: ellipsis;
@@ -451,5 +559,16 @@ export default {
 
 .lookatme:hover {
   cursor: pointer;
+}
+.chat-image-box {
+    height: 20px;
+    width: 20px;
+    border-radius: 70%;
+    overflow: hidden;
+}
+.chat-image {
+    width: 100%;
+    height: 100%;   
+    object-fit: cover;
 }
 </style>

@@ -45,10 +45,10 @@
         <v-row>
           <v-col class="text-center p-0" cols="1" v-for="(category, i) in categories" :key="i">
             <v-btn
-              style="min-width: 77px;"
-              class="ma-2"
+              depressed
               outlined
-              color="#439474"
+              style="min-width: 77px; border: thin #9A9A9A; color:#666666; box-shadow: 1px 1px 1px 1px gray;"
+              class="ma-2"
               @click="categoryFilter(category.title)"
             >
               {{ category.title}}
@@ -114,14 +114,14 @@
         </v-row>
       </div> -->
       <div id="lookatme-view" style="height: 800px; width: 100%;">
-        <v-row>
+        <v-row class="mt-2 ml-1">
           <v-col
             :cols="3"
             v-for="video in list"
             :key="video.lookatmeId"
             @click="lookatmeDetail(video.lookatmeId, video.thumbnail, video.video)"
             >
-            <v-card :loading="false" class="lookatme m-0" width="260" height="280px" style="border: rgb(158, 158, 158) solid 1px; padding: 10px;">
+            <v-card :loading="false" class="lookatme m-0" width="260" height="280px" style="padding: 10px; box-shadow: -2px -2px .4em #a0a0a0, 2px 2px .4em #a0a0a0;">
               <template slot="progress">
                 <v-progress-linear
                   color="deep-purple"
@@ -274,7 +274,7 @@ export default {
     },
     getImg(file) {
       return this.fileURL + 'ServerFiles/Thumbnail/' + file;
-    },
+      },
     getUserPic(file) {
       return this.fileURL + 'ServerFiles/UserImg/' + file;
     },
@@ -319,7 +319,7 @@ export default {
               setTimeout(() => {
                 if (response.data.length) {
                   this.list = this.list.concat(response.data);
-                  this.limit += 10;
+                  this.limit += 16;
                   $state.loaded();
                   console.log(this.list);
                 } else {
@@ -339,7 +339,7 @@ export default {
               setTimeout(() => {
                 if (response.data.length) {
                   this.list = this.list.concat(response.data);
-                  this.limit += 10;
+                  this.limit += 16;
                   $state.loaded();
                   console.log(this.list);
                 } else {
@@ -360,7 +360,7 @@ export default {
             setTimeout(() => {
               if (response.data.length) {
                 this.list = this.list.concat(response.data);
-                this.limit += 10;
+                this.limit += 16;
                 $state.loaded();
               } else {
                 $state.complete();
@@ -378,7 +378,7 @@ export default {
             setTimeout(() => {
               if (response.data.length) {
                 this.list = this.list.concat(response.data);
-                this.limit += 10;
+                this.limit += 16;
                 $state.loaded();
               } else {
                 $state.complete();

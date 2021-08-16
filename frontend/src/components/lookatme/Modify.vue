@@ -50,13 +50,13 @@
       <v-row justify="center">
         <v-col cols="4" align="right">내용</v-col>
         <v-col>
-          <v-text-field
+          <v-textarea
             v-model="content"
             required
             :rules="[(v) => !!v || '필수 항목입니다']"
             filled
             height="300"
-          ></v-text-field>
+          ></v-textarea>
         </v-col>
       </v-row>
     </v-container>
@@ -105,65 +105,64 @@ export default {
       kind: [
         {
           codeName: '개발',
-          },
+        },
         {
           codeName: '테크',
-          },
+        },
         {
           codeName: '교육',
-          },
+        },
         {
           codeName: '서비스',
         },
         {
           codeName: '영업/마케팅',
-          },
+        },
         {
-          codeName: '예체능',
-          },
+          codeName: '춤',
+        },
         {
           codeName: '연주',
-          code: '3002',
         },
         {
           codeName: '노래',
-          },
+        },
         {
           codeName: '연기',
-          },
+        },
         {
           codeName: '영상',
-          },
+        },
         {
           codeName: '코미디',
-          },
+        },
         {
           codeName: '사진',
-          },
+        },
         {
           codeName: '메이킹/만들기/손재주',
-          },
+        },
         {
           codeName: '여행',
-          },
+        },
         {
           codeName: '요리',
-          },
+        },
         {
           codeName: '미술',
-          },
+        },
         {
           codeName: '마술',
-          },
+        },
         {
           codeName: '스포츠',
-          },
+        },
         {
           codeName: '무술',
-          },
+        },
         {
           codeName: '게임',
-          },
+        },
       ],
     };
   },
@@ -173,6 +172,7 @@ export default {
     },
     modify() {
       var router = this.$router;
+      console.log("test")
       if (!this.valid) {
          Swal.fire({ 
           icon: 'warning', // Alert 타입 
@@ -181,34 +181,37 @@ export default {
         });
         // alert('필수 항목을 입력해주세요.');
       } else {
+        
         console.log(this.image);
         let lookatme = new FormData();
         let userEmail = localStorage.getItem('user_email');
-        lookatme.append('thumbnail', this.image);
+        lookatme.append('lookatmeId', this.lookatme.lookatmeId);
+        if(this.image != null){
+          lookatme.append('thumbnail', this.image);
+        }
         lookatme.append('category', this.category.codeName);
         lookatme.append('title', this.title);
         lookatme.append('content', this.content);
         lookatme.append('userEmail', userEmail);
+        
         http.post('/lookatme/update', lookatme, {
-          headers: { 'Content-Type': 'multipart/form-data' },
+            headers: { 'Content-Type': 'multipart/form-data' },
         })
           .then(({ data }) => {
             Swal.fire({ 
               icon: 'success', // Alert 타입 
-              title: '룩앳미 수정에 성공하였습니다.', // Alert 제목 
-              text: '등록한 룩앳미 확인이 가능합니다.', // Alert 내용 
-            })
-            .then((res) => {
-                if(res.isConfirmed) {
-                    router.push({ name: 'lookatme' });
-                }
-            })
+                title: '룩앳미 수정에 성공하였습니다.', // Alert 제목 
+                text: '등록한 룩앳미 확인이 가능합니다.', // Alert 내용 
+              });
+
             // alert('등록 성공!');
+            console.log(data) 
             router.push({ name: 'lookatme' });
           })
           .catch((err) => console.log(err));
       }
     },
+
     cancle() {
       router.go(-1);
     },

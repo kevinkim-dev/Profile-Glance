@@ -190,6 +190,7 @@ export default {
 			mySessionId: '',
 			myUserName: '',
 			sessionId: this.$route.params.sessionid,
+			recruitId: this.$route.params.recruitid,
 			total: 0,
 			startTime: undefined,
 			timeGap: undefined,
@@ -208,7 +209,15 @@ export default {
 	},
 	watch: {
 		subscribers: function () {
-			if (this.subscribers.length == 0) {
+			axios.get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${this.sessionId}`, {
+			auth: {
+				username: 'OPENVIDUAPP',
+				password: OPENVIDU_SERVER_SECRET,
+			},
+			})
+			.then(() => {
+			})
+			.catch(() => {
 				Swal.fire({ 
 						icon: 'warning', // Alert 타입 
 						title: '설명회가 종료되었습니다.', // Alert 제목 
@@ -223,7 +232,7 @@ export default {
 								return this.exitPresentation()
 						}
 				})
-			}
+			})
 		}
 	},
 	created () {

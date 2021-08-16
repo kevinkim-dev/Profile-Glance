@@ -16,7 +16,7 @@
           <v-btn
             text rounded class="third-color text-white"
             v-if="company.sessionId"
-            @click="$router.push({ name: 'userpresentation', params: { sessionid: company.sessionId, companyname: company.companyName }})">live-on</v-btn>
+            @click="$router.push({ name: 'userpresentation', params: { sessionid: company.sessionId, recruitid: company.recruitId, companyname: company.companyName }})">live-on</v-btn>
         </div>
         <br />
         <h5>{{ company.career }}</h5>

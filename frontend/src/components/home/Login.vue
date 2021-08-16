@@ -239,6 +239,7 @@ export default {
               Http.get('/company/companyinfo/' + this.companyId)
               .then((res) => {
                 localStorage.setItem('profile', res.data.companyImg)
+                localStorage.setItem('name', res.data.companyName)
               })
               .catch((err) => {
                 alert(err);

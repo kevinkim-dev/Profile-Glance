@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="pt-1">
     <v-form v-model="valid">
-      <v-container>
+      <h1 align="center" class="my-4">채용공고 등록</h1>
+      <v-container style="max-width: 800px; background: #EAF5F1;">
         <v-row class="justify-center">
-          <h1>채용공고 등록</h1>
           <br />
           <v-col cols="12">
             <v-row>
@@ -103,38 +103,41 @@
               v-model="registRecruitForm.recruitURL"
             >
             </v-text-field>
-            <v-row>
-              <v-col cols="6">
-                <v-btn
-                  block
-                  text
-                  x-large
-                  class="primary-color text-white rounded-0"
-                  @click="registRecruit"
-                >
-                  등록
-                </v-btn>
-              </v-col>
-              <v-col cols="6">
-                <v-btn
-                  block
-                  text
-                  x-large
-                  class="secondary-color text-white rounded-0"
-                  @click="$router.push({ name: 'wanted' })"
-                >
-                  취소
-                </v-btn>
-              </v-col>
-            </v-row>
           </v-col>
         </v-row>
       </v-container>
+      <div style="height: 200px;" class="py-4">
+        <v-row class="d-flex justify-center">
+          <v-col cols="2">
+            <v-btn
+              block
+              text
+              x-large
+              class="primary-color text-white rounded-0"
+              @click="registRecruit"
+            >
+              등록
+            </v-btn>
+          </v-col>
+          <v-col cols="2">
+            <v-btn
+              block
+              text
+              x-large
+              class="secondary-color text-white rounded-0"
+              @click="cancel()"
+            >
+              취소
+            </v-btn>
+          </v-col>
+        </v-row>
+      </div>
     </v-form>
   </div>
 </template>
 
 <script>
+import router from '@/router';
 import Http from '@/http.js';
 export default {
   name: 'WantedRegist',
@@ -252,6 +255,24 @@ export default {
     },
     refreshAll() {
       this.$router.go()
+    },
+    cancel () {
+      Swal.fire({ 
+          icon: 'question', // Alert 타입 
+          title: '등록을 취소하시겠습니까?', // Alert 제목
+          text: '작성된 내용은 저장되지 않습니다.', 
+          showCancelButton: true,
+          showConfirmButton: true,
+          confirmButtonColor: '#439474',
+          confirmButtonText: `예`,
+          cancelButtonText: `아니오`,
+      })
+      .then((res) => {
+        console.log(res)
+          if(res.isConfirmed) {
+              router.push({ name: 'wanted' });
+          }
+      })
     },
   },
 };

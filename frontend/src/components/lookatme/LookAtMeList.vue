@@ -1,5 +1,6 @@
 <template>
   <section class="newproduct bgwhite p-b-105">
+    <img id="lookatme-banner" src="/images/icons/lookatme_banner.png" alt="banner.png">
     <div class="container px-0">
       <div class="sec-title">
         <v-row>
@@ -571,5 +572,12 @@ export default {
     width: 100%;
     height: 100%;   
     object-fit: cover;
+}
+
+#lookatme-banner {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  margin-bottom: 30px;
 }
 </style>

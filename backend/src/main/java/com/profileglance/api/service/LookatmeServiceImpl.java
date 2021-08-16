@@ -168,7 +168,7 @@ public class LookatmeServiceImpl implements LookatmeService{
         try{
             // 썸네일이 있으면 파일 저장.
             if(check)
-            lookatmePostReq.getThumbnail().transferTo(new File(thumbnailPath));
+                lookatmePostReq.getThumbnail().transferTo(new File(thumbnailPath));
         } catch (Exception e){
             return false;
         }

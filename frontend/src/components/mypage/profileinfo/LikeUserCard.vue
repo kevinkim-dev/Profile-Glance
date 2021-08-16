@@ -1,14 +1,14 @@
 <template>
-  <div class="d-flex justify-content-around align-items-center like-card-box">
+  <div class="d-flex justify-content-between align-items-center like-card-box px-5">
     <div class="like-image-box">
       <img :src="getImg(this.likeUser.userImg)" class="like-image" alt="profile_img">
     </div>
-    <div class="m-l-10">{{ this.likeUser.userNickname }}</div>
+    <div class="m-l-10 like-card-text">{{ this.likeUser.userNickname }}</div>
     <v-btn class="interview-button elevation-1"
               color="white" text
               @click="clickProfile(likeUser.userNickname)"
             >
-              프로필 보기
+              프로필
     </v-btn>
   </div>
 </template>
@@ -58,10 +58,11 @@ export default {
 }
 
 .like-image-box {
-    height: 50px;
-    width: 50px;
+    height: 60px;
+    width: 60px;
     border-radius: 70%;
     overflow: hidden;
+    border: rgb(235, 235, 235) 1px solid;
 }
 
 .like-image {
@@ -72,5 +73,9 @@ export default {
 
 .like-card-box {
   background-color: white;
+}
+
+.like-card-text {
+  font-size: 18px;
 }
 </style>

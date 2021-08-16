@@ -185,8 +185,9 @@
           spinner="circles"
         >
           <div slot="no-more">
-            <br>
-            불러올 룩앳미가 없습니다</div>
+            <!-- <br>
+            불러올 룩앳미가 없습니다</div> -->
+          </div>
         <div slot="no-results">
           <br>
           불러올 룩앳미가 없습니다

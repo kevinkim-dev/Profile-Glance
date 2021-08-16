@@ -3,14 +3,14 @@
     <div
       :style="this.infoStyle"
       @click="clickInfo"
-      class="menu-button elevation-3"
+      class="menu-button elevation-2"
     >
       {{this.firstButton}}
     </div>
     <div
       :style="this.wantedStyle"
       @click="clickWanteds"
-      class="menu-button elevation-3"
+      class="menu-button elevation-2"
       v-if="loginType == 'company'"
     >
       원티드 목록
@@ -18,7 +18,7 @@
     <div
       :style="this.interviewStyle"
       @click="clickInterview"
-      class="menu-button elevation-3"
+      class="menu-button elevation-2"
     >
       면접 목록
     </div>
@@ -32,33 +32,33 @@ export default {
       firstButton: String,
       showInterview: false,
       infoStyle: {
-        background: '#EAF5F1'
+        'background': '#C0DDD1',
       },
       wantedStyle: {
-        background: '#C0DDD1'
+        'background': '#EAF5F1',
       },
       interviewStyle: {
-        background: '#EAF8B5'
+        'background': '#EAF5F1',
       },
     }
   },
   methods: {
     clickInfo() {
-      // this.infoStyle.background='#C0DDD1'
-      // this.wantedStyle.background='#C0DDD1'
-      // this.interviewStyle.background='#EAF8B5'
+      this.infoStyle.background='#C0DDD1'
+      this.wantedStyle.background='#EAF5F1'
+      this.interviewStyle.background='#EAF5F1'
       this.$emit('clickInfo')
     },
     clickWanteds() {
-      // this.wantedStyle.background='#EAF5F1'
-      // this.infoStyle.background='#EAF5F1'
-      // this.interviewStyle.background='#EAF8B5'
+      this.wantedStyle.background='#C0DDD1'
+      this.infoStyle.background='#EAF5F1'
+      this.interviewStyle.background='#EAF5F1'
       this.$emit('clickWanteds')
     },
     clickInterview() {
-      // this.interviewStyle.background='#EAF5F1'
-      // this.wantedStyle.background='#C0DDD1'
-      // this.infoStyle.background='#EAF5F1'
+      this.interviewStyle.background='#C0DDD1'
+      this.wantedStyle.background='#EAF5F1'
+      this.infoStyle.background='#EAF5F1'
       this.$emit('clickInterviews')
     },
   },
@@ -84,9 +84,9 @@ export default {
 }
 
 .menu-button {
-  width: 38px;
-  padding-left: 13px;
-  padding-right: 13px;
+  width: 44px;
+  padding-left: 16px;
+  padding-right: 14px;
   padding-top: 20px;
   padding-bottom: 20px;
   border-bottom-right-radius: 10px;

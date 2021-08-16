@@ -23,6 +23,9 @@ public interface UserService {
     Long likeCount(String userEmail);
     MypageGetRes myInfo(String userEmail);
     MypageGetRes myInfoByNickname(String userNickname);
-
+    
     Boolean deleteUserLike(String userNickname);
+
+    void companyLikeChange(String userNickname, boolean flag);
+
 }

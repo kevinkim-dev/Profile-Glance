@@ -197,9 +197,13 @@ export default {
               icon: 'success', // Alert 타입 
               title: '룩앳미 등록에 성공하였습니다.', // Alert 제목 
               text: '등록한 룩앳미 확인이 가능합니다.', // Alert 내용 
-            });
+            })
+            .then((res) => {
+                if(res.isConfirmed) {
+                    router.push({ name: 'lookatme' });
+                }
+            })
             // alert('등록 성공!');
-            console.log(data)
             router.push({ name: 'lookatme' });
           })
           .catch((err) => console.log(err));

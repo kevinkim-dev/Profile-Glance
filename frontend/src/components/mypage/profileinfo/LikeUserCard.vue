@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-content-around align-items-center">
+  <div class="d-flex justify-content-around align-items-center like-card-box">
     <div class="like-image-box">
       <img :src="getImg(this.likeUser.userImg)" class="like-image" alt="profile_img">
     </div>
@@ -68,5 +68,9 @@ export default {
     width: 100%;
     height: 100%;   
     object-fit: cover;
+}
+
+.like-card-box {
+  background-color: white;
 }
 </style>

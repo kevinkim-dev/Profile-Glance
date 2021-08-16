@@ -39,6 +39,7 @@ export default {
   overflow: auto;
   scroll-behavior: smooth;
   -ms-overflow-style: none;
+  background-color: #EAF5F1;
 }
 
 .like-user-box::-webkit-scrollbar{ display: none;}

@@ -2,34 +2,33 @@
   <v-simple-table
     fixed-header
     height="350px"
-    class="p-2 wanted-table-box elevation-1"
+    class="p-2 elevation-1 interview-table-box"
   >
     <template v-slot:default>
       <thead>
         <tr>
-          <th class="text-left">
+          <th class="text-left interview-table">
             이름
           </th>
-          <th class="text-left">
+          <th class="text-left interview-table">
             날짜
           </th>
-          <th class="text-left">
+          <th class="text-left interview-table" v-if="userType=='company'">
             프로필
           </th>
-          <th class="text-left">
+          <th class="text-left interview-table">
             
           </th>
         </tr>
       </thead>
-      <tbody>
-        <tr class="wanted-table"
+      <tbody class="interview-table-body">
+        <tr class="interview-table-content"
           v-for="(interview, i) in interviews"
           :key="i"
         >
-          <td>{{ interview }}</td>
           <td>{{ interviewId(interview) }}</td>
           <td>{{ interview.interviewDate }} {{ interview.interviewTime }}</td>
-          <td class="text-left">
+          <td class="text-left" v-if="userType=='company'">
             <v-btn class="interview-button"
               color="white" text
               @click="clickProfile(interview)"
@@ -114,17 +113,44 @@ export default {
 </script>
 
 <style>
-.wanted-table-box {
+.interview-table-box {
   border: solid #eee 1px;
+  background-color: #EAF8B5;
+  width: 800px;
+  height: 100%;
 }
 
-.wanted-table {
-  background-color: #eee;
+.interview-table-box.theme--light.v-data-table {
+  background-color: #EAF8B5;
+}
+
+.interview-table {
+  background-color: #EAF8B5;
+}
+
+.interview-table-content {
+  background-color: #DAE7A9;
+  border-radius: 5px;
+  border: black 1px solid;
+}
+
+.interview-table-box.theme--light.v-data-table--fixed-header thead tr th {
+  background-color: #EAF8B5;
+}
+
+.table1.theme--light.v-data-table.v-data-table--fixed-header thead th {
+  background-color: #EAF8B5;
 }
 
 .interview-button {
     width: 100px;
     background: #439474;
     padding: 0px;
+}
+
+.interview-table-body {
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px black solid;
 }
 </style>

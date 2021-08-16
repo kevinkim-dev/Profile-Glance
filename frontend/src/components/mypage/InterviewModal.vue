@@ -110,8 +110,11 @@ export default {
         console.log(body)
         http.post('/interview/createinterview', body)
         .then(res => {
-          alert('성공')
-          location.reload()
+          Swal.fire({ 
+            icon: 'success', // Alert 타입 
+            title: '면접신청이 완료되었습니다!', // Alert 제목 
+          })
+        this.$emit('closeInterviewModal');
         })
         .catch(err => {
           console.log(err)

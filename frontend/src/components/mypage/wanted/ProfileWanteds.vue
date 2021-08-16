@@ -1,7 +1,7 @@
 <template>
   <v-simple-table
     fixed-header
-    height="350px"
+    height="400px"
     class="p-2 wanted-table-box elevation-1"
   >
     <template v-slot:default>
@@ -66,7 +66,6 @@ export default {
   mounted() {
     http.get('/company/companyrecruitinfo/' + this.$route.params.id) 
       .then(res => {
-        console.log(res.data)
         this.wanteds =  res.data
       }) 
   },
@@ -78,6 +77,8 @@ export default {
 <style>
 .wanted-table-box {
   border: solid #eee 1px;
+  width: 800px;
+  height: 100%;
 }
 
 .wanted-table {

@@ -4,9 +4,12 @@
         <div class="container-menu-header">
             <div class="wrap_header">
                 <!-- Logo -->
-                <img style="max-width: 50px; background: none;" class="img-fluid m-l-40" src="/images/icons/pgpg.png" alt="IMG-LOGO">
+                <div @click="clickLogo">
+                    <img class="header-logo" src="/images/icons/logo.png" alt="IMG-LOGO">
+                    <img class="header-logo-letter" src="/images/icons/logo_letter.png" alt="IMG-LOGO">
+                </div>
                 <!-- Menu -->
-                <div class="wrap_menu">
+                <div class="wrap_menu mt-1">
                     <nav class="menu">
                         <ul class="main_menu">
                             <router-link :to="{name: 'lookatme'}" tag="li" exact class="menu-font py-0">
@@ -77,12 +80,22 @@ export default {
 			this.$store.dispatch('mypage/getUserData', info)
 			this.$router.push('/mypage/' + info.profileType + '/' + info.id)
 		},
-        getImg() {
-            return (
-                this.fileURL + 'ServerFiles/UserImg/' +
-                localStorage.getItem('profile')
-            );
+		getImg() {
+            if (localStorage.getItem('login_type') == 'user') {
+                return (
+                    this.fileURL + 'ServerFiles/UserImg/' +
+                    localStorage.getItem('profile')
+                )
+            } else {
+                return (
+                    this.fileURL + 'ServerFiles/companyLogo/' +
+                    localStorage.getItem('profile')
+                )
+            }
         },
+        clickLogo() {
+            this.$router.push('/lookatme')
+        }
 	}
 }
 </script>
@@ -118,5 +131,31 @@ li.router-link-exact-active{
     width: 100%;
     height: 100%;   
     object-fit: cover;
+}
+
+.header-logo-box {
+    height: 30px;
+    width: 200px;
+}
+
+.header-logo {
+    height: 25px;
+    width: 40px;
+    object-fit: cover;
+    background: none;
+    margin-left: 20px;
+    margin-right: 3px;
+}
+
+.header-logo-letter {
+    height: 25px;
+    width: 170px; 
+    object-fit: cover;
+    background: none;
+}
+
+.header-logo,
+.header-logo-letter:hover {
+    cursor: pointer;
 }
 </style>

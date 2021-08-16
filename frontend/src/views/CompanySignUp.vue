@@ -190,7 +190,7 @@ export default {
       phoneRules: [
         (v) => !!v || '필수 항목 입니다',
         (v) =>
-          (!v.includes('.') && !v.includes('-') && v.startsWith('0')) || '올바른 형식이 아닙니다',
+          (!v.includes('.') && !v.includes('-')) || '올바른 형식이 아닙니다',
         (v) =>
           (/[0-9]/.test(v) && !/[a-zA-Z]/.test(v) && !/[~!@#$%^&*()_+|<>?:{}]/.test(v)) ||
           '숫자만 입력 가능합니다',

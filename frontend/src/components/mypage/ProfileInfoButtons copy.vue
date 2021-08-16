@@ -1,27 +1,30 @@
 <template>
   <div class="profile-infobutton-box">
-    <div
-      :style="this.infoStyle"
+    <v-btn class="pg-button me-1"
+      color="white"
+      text
       @click="clickInfo"
-      class="menu-button elevation-3"
+      :style="this.infoStyle"
     >
-      {{this.firstButton}}
-    </div>
-    <div
-      :style="this.wantedStyle"
+      <div style="menu-button">{{this.firstButton}}</div>
+    </v-btn>
+    <v-btn class="pg-button me-1"
+      color="white"
+      text
       @click="clickWanteds"
-      class="menu-button elevation-3"
+      :style="this.wantedStyle"
       v-if="loginType == 'company'"
     >
       원티드 목록
-    </div>
-    <div
-      :style="this.interviewStyle"
+    </v-btn>
+    <v-btn class="pg-button"
+      color="white"
+      text
       @click="clickInterview"
-      class="menu-button elevation-3"
+      :style="this.interviewStyle"
     >
       면접 목록
-    </div>
+    </v-btn>
   </div>
 </template>
 
@@ -32,33 +35,33 @@ export default {
       firstButton: String,
       showInterview: false,
       infoStyle: {
-        background: '#EAF5F1'
+        background: '#439474'
       },
       wantedStyle: {
         background: '#C0DDD1'
       },
       interviewStyle: {
-        background: '#EAF8B5'
+        background: '#C0DDD1'
       },
     }
   },
   methods: {
     clickInfo() {
-      // this.infoStyle.background='#C0DDD1'
-      // this.wantedStyle.background='#C0DDD1'
-      // this.interviewStyle.background='#EAF8B5'
+      this.infoStyle.background='#439474'
+      this.wantedStyle.background='#C0DDD1'
+      this.interviewStyle.background='#C0DDD1'
       this.$emit('clickInfo')
     },
     clickWanteds() {
-      // this.wantedStyle.background='#EAF5F1'
-      // this.infoStyle.background='#EAF5F1'
-      // this.interviewStyle.background='#EAF8B5'
+      this.wantedStyle.background='#439474'
+      this.infoStyle.background='#C0DDD1'
+      this.interviewStyle.background='#C0DDD1'
       this.$emit('clickWanteds')
     },
     clickInterview() {
-      // this.interviewStyle.background='#EAF5F1'
-      // this.wantedStyle.background='#C0DDD1'
-      // this.infoStyle.background='#EAF5F1'
+      this.interviewStyle.background='#439474'
+      this.wantedStyle.background='#C0DDD1'
+      this.infoStyle.background='#C0DDD1'
       this.$emit('clickInterviews')
     },
   },
@@ -83,16 +86,8 @@ export default {
   flex-direction: column;
 }
 
-.menu-button {
-  width: 38px;
-  padding-left: 13px;
-  padding-right: 13px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  border-bottom-right-radius: 10px;
-  border-top-right-radius: 10px;
-  line-height: 18px;
-  font-size: 14px
+.pg-button {
+  width: 130px;
 }
 
 </style>

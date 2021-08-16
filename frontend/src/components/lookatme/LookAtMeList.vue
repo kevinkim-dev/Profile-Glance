@@ -20,7 +20,7 @@
               single-line
             ></v-select>
           </v-col>
-          <v-col cols="7" class="py-0">
+          <v-col cols="8" class="py-0">
             <v-text-field
               v-model="test"
               append-icon="mdi-magnify"
@@ -41,20 +41,21 @@
           </v-col>
         </v-row>
       </div>
-      <div v-if="categoryVisible">
+      <div v-if="categoryVisible" class="mb-5">
         <v-row>
           <v-col class="text-center p-0" cols="1" v-for="(category, i) in categories" :key="i">
             <v-btn
               style="min-width: 77px;"
               class="ma-2"
               outlined
-              color="indigo"
+              color="#439474"
               @click="categoryFilter(category.title)"
             >
               {{ category.title}}
             </v-btn>
           </v-col>
         </v-row>
+        <hr>
       </div>
       <!-- <div class="mb-10">
         <v-row>
@@ -120,7 +121,7 @@
             :key="video.lookatmeId"
             @click="lookatmeDetail(video.lookatmeId, video.thumbnail, video.video)"
             >
-            <v-card :loading="false" class="lookatme m-0" width="260" height="280px" style="border: rgb(158, 158, 158) solid 2px; padding: 10px;">
+            <v-card :loading="false" class="lookatme m-0" width="260" height="280px" style="border: rgb(158, 158, 158) solid 1px; padding: 10px;">
               <template slot="progress">
                 <v-progress-linear
                   color="deep-purple"
@@ -349,7 +350,25 @@ export default {
         }
       }
       else if (this.category != '') {
-        http
+        if(this.category == '전체'){
+          http
+          .post('/lookatme/orderByView', {
+            limit: this.limit,
+          })
+          .then((response) => {
+            setTimeout(() => {
+              if (response.data.length) {
+                this.list = this.list.concat(response.data);
+                this.limit += 10;
+                $state.loaded();
+              } else {
+                $state.complete();
+              }
+            }, 1000);
+          })
+          .catch((error) => {});
+        }else{
+          http
           .post('/lookatme/searchByCategory', {
             category: this.category,
             limit: this.limit,
@@ -366,6 +385,8 @@ export default {
             }, 1000);
           })
           .catch((error) => {});
+        }
+        
       this.test = '';
       this.search = '';
       this.category = '';
@@ -396,6 +417,9 @@ export default {
       no4: false,
       infiniteId: +new Date(),
       categories: [
+        {
+          title: '전체',
+        },
           {
             title: '개발',
           },

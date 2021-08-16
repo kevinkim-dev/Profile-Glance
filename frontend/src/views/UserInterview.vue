@@ -84,8 +84,8 @@
 }
 
 .participant-name {
-  height: 30px;
-  line-height: 25px;
+  height: 35px;
+  line-height: 35px;
 }
 
 .chat-image-box {

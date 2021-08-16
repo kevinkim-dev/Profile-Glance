@@ -110,15 +110,4 @@ public class LookatmeController {
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
     }
 
-    // 룩엣미 모두 삭제하기
-    @DeleteMapping("/deleteLookatmeByUserNickname/{userNickname}")
-    @ApiOperation(value = "룩앳미 삭제하기", notes = "<strong>룩엣미 아이디</strong>를 통해 삭제 한다.")
-    public ResponseEntity<? extends BaseResponseBody> deleteLookatmeByUserNickname(@PathVariable("userNickname") String userNickname) {
-
-        System.out.println("룩앳미 삭제 Controller");
-
-        Boolean check = lookatmeService.deleteLookatmeByUserNickname(userNickname);
-
-        return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
-    }
 }

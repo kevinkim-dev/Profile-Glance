@@ -22,5 +22,4 @@ public interface InterviewRepository extends JpaRepository<Interview, Long> {
     @Transactional
     void deleteByUser_UserNickname(String userNickname);
 
-    String findSessionIdByUser_UserNickname(String userNickname);
 }

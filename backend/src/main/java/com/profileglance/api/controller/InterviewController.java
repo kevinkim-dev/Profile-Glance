@@ -54,15 +54,4 @@ public class InterviewController {
         }
     }
 
-
-    @DeleteMapping("/delete/{userNickname}")
-    @ApiOperation(value = "인터뷰 세션 있는지 확인", notes = "인터뷰 세션 있는지 확인")
-    public ResponseEntity<? extends BaseResponseBody> deleteInterviewByUserNickname(@PathVariable("userNickname") String userNickname) {
-
-        interviewService.deleteInterviewByUserNickname(userNickname);
-
-        return ResponseEntity.status(202).body(BaseResponseBody.of(202, "없음"));
-
-    }
-
 }

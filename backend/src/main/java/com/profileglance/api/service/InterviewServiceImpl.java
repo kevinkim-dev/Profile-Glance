@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class InterviewServiceImpl implements InterviewService{
+public class InterviewServiceImpl implements InterviewService {
 
     @Autowired
     InterviewRepository interviewRepository;
@@ -58,10 +58,10 @@ public class InterviewServiceImpl implements InterviewService{
     public Boolean checkCSID(String userNickName, String csId) {
         Optional<Interview> interview = interviewRepository.findByUser_UserNicknameAndCsId(userNickName, csId);
 
-        if(interview.isPresent() && interview.get().getRoom() != null) {
+        if (interview.isPresent() && interview.get().getRoom() != null) {
             return true;
         } else {
-            return  false;
+            return false;
         }
     }
 
@@ -69,18 +69,18 @@ public class InterviewServiceImpl implements InterviewService{
     public Boolean deleteInterviewByUserNickname(String userNickname) {
 
         List<Interview> interviews = interviewRepository.findAllByUser_UserNickname(userNickname);
-        System.out.println(interviews.size());
 
-        for(Interview interview : interviews) {
-//            interviewRepository.deleteByUser_UserNickname(userNickname);
-            String sessionId = interviewRepository.findSessionIdByUser_UserNickname(userNickname);
-            System.out.println(sessionId);
-            if(sessionId != null) {
-
+        for (Interview interview : interviews) {
+            Room room = interview.getRoom();
+            interviewRepository.deleteByUser_UserNickname(userNickname);
+            if (room != null) {
+                System.out.println(room.getSessionId());
+                System.out.println(room.getHost());
+                roomRepository.deleteBySessionIdAndHost(room.getSessionId(), room.getHost());
             }
         }
 
-        return null;
+        return true;
     }
 
 }

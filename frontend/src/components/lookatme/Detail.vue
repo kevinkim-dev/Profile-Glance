@@ -59,8 +59,9 @@
         </v-row>
     <br>
     <div>
-        관련 영상 목록
-        <div id="lookatme-view" style="height: 800px; width: 100%;">
+      <hr>
+        <div id="p-text">{{this.category}} 관련 영상 목록</div>
+        <div id="lookatme-view" style="padding-top: 1rem; padding-bottom: 50px; height:auto; width: 100%;">
         <v-row>
           <v-col
             :cols="3"
@@ -113,15 +114,16 @@
         v-if="lookatme"
           @infinite="infiniteHandler"
           spinner="circles"
+          class="mt-4"
         >
-        <div slot="no-more">
+          <div slot="no-more">
+            <div v-if="list.length === 1" class="no-lookatme">
             <br>
-            불러올 룩앳미가 없습니다</div>
-        <div slot="no-results">
-          <br>
-          불러올 룩앳미가 없습니다
-        </div>
+            불러올 룩앳미가 없습니다
+            </div>
+          </div>
         </infinite-loading>
+        
       </div>
     </div>
     </v-container>
@@ -344,5 +346,16 @@ background: rgba(0, 0, 0, 0.1);
     width: 100%;
     height: 100%;   
     object-fit: cover;
+}
+#p-text {
+  display: inline-block;
+  padding: 5px;
+  background-color: #EAF5F1;
+  border-radius: 5px;
+  margin-left: 5px;
+  /* margin-bottom: 1rem; */
+}
+.no-lookatme {
+  margin-top: 100px;
 }
 </style>

@@ -98,4 +98,16 @@ public class LookatmeController {
         return new ResponseEntity<LookatmePostRes>(lookatmePostRes, HttpStatus.OK);
     }
 
+    // 룩엣미 삭제하기
+    @DeleteMapping("/deleteLookatme/{lookatmeId}")
+    @ApiOperation(value = "룩앳미 삭제하기", notes = "<strong>룩엣미 아이디</strong>를 통해 삭제 한다.")
+    public ResponseEntity<? extends BaseResponseBody> deleteLookatme(@PathVariable("lookatmeId") Long lookatmeId) {
+
+        System.out.println("룩앳미 삭제 Controller");
+
+        Boolean check = lookatmeService.deleteLookatme(lookatmeId);
+
+        return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
+    }
+
 }

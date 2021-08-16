@@ -12,4 +12,5 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     @Transactional
     void deleteBySessionIdAndHost(String sessionId, String host);
+
 }

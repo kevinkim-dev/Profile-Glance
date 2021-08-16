@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,5 +30,11 @@ public interface LookatmeRepository extends JpaRepository<Lookatme, Long> {
     Long countByUser_UserEmail(String userEmail);
 
     Optional<Lookatme> findByLookatmeId(Long lookatmeId);
+
+    @Transactional
+    void deleteByLookatmeId(Long lookatmeId);
+
+    @Transactional
+    void deleteAllByUser_UserNickname(String userNickname);
 
 }

@@ -39,6 +39,7 @@ public class UserServiceImpl implements UserService{
     @Autowired
     PasswordEncoder passwordEncoder;
 
+
     static DirPathConfig dirPathConfig = new DirPathConfig();
     static String baseDir = dirPathConfig.baseDir;
 
@@ -87,10 +88,10 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean deleteUser(String userEmail) {
+    public boolean deleteUser(String userNickname) {
         System.out.println("in service");
 
-        userRepository.deleteByuserEmail(userEmail);
+        userRepository.deleteByUserNickname(userNickname);
 
         return true;
     }
@@ -135,6 +136,14 @@ public class UserServiceImpl implements UserService{
                 ,user.getUserPhone()
         );
         return mypageGetRes;
+    }
+
+    @Override
+    public Boolean deleteUserLike(String userNickname) {
+
+        userLikeRepository.deleteAllByUser_UserNickname(userNickname);
+
+        return true;
     }
 
     @Override
@@ -224,4 +233,5 @@ public class UserServiceImpl implements UserService{
 
         userRepository.save(user);
     }
+
 }

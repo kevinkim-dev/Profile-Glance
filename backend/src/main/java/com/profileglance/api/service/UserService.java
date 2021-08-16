@@ -16,12 +16,16 @@ public interface UserService {
     User createUser(UserPostReq userPostReq);
     boolean uploadUserImg(MultipartFile files, String userEmail);
     MypageGetRes updateUser(MypagePostReq mypagePostReq);
-    boolean deleteUser(String userEmail);
+    boolean deleteUser(String userNickname);
 
     List<LookatmePostRes> myVideoList(String userEmail);
     List<InterviewListGetRes> myInterviewList(String userEmail);
     Long likeCount(String userEmail);
     MypageGetRes myInfo(String userEmail);
     MypageGetRes myInfoByNickname(String userNickname);
+    
+    Boolean deleteUserLike(String userNickname);
+
     void companyLikeChange(String userNickname, boolean flag);
+
 }

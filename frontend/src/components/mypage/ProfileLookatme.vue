@@ -2,7 +2,7 @@
   <section class="newproduct bgwhite">
     <h1 class="text-center m-t-30">룩앳미 목록</h1>
     <div class="container">
-      <div id="lookatme-view">
+      <div>
         <v-row>
           <v-col
             :cols="3"

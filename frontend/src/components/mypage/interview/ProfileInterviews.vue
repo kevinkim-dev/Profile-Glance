@@ -33,7 +33,7 @@
               color="white" text
               @click="clickProfile(interview)"
             >
-              프로필 보기
+              프로필
             </v-btn>
           </td>
           <td class="text-right">
@@ -115,31 +115,23 @@ export default {
 <style>
 .interview-table-box {
   border: solid #eee 1px;
-  background-color: #EAF8B5;
   width: 800px;
   height: 100%;
 }
 
 .interview-table-box.theme--light.v-data-table {
-  background-color: #EAF8B5;
+  background-color: #EAF5F1;
 }
 
-.interview-table {
-  background-color: #EAF8B5;
-}
 
 .interview-table-content {
-  background-color: #DAE7A9;
+  background-color: #C0DDD1;
   border-radius: 5px;
   border: black 1px solid;
 }
 
 .interview-table-box.theme--light.v-data-table--fixed-header thead tr th {
-  background-color: #EAF8B5;
-}
-
-.table1.theme--light.v-data-table.v-data-table--fixed-header thead th {
-  background-color: #EAF8B5;
+  background-color: #EAF5F1;
 }
 
 .interview-button {

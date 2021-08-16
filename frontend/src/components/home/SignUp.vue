@@ -34,7 +34,7 @@
             required
           ></v-text-field>
         </v-col>
-        <v-col class="py-0" cols="12" md="2">
+        <v-col class="py-0 d-flex flex-column justify-content-center" cols="12" md="2">
           <v-btn
             text
             class="d-flex align-text-bottom font-weight-bold"
@@ -53,7 +53,7 @@
             required>
           </v-text-field>
         </v-col>
-        <v-col class="py-0" cols="12" md="2">
+        <v-col class="py-0 d-flex flex-column justify-content-center" cols="12" md="2">
           <v-btn
             text
             class="font-weight-bold"

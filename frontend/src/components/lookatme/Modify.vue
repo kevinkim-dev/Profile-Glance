@@ -206,7 +206,8 @@ export default {
 
             // alert('등록 성공!');
             console.log(data) 
-            router.push({ name: 'lookatme' });
+            // router.push({ name: 'lookatme' });
+            this.$router.push({name: 'lookatmedetail', query: {lookatme_id: this.lookatme.lookatmeId, thumbnail: this.lookatme.thumbnail, video: this.lookatme.video}});
           })
           .catch((err) => console.log(err));
       }

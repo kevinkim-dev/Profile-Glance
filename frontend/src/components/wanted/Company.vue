@@ -1,8 +1,10 @@
-<template class="col col-sm-12 col-6">
+<template>
+  <v-col cols="6" align="center">
   <v-card
     elevation="1"
     outlined
     class="m-2"
+    width="80%"
   >
     <div class="company d-flex align-center px-3 py-4">
       <div class="companyLogo d-flex align-center justify-center">
@@ -43,6 +45,7 @@
       </div>
     </div>
   </v-card>
+  </v-col>
 </template>
 
 <script>
@@ -77,7 +80,7 @@ img {
 }
 
 .company {
-  width: 600px;
+  width: 500px;
 }
 
 .companyLogo {

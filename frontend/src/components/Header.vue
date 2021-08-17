@@ -99,7 +99,7 @@ export default {
 	}
 }
 </script>
-<style>
+<style scoped>
 li.router-link-exact-active{
     color: #439474;
     font-weight: bold;

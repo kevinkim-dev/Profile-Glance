@@ -169,12 +169,9 @@
 
 #session-message-send {
 	border-top: solid rgb(151, 151, 151) 1px;
-	/* position: relative; */
 }
 
 #session-message-input {
-	/* position: absolute; */
-	/* white-space: pre-line; */
 	width: 100%;
 }
 </style>

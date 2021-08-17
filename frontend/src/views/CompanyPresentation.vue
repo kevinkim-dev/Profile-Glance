@@ -227,7 +227,6 @@ export default {
     ]),
 	},
 	created () {
-		console.log('created')
     this.mySessionId = this.sessionId
     this.myUserName = localStorage.getItem('id')
 		this.recruitId = this.$route.params.recruitid
@@ -241,7 +240,9 @@ export default {
 		})
 	},
 	mounted() {
-		console.log('mounted')
+		this.mySessionId = this.sessionId
+    this.myUserName = localStorage.getItem('id')
+		this.recruitId = this.$route.params.recruitid
 		this.originalSize = {
 			'height': this.$refs.whole.clientHeight - this.$refs.header.clientHeight,
 			'width': (this.$refs.whole.clientHeight - this.$refs.header.clientHeight)*16/9
@@ -329,7 +330,6 @@ export default {
         });
     },
 		updateTotalViewers () {
-			console.log('여긱')
 			axios.get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${this.sessionId}/connection`, {
 			auth: {
 				username: 'OPENVIDUAPP',
@@ -356,7 +356,6 @@ export default {
         setTimeout(this.chat_on_scroll, 10);
       });
 			this.session.on('signal:joinsignal', event => {
-				console.log('받았다!')
 				this.updateTotalViewers()
 			})
 			// On every asynchronous exception...
@@ -370,7 +369,6 @@ export default {
 				this.session
           .connect(token, { clientData: this.myUserName })
 					.then(() => {
-						console.log(this.screenSize)
 						let publisher = this.OV.initPublisher(undefined, {
 							audioSource: undefined, // The source of audio. If undefined default microphone
 								videoSource: undefined, // The source of video. If undefined default webcam
@@ -389,7 +387,7 @@ export default {
 						console.log('There was an error connecting to the session:', error.code, error.message);
 					});
 			});
-			window.addEventListener('beforeunload', this.leaveSession)
+			// window.addEventListener('beforeunload', this.leaveSession)
 		},
 		leaveSession () {
 			// --- Leave the session by calling 'disconnect' method over the Session object ---
@@ -398,7 +396,7 @@ export default {
 			this.mainStreamManager = undefined;
 			this.subscribers = [];
 			this.OV = undefined;
-			window.removeEventListener('beforeunload', this.leaveSession);
+			// window.removeEventListener('beforeunload', this.leaveSession);
 		},
 		getToken (mySessionId) {
 			return this.createSession(mySessionId).then(sessionId => this.createToken(sessionId));

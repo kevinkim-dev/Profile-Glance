@@ -8,12 +8,13 @@
       >
         <template v-slot:activator="{ on, attrs }">
           <v-btn
+          x-large
             color="#439474"
             dark
             v-bind="attrs"
             v-on="on"
           >
-            구르러 가기
+            join
           </v-btn>
         </template>
         <login @close="closeLogin" @signup="openSignUp" />
@@ -26,6 +27,9 @@
     </v-row>
     <v-container class="home-container home-top-box">
       <v-row justify="center" id="logo" align="end">
+      <v-img id = "background" src="images/icons/background.png"></v-img>
+      </v-row>
+      <!-- <v-row justify="center" id="logo" align="end">
           <v-img
             contain
             max-height="20vh"
@@ -40,10 +44,12 @@
             width="100vw"
             src="images/icons/logo_letter.png"
           ></v-img>
-      </v-row>
+      </v-row> -->
+    </v-container>
+    <v-container id="button-down-wow">
       <v-row justify="center" class="desc-btn" align="start">
         <button type="button" id="down-btn">
-          <v-img
+          <v-img class="down"
               contain
               max-height="20vh"
               max-width="100vw"
@@ -55,17 +61,6 @@
     <v-container class="home-container home-bottom-box">
       <div id="home-bottom"></div>
       <v-row>
-        <v-row justify="center" class="desc-btn" id="up-btn">
-          <button type="button">
-            <v-img
-                contain
-                max-height="20vh"
-                max-width="100vw"
-                src="images/icons/down.png"
-                style="transform:rotate(180deg)"
-              ></v-img>
-          </button>
-        </v-row>
         <v-row justify="center">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita et eum quaerat dolore pariatur laudantium inventore voluptatem minima consectetur amet corrupti fugit deserunt eos porro, dignissimos qui blanditiis quidem aliquid.
         </v-row>
@@ -79,6 +74,17 @@
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita et eum quaerat dolore pariatur laudantium inventore voluptatem minima consectetur amet corrupti fugit deserunt eos porro, dignissimos qui blanditiis quidem aliquid.
         </v-row>
       </v-row>
+        <v-row justify="center" class="desc-btn" id="up-btn">
+          <button type="button">
+            <v-img
+                contain
+                max-height="20vh"
+                max-width="100vw"
+                src="images/icons/down.png"
+                style="transform:rotate(180deg)"
+              ></v-img>
+          </button>
+        </v-row>
     </v-container>
   </div>
 </template>
@@ -136,16 +142,43 @@ export default {
 </script>
 
 <style>
+
+/* #app {
+  background: url('/images/icons/background.png')
+    no-repeat center center fixed !important;
+  background-size: cover;
+  width : 100%;
+  height: auto;
+} */
+
+#button-down-wow{
+  /* padding-bottom: 100px; */
+  /* margin-bottom: 1000px; */
+  /* position: relative; */
+  position: absolute;
+  top: 75vh;
+  left: 15vw;
+}
+/* button.down {
+  position: absolute;
+  top: 50px;
+  left : 35px; 
+} */
+
+#background{
+  width : 80vw;
+  height: auto;
+}
+
 .desc {
   position: absolute;
   top: 100vh;
-
 }
 
 #login-btn {
   position: sticky;
-  top: 50px;
-  margin-right: 50px;
+  top: 10vh;
+  margin-right: 20vw;
   z-index: 1000;
 }
 #logo {

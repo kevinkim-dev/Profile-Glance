@@ -1,6 +1,6 @@
 <template>
-  <div class="profile-menu-box d-flex flex-column justify-content-center">
-    <div class="d-flex justify-content-around pt-10">
+  <div class="profile-menu-box d-flex flex-column justify-content-center m-b-10">
+    <div class="d-flex justify-content-center">
         <v-btn class="red-button"
             color="white"
             text
@@ -17,7 +17,7 @@
         >
             좋아요
         </v-btn>
-        <v-btn class="green-button"
+        <v-btn class="green-button m-l-10"
             color="white"
             text
             @click="$emit('openInterviewModal')"
@@ -48,6 +48,11 @@ export default {
             http.post('/company/likecheckclick', body)
             .then(res => {
                 console.log(res)
+                if (this.liked == true) {
+                    this.$emit('unliked')
+                } else {
+                    this.$emit('liked')
+                }
                 this.liked = !this.liked
             })
             .catch(err => {
@@ -83,23 +88,22 @@ export default {
 
 <style>
 .profile-menu-box {
-    margin-left: 80px;
     width: 300px;
     height: 100px;  
 }
 
 .blue-button {
     background: blue;
-    width: 130px;
+    width: 100px;
 }
 
 .green-button {
-    background: green;
-    width: 130px;
+    background: rgb(66, 197, 66);
+    width: 100px;
 }
 
 .red-button {
-    background: red;
-    width: 130px;
+    background: #ff5555;
+    width: 100px;
 }
 </style>

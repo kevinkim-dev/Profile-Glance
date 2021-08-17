@@ -7,6 +7,8 @@ import com.profileglance.api.request.UserPostReq;
 import com.profileglance.api.response.InterviewListGetRes;
 import com.profileglance.api.response.LookatmePostRes;
 import com.profileglance.api.response.MypageGetRes;
+import com.profileglance.api.service.InterviewService;
+import com.profileglance.api.service.LookatmeService;
 import com.profileglance.api.service.UserService;
 import com.profileglance.common.response.BaseResponseBody;
 import com.profileglance.config.JwtTokenProvider;
@@ -20,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,6 +43,10 @@ public class UserController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    InterviewService interviewService;
+    @Autowired
+    LookatmeService lookatmeService;
 
     // 회원가입
     @PostMapping("/signup")
@@ -76,14 +83,22 @@ public class UserController {
         }
     }
 
-    // 회원탈퇴
-    @DeleteMapping("/delete/{userEmail}")
-    @ApiOperation(value = "회원 탈퇴", notes = "<strong>아이디</strong>를 통해 회원 탈퇴한다.")
-    public ResponseEntity<? extends BaseResponseBody> delete(@PathVariable("userEmail") String userEmail) {
+    // 회원 탈퇴
+    @DeleteMapping("/delete/{userNickname}")
+    @ApiOperation(value = "회원 삭제", notes = "회원과 관련되 모든 interview, lookatme, user_like와 user 정보 삭제")
+    public ResponseEntity<? extends BaseResponseBody> delete(@PathVariable("userNickname") String userNickname){
 
-        userService.deleteUser(userEmail);
+        System.out.println("룩앳미 삭제");
+        lookatmeService.deleteLookatmeByUserNickname(userNickname);
+        System.out.println("인터뷰 삭제");
+        interviewService.deleteInterviewByUserNickname(userNickname);
+        System.out.println("유저라이크 삭제");
+        userService.deleteUserLike(userNickname);
+        System.out.println("유저 삭제");
+        userService.deleteUser(userNickname);
 
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
+
     }
 
     // 회원 이메일 중복 확인
@@ -149,4 +164,5 @@ public class UserController {
     public ResponseEntity<List<InterviewListGetRes>> myInterview(@PathVariable("userNickname") String userNickname){
         return new ResponseEntity<List<InterviewListGetRes>>(userService.myInterviewList(userNickname), HttpStatus.OK);
     }
+
 }

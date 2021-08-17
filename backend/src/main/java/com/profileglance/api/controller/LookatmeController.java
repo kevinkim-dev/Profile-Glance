@@ -47,7 +47,7 @@ public class LookatmeController {
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
     }
 
-    @PutMapping("/update")
+    @PostMapping("/update")
     @ApiOperation(value = "룩앳미 수정", notes = "<strong>룩앳미</strong>를 수정한다.")
     public ResponseEntity<? extends BaseResponseBody> updateLookatme(@ModelAttribute LookatmePostReq lookatmePostReq) {
 
@@ -96,6 +96,18 @@ public class LookatmeController {
         LookatmePostRes lookatmePostRes = lookatmeService.detailLookatme(lookatmeId);
 
         return new ResponseEntity<LookatmePostRes>(lookatmePostRes, HttpStatus.OK);
+    }
+
+    // 룩엣미 삭제하기
+    @DeleteMapping("/deleteLookatme/{lookatmeId}")
+    @ApiOperation(value = "룩앳미 삭제하기", notes = "<strong>룩엣미 아이디</strong>를 통해 삭제 한다.")
+    public ResponseEntity<? extends BaseResponseBody> deleteLookatme(@PathVariable("lookatmeId") Long lookatmeId) {
+
+        System.out.println("룩앳미 삭제 Controller");
+
+        Boolean check = lookatmeService.deleteLookatme(lookatmeId);
+
+        return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
     }
 
 }

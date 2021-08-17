@@ -21,4 +21,9 @@ public interface LookatmeService {
     List<LookatmePostRes> searchByNickname(String nickname, Long limit);
 
     LookatmePostRes detailLookatme(Long lookatmeId);
+
+    Boolean deleteLookatme(Long lookatmeId);
+
+    Boolean deleteLookatmeByUserNickname(String userNickname);
+
 }

@@ -8,6 +8,7 @@ import com.profileglance.api.response.CompanyLikeListGetRes;
 import com.profileglance.api.response.CompanyMypageGetRes;
 import com.profileglance.api.response.RecruitPostRes;
 import com.profileglance.api.service.CompanyService;
+import com.profileglance.api.service.UserService;
 import com.profileglance.common.response.BaseResponseBody;
 import com.profileglance.config.JwtTokenProvider;
 import com.profileglance.db.entity.Company;
@@ -38,6 +39,8 @@ public class CompanyController {
     private final UserRepository userRepository;
     @Autowired
     CompanyService companyService;
+    @Autowired
+    UserService userService;
 
     // 회원가입
     @PostMapping("/signup")
@@ -104,10 +107,12 @@ public class CompanyController {
             // userlike 테이블에 있음
             // userlike 테이블에서 삭제해야함
             companyService.deleteLikeByCompany(userEmail,companyId);
+            userService.companyLikeChange(companyLikePostReq.getUserNickname(), false);
             return ResponseEntity.status(202).body(BaseResponseBody.of(202, "좋아요를 취소했습니다."));
         }else {
             // 위에랑 반대
             companyService.addLikeByCompany(userEmail,companyId);
+            userService.companyLikeChange(companyLikePostReq.getUserNickname(), true);
             return ResponseEntity.status(201).body(BaseResponseBody.of(201, "좋아요를 눌렀습니다."));
         }
     }

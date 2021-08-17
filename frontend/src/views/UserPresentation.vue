@@ -1,72 +1,213 @@
 <template>
 	<div id="session-background" class="d-flex justify-content-center align-items-center">
 		<div class="elevation-10 session-whole" ref="whole" >
-			<div id="session-header" ref="header">
-				<h1 id="session-title">{{ mySessionId }} 설명회</h1>
-				<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="exitPresentation" value="Leave session">
+			<div id="session-header">
+				<div>
+					<img class="header-logo-letter" src="/images/icons/logo_letter.png" alt="IMG-LOGO">
+				</div>
+				<div class="d-flex">
+					<div class="d-flex mt-4 m-r-30">
+						<p v-if="totalViewers>=0"><i class="fas fa-user"></i> {{ totalViewers }}</p>
+						<p class="mx-1" v-else><i class="fas fa-user"></i> 0</p>
+						<p class="mx-1"><i class="fas fa-clock"></i> {{ runningTime }}</p>
+					</div>
+					<Dialog
+					:buttonText="'설명회 나가기'"
+					:dialogTitle="'알림'"
+					:dialogContent="'설명회에서 나가시겠습니까?'"
+					:buttonO="'네'"
+					:buttonX="'아니오'"
+					@clickO="exitPresentation"/>
+				</div>
 			</div>
 			<div id="session-body">
 				<div id="session-video" class="d-flex justify-content-center">
 					<user-video :stream-manager="mainStreamManager"/>
 				</div>
 				<div id="session-message">
-					<div ref="chatDisplay" id="session-message-box">
+          <div id="session-message-header" class="elevation-2">
+						{{this.sessionId}} 설명회
+					</div>
+          <div ref="chatDisplay" id="session-message-box">
 						<div v-for="(chat, index) in chats" :key="index" class="chat-line">
-							<div v-if="chat.userId === myUserName" class="my-comment">
-								<div>
-									<span class="participant-name">[{{ chat.nickname }}] </span><span class="chat-msg">{{ chat.msg }}</span>
+							<div v-if="chat.userId === myUserName & !muteList.includes(myUserName)" class="my-comment">
+								<div class="d-flex flex-column align-items-end">
+									<div class="userInfo mb-1">
+										<div class="chat-image-box mr-2">
+											<img :src="getImg(chat)" class="chat-image" alt="profile_img">
+										</div>
+										<span class="participant-name">{{ chat.nickname }} </span>
+									</div>
+									<span class="my-chat-box mb-2">
+										<span class="chat-msg">{{ chat.msg }}</span>
+									</span>
 								</div>
 							</div>
-							<div v-else class="other-comment">
-								<div>
-									<span class="participant-name other">[{{ chat.nickname }}] </span
-									><span class="chat-msg">{{ chat.msg }}</span>
+							<div v-else-if="!muteList.includes(chat.nickname)" class="other-comment">
+								<div class="d-flex flex-column align-items-start">
+									<div class="userInfo mb-1">
+										<div class="chat-image-box mr-2">
+											<img :src="getImg(chat)" class="chat-image" alt="profile_img">
+										</div>
+										<span class="participant-name">{{ chat.nickname }} </span>
+									</div>
+									<span class="chat-box mb-2">
+										<span class="chat-msg">{{ chat.msg }}</span>
+									</span>
 								</div>
 							</div>
 						</div>
-					</div>
-					<div id="session-message-send">
-						<div class="msg-guide p-2 fs-4" >
-							내 메시지
+          </div>
+          <div id="session-message-send">
+						<div v-if="muteList.includes(myUserName)" class="p-4">
+							관리자에 의해 채팅이 금지되었습니다.
 						</div>
-						<input
-							v-model="sendMsg"
-							type="textarea"
-							id="session-message-input"
-							class="pt-2 pb-5 ps-2 pe-2"
-							@keydown.enter="submitMsg"
-						/>
-					</div>
-				</div>
+						<div v-else>
+							<div class="msg-guide p-2 fs-4"  style="border-bottom: 1px solid rgb(189, 189, 189)">
+								내 메시지
+							</div>
+							<input
+								v-model="sendMsg"
+								type="textarea"
+								id="session-message-input"
+								placeholder="메세지를 입력해주세요"
+								class="p-3 pt-5 pb-5"
+								@keydown.enter="submitMsg"
+							/>
+						</div>
+          </div>
+        </div>
 			</div>
 		</div>
+		<v-btn @click="isQuestion = true" class="d-none"></v-btn>
+    <v-snackbar v-model="isQuestion" :vertical="vertical" top light class="m-t-50" :timeout="timeout"
+		>
+      <div id="question-header">
+				<div id="question-nickname">{{question.nickname}}님의 질문</div>
+				<v-btn color="indigo" text v-bind="attrs" @click="isQuestion = false" class="">
+					닫기
+				</v-btn>
+			</div>
+			<div id="question-content">{{question.msg}}</div>
+    </v-snackbar>
 	</div>
 </template>
 <style scoped>
+.header-logo-letter {
+    height: 40px;
+    width: 300px; 
+    object-fit: cover;
+    background: none;
+}
+
+#header-company-name {
+	font-size: 2rem;
+}
+
+.icon-box {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+	color: rgb(49, 49, 49);
+	height: 30px;
+	width: 30px;
+	margin-top: 5px;
+	margin-right: 10px;
+	background: white;
+	border: outset;
+	border-radius: 5px;
+}
+
+#question-header {
+	display: flex;
+	justify-content: space-between;
+	border-bottom: rgb(82, 82, 82) solid 1px;
+	padding-left: 10px;
+	padding-right: 0px;
+	padding-bottom: 10px;
+}
+
+#question-nickname {
+	font-size: 20px;
+	padding-top: 8px;
+}
+
+#question-content {
+	padding-top: 20px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.chat-box {
+	padding: 5px;
+	padding-left: 15px;
+	padding-right: 15px;
+  background-color: #eee;
+	border: 1px solid rgb(189, 189, 189);
+  border-radius: 5px;
+}
+
+.my-chat-box {
+  padding: 5px;
+	padding-left: 15px;
+	padding-right: 15px;
+  background-color: #439474;
+	color: white;
+	border: 1px solid rgb(189, 189, 189);
+  border-radius: 5px;
+	text-align: end;
+}
+
+.userInfo {
+  height: 35px;
+  display: flex;
+  align-items: center;
+}
+
+.participant-name {
+  height: 25px;
+  line-height: 25px;
+}
+
+.chat-image-box {
+    height: 25px;
+    width: 25px;
+    border-radius: 70%;
+    overflow: hidden;
+}
+
+.chat-image {
+    width: 100%;
+    height: 100%;   
+    object-fit: cover;
+}
+
 #session-background {
-	background-color: rgb(80, 75, 75);
-	/* border: solid 1px white; */
-	height: 100vh;
-	width: 100vw;
+  background-color: rgb(199, 199, 199);
+  height: 100vh;
+  width: 100vw;
 }
 
 .session-whole {
-	width: 95%;
-	height: 95%;
-	background-color: white;
-	border-radius: 5px;
-	overflow: hidden;
+  width: 95%;
+  height: 95%;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+	border: 1px solid rgb(151, 151, 151);
 }
 
 #session-header {
 	display: flex;
-	justify-content: space-between;
-	padding-left: 80px;
-	padding-right: 80px;
-	padding-top: 30px;
-	padding-bottom: 30px;
-	border-bottom: solid rgb(151, 151, 151) 2px;
-	width: 100%;
+  justify-content: space-between;
+  height: 15%;
+  padding-left: 30px;
+  padding-right: 50px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  border-bottom: solid rgb(151, 151, 151) 2px;
+	background: linear-gradient( to right, rgb(197, 204, 206), #C0DDD1 );
 }
 
 #session-body {
@@ -79,59 +220,50 @@
 	width: 76%;
 }
 
-#session-video2 {
-	width: 100%;
-}
-
-#fullscreen-box {
-	width: 30px;
-	height: 30px;
-}
-
-#fullscreen-icon {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-}
-
-#fullscreen-icon:hover {
-	cursor: pointer;
-}
-
 #session-message {
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-end;
-	position: absolute;
-	right: 0px;
-	height: 100%;
-	width: 24%;
-	background-color: #eee;
-	scroll-behavior: auto;
-	border-left: solid rgb(151, 151, 151) 1px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: absolute;
+  right: 0px;
+  height: 100%;
+  width: 24%;
+  background-color: #C0DDD1;
+  border-left: solid rgb(151, 151, 151) 1px;
+}
+
+#session-message-header {
+	text-align: center;
+	padding: 10px;
+	font-size: 18px;
+	border-bottom: 1px rgb(151, 151, 151) solid;
+	background: rgb(223, 223, 223);
+	border-radius: 5px;
+	margin: 15px;
+	margin-bottom: 5px;
 }
 
 #session-message-box {
-	padding: 10px;
-	overflow: auto;
+  padding: 10px;
+  overflow: auto;
 }
 
 #session-message-send {
-	border-top: solid rgb(151, 151, 151) 1px;
-	/* position: relative; */
+  border-top: solid rgb(151, 151, 151) 1px;
 }
 
 #session-message-input {
-	/* position: absolute; */
-	/* white-space: pre-line; */
-	width: 100%;
+  width: 100%;
 }
 </style>
 
 <script>
+import http from '@/http.js';
 import axios from 'axios';
+import { mapGetters } from 'vuex';
 import { OpenVidu } from 'openvidu-browser';
 import UserVideo from '@/components/live/UserVideo';
+import Dialog from '@/components/Dialog'
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 const OPENVIDU_SERVER_URL = "https://profileglance.site:8011";
 const OPENVIDU_SERVER_SECRET = "1234";
@@ -139,30 +271,102 @@ export default {
 	name: 'UserPresentation',
 	components: {
 		UserVideo,
+		Dialog
 	},
 	data () {
 		return {
+			timeout: 3000,
+			isQuestion: false,
 			OV: undefined,
 			session: undefined,
 			mainStreamManager: undefined,
-      companyName: this.$route.params.companyname,
 			subscribers: [],
 			chats: [],
 			sendMsg: '',
 			mySessionId: '',
 			myUserName: '',
 			sessionId: this.$route.params.sessionid,
+      companyName: this.$route.params.companyname,
+			recruitId: this.$route.params.recruitid,
+			total: 0,
+			startTime: undefined,
+			timeGap: undefined,
+			question: Object,
+			muteList: [],
 		}
+	},
+	computed: {
+		totalViewers: function () {
+			return this.total
+		},
+		runningTime: function () {
+			return this.timeGap
+		},
+		...mapGetters([
+      'fileURL',
+    ]),
 	},
 	created () {
     this.mySessionId = this.sessionId
     this.myUserName = localStorage.getItem('id')
 		this.joinSession()
+		http.get(`/room/findRoomTime/${this.mySessionId}`)
+		.then((res) => {
+			this.startTime = res.data
+		})
+		.catch((err) => {
+			console.log(err)
+		})
+		setInterval(this.calcRunningTime, 1000)
+		this.updateTotalViewers()
+		const firstChat = {
+			'img': 'noimage.png',
+			'loginType': 'user',
+			'msg': this.sessionId + '의 기업 설명회에 참여하셨습니다. 상대방의 기분을 고려하여 채팅 예절을 준수해주시기 바랍니다.',
+			'nickname': '시스템',
+			'userId': '시스템'
+		}
+		const secondChat = {
+			'img': 'noimage.png',
+			'loginType': 'user',
+			'msg': '이용 중 불편함을 느끼셨다면 Profile Glance 고객센터로 문의해주시기 바랍니다. 감사합니다.',
+			'nickname': '시스템',
+			'userId': '시스템'
+		}
+		this.chats.push(firstChat)
+		this.chats.push(secondChat)
+	},
+	mounted () {
 	},
   beforeDestroy () {
     this.leaveSession()
   },
 	methods: {
+		getImg(chat) {
+        if (chat.loginType == 'user') {
+            return (
+                this.fileURL + 'ServerFiles/UserImg/' +
+                chat.img
+            )
+        } else {
+            return (
+                this.fileURL + 'ServerFiles/CompanyLogo/' +
+                chat.img
+            )
+        }
+    },
+		calcRunningTime () {
+			const moment = require('moment')
+			const now = moment()
+			const startTime = moment(this.startTime)
+			const hours = moment.duration(now.diff(startTime)).hours()
+			const minutes = moment.duration(now.diff(startTime)).minutes()
+			const seconds = moment.duration(now.diff(startTime)).seconds()
+			const editedHours = hours >= 10 ? hours: '0'+hours
+			const editedMinutes = minutes >= 10 ? minutes: '0'+minutes
+			const editedSeconds = seconds >= 10 ? seconds: '0'+seconds
+			this.timeGap = editedHours+':'+editedMinutes+':'+editedSeconds
+		},
     exitPresentation () {
       this.leaveSession()
       this.$router.push({name: 'wanted'})
@@ -176,6 +380,8 @@ export default {
         userId: this.myUserName,
         nickname: this.myUserName,
         msg: this.sendMsg,
+				loginType: localStorage.getItem('login_type'),
+        img: localStorage.getItem('profile')
       };
       this.sendMsg = '';
       this.session
@@ -191,6 +397,34 @@ export default {
           console.error(error);
         });
     },
+		sendJoinSignal () {
+			this.session
+				.signal({
+					data: '들어왔다',
+					to: [],
+					type: 'joinsignal'
+				})
+				.then(() => {
+					console.log('joinsignal 보냄')
+				})
+				.catch((err) => {
+					console.log(err)
+				})
+		},
+		updateTotalViewers () {
+			axios.get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${this.sessionId}/connection`, {
+			auth: {
+				username: 'OPENVIDUAPP',
+				password: OPENVIDU_SERVER_SECRET,
+			},
+			})
+			.then((res) => {
+				this.total = res.data.numberOfElements
+			})
+			.catch(() => {
+				// console.log(err)
+			})
+		},
 		joinSession () {
 			// --- Get an OpenVidu object ---
 			this.OV = new OpenVidu();
@@ -199,21 +433,49 @@ export default {
 			// --- Specify the actions when events take place in the session ---
 			// On every new Stream received...
 			this.session.on('streamCreated', ({ stream }) => {
-        const subscriber = this.session.subscribe(stream);
-        this.subscribers.push(subscriber);
-        this.mainStreamManager = this.subscribers[this.subscribers.length - 1];
+				const subscriber = this.session.subscribe(stream);
+        // this.subscribers.push(subscriber);
+        // this.mainStreamManager = this.subscribers[this.subscribers.length - 1];
+				this.mainStreamManager = subscriber
 			});
 			// On every Stream destroyed...
 			this.session.on('streamDestroyed', ({ stream }) => {
-				const index = this.subscribers.indexOf(stream.streamManager, 0);
-				if (index >= 0) {
-					this.subscribers.splice(index, 1);
-				}
+				// const index = this.subscribers.indexOf(stream.streamManager, 0);
+				// if (index >= 0) {
+				// 	this.subscribers.splice(index, 1);
+				// }
+				this.mainStreamManager = undefined
+				Swal.fire({ 
+						icon: 'warning', // Alert 타입 
+						title: '설명회가 종료되었습니다.', // Alert 제목 
+						showCancelButton: false,
+						showConfirmButton: true,
+						showDenyButton: false,
+						confirmButtonColor: '#439474',
+						confirmButtonText: `나가기`,
+				})
+				.then((res) => {
+						if(res.isConfirmed) {
+								return this.exitPresentation()
+						}
+				})
 			});
+
 			this.session.on('signal:my-chat', event => {
         this.chats.push(JSON.parse(event.data));
         setTimeout(this.chat_on_scroll, 10);
       });
+			this.session.on('signal:question', event => {
+        this.question = JSON.parse(event.data);
+				this.isQuestion = true
+      });
+			this.session.on('signal:mute', event => {
+				this.muteList.push(JSON.parse(event.data).nickname)
+      });
+			this.session.on('signal:joinsignal', event => {
+				console.log('받았다!')
+				this.updateTotalViewers()
+			})
 			// On every asynchronous exception...
 			this.session.on('exception', ({ exception }) => {
 				console.warn(exception);
@@ -224,21 +486,24 @@ export default {
 			this.getToken(this.mySessionId).then(token => {
 				this.session
           .connect(token, { clientData: this.myUserName })
-					.then(() => {})
+					.then(() => {
+						this.sendJoinSignal()
+					})
 					.catch(error => {
 						console.log('There was an error connecting to the session:', error.code, error.message);
 					});
 			});
-			window.addEventListener('beforeunload', this.leaveSession)
+			// window.addEventListener('beforeunload', this.leaveSession)
 		},
 		leaveSession () {
 			// --- Leave the session by calling 'disconnect' method over the Session object ---
-			if (this.session) this.session.disconnect();
+			if (this.session) this.sendJoinSignal();
+			this.session.disconnect();
 			this.session = undefined;
 			this.mainStreamManager = undefined;
 			this.subscribers = [];
 			this.OV = undefined;
-			window.removeEventListener('beforeunload', this.leaveSession);
+			// window.removeEventListener('beforeunload', this.leaveSession);
 		},
 		getToken (mySessionId) {
 			return this.createSession(mySessionId).then(sessionId => this.createToken(sessionId));

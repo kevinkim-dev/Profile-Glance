@@ -48,6 +48,8 @@ export default new Vuex.Store({
       localStorage.removeItem('login_type');
       localStorage.removeItem('user_email');
       localStorage.removeItem('id');
+      localStorage.removeItem('name');
+      localStorage.removeItem('profile');
       localStorage.removeItem('vuex');
       router.push('/');
       location.reload();
@@ -57,10 +59,9 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    requestDeleteUser({ commit }, userEmail) {
-      console.log(userEmail);
+    requestDeleteUser({ commit }, userNickname) {
       http
-        .delete('/user/delete/' + userEmail)
+        .delete('/user/delete/' + userNickname)
         .then((res) => {
           console.log('then');
           commit('REQUEST_LOGOUT');

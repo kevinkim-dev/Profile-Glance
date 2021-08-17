@@ -1,7 +1,8 @@
 <template>
   <section class="newproduct bgwhite">
     <div class="container">
-      <div id="lookatme-view">
+      <span class="text-center p-2" style="border-radius: 5px; background: #eaf5f1">{{profileId}}님의 룩앳미</span>
+      <div class="m-t-30">
         <v-row>
           <v-col
             :cols="3"
@@ -9,7 +10,7 @@
             :key="video.lookatmeId"
             @click="lookatmeDetail(video.lookatmeId, video.thumbnail, video.video)"
           >
-            <v-card :loading="false" class="mx-2 my-12" width="320" height="300px">
+            <v-card :loading="false" class="lookatme m-0" width="260" height="280px" style="padding: 10px; box-shadow: -2px -2px .4em #a0a0a0, 2px 2px .4em #a0a0a0;">
               <template slot="progress">
                 <v-progress-linear
                   color="deep-purple"
@@ -17,19 +18,44 @@
                   indeterminate
                 ></v-progress-linear>
               </template>
-              <v-img height="172" width="304" :src="getImg(video.thumbnail)"> </v-img>
-              <!-- {{video.thumbnail}} -->
-              <v-card-title
-                ><div class="title">{{ video.title }}</div></v-card-title
-              >
-              <v-card-text>
-                <v-row align="center" class="mx-0">
-                  <div class="grey--text ms-4 created">게시일 : {{ $moment(video.createdAt).format("YYYY년 MMMM do dddd HH시 mm분") }}</div>
-                </v-row>
-                <div class="my-4 text-subtitle-1">
-                  {{ video.userNickName }}
+              <div style="position: relative;">
+                <v-img class="thumbnail" height="135" width="240" :src="getImg(video.thumbnail)"> </v-img>
+                <div class="category">
+                  {{ video.category }}
                 </div>
-              </v-card-text>
+              </div>
+              <div class="card-text">
+                <v-card-title
+                  class="px-0"
+                  >
+                  <div class="title">
+                    {{ video.title }}</div>
+                </v-card-title>
+                <v-card-text class="px-1">
+                  <v-row align="center" class="mx-0">
+                    <!-- <div class="grey--text ms-4 created">게시일 : {{ $moment(video.createdAt).format("YYYY년 MMMM do dddd HH시 mm분") }}</div>
+                    <div class="grey--text ms-4 created">{{ video.createdAt | moment("from", "now") }}</div> -->
+                  </v-row>
+                  <div class="my-4 text-subtitle-1">
+                    <div class="d-flex">
+                      <div class="chat-image-box mr-2">
+                          <img :src="getUserPic(video.userImg)" class="chat-image" alt="profile_img">
+                      </div>
+                      <div>
+                        {{ video.userNickName }}
+                      </div>
+                    </div>
+                    <div class="d-flex justify-content-between my-1">
+                      <div>
+                        <i class="far fa-eye"></i> {{video.view}}  
+                      </div>
+                      <div>
+                        {{ video.createdAt | moment("from", "now") }}
+                      </div>  
+                    </div>
+                  </div>
+                </v-card-text>
+              </div>
             </v-card>
           </v-col>
         </v-row>
@@ -54,6 +80,9 @@ moment.locale('ko');
 Vue.use(VueMoment, {moment});
 
 export default {
+  props: {
+    profileId: String
+  },
   computed: {
     ...mapState('product', {
       products: (state) => state.featuredProducts,
@@ -65,6 +94,9 @@ export default {
   methods: {
     getImg(file) {
       return this.fileURL + 'ServerFiles/Thumbnail/' + file;
+    },
+    getUserPic(file) {
+      return this.fileURL + 'ServerFiles/UserImg/' + file;
     },
     infiniteHandler($state) {
       http
@@ -149,5 +181,72 @@ export default {
 .created:hover {
   overflow: visible;
   background-color: white;
+}
+
+.lookatme {
+  border: black solid 1px;
+}
+.thumbnail {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.category {
+  position: absolute;
+  top: 0px;
+  left: 0%;
+  background-color:#EAF5F1;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-right-radius: 4px;
+  opacity: 0.9;
+}
+
+.title {
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 230px;
+  overflow: hidden;
+}
+.title:hover {
+  overflow: visible;
+}
+.created {
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 230px;
+  overflow: hidden;
+}
+.created:hover {
+  overflow: visible;
+  background-color: white;
+}
+
+.lookatme:hover {
+  cursor: pointer;
+}
+.chat-image-box {
+    height: 20px;
+    width: 20px;
+    border-radius: 70%;
+    overflow: hidden;
+}
+.chat-image {
+    width: 100%;
+    height: 100%;   
+    object-fit: cover;
+}
+.card-text {
+    position: relative;
+}
+
+#lookatme-banner {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  margin-bottom: 30px;
+  z-index: 1000;
 }
 </style>

@@ -1,13 +1,12 @@
 package com.profileglance.api.service;
 
 import com.profileglance.api.request.RoomDeleteReq;
+import com.profileglance.api.request.RoomInterviewDeleteReq;
 import com.profileglance.db.entity.Company;
 import com.profileglance.db.entity.Recruit;
 import com.profileglance.db.entity.Room;
-import com.profileglance.db.repository.CompanyRepository;
-import com.profileglance.db.repository.InterviewRepository;
-import com.profileglance.db.repository.RecruitRepository;
-import com.profileglance.db.repository.RoomRepository;
+import com.profileglance.db.entity.RoomInfo;
+import com.profileglance.db.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +27,9 @@ public class RoomServiceImpl implements RoomService {
     @Autowired
     RecruitRepository recruitRepository;
 
+    @Autowired
+    RoomInfoRepository roomInfoRepository;
+
     @Override
     public Boolean deleteRoom(RoomDeleteReq roomDeleteReq) {
 
@@ -37,7 +39,15 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Boolean deleteInterview(RoomDeleteReq roomDeleteReq) {
+    public Boolean deleteRoom(RoomInterviewDeleteReq roomDeleteReq) {
+
+        roomRepository.deleteBySessionIdAndHost(roomDeleteReq.getSessionId(), roomDeleteReq.getCompanyId());
+
+        return true;
+    }
+
+    @Override
+    public Boolean deleteInterview(RoomInterviewDeleteReq roomDeleteReq) {
 
         interviewRepository.deleteByRoom_SessionId(roomDeleteReq.getSessionId());
 
@@ -67,7 +77,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Room createRoom(String companyId, String room_category) {
+    public Room createRoom(String companyId, String room_category, String createAt) {
         Company company = companyRepository.findByCompanyId(companyId).get();
 
         Optional<Room> room = roomRepository.findBySessionId(company.getSessionId());
@@ -78,8 +88,42 @@ public class RoomServiceImpl implements RoomService {
                     .sessionId(company.getSessionId())
                     .host(companyId)
                     .roomCategory(room_category)
+                    .createAt(createAt)
                     .build());
             return newroom;
         }
+    }
+
+    @Override
+    public Boolean leaveSession(String viewer, String sessionId) {
+        try {
+            roomInfoRepository.deleteByViewerAndRoom_SessionId(viewer, sessionId);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    @Override
+    public Boolean joinSession(String viewer, String sessionId){
+        try {
+            roomInfoRepository.save(RoomInfo.builder()
+                    .room(roomRepository.findBySessionId(sessionId).get())
+                    .viewer(viewer)
+                    .build());
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    @Override
+    public Long countViewer(String sessionId) {
+        return roomInfoRepository.countByRoom_SessionId(sessionId);
+    }
+
+    @Override
+    public String findRoomTime(String sessionId) {
+        return roomRepository.findBySessionId(sessionId).get().getCreateAt();
     }
 }

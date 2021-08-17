@@ -39,6 +39,7 @@ public class UserServiceImpl implements UserService{
     @Autowired
     PasswordEncoder passwordEncoder;
 
+
     static DirPathConfig dirPathConfig = new DirPathConfig();
     static String baseDir = dirPathConfig.baseDir;
 
@@ -87,10 +88,10 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean deleteUser(String userEmail) {
+    public boolean deleteUser(String userNickname) {
         System.out.println("in service");
 
-        userRepository.deleteByuserEmail(userEmail);
+        userRepository.deleteByUserNickname(userNickname);
 
         return true;
     }
@@ -104,7 +105,7 @@ public class UserServiceImpl implements UserService{
                 ,user.getBirth()
                 ,user.getMajor1()
                 ,user.getMajor2()
-                ,userLikeRepository.countByUser_UserEmail(userEmail)
+                ,user.getCompanyLike()
                 ,lookatmeRepository.countByUser_UserEmail(userEmail)
                 ,user.getPortfolio1()
                 ,user.getPortfolio2()
@@ -125,15 +126,24 @@ public class UserServiceImpl implements UserService{
                 ,user.getBirth()
                 ,user.getMajor1()
                 ,user.getMajor2()
-                ,userLikeRepository.countByUser_UserEmail(user.getUserEmail())
+                ,user.getCompanyLike()
                 ,lookatmeRepository.countByUser_UserEmail(user.getUserEmail())
                 ,user.getPortfolio1()
                 ,user.getPortfolio2()
                 ,user.getUserNickname()
                 ,user.isAdmin()
                 ,user.getUserImg()
+                ,user.getUserPhone()
         );
         return mypageGetRes;
+    }
+
+    @Override
+    public Boolean deleteUserLike(String userNickname) {
+
+        userLikeRepository.deleteAllByUser_UserNickname(userNickname);
+
+        return true;
     }
 
     @Override
@@ -173,7 +183,8 @@ public class UserServiceImpl implements UserService{
                     l.getCategory().getCategoryName(),
                     l.getView(),
                     l.getVideoLike(),
-                    l.getCreatedAt()
+                    l.getCreatedAt(),
+                    l.getUser().getUserImg()
             ));
         }
         return lookatmePostResList;
@@ -204,4 +215,23 @@ public class UserServiceImpl implements UserService{
     public Long likeCount(String userEmail){
         return userLikeRepository.countByUser_UserEmail(userEmail);
     }
+
+    @Override
+    public void companyLikeChange(String userNickname, boolean flag){
+        User user = userRepository.findByUserNickname(userNickname).get();
+
+        long companylike = user.getCompanyLike();
+
+        if (flag){  // flag == true 이면 ++
+            user.setCompanyLike(companylike+1);
+
+        }else{      // flag == false 이면 --
+            if (user.getCompanyLike() > 0){
+                user.setCompanyLike(companylike-1);
+            }
+        }
+
+        userRepository.save(user);
+    }
+
 }

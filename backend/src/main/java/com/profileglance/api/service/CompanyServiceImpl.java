@@ -94,7 +94,8 @@ public class CompanyServiceImpl implements CompanyService{
 
         for (UserLike u : userLikes){
             companyLikeListGetResList.add(new CompanyLikeListGetRes(
-                    u.getUser().getUserNickname()
+                    u.getUser().getUserNickname(),
+                    u.getUser().getUserImg()
             ));
         }
         return companyLikeListGetResList;

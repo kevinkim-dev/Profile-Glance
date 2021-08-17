@@ -24,30 +24,44 @@
                 </div>
             </v-col>
             <v-col cols='4'>
-                <div id="video_content">
+                <div id="video_content" style="background: #EAF5F1; border-radius: 2%;">
                     <div id="video_main">
-                        <div id="content">
-                        <h2 class="video_title">{{lookatme.title}}</h2>
+                        <div id="content" class="my-5">
+                        <h3 class="video_title">{{lookatme.title}}</h3>
                         </div>
-                        <br>
-                        조회수: &nbsp;{{lookatme.view}}회<br>
-                        <br>
-                        게시일: &nbsp;{{ $moment(lookatme.createdAt).format("YYYY년 MMMM do dddd HH시 mm분") }}<br>
-                        <br>
-                        <a @click="userPage(lookatme.userNickName)">{{lookatme.userNickName}}</a><br>
-                        <br>
-                        {{lookatme.content}}<br>
+                        <div class="d-flex justify-content-between align-items-center my-2">
+                          <div class="d-flex align-items-center">
+                            <div class="chat-image-box mr-2">
+                              <img :src="getUserPic(lookatme.userImg)" class="chat-image" alt="profile_img">
+                            </div>
+                            <a @click="userPage(lookatme.userNickName)" title="클릭 시 해당 유저의 mypage로 이동합니다">{{lookatme.userNickName}}</a>
+                          </div>
+                          <div class="d-flex">
+                            <div>조회수 {{lookatme.view}}회</div>
+                            <div class="mx-1">
+                              ·
+                            </div>
+                            <div>
+                              {{ $moment(lookatme.createdAt).format("YYYY.MM.DD") }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="my-3">
+                          <hr>
+                          {{lookatme.content}}
+                        </div>
                     </div>
                 </div>
-                <div v-show="isCreator">
+                <div v-show="isCreator" class="my-2">
                     <v-btn block text x-large class="primary-color text-white rounded-0" @click="modifyLookatme">수정</v-btn>
                 </div>
             </v-col>
         </v-row>
     <br>
     <div>
-        관련 영상 목록
-        <div id="lookatme-view">
+      <hr>
+        <div id="p-text">{{this.category}} 관련 영상 목록</div>
+        <div id="lookatme-view" style="padding-top: 1rem; padding-bottom: 50px; height:auto; width: 100%;">
         <v-row>
           <v-col
             :cols="3"
@@ -55,8 +69,8 @@
             :key="video.lookatmeId"
             v-if="lookatme.lookatmeId != video.lookatmeId"
             @click="lookatmeDetail(video.lookatmeId, video.thumbnail, video.video)"
-          >
-            <v-card :loading="false" class="mx-2 my-12" width="320" height="300px">
+            >
+            <v-card :loading="false" class="mx-1 lookatme" width="260" height="270px" style="padding: 10px;">
               <template slot="progress">
                 <v-progress-linear
                   color="deep-purple"
@@ -64,17 +78,33 @@
                   indeterminate
                 ></v-progress-linear>
               </template>
-              <v-img height="172" width="304" :src="getImg(video.thumbnail)"> </v-img>
+              <v-img height="135" width="240" :src="getImg(video.thumbnail)"> </v-img>
               <!-- {{video.thumbnail}} -->
               <v-card-title
                 ><div class="title">{{ video.title }}</div></v-card-title
               >
               <v-card-text>
                 <v-row align="center" class="mx-0">
-                  <div class="grey--text ms-4 created">게시일 : {{ $moment(video.createdAt).format("YYYY년 MMMM do dddd HH시 mm분") }}</div>
-                 </v-row>
+                  <!-- <div class="grey--text ms-4 created">게시일 : {{ $moment(video.createdAt).format("YYYY년 MMMM do dddd HH시 mm분") }}</div>
+                  <div class="grey--text ms-4 created">{{ video.createdAt | moment("from", "now") }}</div> -->
+                </v-row>
                 <div class="my-4 text-subtitle-1">
-                  {{ video.userNickName }}
+                  <div class="d-flex">
+                    <div class="chat-image-box mr-2">
+                        <img :src="getUserPic(video.userImg)" class="chat-image" alt="profile_img">
+                    </div>
+                    <div>
+                      {{ video.userNickName }}
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-between my-1">
+                    <div>
+                      <i class="far fa-eye"></i> {{video.view}}  
+                    </div>
+                    <div>
+                      {{ video.createdAt | moment("from", "now") }}
+                    </div>  
+                  </div>
                 </div>
               </v-card-text>
             </v-card>
@@ -84,7 +114,16 @@
         v-if="lookatme"
           @infinite="infiniteHandler"
           spinner="circles"
-        ></infinite-loading>
+          class="mt-4"
+        >
+          <div slot="no-more">
+            <div v-if="list.length === 1" class="no-lookatme">
+            <br>
+            불러올 룩앳미가 없습니다
+            </div>
+          </div>
+        </infinite-loading>
+        
       </div>
     </div>
     </v-container>
@@ -198,8 +237,11 @@ export default {
       playerStateChanged(playerCurrentState) {
       },
       playerReadied(player) {
-        player.currentTime(10)
+        player.currentTime(0)
       },
+    getUserPic(file) {
+      return this.fileURL + 'ServerFiles/UserImg/' + file;
+    },
     getImg(file) {
       return this.fileURL + 'ServerFiles/Thumbnail/' + file;
     },
@@ -293,5 +335,27 @@ background: rgba(0, 0, 0, 0.1);
 }
 #video_main{
     margin: 15px;
+}
+.chat-image-box {
+    height: 20px;
+    width: 20px;
+    border-radius: 70%;
+    overflow: hidden;
+}
+.chat-image {
+    width: 100%;
+    height: 100%;   
+    object-fit: cover;
+}
+#p-text {
+  display: inline-block;
+  padding: 5px;
+  background-color: #EAF5F1;
+  border-radius: 5px;
+  margin-left: 5px;
+  /* margin-bottom: 1rem; */
+}
+.no-lookatme {
+  margin-top: 100px;
 }
 </style>

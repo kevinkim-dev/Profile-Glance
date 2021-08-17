@@ -24,7 +24,16 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
+      beforeEnter: function(to, from, next) {
+        
+        let token = localStorage.getItem('token');
+        if (token) {
+          next('/lookatme')
+        } else {
+          next();
+        }
+      }
     },
     {
       path: '/lookatme',
@@ -73,12 +82,12 @@ export default new Router({
       component: CompanySignUp
     },
     {
-      path: '/company/presentation/:sessionid',
+      path: '/company/presentation/:sessionid/:recruitid',
       name: 'companypresentation',
       component: CompanyPresentation
     },
     {
-      path: '/user/presentation/:sessionid',
+      path: '/user/presentation/:companyname/:sessionid',
       name: 'userpresentation',
       component: UserPresentation
     },

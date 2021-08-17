@@ -1,20 +1,23 @@
 <template>
   <div>
-    <h1 class="text-center">{{profileId}}</h1>
-    <div class="profile m-t-50  ">
-      <div class="profile-left-box m-r-100">
+    <div class="profile m-t-70">
+      <div class="profile-left-box m-l-50 elevation-2">
         <ProfileImage :isMyProfile="isMyProfile" />
-        <ProfileMenus v-if="isMenuNeed" @openInterviewModal="openInterviewModal" />
+        <div class="text-center userNickname elevation-2">{{profileId}}</div>
+        <ProfileMenus v-if="isMenuNeed" @openInterviewModal="openInterviewModal" @unliked="unliked" @liked="liked" />
         <ProfileMyMenus v-if="isMyProfile && userType == 'user'" @clickEditButton="openEditModal" />
+        <CompanyInfo v-if="profileType == 'company'" />
       </div>
-      <div class="profile-right-box">
+      <div class="profile-right-box d-flex">
+        <div>
+          <ProfileInterviews v-if="infoCategory == 'interview'" />
+          <ProfileInfos v-if="infoCategory == 'info'" :userLike="this.userLike" />
+          <ProfileWanteds v-if="infoCategory == 'wanted'" />
+        </div>
         <ProfileInfoButtons v-if="isMyProfile && userType != 'admin'" @clickInfo="clickInfo" @clickInterviews="clickInterviews" @clickWanteds="clickWanteds"/>
-        <ProfileInterviews v-if="infoCategory == 'interview'" />
-        <ProfileInfos v-if="infoCategory == 'info'" />
-        <ProfileWanteds v-if="infoCategory == 'wanted'" />
       </div>
     </div><hr class="m-t-50">
-    <ProfileLookatme v-if="profileType=='user'" />
+    <ProfileLookatme v-if="profileType=='user'" :profileId="profileId" />
     <v-dialog
       v-model="isEditOpen"
       max-width="650px"
@@ -34,13 +37,14 @@ import ProfileInfos from '@/components/mypage/ProfileInfos.vue';
 import ProfileInfoButtons from '@/components/mypage/ProfileInfoButtons.vue';
 import ProfileInterviews from '@/components/mypage/interview/ProfileInterviews.vue';
 import ProfileWanteds from '@/components/mypage/wanted/ProfileWanteds.vue';
+import CompanyInfo from '@/components/mypage/profileinfo/CompanyInfo.vue';
 import ProfileMenus from '@/components/mypage/ProfileMenus.vue';
 import ProfileMyMenus from '@/components/mypage/ProfileMyMenus.vue';
 import ProfileVideos from '@/components/mypage/ProfileVideos.vue';
 import ProfileLookatme from '@/components/mypage/ProfileLookatme.vue';
 import EditModal from '@/components/mypage/EditModal.vue'
 import InterviewModal from '@/components/mypage/InterviewModal.vue'
-
+import http from '@/http.js'
 
 export default {
   name: 'profile',
@@ -50,6 +54,7 @@ export default {
       isEditOpen: false,
       isCompanySignUpOpen: false,
       isInterviewModalOpen: false,
+      userLike: Number,
     }
   },
   components: {
@@ -63,7 +68,8 @@ export default {
     ProfileLookatme,
     EditModal,
     InterviewModal,
-    ProfileWanteds
+    ProfileWanteds,
+    CompanyInfo
   },
   computed: {
     isMenuNeed: function() {
@@ -104,29 +110,48 @@ export default {
     },
     clickWanteds: function() {
       this.infoCategory = 'wanted'
-    }
+    },
+    unliked: function() {
+      this.userLike -= 1
+    },
+    liked: function() {
+      this.userLike += 1
+    },
+
   },
   mounted() {
-    // if (info.profileType == 'user') {
-    //     this.profileType = 'user'
-    //   this.profileId = info.id
-    // } else if (info.profileType == 'company') {
-    //     this.profileType = 'company'
-    //   this.profileId = info.id
-    // } else if (info.profileType == 'admin') {
-    //     this.profileType = 'admin'
-    //   this.profileId = '관리자'      
-    // }
     const info = {
       'profileType': this.$route.params.loginType,
       'id': this.$route.params.id
     }
     this.$store.dispatch('mypage/getUserData', info)
+    if (info.profileType == 'user') {
+      http.get('user/myinfo/nickname/' + info.id)
+      .then((res) => {
+        this.userLike = res.data.countLike
+      })
+    }
   }
 }
 </script>
 
 <style>
+.userNickname {
+  font-size: 30px;
+  /* font-weight: bold; */
+  padding: 4px;
+  padding-left: 10px;
+  padding-top: 8px;
+  margin-top: 20px;
+  margin-left: 10%;
+  width: 80%;
+  border-radius: 30px;
+  border: outset;
+  background: #439474;
+  color: white;
+  text-align: center;
+}
+
 .profile {
   display: flex ;
   justify-content: center;
@@ -137,14 +162,16 @@ export default {
   flex-direction: column;
   justify-content: center;
   height: 400px;
-  width: 400px;
+  width: 300px;
+  background-color: #EAF5F1;
+  border-radius: 6px;
 }
 
 .profile-right-box {
   display: flex;
-  flex-direction: column;
-  width: 800px;
+  width: 860px;
   height: 400px;
+  margin-left: 70px;
 }
 
 .mypageModal {

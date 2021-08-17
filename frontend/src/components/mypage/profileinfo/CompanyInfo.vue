@@ -1,10 +1,8 @@
 <template>
-	<div class="d-flex">
-		<div class="d-flex flex-column justify-content-around">
-      <div class="infobox">이메일: {{companyInfo.companyEmail}}</div>
-      <div class="infobox">전화번호: {{companyInfo.companyPhone}}</div>
-		</div>
-	</div>
+  <div class="d-flex flex-column justify-content-around m-t-15 m-b-15 text-start p-l-45">
+    <div class="m-b-10"><i class="far fa-envelope m-r-5"></i> {{companyInfo.companyEmail}}</div>
+    <div class=""><i class="fas fa-phone-alt m-r-5"></i> {{companyInfo.companyPhone}}</div>
+  </div>
 </template>
 
 <script>
@@ -23,7 +21,5 @@ export default {
 </script>
 
 <style>
-.infobox {
-  width: 400px;
-}
+
 </style>

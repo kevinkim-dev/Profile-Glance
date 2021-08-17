@@ -1,13 +1,13 @@
 <template>
-<div>
+<div class="p-b-80">
   <v-form v-model="valid">
-    <v-container>
+    <v-container style="padding-right: 310px; padding-top: 50px">
       <v-row justify="center">
         <v-col cols="4" align="right"><div id="thumb">썸네일</div> </v-col>
         <v-col cols="8">
           <v-row>
             <v-img :src="url" max-height="150" max-width="250" />
-            <v-col cols="3">
+            <v-col cols="6">
               <v-file-input
                 @click:clear="url = this.$store.getters.fileURL + 'ServerFiles/Thumbnail/' + this.lookatme.thumbnail"
                 @change="previewImage"
@@ -50,18 +50,18 @@
       <v-row justify="center">
         <v-col cols="4" align="right">내용</v-col>
         <v-col>
-          <v-text-field
+          <v-textarea
             v-model="content"
             required
             :rules="[(v) => !!v || '필수 항목입니다']"
             filled
-            height="300"
-          ></v-text-field>
+            height="200"
+          ></v-textarea>
         </v-col>
       </v-row>
     </v-container>
     <v-container>
-      <v-row justify="end">
+      <v-row justify="center">
         <v-col cols="3">
           <v-btn block text x-large class="primary-color text-white rounded-0" @click="modify">
             수정
@@ -105,65 +105,64 @@ export default {
       kind: [
         {
           codeName: '개발',
-          },
+        },
         {
           codeName: '테크',
-          },
+        },
         {
           codeName: '교육',
-          },
+        },
         {
           codeName: '서비스',
         },
         {
           codeName: '영업/마케팅',
-          },
+        },
         {
-          codeName: '예체능',
-          },
+          codeName: '춤',
+        },
         {
           codeName: '연주',
-          code: '3002',
         },
         {
           codeName: '노래',
-          },
+        },
         {
           codeName: '연기',
-          },
+        },
         {
           codeName: '영상',
-          },
+        },
         {
           codeName: '코미디',
-          },
+        },
         {
           codeName: '사진',
-          },
+        },
         {
           codeName: '메이킹/만들기/손재주',
-          },
+        },
         {
           codeName: '여행',
-          },
+        },
         {
           codeName: '요리',
-          },
+        },
         {
           codeName: '미술',
-          },
+        },
         {
           codeName: '마술',
-          },
+        },
         {
           codeName: '스포츠',
-          },
+        },
         {
           codeName: '무술',
-          },
+        },
         {
           codeName: '게임',
-          },
+        },
       ],
     };
   },
@@ -173,28 +172,48 @@ export default {
     },
     modify() {
       var router = this.$router;
+      console.log("test")
       if (!this.valid) {
-        alert('필수 항목을 입력해주세요.');
+         Swal.fire({ 
+          icon: 'warning', // Alert 타입 
+          title: '필수 항목을 입력해주세요.', // Alert 제목 
+          text: '필수 항목을 모두 입력해야 회원가입이 가능합니다.', // Alert 내용 
+        });
+        // alert('필수 항목을 입력해주세요.');
       } else {
+        
         console.log(this.image);
         let lookatme = new FormData();
         let userEmail = localStorage.getItem('user_email');
-        lookatme.append('thumbnail', this.image);
+        lookatme.append('lookatmeId', this.lookatme.lookatmeId);
+        if(this.image != null){
+          lookatme.append('thumbnail', this.image);
+        }
         lookatme.append('category', this.category.codeName);
         lookatme.append('title', this.title);
         lookatme.append('content', this.content);
         lookatme.append('userEmail', userEmail);
-        http.post('/lookatme/upload', lookatme, {
-          headers: { 'Content-Type': 'multipart/form-data' },
+        
+        http.post('/lookatme/update', lookatme, {
+            headers: { 'Content-Type': 'multipart/form-data' },
         })
           .then(({ data }) => {
-            alert('등록 성공!');
-            console.log(data)
-            router.push({ name: 'lookatme' });
+            Swal.fire({ 
+              icon: 'success', // Alert 타입 
+                title: '룩앳미 수정에 성공하였습니다.', // Alert 제목 
+                text: '등록한 룩앳미 확인이 가능합니다.', // Alert 내용 
+              });
+
+            // alert('등록 성공!');
+            console.log(data) 
+            // router.push({ name: 'lookatme' });
+            this.$router.push({name: 'lookatmedetail', query: {lookatme_id: this.lookatme.lookatmeId, thumbnail: this.lookatme.thumbnail, video: this.lookatme.video}});
+            
           })
           .catch((err) => console.log(err));
       }
     },
+
     cancle() {
       router.go(-1);
     },

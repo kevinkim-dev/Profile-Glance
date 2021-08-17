@@ -39,7 +39,6 @@ export default {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
         .then(({ data }) => {
-          console.log(data);
           this.imgSrc = URL.createObjectURL(e.target.files[0]);
           location.reload();
         })
@@ -53,8 +52,6 @@ export default {
           this.$store.state.mypage.userData.userImg
         );
       } else if (profileType == 'company') {
-        console.log(this.fileURL + 'ServerFiles/CompanyLogo/' +
-          this.$store.state.mypage.companyData.companyImg)
         return (
           this.fileURL + 'ServerFiles/CompanyLogo/' +
           this.$store.state.mypage.companyData.companyImg
@@ -77,11 +74,13 @@ export default {
 
 .profile-image-box {
   position: relative;
-  height: 300px;
-  width: 300px;
-  left: 80px;
+  left: 50px;
+  top: 35px;
+  height: 200px;
+  width: 200px;
   border-radius: 70%;
   overflow: hidden;
+  border: rgb(211, 211, 211) solid 1px;  
 }
 
 .profile-image {
@@ -92,8 +91,8 @@ export default {
 
 .imageEdit {
   position: relative;
-  top: -20px;
-  left: 270px;
+  top: 10px;
+  left: 190px;
 }
 
 

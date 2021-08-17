@@ -190,7 +190,7 @@ export default {
       phoneRules: [
         (v) => !!v || '필수 항목 입니다',
         (v) =>
-          (!v.includes('.') && !v.includes('-') && v.startsWith('0')) || '올바른 형식이 아닙니다',
+          (!v.includes('.') && !v.includes('-')) || '올바른 형식이 아닙니다',
         (v) =>
           (/[0-9]/.test(v) && !/[a-zA-Z]/.test(v) && !/[~!@#$%^&*()_+|<>?:{}]/.test(v)) ||
           '숫자만 입력 가능합니다',
@@ -223,9 +223,19 @@ export default {
     // 회원가입
     companySignup() {
       if (!this.valid) {
-        alert('필수 항목을 입력해주세요.');
+         Swal.fire({ 
+          icon: 'warning', // Alert 타입 
+          title: '필수 항목을 입력해주세요.', // Alert 제목 
+          text: '필수 항목을 모두 입력해야 회원가입이 가능합니다.', // Alert 내용 
+        });
+        // alert('필수 항목을 입력해주세요.');
       } else if (!this.isIdDoubleChecked) {
-        alert('닉네임 중복 확인을 해주세요.');
+        Swal.fire({ 
+          icon: 'warning', // Alert 타입 
+          title: '닉네임 중복 확인을 해주세요.', // Alert 제목 
+          text: '닉네임 중복 확인 후 회원가입이 가능합니다.', // Alert 내용 
+        });
+        // alert('닉네임 중복 확인을 해주세요.');
       } else {
         const formData = new FormData();
 
@@ -244,7 +254,12 @@ export default {
         })
           .then((res) => {
             console.log(res);
-            alert('기업회원 추가가 완료되었습니다.');
+            Swal.fire({ 
+              icon: 'success', // Alert 타입 
+              title: '기업회원 추가가 완료되었습니다.', // Alert 제목 
+              text: '!환영합니다! 로그인해 주세요:)', // Alert 내용 
+            });
+            // alert('기업회원 추가가 완료되었습니다.');
             this.companySignupForm.companyName = '';
             this.companySignupForm.companyEngName = '';
             this.companySignupForm.companyId = '';
@@ -257,7 +272,12 @@ export default {
             this.$router.push('/mypage/admin/관리자');
           })
           .catch((err) => {
-            alert('기업회원 추가가 실패했습니다.');
+            Swal.fire({ 
+              icon: 'error', // Alert 타입 
+              title: '기업회원 추가가 실패했습니다.', // Alert 제목 
+              text: '다시 회원가입해 주세요', // Alert 내용 
+            });
+            // alert('기업회원 추가가 실패했습니다.');
             console.log(err);
           });
       }
@@ -270,10 +290,20 @@ export default {
           .then((res) => {
             if (res.status === 201) {
               this.isIdDoubleChecked = true;
-              alert('사용할 수 있는 아이디입니다.');
+              Swal.fire({ 
+                icon: 'success', // Alert 타입 
+                title: '사용할 수 있는 아이디입니다.', // Alert 제목 
+                text: '입력한 아이디를 사용합니다.', // Alert 내용 
+              });
+              // alert('사용할 수 있는 아이디입니다.');
             } else if (res.status === 202) {
               this.isIdDoubleChecked = false;
-              alert('중복된 아이디입니다.');
+              Swal.fire({ 
+                icon: 'error', // Alert 타입 
+                title: '중복된 아이디입니다.', // Alert 제목 
+                text: '입력한 아이디를 사용할 수 없습니다.', // Alert 내용 
+              });
+              // alert('중복된 아이디입니다.');
             }
           })
           .catch((err) => {
@@ -281,7 +311,12 @@ export default {
           });
       } else {
         this.isIdDoubleChecked = false;
-        alert('닉네임을 입력해주세요.');
+          Swal.fire({ 
+            icon: 'warning', // Alert 타입 
+            title: '아이디를 입력해주세요.', // Alert 제목 
+            text: '아이디 체크를 위해 아이디를 입력해 주세요.', // Alert 내용 
+          });
+        // alert('닉네임을 입력해주세요.');
       }
     },
     // 중복확인 여부 false로 리셋

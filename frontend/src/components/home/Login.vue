@@ -198,7 +198,7 @@ export default {
               await Http.get('/user/myinfo/' + localStorage.getItem('user_email'))
                 .then((res) => {
                   localStorage.setItem('id', res.data.userNickname);
-                  localStorage.setItem('profile', res.data.userImg)
+                  localStorage.setItem('profile', res.data.userImg);
                   if (res.data.admin) {
                     localStorage.setItem('login_type', 'admin');
                     localStorage.setItem('id', '관리자');
@@ -230,13 +230,13 @@ export default {
             companyId: this.companyId,
             companyPassword: this.companyPassword,
           };
-          Http.post('/company/login', body)
-            .then((res) => {
+          await Http.post('/company/login', body)
+            .then(async (res) => {
               localStorage.setItem('token', res.data);
               localStorage.setItem('login_type', this.loginType);
               localStorage.setItem('id', this.companyId);
               this.$store.dispatch('getLikeUserList', this.companyId);
-              Http.get('/company/companyinfo/' + this.companyId)
+              await Http.get('/company/companyinfo/' + this.companyId)
               .then((res) => {
                 localStorage.setItem('profile', res.data.companyImg)
                 localStorage.setItem('name', res.data.companyName)

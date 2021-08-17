@@ -336,7 +336,7 @@ export default {
             )
         } else {
             return (
-                this.fileURL + 'ServerFiles/companyLogo/' +
+                this.fileURL + 'ServerFiles/CompanyLogo/' +
                 chat.img
             )
         }

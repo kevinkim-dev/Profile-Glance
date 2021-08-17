@@ -48,6 +48,8 @@ export default new Vuex.Store({
       localStorage.removeItem('login_type');
       localStorage.removeItem('user_email');
       localStorage.removeItem('id');
+      localStorage.removeItem('name');
+      localStorage.removeItem('profile');
       localStorage.removeItem('vuex');
       router.push('/');
       location.reload();

@@ -298,7 +298,7 @@ export default {
             setTimeout(() => {
               if (response.data.length) {
                 this.list = this.list.concat(response.data);
-                this.limit += 10;
+                this.limit += 16;
                 $state.loaded();
               } else {
                 $state.complete();

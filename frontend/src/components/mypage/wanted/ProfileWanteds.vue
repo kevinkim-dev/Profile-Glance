@@ -37,7 +37,7 @@
             <v-btn class="wanted-button"
               color="white" text
               v-if="wanted.sessionId===null"
-              @click="$router.push({name: 'companypresentation', params: { sessionid: wanted.csId, recruitid: wanted.recruitId, companyname: wanted.companyName }})"
+              @click="makePresentation(wanted.recruitId, wanted.csId)"
             >
               설명회개설
             </v-btn>
@@ -55,6 +55,7 @@
   </v-simple-table>
 </template>
 <script>
+import router from '@/router';
 import http from '@/http.js';
 
 export default {
@@ -70,6 +71,18 @@ export default {
       }) 
   },
   methods: {
+    makePresentation (recruitId, csId) {
+      const now = new Date().toISOString()
+      const companyId = localStorage.getItem('id')
+      const body = {companyId: companyId, recruitId: recruitId, createAt: now}
+      http.post('/recruit/createRoom', body)
+      .then(() => {
+        router.push({name: 'companypresentation', params: { sessionid: csId, recruitid: recruitId }})
+      })
+      .catch(() => {
+        console.log('설명회 개설에 실패했습니다.')
+      })
+    }
   }
 }
 </script>

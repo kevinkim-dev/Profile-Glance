@@ -183,13 +183,14 @@ export default {
 			OV: undefined,
 			session: undefined,
 			mainStreamManager: undefined,
-      companyName: this.$route.params.companyname,
 			subscribers: [],
 			chats: [],
 			sendMsg: '',
 			mySessionId: '',
 			myUserName: '',
 			sessionId: this.$route.params.sessionid,
+      companyName: this.$route.params.companyname,
+			recruitId: this.$route.params.recruitid,
 			total: 0,
 			startTime: undefined,
 			timeGap: undefined,
@@ -197,7 +198,7 @@ export default {
 	},
 	computed: {
 		totalViewers: function () {
-			return this.total-1
+			return this.total
 		},
 		runningTime: function () {
 			return this.timeGap
@@ -205,26 +206,6 @@ export default {
 		...mapGetters([
       'fileURL',
     ]),
-	},
-	watch: {
-		subscribers: function () {
-			if (this.subscribers.length == 0) {
-				Swal.fire({ 
-						icon: 'warning', // Alert 타입 
-						title: '설명회가 종료되었습니다.', // Alert 제목 
-						showCancelButton: false,
-						showConfirmButton: true,
-						showDenyButton: false,
-						confirmButtonColor: '#439474',
-						confirmButtonText: `나가기`,
-				})
-				.then((res) => {
-						if(res.isConfirmed) {
-								return this.exitPresentation()
-						}
-				})
-			}
-		}
 	},
 	created () {
     this.mySessionId = this.sessionId
@@ -238,6 +219,7 @@ export default {
 			console.log(err)
 		})
 		setInterval(this.calcRunningTime, 1000)
+		this.updateTotalViewers()
 	},
 	mounted () {
 	},
@@ -324,8 +306,8 @@ export default {
 			.then((res) => {
 				this.total = res.data.numberOfElements
 			})
-			.catch((err) => {
-				console.log(err)
+			.catch(() => {
+				// console.log(err)
 			})
 		},
 		joinSession () {
@@ -336,17 +318,34 @@ export default {
 			// --- Specify the actions when events take place in the session ---
 			// On every new Stream received...
 			this.session.on('streamCreated', ({ stream }) => {
-        const subscriber = this.session.subscribe(stream);
-        this.subscribers.push(subscriber);
-        this.mainStreamManager = this.subscribers[this.subscribers.length - 1];
+				const subscriber = this.session.subscribe(stream);
+        // this.subscribers.push(subscriber);
+        // this.mainStreamManager = this.subscribers[this.subscribers.length - 1];
+				this.mainStreamManager = subscriber
 			});
 			// On every Stream destroyed...
 			this.session.on('streamDestroyed', ({ stream }) => {
-				const index = this.subscribers.indexOf(stream.streamManager, 0);
-				if (index >= 0) {
-					this.subscribers.splice(index, 1);
-				}
+				// const index = this.subscribers.indexOf(stream.streamManager, 0);
+				// if (index >= 0) {
+				// 	this.subscribers.splice(index, 1);
+				// }
+				this.mainStreamManager = undefined
+				Swal.fire({ 
+						icon: 'warning', // Alert 타입 
+						title: '설명회가 종료되었습니다.', // Alert 제목 
+						showCancelButton: false,
+						showConfirmButton: true,
+						showDenyButton: false,
+						confirmButtonColor: '#439474',
+						confirmButtonText: `나가기`,
+				})
+				.then((res) => {
+						if(res.isConfirmed) {
+								return this.exitPresentation()
+						}
+				})
 			});
+
 			this.session.on('signal:my-chat', event => {
         this.chats.push(JSON.parse(event.data));
         setTimeout(this.chat_on_scroll, 10);
@@ -372,7 +371,7 @@ export default {
 						console.log('There was an error connecting to the session:', error.code, error.message);
 					});
 			});
-			window.addEventListener('beforeunload', this.leaveSession)
+			// window.addEventListener('beforeunload', this.leaveSession)
 		},
 		leaveSession () {
 			// --- Leave the session by calling 'disconnect' method over the Session object ---
@@ -382,7 +381,7 @@ export default {
 			this.mainStreamManager = undefined;
 			this.subscribers = [];
 			this.OV = undefined;
-			window.removeEventListener('beforeunload', this.leaveSession);
+			// window.removeEventListener('beforeunload', this.leaveSession);
 		},
 		getToken (mySessionId) {
 			return this.createSession(mySessionId).then(sessionId => this.createToken(sessionId));

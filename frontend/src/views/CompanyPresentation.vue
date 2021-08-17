@@ -206,7 +206,7 @@ export default {
 			myUserName: '',
 			sessionId: this.$route.params.sessionid,
 			recruitId: this.$route.params.recruitid,
-			companyName: this.$route.params.companyname,
+			companyName: localStorage.getItem('name'),
 			total: 0,
 			startTime: undefined,
 			timeGap: undefined,
@@ -217,7 +217,7 @@ export default {
 	},
 	computed: {
 		totalViewers: function () {
-			return this.total-1
+			return this.total
 		},
 		runningTime: function () {
 			return this.timeGap
@@ -229,20 +229,20 @@ export default {
 	created () {
     this.mySessionId = this.sessionId
     this.myUserName = localStorage.getItem('id')
-		var now = new Date().toISOString()
-		this.startTime = now
-		// console.log(now)
-		const body = {companyId: this.myUserName, recruitId: this.recruitId, createAt: now}
-		// console.log(body)
-		http.post('/recruit/createRoom', body)
+		this.recruitId = this.$route.params.recruitid
+		// db와 통신해서 starttime 가져오기
+		http.get(`/room/findRoomTime/${this.mySessionId}`)
 		.then((res) => {
-			console.log(res)
+			this.startTime = res.data
 		})
-		.catch((err) => {
-			console.log(err)
+		.catch(() => {
+			console.log('DB 통신에 실패했습니다.')
 		})
 	},
 	mounted() {
+		this.mySessionId = this.sessionId
+    this.myUserName = localStorage.getItem('id')
+		this.recruitId = this.$route.params.recruitid
 		this.originalSize = {
 			'height': this.$refs.whole.clientHeight - this.$refs.header.clientHeight,
 			'width': (this.$refs.whole.clientHeight - this.$refs.header.clientHeight)*16/9
@@ -253,17 +253,12 @@ export default {
 		}
 		this.screenSize = this.originalSize.width + 'x' + this.originalSize.height
 		this.joinSession()
-		console.log('시작')
-		// // 시작 시간 DB에 저장하기 -> 리턴받은 시간 data에 저장
-		// var now = new Date()
-		// this.startTime = now
-		// console.log(now)
+		this.updateTotalViewers()
 		setInterval(this.calcRunningTime, 1000)
 	},
-  beforeDestroy () {
-		this.removeSession()
-		this.leaveSession()
-  },
+  // beforeDestroy () {
+	// 	this.leaveSession()
+  // },
 	methods: {
 		getImg(chat) {
         if (chat.loginType == 'user') {
@@ -291,12 +286,9 @@ export default {
 			this.timeGap = editedHours+':'+editedMinutes+':'+editedSeconds
 		},
 		removeSession () {
-			axios.delete(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${this.sessionId}`, {
-			auth: {
-				username: 'OPENVIDUAPP',
-				password: OPENVIDU_SERVER_SECRET,
-			},
-			})
+			const body = {companyId: this.myUserName, sessionId: this.sessionId, recruitId: this.recruitId}
+			console.log(body)
+			http.post('/room/deleteRecruitSessionId', body)
 			.then((res) => {
 				console.log(res)
 			})
@@ -345,6 +337,7 @@ export default {
 			},
 			})
 			.then((res) => {
+				console.log(res.data)
 				this.total = res.data.numberOfElements
 			})
 			.catch((err) => {
@@ -363,7 +356,6 @@ export default {
         setTimeout(this.chat_on_scroll, 10);
       });
 			this.session.on('signal:joinsignal', event => {
-				console.log('받았다!')
 				this.updateTotalViewers()
 			})
 			// On every asynchronous exception...
@@ -377,7 +369,6 @@ export default {
 				this.session
           .connect(token, { clientData: this.myUserName })
 					.then(() => {
-						console.log(this.screenSize)
 						let publisher = this.OV.initPublisher(undefined, {
 							audioSource: undefined, // The source of audio. If undefined default microphone
 								videoSource: undefined, // The source of video. If undefined default webcam
@@ -396,18 +387,16 @@ export default {
 						console.log('There was an error connecting to the session:', error.code, error.message);
 					});
 			});
-			window.addEventListener('beforeunload', this.leaveSession)
+			// window.addEventListener('beforeunload', this.leaveSession)
 		},
 		leaveSession () {
 			// --- Leave the session by calling 'disconnect' method over the Session object ---
-			const body = {companyId: this.myUserName, sessionId: this.sessionId, recruitId: this.recruitId}
-			http.post('/room/deleteRecruitSessionId', body)
 			if (this.session) this.session.disconnect();
 			this.session = undefined;
 			this.mainStreamManager = undefined;
 			this.subscribers = [];
 			this.OV = undefined;
-			window.removeEventListener('beforeunload', this.leaveSession);
+			// window.removeEventListener('beforeunload', this.leaveSession);
 		},
 		getToken (mySessionId) {
 			return this.createSession(mySessionId).then(sessionId => this.createToken(sessionId));

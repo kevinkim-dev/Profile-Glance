@@ -24,7 +24,16 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
+      beforeEnter: function(to, from, next) {
+        
+        let token = localStorage.getItem('token');
+        if (token) {
+          next('/lookatme')
+        } else {
+          next();
+        }
+      }
     },
     {
       path: '/lookatme',

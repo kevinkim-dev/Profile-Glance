@@ -146,36 +146,38 @@
                 </div>
               </div>
               <!-- {{video.thumbnail}} -->
-              <v-card-title
-                class="px-0"
-                >
-                <div class="title">
-                  {{ video.title }}</div>
-              </v-card-title>
-              <v-card-text class="px-1">
-                <v-row align="center" class="mx-0">
-                  <!-- <div class="grey--text ms-4 created">게시일 : {{ $moment(video.createdAt).format("YYYY년 MMMM do dddd HH시 mm분") }}</div>
-                  <div class="grey--text ms-4 created">{{ video.createdAt | moment("from", "now") }}</div> -->
-                </v-row>
-                <div class="my-4 text-subtitle-1">
-                  <div class="d-flex">
-                    <div class="chat-image-box mr-2">
-                        <img :src="getUserPic(video.userImg)" class="chat-image" alt="profile_img">
+              <div class="card-text">
+                <v-card-title
+                  class="px-0"
+                  >
+                  <div class="title">
+                    {{ video.title }}</div>
+                </v-card-title>
+                <v-card-text class="px-1">
+                  <v-row align="center" class="mx-0">
+                    <!-- <div class="grey--text ms-4 created">게시일 : {{ $moment(video.createdAt).format("YYYY년 MMMM do dddd HH시 mm분") }}</div>
+                    <div class="grey--text ms-4 created">{{ video.createdAt | moment("from", "now") }}</div> -->
+                  </v-row>
+                  <div class="my-4 text-subtitle-1">
+                    <div class="d-flex">
+                      <div class="chat-image-box mr-2">
+                          <img :src="getUserPic(video.userImg)" class="chat-image" alt="profile_img">
+                      </div>
+                      <div>
+                        {{ video.userNickName }}
+                      </div>
                     </div>
-                    <div>
-                      {{ video.userNickName }}
+                    <div class="d-flex justify-content-between my-1">
+                      <div>
+                        <i class="far fa-eye"></i> {{video.view}}  
+                      </div>
+                      <div>
+                        {{ video.createdAt | moment("from", "now") }}
+                      </div>  
                     </div>
                   </div>
-                  <div class="d-flex justify-content-between my-1">
-                    <div>
-                      <i class="far fa-eye"></i> {{video.view}}  
-                    </div>
-                    <div>
-                      {{ video.createdAt | moment("from", "now") }}
-                    </div>  
-                  </div>
-                </div>
-              </v-card-text>
+                </v-card-text>
+              </div>
             </v-card>
           </v-col>
         </v-row>
@@ -522,7 +524,7 @@ export default {
   border: black solid 1px;
 }
 .thumbnail {
-  position: absolute;
+  position: relative;
   width: 100%;
   height: 100%;
 }
@@ -573,6 +575,8 @@ export default {
     height: 100%;   
     object-fit: cover;
 }
+.card-text {
+    position: relative;
 
 #lookatme-banner {
   width: 100%;

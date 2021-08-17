@@ -23,7 +23,7 @@
         <v-img id="down-btn"
           class="move-button"
           contain
-          src="images/icons/down.png"
+          src="/images/icons/down.png"
         ></v-img>
       </div>
     </v-container>
@@ -41,7 +41,7 @@
             <p>자유로운 자신 표현과 다양한 공고를 통해 당신의 채용을 완성하세요.</p>
           </div>
           <div class="home-half-image-box">
-            <img src="images/icons/home_lookatme1.png" alt="" class="profile-image">
+            <img src="/images/icons/home_lookatme1.png" alt="" class="profile-image">
           </div>
         </div>
         <div class="home-main-content-right home-lookatme">
@@ -49,7 +49,7 @@
 
           </div>
           <div class="home-half-image-box">
-            <img src="images/icons/home_lookatme2.png" alt="" class="profile-image">
+            <img src="/images/icons/home_lookatme2.png" alt="" class="profile-image">
           </div>
           <div class="home-main-content-box m-t-20">
             <h3 class="mt-5 mb-5" style="font-weight: bold;">Look At Me</h3>
@@ -70,15 +70,15 @@
             <p>원하는 기업에 지원할 수 있고 채용 설명회에도 참여할 수 있습니다.</p>
           </div>
           <div class="home-half-image-box m-t-177 m-b-80" style="border: 1px rgb(180, 180, 180) solid; height: 290px">
-            <img src="images/icons/home_presentation.png" alt="" class="profile-image">
+            <img src="/images/icons/home_presentation.png" alt="" class="profile-image">
           </div>
         </div>
         <div class="home-main-content-right">
           <div class="home-half-image-box m-b-80">
-            <img src="images/icons/home_wanted.png" alt="" class="profile-image">
+            <img src="/images/icons/home_wanted.png" alt="" class="profile-image">
           </div>
           <div class="home-half-image-box m-t-50">
-            <img src="images/icons/home_interview.png" alt="" class="profile-image">
+            <img src="/images/icons/home_interview.png" alt="" class="profile-image">
           </div>
         </div>
         <div class="home-main-content-last-box m-b-40">

@@ -577,6 +577,7 @@ export default {
 }
 .card-text {
     position: relative;
+}
 
 #lookatme-banner {
   width: 100%;

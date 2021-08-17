@@ -58,62 +58,6 @@
         </v-row>
         <hr>
       </div>
-      <!-- <div class="mb-10">
-        <v-row>
-          <v-col cols="3">
-            <v-list-group v-model="no1" prepend-icon="mdi-bottle-tonic-plus">
-              <template v-slot:activator>
-                <v-list-item-title>이과</v-list-item-title>
-              </template>
-              <v-list-item v-for="(choose, i) in categories.no1" :key="i" link>
-                <v-list-item-title
-                  v-text="choose.title"
-                  @click="selectCategory(1, choose.title)"
-                ></v-list-item-title>
-              </v-list-item>
-            </v-list-group>
-          </v-col>
-          <v-col cols="3">
-            <v-list-group v-model="no2" prepend-icon="mdi-school">
-              <template v-slot:activator>
-                <v-list-item-title>문과</v-list-item-title>
-              </template>
-              <v-list-item v-for="(choose, i) in categories.no2" :key="i" link>
-                <v-list-item-title
-                  v-text="choose.title"
-                  @click="selectCategory(2, choose.title)"
-                ></v-list-item-title>
-              </v-list-item>
-            </v-list-group>
-          </v-col>
-          <v-col cols="3">
-            <v-list-group v-model="no3" prepend-icon="mdi-content-cut">
-              <template v-slot:activator>
-                <v-list-item-title>예체능</v-list-item-title>
-              </template>
-              <v-list-item v-for="(choose, i) in categories.no3" :key="i" link>
-                <v-list-item-title
-                  v-text="choose.title"
-                  @click="selectCategory(3, choose.title)"
-                ></v-list-item-title>
-              </v-list-item>
-            </v-list-group>
-          </v-col>
-          <v-col cols="3">
-            <v-list-group v-model="no4" prepend-icon="mdi-run">
-              <template v-slot:activator>
-                <v-list-item-title>스포츠</v-list-item-title>
-              </template>
-              <v-list-item v-for="(choose, i) in categories.no4" :key="i" link>
-                <v-list-item-title
-                  v-text="choose.title"
-                  @click="selectCategory(4, choose.title)"
-                ></v-list-item-title>
-              </v-list-item>
-            </v-list-group>
-          </v-col>
-        </v-row>
-      </div> -->
       <div id="lookatme-view" style="height: 800px; width: 100%;">
         <v-row class="mt-2 ml-1">
           <v-col
@@ -131,15 +75,6 @@
                 ></v-progress-linear>
               </template>
               <div style="position: relative;">
-                <!-- <v-chip
-                  class="category"
-                  color="#EAF5F1"
-                  label
-                  small
-                  text-color="black"
-                >
-                  {{ video.category }}
-                </v-chip> -->
                 <v-img class="thumbnail" height="135" width="240" :src="getImg(video.thumbnail)"> </v-img>
                 <div class="category">
                   {{ video.category }}
@@ -537,7 +472,6 @@ export default {
   padding-right: 5px;
   border-bottom-right-radius: 4px;
   opacity: 0.9;
-
 }
 .title {
   display: block;

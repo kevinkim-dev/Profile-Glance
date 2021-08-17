@@ -1,6 +1,6 @@
 <template>
   <v-form v-model="valid">
-    <v-container style="max-width: 800px; background: #EAF5F1;">
+    <v-container class="m-t-50" style="max-width: 800px; background: #EAF5F1;">
       <v-row class="justify-center">
         <!-- <v-col cols="3" align="right"><div id="thumb">썸네일</div> </v-col> -->
         <v-col cols="12">

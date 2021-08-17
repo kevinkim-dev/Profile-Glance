@@ -32,8 +32,8 @@
       <div class="home-main-content row">
         <div class="home-main-content-left home-profileglance">
           <div class="home-main-content-box">
-            <h1>Profile Glance</h1> 
-            <h3 class="mt-5 mb-5">더 자유롭게 자신을 표현하세요.</h3>
+            <h1 style="font-weight: bold;">Profile Glance</h1> 
+            <h3 class="mt-5 mb-5">더 자유롭게 자신을 표현하세요</h3>
             <p>구인 구직 플랫폼의 혁신, Profile Glance</p>
             <p>취업준비생에게는 영상을 통한 역량 표현의 기회를,</p>
             <p>기업에게는 적합한 인재를 선발할 기회를</p>
@@ -52,7 +52,7 @@
             <img src="/images/icons/home_lookatme2.png" alt="" class="profile-image">
           </div>
           <div class="home-main-content-box m-t-20">
-            <h3 class="mt-5 mb-5">Look At Me</h3>
+            <h3 class="mt-5 mb-5" style="font-weight: bold;">Look At Me</h3>
             <p>Profile Glance는 글이 아닌 영상을 통해 자신을 소개하고 표현할 수 있습니다.</p>
             <p>다양한 분야의 사람들의 영상을 보고, 자신만의 영상을 올릴 수 있습니다.</p>
             <p>기업은 마음에 드는 역량의 검증된 구직자를 고를 수 있습니다.</p>
@@ -64,12 +64,12 @@
       <div class="home-main-content row">
         <div class="home-main-content-left">
           <div class="home-main-content-box m-b-40">
-            <h3 class="m-t-130 mb-5">Wanted</h3>
+            <h3 class="m-t-130 mb-5" style="font-weight: bold;">Wanted</h3>
             <p>다양한 기업과 여러 분야의 채용을 확인할 수 있습니다.</p>
             <p>원하는 기업의 채용 설명회에 참여할 수 있고 지원할 수 있습니다.</p>
             <p>원하는 기업에 지원할 수 있고 채용 설명회에도 참여할 수 있습니다.</p>
           </div>
-          <div class="home-half-image-box m-t-200 m-b-80">
+          <div class="home-half-image-box m-t-177 m-b-80" style="border: 1px rgb(180, 180, 180) solid; height: 290px">
             <img src="/images/icons/home_presentation.png" alt="" class="profile-image">
           </div>
         </div>
@@ -82,12 +82,13 @@
           </div>
         </div>
         <div class="home-main-content-last-box m-b-40">
-          <h3 class="mt-5 mb-5">채용 설명회</h3>
-          <p>다양한 기업들의 채용설명회를 라이브 스트리밍으로 들을 수 있고</p>
-          <p>채팅을 통해 실시간으로 질의응답이 가능합니다.</p>
+          <h3 class="mt-5 mb-5" style="font-weight: bold;">채용 설명회 & 채용 면접</h3>
+          <p>다양한 기업들의 채용설명회를 라이브 스트리밍으로 들을 수 있고 채팅을 통해 실시간으로 질의응답이 가능합니다.</p>
+          <p>뿐만 아니라 각 기업들과 면접도 볼 수 있는 all-in-one 플랫폼입니다.</p>
         </div>
       </div>
     </v-container>
+    <div id="home-real-bottom"></div>
     <div class="home-container">
       <div class="profile-card-box">
         <h1 class="m-l-100">Team</h1>
@@ -161,9 +162,49 @@
         ></v-img>
       </div>  
     </v-container>
+    <div class="navi elevation-3">
+      <div class="text-center stick stick1" id="sticky-menu1">Top</div>
+      <div class="text-center stick" id="sticky-menu2">PG Info</div>
+      <div class="text-center stick stick1" id="sticky-menu3">Team</div>
+    </div>
   </div>
 </template>
 <style>
+#real-background p {
+  color: #505050;
+}
+
+.navi {
+  position: sticky;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100px;
+  height: 120px;
+  left: 3vw;
+  bottom: 15vh;
+  border: 1px solid black;
+  border-radius: 5px;
+  background: #eee;
+}
+
+.stick {
+  font-weight: bold;
+  font-size: 14px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background: white;
+}
+
+.stick:hover {
+  cursor: pointer;
+}
+
+.stick1 {
+  border-top: 1px solid gray;
+  border-bottom: 1px solid gray;
+}
+
 .profile-card-box {
   display: flex;
   flex-direction: column;
@@ -190,11 +231,6 @@
   background: white;
 }
 
-.home-main-content-box {
-  /* border: outset;
-  border-radius: 10px;
-  background: rgb(207, 228, 181); */
-}
 
 .profile-image-box1 {
   width: 100px;
@@ -363,50 +399,58 @@
 import Login from "@/components/home/Login.vue";
 import SignUp from "@/components/home/SignUp.vue";
 export default {
-    components: {
-        Login,
-        SignUp,
-    },
-    data() {
-        return {     
-            isLoginViewd: false,
-            isSignUpViewd: false,
-            desc: "#desc",
-            top: "#login-btn",
-        }
-    },
-    mounted() {
-      $(document).ready(function() {
-    $("#down-btn").on("click", function(event) {
-      console.log("click down");
-      var offset = $("#home-bottom").offset();
-      console.log(offset);
-      $("html").animate({scrollTop:offset.top}, 1800);
-    });
-    $("#up-btn").on("click", function(event) {
-      console.log("click up");
-      var offset = $("#home-top").offset();
-      console.log(offset);
-      $("html").animate({scrollTop:offset.top}, 1500);
-    })
-  })
-},
+  components: {
+      Login,
+      SignUp,
+  },
+  data() {
+      return {     
+          isLoginViewd: false,
+          isSignUpViewd: false,
+          desc: "#desc",
+          top: "#login-btn",
+      }
+  },
+  mounted() {
+    $(document).ready(function() {
+      $("#down-btn").on("click", function(event) {
+        var offset = $("#home-bottom").offset();
+        $("html").animate({scrollTop:offset.top}, 1800);
+      });
+      $("#up-btn").on("click", function(event) {
+        var offset = $("#home-top").offset();
+        $("html").animate({scrollTop:offset.top}, 1500);
+      });
+      $("#sticky-menu1").on("click", function(event) {
+        var offset = $("#home-top").offset();
+        $("html").animate({scrollTop:offset.top}, 1500);
+      });
+      $("#sticky-menu2").on("click", function(event) {
+        var offset = $("#home-bottom").offset();
+        $("html").animate({scrollTop:offset.top}, 1500);
+      });
+      $("#sticky-menu3").on("click", function(event) {
+        var offset = $("#home-real-bottom").offset();
+        $("html").animate({scrollTop:offset.top}, 1500);
+      });
 
-    methods: {
-      openLogin() {
-        this.isLoginViewd = true
-        this.isSignUpViewd = false
-      },
-      closeLogin() {
-        this.isLoginViewd = false
-      },
-      openSignUp() {
-        this.isSignUpViewd = true
-        this.isLoginViewd = false
-      },
-      closeSignUp() {
-        this.isSignUpViewd = false
-      },
-    }
+    })
+  },
+  methods: {
+    openLogin() {
+      this.isLoginViewd = true
+      this.isSignUpViewd = false
+    },
+    closeLogin() {
+      this.isLoginViewd = false
+    },
+    openSignUp() {
+      this.isSignUpViewd = true
+      this.isLoginViewd = false
+    },
+    closeSignUp() {
+      this.isSignUpViewd = false
+    },
   }
+}
 </script>

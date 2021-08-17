@@ -44,9 +44,9 @@
             <v-btn class="wanted-button"
               color="white" text
               v-else
-              @click="$router.push({name: 'userpresentation', params: { sessionid: wanted.csId, companyname: wanted.companyName }})"
+              @click="enterPresentation(wanted.csId, wanted.companyName)"
             >
-              설명회참여
+              설명회입장
             </v-btn>
           </td>
         </tr>
@@ -72,15 +72,44 @@ export default {
   },
   methods: {
     makePresentation (recruitId, csId) {
-      const now = new Date().toISOString()
-      const companyId = localStorage.getItem('id')
-      const body = {companyId: companyId, recruitId: recruitId, createAt: now}
-      http.post('/recruit/createRoom', body)
-      .then(() => {
-        router.push({name: 'companypresentation', params: { sessionid: csId, recruitid: recruitId }})
+      Swal.fire({ 
+          icon: 'question', // Alert 타입 
+          title: '설명회를 개설하시겠습니까?', // Alert 제목 
+          showCancelButton: true,
+          showConfirmButton: true,
+          confirmButtonColor: '#439474',
+          confirmButtonText: `예`,
+          cancelButtonText: `아니오`,
       })
-      .catch(() => {
-        console.log('설명회 개설에 실패했습니다.')
+      .then((res) => {
+          if(res.isConfirmed) {
+            const now = new Date().toISOString()
+            const companyId = localStorage.getItem('id')
+            const body = {companyId: companyId, recruitId: recruitId, createAt: now}
+            http.post('/recruit/createRoom', body)
+            .then(() => {
+              router.push({name: 'companypresentation', params: { sessionid: csId, recruitid: recruitId }})
+            })
+            .catch(() => {
+              console.log('설명회 개설에 실패했습니다.')
+            })              
+          }
+      })
+    },
+    enterPresentation: function(csId, companyName) {
+      Swal.fire({ 
+          icon: 'question', // Alert 타입 
+          title: '설명회에 입장하시겠습니까?', // Alert 제목
+          showCancelButton: true,
+          showConfirmButton: true,
+          confirmButtonColor: '#439474',
+          confirmButtonText: `예`,
+          cancelButtonText: `아니오`,
+      })
+      .then((res) => {
+          if(res.isConfirmed) {
+              router.push({name: 'userpresentation', params: { sessionid: csId, companyname: companyName }})
+          }
       })
     }
   }

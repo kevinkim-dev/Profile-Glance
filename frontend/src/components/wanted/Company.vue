@@ -16,7 +16,7 @@
           <v-btn
             text rounded class="third-color text-white"
             v-if="company.sessionId"
-            @click="$router.push({ name: 'userpresentation', params: { sessionid: company.sessionId, companyname: company.companyName }})">live-on</v-btn>
+            @click="enterPresentation(company.sessionId, company.companyName)">live-on</v-btn>
         </div>
         <br />
         <h5 style="text-align:left">{{ company.career }}</h5>
@@ -49,6 +49,7 @@
 </template>
 
 <script>
+import router from '@/router';
 import { mapGetters } from 'vuex'
 export default {
   name: 'Company',
@@ -62,6 +63,22 @@ export default {
     getImgPath: function() {
       return this.fileURL + 'ServerFiles/CompanyLogo/' + this.company.companyImg;
     },
+    enterPresentation: function(sessionId, companyName) {
+      Swal.fire({ 
+          icon: 'question', // Alert 타입 
+          title: '설명회에 입장하시겠습니까?', // Alert 제목
+          showCancelButton: true,
+          showConfirmButton: true,
+          confirmButtonColor: '#439474',
+          confirmButtonText: `예`,
+          cancelButtonText: `아니오`,
+      })
+      .then((res) => {
+          if(res.isConfirmed) {
+              router.push({ name: 'userpresentation', params: { sessionid: sessionId, companyname: companyName }})
+          }
+      })
+    }
   },
 };
 </script>

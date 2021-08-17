@@ -5,13 +5,20 @@
 				<div>
 					<img class="header-logo-letter" src="/images/icons/logo_letter.png" alt="IMG-LOGO">
 				</div>
-				<Dialog
-				:buttonText="'설명회 종료'"
-				:dialogTitle="'알림'"
-				:dialogContent="'설명회를 종료하시겠습니까?'"
-				:buttonO="'네'"
-				:buttonX="'아니오'"
-				@clickO="exitPresentation"/>
+				<div class="d-flex">
+					<div class="d-flex mt-4 m-r-30">
+						<p v-if="totalViewers>=0"><i class="fas fa-user"></i> {{ totalViewers }}</p>
+						<p class="mx-1" v-else><i class="fas fa-user"></i> 0</p>
+						<p class="mx-1"><i class="fas fa-clock"></i> {{ runningTime }}</p>
+					</div>
+					<Dialog
+					:buttonText="'설명회 종료'"
+					:dialogTitle="'알림'"
+					:dialogContent="'설명회를 종료하시겠습니까?'"
+					:buttonO="'네'"
+					:buttonX="'아니오'"
+					@clickO="exitPresentation"/>
+				</div>
 			</div>
 			<div id="session-body">
 				<div id="session-video" class="d-flex justify-content-center">

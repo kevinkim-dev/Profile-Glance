@@ -16,10 +16,10 @@
           <v-btn
             text rounded class="third-color text-white"
             v-if="company.sessionId"
-            @click="$router.push({ name: 'userpresentation', params: { sessionid: company.sessionId, recruitid: company.recruitId, companyname: company.companyName }})">live-on</v-btn>
+            @click="$router.push({ name: 'userpresentation', params: { sessionid: company.sessionId, companyname: company.companyName }})">live-on</v-btn>
         </div>
         <br />
-        <h5>{{ company.career }}</h5>
+        <h5 style="text-align:left">{{ company.career }}</h5>
         <div class="d-flex justify-space-between">
           <h5>[{{ company.job }}] {{ company.jobDetail }}</h5>
           <v-chip label v-if="company.presentationDate">

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row class="d-flex">
+    <v-row class="d-flex" style="max-width:60vw; margin:auto;">
       <v-col cols="2">
       </v-col>
       <v-col class="d-flex align-center" cols="2">

@@ -1,5 +1,5 @@
 <template>
-  <v-row class="row d-flex">
+  <v-row class="row d-flex" style="max-width:60vw; margin:auto;">
     <Company
       v-for="(company, idx) in companies"
       :key="idx+'company'"

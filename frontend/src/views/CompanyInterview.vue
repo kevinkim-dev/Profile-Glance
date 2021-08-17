@@ -14,7 +14,7 @@
 				@clickO="exitInterview"/>
 			</div>
 			<div id="session-body">
-				<div id="session-video" ref="size" class="d-inline-flex row">
+				<div id="session-video" class="d-inline-flex row">
 					<user-video	:stream-manager="publisher" class="col-6"	@click.native="updateMainVideoStreamManager(publisher)" />
 					<user-video	v-for="pub in publishers"	:key="pub.stream.connection.connectionId + '2'" :stream-manager="pub" class="col-6" />
 				</div>
@@ -47,7 +47,7 @@
 											<span class="participant-name other">{{ chat.nickname }} </span>
 										</div>
 										<div class="icon-box elevation-1" @click="submitQuestion(chat)"><i class="far fa-comment"></i></div>
-										<div class="icon-box mute elevation-1" @click="muteUserConfirm(chat.nickname)"><i class="fas fa-comment-slash"></i></i></div>
+										<div class="icon-box mute elevation-1" @click="muteUserConfirm(chat.nickname)"><i class="fas fa-comment-slash"></i></div>
 									</div>
 									<div class="d-flex justify-content-start">
 										<span class="chat-box mb-2">
@@ -306,8 +306,6 @@ export default {
 			mySessionId: '',
 			myUserName: '',
 			isHost: false,
-			size: Object,
-			videoSize: String,
 			muteList: [],
 		}
 	},

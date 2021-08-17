@@ -19,10 +19,10 @@
       <span class="infobox">내 영상 갯수: {{userInfo.countVideo}}</span>
     </v-col>
     <v-col cols="6" class="infobox-box">
-      <span class="infobox">포토폴리오1: {{userInfo.portfolio1}}</span>
+      <span class="infobox">포트폴리오1: {{userInfo.portfolio1}}</span>
     </v-col>
     <v-col cols="6" class="infobox-box">
-      <span class="infobox">포토폴리오2: {{userInfo.portfolio2}}</span>
+      <span class="infobox">포트폴리오2: {{userInfo.portfolio2}}</span>
     </v-col>
 	</v-row>
 </template>

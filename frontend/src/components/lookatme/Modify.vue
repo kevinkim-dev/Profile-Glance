@@ -1,13 +1,13 @@
 <template>
-<div>
+<div class="p-b-80">
   <v-form v-model="valid">
-    <v-container>
+    <v-container style="padding-right: 310px; padding-top: 50px">
       <v-row justify="center">
         <v-col cols="4" align="right"><div id="thumb">썸네일</div> </v-col>
         <v-col cols="8">
           <v-row>
             <v-img :src="url" max-height="150" max-width="250" />
-            <v-col cols="3">
+            <v-col cols="6">
               <v-file-input
                 @click:clear="url = this.$store.getters.fileURL + 'ServerFiles/Thumbnail/' + this.lookatme.thumbnail"
                 @change="previewImage"
@@ -55,13 +55,13 @@
             required
             :rules="[(v) => !!v || '필수 항목입니다']"
             filled
-            height="300"
+            height="200"
           ></v-textarea>
         </v-col>
       </v-row>
     </v-container>
     <v-container>
-      <v-row justify="end">
+      <v-row justify="center">
         <v-col cols="3">
           <v-btn block text x-large class="primary-color text-white rounded-0" @click="modify">
             수정

@@ -80,7 +80,7 @@ export default {
   width: 200px;
   border-radius: 70%;
   overflow: hidden;
-  border: gray solid 1px;  
+  border: rgb(211, 211, 211) solid 1px;  
 }
 
 .profile-image {

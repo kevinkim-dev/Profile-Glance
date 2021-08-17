@@ -95,4 +95,7 @@ export default {
   font-size: 14px
 }
 
+.menu-button:hover {
+  cursor: pointer;
+}
 </style>

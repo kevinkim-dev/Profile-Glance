@@ -10,7 +10,7 @@
             </p>
         </section> -->
         <CompanySearch />
-        <CompanyList />
+        <CompanyList class="p-b-80" />
     </div>
 </template>
 <script>

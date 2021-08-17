@@ -7,6 +7,7 @@
     </div>
     <div v-else>
       <Home />
+      <Footer v-if="inNotSession" />
     </div>
 
     <!-- <v-main>

@@ -74,7 +74,7 @@
 			</div>
 		</div>
     <v-btn @click="isQuestion = true" class="d-none"></v-btn>
-    <v-snackbar v-model="isQuestion" :vertical="vertical" top light class="m-t-50"
+    <v-snackbar v-model="isQuestion" :vertical="vertical" top light class="m-t-50" :timeout="timeout"
 		>
       <div id="question-header">
 				<div id="question-nickname">{{question.nickname}}님의 질문</div>
@@ -291,8 +291,6 @@ export default {
 			sendMsg: '',
 			mySessionId: '',
 			myUserName: '',
-			size: Object,
-			videoSize: String,
       question: Object,
 			muteList: [],
 		}

@@ -2,7 +2,9 @@
 	<div id="session-background" class="d-flex justify-content-center align-items-center">
 		<div class="elevation-10 session-whole" v-if="session">
 			<div id="session-header">
-				<h1 id="session-title">화상면접장</h1>
+				<div>
+					<img class="header-logo-letter" src="/images/icons/logo_letter.png" alt="IMG-LOGO">
+				</div>
 				<Dialog
 				:buttonText="'면접장 퇴장'"
 				:dialogTitle="'알림'"
@@ -17,64 +19,138 @@
 					<user-video :stream-manager="publisher" class="col-6" @click.native="updateMainVideoStreamManager(publisher)"/>
 				</div>
 				<div id="session-message">
+          <div id="session-message-header" class="elevation-2">
+						{{this.sessionId}} 면접
+					</div>
           <div ref="chatDisplay" id="session-message-box">
-            <div v-for="(chat, index) in chats" :key="index" class="chat-line">
-              <div v-if="chat.userId === myUserName" class="my-comment">
-                <div>
-                  <!-- <span class="participant-name">[{{ chat.nickname }}] </span
-                  ><span class="chat-msg">{{ chat.msg }}</span> -->
-                  <div class="userInfo mb-2">
-                    <div class="chat-image-box mr-2">
-                      <img :src="getImg(chat)" class="chat-image" alt="profile_img">
-                    </div>
-                    <span class="participant-name">{{ chat.nickname }} </span>
-                  </div>
-                  <div class="chat-box mb-2">
-                    <span class="chat-msg">{{ chat.msg }}</span>
-                  </div>
-                </div>
-              </div>
-              <div v-else class="other-comment">
-                <div>
-                  <!-- <span class="participant-name other">[{{ chat.nickname }}] </span
-                  ><span class="chat-msg">{{ chat.msg }}</span> -->
-                  <div class="userInfo mb-2">
-                    <div class="chat-image-box mr-2">
-                      <img :src="getImg(chat)" class="chat-image" alt="profile_img">
-                    </div>
-                    <span class="participant-name other">{{ chat.nickname }} </span>
-                  </div>
-                  <div class="chat-box mb-2">
-                    <span class="chat-msg">{{ chat.msg }}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+						<div v-for="(chat, index) in chats" :key="index" class="chat-line">
+							<div v-if="chat.userId === myUserName & !muteList.includes(myUserName)" class="my-comment">
+								<div class="d-flex flex-column align-items-end">
+									<div class="userInfo mb-1">
+										<div class="chat-image-box mr-2">
+											<img :src="getImg(chat)" class="chat-image" alt="profile_img">
+										</div>
+										<span class="participant-name">{{ chat.nickname }} </span>
+									</div>
+									<span class="my-chat-box mb-2">
+										<span class="chat-msg">{{ chat.msg }}</span>
+									</span>
+								</div>
+							</div>
+							<div v-else-if="!muteList.includes(chat.nickname)" class="other-comment">
+								<div class="d-flex flex-column align-items-start">
+									<div class="userInfo mb-1">
+										<div class="chat-image-box mr-2">
+											<img :src="getImg(chat)" class="chat-image" alt="profile_img">
+										</div>
+										<span class="participant-name">{{ chat.nickname }} </span>
+									</div>
+									<span class="chat-box mb-2">
+										<span class="chat-msg">{{ chat.msg }}</span>
+									</span>
+								</div>
+							</div>
+						</div>
           </div>
           <div id="session-message-send">
-            <div class="msg-guide p-2 fs-4">
-              내 메시지
-            </div>
-            <input
-              v-model="sendMsg"
-              type="textarea"
-              id="session-message-input"
-              placeholder="메세지를 입력해주세요"
-              class="pt-2 pb-5 ps-2 pe-2"
-              @keydown.enter="submitMsg"
-            />
+						<div v-if="muteList.includes(myUserName)" class="p-4">
+							관리자에 의해 채팅이 금지되었습니다.
+						</div>
+						<div v-else>
+							<div class="msg-guide p-2 fs-4"  style="border-bottom: 1px solid rgb(189, 189, 189)">
+								내 메시지
+							</div>
+							<input
+								v-model="sendMsg"
+								type="textarea"
+								id="session-message-input"
+								placeholder="메세지를 입력해주세요"
+								class="p-3 pt-5 pb-5"
+								@keydown.enter="submitMsg"
+							/>
+						</div>
           </div>
         </div>
 			</div>
 		</div>
+    <v-btn @click="isQuestion = true" class="d-none"></v-btn>
+    <v-snackbar v-model="isQuestion" :vertical="vertical" top light class="m-t-50"
+		>
+      <div id="question-header">
+				<div id="question-nickname">{{question.nickname}}님의 질문</div>
+				<v-btn color="indigo" text v-bind="attrs" @click="isQuestion = false" class="">
+					닫기
+				</v-btn>
+			</div>
+			<div id="question-content">{{question.msg}}</div>
+    </v-snackbar>
 	</div>
 </template>
 <style>
+.header-logo-letter {
+    height: 40px;
+    width: 300px; 
+    object-fit: cover;
+    background: none;
+}
+
+#header-company-name {
+	font-size: 2rem;
+}
+
+.icon-box {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+	color: rgb(49, 49, 49);
+	height: 30px;
+	width: 30px;
+	margin-top: 5px;
+	margin-right: 10px;
+	background: white;
+	border: outset;
+	border-radius: 5px;
+}
+
+#question-header {
+	display: flex;
+	justify-content: space-between;
+	border-bottom: rgb(82, 82, 82) solid 1px;
+	padding-left: 10px;
+	padding-right: 0px;
+	padding-bottom: 10px;
+}
+
+#question-nickname {
+	font-size: 20px;
+	padding-top: 8px;
+}
+
+#question-content {
+	padding-top: 20px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
 
 .chat-box {
-  padding: 5px;
-  background-color: #C0DDD1;
+	padding: 5px;
+	padding-left: 15px;
+	padding-right: 15px;
+  background-color: #eee;
+	border: 1px solid rgb(189, 189, 189);
   border-radius: 5px;
+}
+
+.my-chat-box {
+  padding: 5px;
+	padding-left: 15px;
+	padding-right: 15px;
+  background-color: #439474;
+	color: white;
+	border: 1px solid rgb(189, 189, 189);
+  border-radius: 5px;
+	text-align: end;
 }
 
 .userInfo {
@@ -84,13 +160,13 @@
 }
 
 .participant-name {
-  height: 35px;
-  line-height: 35px;
+  height: 25px;
+  line-height: 25px;
 }
 
 .chat-image-box {
-    height: 30px;
-    width: 30px;
+    height: 25px;
+    width: 25px;
     border-radius: 70%;
     overflow: hidden;
 }
@@ -102,8 +178,7 @@
 }
 
 #session-background {
-  background-color: rgb(80, 75, 75);
-  /* border: solid 1px white; */
+  background-color: rgb(199, 199, 199);
   height: 100vh;
   width: 100vw;
 }
@@ -112,26 +187,28 @@
   width: 95%;
   height: 95%;
   background-color: white;
-  border-radius: 5px;
+  border-radius: 10px;
   overflow: hidden;
+	border: 1px solid rgb(151, 151, 151);
 }
 
 #session-header {
-  display: flex;
+	display: flex;
   justify-content: space-between;
   height: 15%;
-  padding-left: 80px;
-  padding-right: 80px;
+  padding-left: 30px;
+  padding-right: 50px;
   padding-top: 30px;
   padding-bottom: 30px;
   border-bottom: solid rgb(151, 151, 151) 2px;
+	background: linear-gradient( to right, rgb(197, 204, 206), #C0DDD1 );
 }
 
 #session-body {
   height: 85%;
   display: flex;
-  /* justify-content: space-between; */
   position: relative;
+	background: rgb(155, 155, 155);
 }
 
 #session-video {
@@ -144,25 +221,6 @@
   margin-top: 0px;
 }
 
-#session-video2 {
-  width: 100%;
-}
-
-#fullscreen-box {
-  width: 30px;
-  height: 30px;
-}
-
-#fullscreen-icon {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-#fullscreen-icon:hover {
-  cursor: pointer;
-}
-
 #session-message {
   display: flex;
   flex-direction: column;
@@ -171,8 +229,19 @@
   right: 0px;
   height: 100%;
   width: 24%;
-  background-color: #eee;
+  background-color: #C0DDD1;
   border-left: solid rgb(151, 151, 151) 1px;
+}
+
+#session-message-header {
+	text-align: center;
+	padding: 10px;
+	font-size: 18px;
+	border-bottom: 1px rgb(151, 151, 151) solid;
+	background: rgb(223, 223, 223);
+	border-radius: 5px;
+	margin: 15px;
+	margin-bottom: 5px;
 }
 
 #session-message-box {
@@ -182,12 +251,9 @@
 
 #session-message-send {
   border-top: solid rgb(151, 151, 151) 1px;
-  /* position: relative; */
 }
 
 #session-message-input {
-  /* position: absolute; */
-  /* white-space: pre-line; */
   width: 100%;
 }
 video {
@@ -212,6 +278,8 @@ export default {
 	},
 	data () {
 		return {
+      timeout: 3000,
+			isQuestion: false,
 			OV: undefined,
 			session: undefined,
 			mainStreamManager: undefined,
@@ -224,13 +292,31 @@ export default {
 			mySessionId: '',
 			myUserName: '',
 			size: Object,
-			videoSize: String
+			videoSize: String,
+      question: Object,
+			muteList: [],
 		}
 	},
 	created () {
     this.mySessionId = this.sessionId
     this.myUserName = localStorage.getItem('id')
 		this.joinSession()
+    const firstChat = {
+			'img': 'noimage.png',
+			'loginType': 'user',
+			'msg': this.sessionId + '의 면접장에 참여하셨습니다. 상대방의 기분을 고려하여 채팅 예절을 준수해주시기 바랍니다.',
+			'nickname': '시스템',
+			'userId': '시스템'
+		}
+		const secondChat = {
+			'img': 'noimage.png',
+			'loginType': 'user',
+			'msg': '이용 중 불편함을 느끼셨다면 Profile Glance 고객센터로 문의해주시기 바랍니다. 감사합니다.',
+			'nickname': '시스템',
+			'userId': '시스템'
+		}
+		this.chats.push(firstChat)
+		this.chats.push(secondChat)
 	},
   beforeDestroy () {
     this.leaveSession()
@@ -311,6 +397,13 @@ export default {
 			this.session.on('signal:my-chat', event => {
         this.chats.push(JSON.parse(event.data));
         setTimeout(this.chat_on_scroll, 10);
+      });
+      this.session.on('signal:question', event => {
+        this.question = JSON.parse(event.data);
+				this.isQuestion = true
+      });
+			this.session.on('signal:mute', event => {
+				this.muteList.push(JSON.parse(event.data).nickname)
       });
 			// On every asynchronous exception...
 			this.session.on('exception', ({ exception }) => {

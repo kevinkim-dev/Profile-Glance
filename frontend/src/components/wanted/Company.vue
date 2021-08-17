@@ -119,7 +119,7 @@ img {
 }
 
 .companyContent {
-  width: 200px;
+  width: 400px;
 }
 
 .primary-color {

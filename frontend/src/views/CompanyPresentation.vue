@@ -125,7 +125,9 @@
 }
 
 #session-video {
-	width: 76%;
+	/* width: 76%; */
+	width: 70vw;
+  height: 70vh;
 }
 
 #session-video2 {
@@ -371,7 +373,7 @@ export default {
 								videoSource: undefined, // The source of video. If undefined default webcam
 								publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
 								publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
-								resolution: this.screenSize,  // The resolution of your video
+								resolution: '1280x720',  // The resolution of your video
 								frameRate: 30,			// The frame rate of your video
 								insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
 								mirror: false       	// Whether to mirror your local video or not

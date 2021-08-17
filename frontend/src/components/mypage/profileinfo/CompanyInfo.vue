@@ -1,7 +1,7 @@
 <template>
-  <div class="d-flex flex-column justify-content-around m-t-15 m-b-15 text-center">
-    <div class="m-b-10">이메일: {{companyInfo.companyEmail}}</div>
-    <div class="">전화번호: {{companyInfo.companyPhone}}</div>
+  <div class="d-flex flex-column justify-content-around m-t-15 m-b-15 text-start p-l-45">
+    <div class="m-b-10"><i class="far fa-envelope m-r-5"></i> {{companyInfo.companyEmail}}</div>
+    <div class=""><i class="fas fa-phone-alt m-r-5"></i> {{companyInfo.companyPhone}}</div>
   </div>
 </template>
 

@@ -1,9 +1,9 @@
 <template>
   <div>
-    <h1 class="text-center m-t-30">{{profileId}}</h1>
-    <div class="profile m-t-30">
+    <div class="profile m-t-70">
       <div class="profile-left-box m-l-50 elevation-2">
         <ProfileImage :isMyProfile="isMyProfile" />
+        <div class="text-center userNickname elevation-2">{{profileId}}</div>
         <ProfileMenus v-if="isMenuNeed" @openInterviewModal="openInterviewModal" @unliked="unliked" @liked="liked" />
         <ProfileMyMenus v-if="isMyProfile && userType == 'user'" @clickEditButton="openEditModal" />
         <CompanyInfo v-if="profileType == 'company'" />
@@ -136,6 +136,22 @@ export default {
 </script>
 
 <style>
+.userNickname {
+  font-size: 30px;
+  /* font-weight: bold; */
+  padding: 4px;
+  padding-left: 10px;
+  padding-top: 8px;
+  margin-top: 20px;
+  margin-left: 10%;
+  width: 80%;
+  border-radius: 30px;
+  border: outset;
+  background: #439474;
+  color: white;
+  text-align: center;
+}
+
 .profile {
   display: flex ;
   justify-content: center;

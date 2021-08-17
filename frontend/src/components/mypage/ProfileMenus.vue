@@ -1,6 +1,6 @@
 <template>
-  <div class="profile-menu-box d-flex flex-column justify-content-center m-b-20">
-    <div class="d-flex justify-content-center pt-10">
+  <div class="profile-menu-box d-flex flex-column justify-content-center m-b-10">
+    <div class="d-flex justify-content-center">
         <v-btn class="red-button"
             color="white"
             text

@@ -74,10 +74,10 @@ export default {
 
 .profile-image-box {
   position: relative;
-  left: 25px;
-  top: 45px;
-  height: 250px;
-  width: 250px;
+  left: 50px;
+  top: 35px;
+  height: 200px;
+  width: 200px;
   border-radius: 70%;
   overflow: hidden;
   border: gray solid 1px;  

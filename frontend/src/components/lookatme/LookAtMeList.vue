@@ -579,5 +579,6 @@ export default {
   height: 100%;
   object-fit: cover;
   margin-bottom: 30px;
+  z-index: 1000;
 }
 </style>

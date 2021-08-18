@@ -21,10 +21,10 @@ public interface LookatmeRepository extends JpaRepository<Lookatme, Long> {
     @Query(value = "select L.* from lookatme L where L.user_id in (select U.user_id from user U where U.user_nickname like :userNickname) order by L.lookatme_id desc limit :limit,10", nativeQuery = true)
     List<Lookatme> findAllByUser_UserNickname(@Param("userNickname") String userNickname, @Param("limit") Long limit);
 
-    @Query(value = "select L.* from lookatme L where title like :title order by L.lookatme_id desc limit :limit, 10", nativeQuery = true)
+    @Query(value = "select L.* from lookatme L where title like :title order by L.lookatme_id desc limit :limit, 16", nativeQuery = true)
     List<Lookatme> findAllByTitle(@Param("title") String title,@Param("limit") Long limit);
 
-    @Query(value = "select L.* from lookatme L order by L.view desc limit :limit, 10", nativeQuery = true)
+    @Query(value = "select L.* from lookatme L order by L.view desc limit :limit, 16", nativeQuery = true)
     List<Lookatme> findAllByOrderByView(@Param("limit") Long limit);
 
     Long countByUser_UserEmail(String userEmail);

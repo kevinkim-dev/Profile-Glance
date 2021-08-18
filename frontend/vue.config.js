@@ -1,9 +1,9 @@
 module.exports = {
-  publicPath: '',
+  // publicPath: '',
   transpileDependencies: ['vuetify'],
   devServer: {
     disableHostCheck: true,
-    https: true,
+    // https: true,
     open: true,
     proxy: {
       '/session': {

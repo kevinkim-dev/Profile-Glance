@@ -88,67 +88,68 @@
         </div>
       </div>
     </v-container>
-    <div id="home-real-bottom"></div>
     <div class="home-container">
       <div class="profile-card-box">
-        <h1 class="m-l-100">Team</h1>
+        <div id="home-real-bottom"></div>
+        <h1 class="m-l-100 p-t-50">
+          Team</h1>
         <div class="profile-card-row">
           <div class="profile-card elevation-2">
             <div class="profile-image-box1">
-              <img src="/images/icons/logo.png" alt="our_profile.png" class="profile-image">
+              <img src="/images/icons/eungyo.jpg" alt="our_profile.png" class="profile-image">
             </div>
             <div class="profile-info-box">
-              <h4 class="m-b-30">이름: 권순주</h4>
-              <h6>파트: 백앤드</h6>
+              <h4 class="m-b-30">정은교</h4>
+              <h6>frontend</h6>
             </div>
           </div>
           <div class="profile-card elevation-2">
             <div class="profile-image-box1">
-              <img src="/images/icons/logo.png" alt="our_profile.png" class="profile-image">
+              <img src="/images/icons/donghoon.jpg" alt="our_profile.png" class="profile-image">
             </div>
             <div class="profile-info-box">
-              <h4 class="m-b-30">이름: 김동훈</h4>
-              <h6>파트: 프론트앤드</h6>
+              <h4 class="m-b-30">김동훈</h4>
+              <h6>frontend</h6>
             </div>
           </div>
           <div class="profile-card elevation-2">
             <div class="profile-image-box1">
-              <img src="/images/icons/logo.png" alt="our_profile.png" class="profile-image">
+              <img src="/images/icons/seunghyun.jpg" alt="our_profile.png" class="profile-image">
             </div>
             <div class="profile-info-box">
-              <h4 class="m-b-30">이름: 김승현</h4>
-              <h6>파트: 프론트앤드</h6>
+              <h4 class="m-b-30">김승현</h4>
+              <h6>frontend</h6>
             </div>
           </div>
         </div>
         <div class="profile-card-row">
           <div class="profile-card elevation-2">
             <div class="profile-image-box1">
-              <img src="/images/icons/logo.png" alt="our_profile.png" class="profile-image">
+              <img src="/images/icons/soonweek.jpg" alt="our_profile.png" class="profile-image">
             </div>
             <div class="profile-info-box">
-              <h4 class="m-b-30">이름: 민동엽</h4>
-              <h6>파트: 백앤드</h6>
-            </div>
-          </div>          
-          <div class="profile-card elevation-2">
-            <div class="profile-image-box1">
-              <img src="/images/icons/logo.png" alt="our_profile.png" class="profile-image">
-            </div>
-            <div class="profile-info-box">
-              <h4 class="m-b-30">이름: 심재우</h4>
-              <h6>파트: 백앤드</h6>
-            </div>
-          </div>          
-          <div class="profile-card elevation-2">
-            <div class="profile-image-box1">
-              <img src="/images/icons/logo.png" alt="our_profile.png" class="profile-image">
-            </div>
-            <div class="profile-info-box">
-              <h4 class="m-b-30">이름: 정은교</h4>
-              <h6>파트: 프론트앤드</h6>
+              <h4 class="m-b-30">권순주</h4>
+              <h6>backend</h6>
             </div>
           </div>
+          <div class="profile-card elevation-2">
+            <div class="profile-image-box1">
+              <img src="/images/icons/mindong.jpg" alt="our_profile.png" class="profile-image">
+            </div>
+            <div class="profile-info-box">
+              <h4 class="m-b-30">민동엽</h4>
+              <h6>backend</h6>
+            </div>
+          </div>          
+          <div class="profile-card elevation-2">
+            <div class="profile-image-box1">
+              <img src="/images/icons/jeus.jpg" alt="our_profile.png" class="profile-image">
+            </div>
+            <div class="profile-info-box">
+              <h4 class="m-b-30">심재우</h4>
+              <h6>backend</h6>
+            </div>
+          </div>          
         </div>
       </div>
     </div>
@@ -181,7 +182,7 @@
   justify-content: center;
   width: 100px;
   height: 120px;
-  left: 3vw;
+  left: 90vw;
   bottom: 15vh;
   border: 1px solid black;
   border-radius: 5px;
@@ -218,7 +219,7 @@
   justify-content: space-evenly;
   position: relative;
   width: 100%;
-  height: 30%;
+  height: 25%;
 }
 
 .profile-card {
@@ -250,8 +251,8 @@
 
 .profile-info-box {
   width: auto;
-  padding-top: 60px;
-  padding-left: 60px;
+  padding-top: 50px;
+  padding-left: 70px;
 }
 
 .home-main-content {
@@ -332,7 +333,7 @@
   flex-direction: column;
   /* align-items: center; */
   position: relative;
-  height: 120vh;
+  height: 100vh;
 }
 
 .container1 {

@@ -126,7 +126,7 @@ export default {
             this.editForm.portfolio1 = '';
             this.editForm.portfolio2 = '';
             this.$emit('closeEditModal');
-            location.reload()
+            // location.reload()
           })
           .catch((err) => {
             alert('회원정보 수정에 실패했습니다.');

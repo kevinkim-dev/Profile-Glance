@@ -100,7 +100,7 @@
             </div>
             <div class="profile-info-box">
               <h4 class="m-b-30">정은교</h4>
-              <h6>frontend</h6>
+              <h6>Frontend</h6>
             </div>
           </div>
           <div class="profile-card elevation-2">
@@ -109,7 +109,7 @@
             </div>
             <div class="profile-info-box">
               <h4 class="m-b-30">김동훈</h4>
-              <h6>frontend</h6>
+              <h6>Frontend</h6>
             </div>
           </div>
           <div class="profile-card elevation-2">
@@ -118,7 +118,7 @@
             </div>
             <div class="profile-info-box">
               <h4 class="m-b-30">김승현</h4>
-              <h6>frontend</h6>
+              <h6>Frontend</h6>
             </div>
           </div>
         </div>
@@ -129,7 +129,7 @@
             </div>
             <div class="profile-info-box">
               <h4 class="m-b-30">권순주</h4>
-              <h6>backend</h6>
+              <h6>Backend</h6>
             </div>
           </div>
           <div class="profile-card elevation-2">
@@ -138,7 +138,7 @@
             </div>
             <div class="profile-info-box">
               <h4 class="m-b-30">민동엽</h4>
-              <h6>backend</h6>
+              <h6>Backend</h6>
             </div>
           </div>          
           <div class="profile-card elevation-2">
@@ -147,7 +147,7 @@
             </div>
             <div class="profile-info-box">
               <h4 class="m-b-30">심재우</h4>
-              <h6>backend</h6>
+              <h6>Backend</h6>
             </div>
           </div>          
         </div>

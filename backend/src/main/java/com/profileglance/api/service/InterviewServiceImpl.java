@@ -1,14 +1,12 @@
 package com.profileglance.api.service;
 
 import com.profileglance.api.request.InterviewPostReq;
-import com.profileglance.api.response.CompanyInterviewGetRes;
 import com.profileglance.db.entity.Interview;
 import com.profileglance.db.entity.Room;
 import com.profileglance.db.repository.CompanyRepository;
 import com.profileglance.db.repository.InterviewRepository;
 import com.profileglance.db.repository.RoomRepository;
 import com.profileglance.db.repository.UserRepository;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -74,8 +72,6 @@ public class InterviewServiceImpl implements InterviewService {
             Room room = interview.getRoom();
             interviewRepository.deleteByUser_UserNickname(userNickname);
             if (room != null) {
-                System.out.println(room.getSessionId());
-                System.out.println(room.getHost());
                 roomRepository.deleteBySessionIdAndHost(room.getSessionId(), room.getHost());
             }
         }

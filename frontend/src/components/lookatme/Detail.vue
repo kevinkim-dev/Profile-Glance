@@ -79,14 +79,11 @@
                 ></v-progress-linear>
               </template>
               <v-img height="135" width="240" :src="getImg(video.thumbnail)"> </v-img>
-              <!-- {{video.thumbnail}} -->
               <v-card-title
                 ><div class="title">{{ video.title }}</div></v-card-title
               >
               <v-card-text>
                 <v-row align="center" class="mx-0">
-                  <!-- <div class="grey--text ms-4 created">게시일 : {{ $moment(video.createdAt).format("YYYY년 MMMM do dddd HH시 mm분") }}</div>
-                  <div class="grey--text ms-4 created">{{ video.createdAt | moment("from", "now") }}</div> -->
                 </v-row>
                 <div class="my-4 text-subtitle-1">
                   <div class="d-flex">
@@ -183,8 +180,6 @@ export default {
           playbackRates: [0.7, 1.0, 1.5, 2.0],
           sources: [{
             type: "video/mp4",
-            // src: "http://vjs.zencdn.net/v/oceans.mp4",
-            // src: this.fileURL + "ServerFiles/Video/" + this.video,
             src: this.$store.getters.fileURL + "ServerFiles/Video/" + this.video,
           }],
           poster: this.$store.getters.fileURL + "ServerFiles/Thumbnail/" + this.thumbnail,
@@ -199,7 +194,6 @@ export default {
                 this.category = response.data.category;
             })
             .catch((error) => {});
-            // if (this.lookatme.userNickName == this.$store.state.data.userData.userNickname)
             if (this.lookatme.userNickName == localStorage.getItem('id'))
                 this.isCreator = true;
     },
@@ -267,7 +261,6 @@ export default {
         },
     lookatmeDetail(lookatmeId, thumbnail, video) {
       let lookatme_id = lookatmeId + "";
-      console.log(video);
       this.$router.push({name: 'lookatmedetail', query: {lookatme_id: lookatme_id, thumbnail: thumbnail, video: video}});
     },
     }
@@ -353,7 +346,6 @@ background: rgba(0, 0, 0, 0.1);
   background-color: #EAF5F1;
   border-radius: 5px;
   margin-left: 5px;
-  /* margin-bottom: 1rem; */
 }
 .no-lookatme {
   margin-top: 100px;

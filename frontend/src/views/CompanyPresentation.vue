@@ -389,7 +389,6 @@ export default {
 		},
 		removeSession () {
 			const body = {companyId: this.myUserName, sessionId: this.sessionId, recruitId: this.recruitId}
-			console.log(body)
 			http.post('/room/deleteRecruitSessionId', body)
 			.then((res) => {
 				console.log(res)
@@ -496,7 +495,6 @@ export default {
 			},
 			})
 			.then((res) => {
-				console.log(res.data)
 				this.total = res.data.numberOfElements
 			})
 			.catch((err) => {

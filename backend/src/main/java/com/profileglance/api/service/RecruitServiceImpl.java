@@ -2,8 +2,14 @@ package com.profileglance.api.service;
 
 import com.profileglance.api.request.RecruitPostReq;
 import com.profileglance.api.response.RecruitPostRes;
-import com.profileglance.db.entity.*;
-import com.profileglance.db.repository.*;
+import com.profileglance.db.entity.Company;
+import com.profileglance.db.entity.Job;
+import com.profileglance.db.entity.Recruit;
+import com.profileglance.db.entity.Room;
+import com.profileglance.db.repository.CompanyRepository;
+import com.profileglance.db.repository.JobRepository;
+import com.profileglance.db.repository.RecruitRepository;
+import com.profileglance.db.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +21,10 @@ public class RecruitServiceImpl implements RecruitService {
 
     @Autowired
     RecruitRepository recruitRepository;
-
     @Autowired
     CompanyRepository companyRepository;
-
     @Autowired
     JobRepository jobRepository;
-
     @Autowired
     RoomRepository roomRepository;
 
@@ -171,18 +174,5 @@ public class RecruitServiceImpl implements RecruitService {
 
         return true;
     }
-
-//    @Override
-//    public Boolean checkCSID(String csId) {
-//        List<Recruit> recruits = recruitRepository.findAllByCsId(csId);
-//
-//        for(Recruit recruit : recruits) {
-//            if(recruit.getRoom() != null) {
-//                return true;
-//            }
-//        }
-//
-//        return false;
-//    }
 
 }

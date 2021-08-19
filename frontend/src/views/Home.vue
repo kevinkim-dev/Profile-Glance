@@ -331,7 +331,6 @@
 .home-container {
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
   position: relative;
   height: 100vh;
 }

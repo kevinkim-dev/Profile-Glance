@@ -12,8 +12,6 @@ import com.profileglance.api.service.LookatmeService;
 import com.profileglance.api.service.UserService;
 import com.profileglance.common.response.BaseResponseBody;
 import com.profileglance.config.JwtTokenProvider;
-import com.profileglance.db.entity.Interview;
-import com.profileglance.db.entity.Lookatme;
 import com.profileglance.db.entity.User;
 import com.profileglance.db.repository.UserRepository;
 import io.swagger.annotations.Api;
@@ -22,12 +20,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.util.List;
 
 @Api(value = "유저 API", tags = {"User"})
@@ -68,7 +64,6 @@ public class UserController {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
 
-        System.out.println(member.getUserEmail());
         return jwtTokenProvider.createToken(member.getUserEmail());
     }
 
@@ -88,13 +83,9 @@ public class UserController {
     @ApiOperation(value = "회원 삭제", notes = "회원과 관련되 모든 interview, lookatme, user_like와 user 정보 삭제")
     public ResponseEntity<? extends BaseResponseBody> delete(@PathVariable("userNickname") String userNickname){
 
-        System.out.println("룩앳미 삭제");
         lookatmeService.deleteLookatmeByUserNickname(userNickname);
-        System.out.println("인터뷰 삭제");
         interviewService.deleteInterviewByUserNickname(userNickname);
-        System.out.println("유저라이크 삭제");
         userService.deleteUserLike(userNickname);
-        System.out.println("유저 삭제");
         userService.deleteUser(userNickname);
 
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));

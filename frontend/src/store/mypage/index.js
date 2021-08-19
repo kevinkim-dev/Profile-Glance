@@ -33,17 +33,14 @@ export default {
       state.userData.portfolio2 = editForm.portfolio2
     },
     SET_USER_DATA(state, userData) {
-      console.log('user')
       state.profileType = 'user'
       state.userData = userData
     },
     SET_COMPANY_DATA(state, companyData) {
-      console.log('company')
       state.profileType = 'company'
       state.companyData = companyData
     },
     SET_ADMIN_DATA(state) {
-      console.log('admin')
       state.profileType = 'admin'
     }
   },

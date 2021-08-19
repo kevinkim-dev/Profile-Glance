@@ -9,10 +9,6 @@
       <Home />
       <Footer v-if="inNotSession" />
     </div>
-
-    <!-- <v-main>
-      <HelloWorld/>
-    </v-main> -->
   </v-app>
 </template>
 

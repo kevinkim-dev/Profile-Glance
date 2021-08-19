@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("Mypage_Company")
+@ApiModel("CompanyMypageGetRes")
 public class CompanyMypageGetRes {
 
     @ApiModelProperty(name="기업아이디")

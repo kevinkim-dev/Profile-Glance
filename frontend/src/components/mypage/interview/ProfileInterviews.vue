@@ -79,13 +79,11 @@ export default {
     if (this.userType == 'user') {
       http.get('/user/myinterview/' + localStorage.getItem('id')) 
       .then(res => {
-        console.log(res.data)
         this.interviews =  res.data
       })
     } else if (this.userType == 'company') {
       http.get('/company/companyinterviewinfo/' + this.$route.params.id)
       .then(res => {
-        console.log(res.data)
         this.interviews =  res.data
       })
     }

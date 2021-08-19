@@ -48,9 +48,6 @@ export default {
       return this.$store.state.mypage.userData
     }
   },
-  // mounted() {
-  //   this.userLike = this.$store.state.mypage.userData.countLike
-  // }
 }
 </script>
 

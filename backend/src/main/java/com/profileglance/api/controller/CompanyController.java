@@ -12,7 +12,6 @@ import com.profileglance.api.service.UserService;
 import com.profileglance.common.response.BaseResponseBody;
 import com.profileglance.config.JwtTokenProvider;
 import com.profileglance.db.entity.Company;
-import com.profileglance.db.entity.User;
 import com.profileglance.db.repository.CompanyRepository;
 import com.profileglance.db.repository.UserRepository;
 import io.swagger.annotations.Api;

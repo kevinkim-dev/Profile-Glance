@@ -47,7 +47,6 @@ export default {
             }
             http.post('/company/likecheckclick', body)
             .then(res => {
-                console.log(res)
                 if (this.liked == true) {
                     this.$emit('unliked')
                 } else {
@@ -63,9 +62,6 @@ export default {
     mounted() {
         //Axios통신(백앤드 구현 후 구현)
         //해당 기업이 좋아요 누른 유저 목록을 받아오는 통신
-        // const isLiked = (user) => user.userNickname == this.$route.params.id
-        // this.liked = this.$store.state.likeUserList.some(isLiked)
-        // console.log(this.liked)
         const body = {
             'companyId': localStorage.getItem('id'),
             'userNickname': this.$route.params.id

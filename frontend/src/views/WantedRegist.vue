@@ -171,7 +171,6 @@ export default {
       registRecruitForm: {
         career: '',
         companyId: localStorage.getItem('id'),
-        // companyId: this.$store.state.data.companyData.companyId,
         descriptionURL: '',
         job: '',
         jobDetail: '',
@@ -209,28 +208,24 @@ export default {
             title: '모집직무를 선택해주세요.', // Alert 제목 
             text: '필수 항목을 모두 입력해야 등록이 가능합니다.', // Alert 내용 
           });
-          // alert('모집직무를 선택해주세요.');
         } else if (!this.registRecruitForm.career) {
           Swal.fire({ 
             icon: 'warning', // Alert 타입 
             title: '신입/경력을 선택해주세요.', // Alert 제목 
             text: '필수 항목을 모두 입력해야 등록이 가능합니다.', // Alert 내용 
           });
-          // alert('신입/경력을 선택해주세요.');
         } else if (!this.registRecruitForm.descriptionURL) {
           Swal.fire({ 
             icon: 'warning', // Alert 타입 
             title: '기업소개 url을 입력해주세요.', // Alert 제목 
             text: '필수 항목을 모두 입력해야 등록이 가능합니다.', // Alert 내용 
           });
-          // alert('기업소개 url을 입력해주세요.');
         } else if (!this.registRecruitForm.recruitURL) {
           Swal.fire({ 
             icon: 'warning', // Alert 타입 
             title: '채용공고 url을 입력해주세요.', // Alert 제목 
             text: '필수 항목을 모두 입력해야 등록이 가능합니다.', // Alert 내용 
           });
-          // alert('채용공고 url을 입력해주세요.');
         }
       } else {
         Http.post('/recruit/upload', this.registRecruitForm)
@@ -240,7 +235,6 @@ export default {
               title: '채용 등록이 완료되었습니다.', // Alert 제목 
               text: '설명회도 참여해주세요! :)', // Alert 내용 
             });
-            // alert('채용 공고 등록이 완료되었습니다.');
             this.$router.push({ name: 'wanted' });
           })
           .catch((err) => {
@@ -268,7 +262,6 @@ export default {
           cancelButtonText: `아니오`,
       })
       .then((res) => {
-        console.log(res)
           if(res.isConfirmed) {
               router.push({ name: 'wanted' });
           }

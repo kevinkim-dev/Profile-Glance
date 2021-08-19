@@ -380,7 +380,6 @@ export default {
 			// On every new Stream received...
       this.session.on('streamCreated', ({ stream }) => {
         const subscriber = this.session.subscribe(stream);
-        console.log(subscriber)
         this.subscribers.push(subscriber);
         this.publishers.push(subscriber)
         this.mainStreamManager = this.subscribers[this.subscribers.length - 1];

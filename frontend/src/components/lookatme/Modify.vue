@@ -90,7 +90,6 @@ export default {
         }
     },
     mounted() {
-        console.log(this.lookatme);
     },
   data() {
     return {
@@ -172,17 +171,14 @@ export default {
     },
     modify() {
       var router = this.$router;
-      console.log("test")
       if (!this.valid) {
          Swal.fire({ 
           icon: 'warning', // Alert 타입 
           title: '필수 항목을 입력해주세요.', // Alert 제목 
           text: '필수 항목을 모두 입력해야 회원가입이 가능합니다.', // Alert 내용 
         });
-        // alert('필수 항목을 입력해주세요.');
       } else {
         
-        console.log(this.image);
         let lookatme = new FormData();
         let userEmail = localStorage.getItem('user_email');
         lookatme.append('lookatmeId', this.lookatme.lookatmeId);
@@ -203,10 +199,6 @@ export default {
                 title: '룩앳미 수정에 성공하였습니다.', // Alert 제목 
                 text: '등록한 룩앳미 확인이 가능합니다.', // Alert 내용 
               });
-
-            // alert('등록 성공!');
-            console.log(data) 
-            // router.push({ name: 'lookatme' });
             this.$router.push({name: 'lookatmedetail', query: {lookatme_id: this.lookatme.lookatmeId, thumbnail: this.lookatme.thumbnail, video: this.lookatme.video}});
             
           })

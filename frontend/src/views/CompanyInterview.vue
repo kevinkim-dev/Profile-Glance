@@ -324,12 +324,9 @@ export default {
 		const body = {csId: this.sessionId, userNickname: this.interviewee}
 		http.post('/interview/checkCSID', body)
 		.then((res) => {
-			console.log('두두둥장')
 			// 없으면(202면) 넣어주기
 			const statusCode = res.data.statusCode
-			console.log(statusCode)
 			if (statusCode === 202) {
-				console.log('여기')
 				this.isHost = true
 				var now = new Date().toISOString()
 				this.startTime = now
@@ -395,13 +392,9 @@ export default {
 			})
 		},
     exitInterview () {
-			console.log('ishost확인 전')
-			console.log(this.isHost)
       this.leaveSession()
 			if (this.isHost) {
-				console.log('확인 후')
 				const body = {companyId: this.myUserName, sessionId: this.sessionId}
-				console.log(body)
 				http.post('/room/deleteInterview', body)
 				.then((res) => {
 					this.removeSession()

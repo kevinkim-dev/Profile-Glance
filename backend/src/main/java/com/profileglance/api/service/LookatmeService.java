@@ -2,7 +2,6 @@ package com.profileglance.api.service;
 
 import com.profileglance.api.request.LookatmePostReq;
 import com.profileglance.api.response.LookatmePostRes;
-import com.profileglance.db.entity.Lookatme;
 
 import java.util.List;
 

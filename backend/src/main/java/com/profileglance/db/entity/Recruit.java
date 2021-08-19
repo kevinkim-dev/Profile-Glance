@@ -18,22 +18,13 @@ public class Recruit {
     @Column(name = "recruit_id")
     private Long recruitId;
 
-//    @Column(name = "company_id")
-//    private String companyId;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Company company;
 
-//    @Column(name = "job_id")
-//    private Long jobId;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "job_id")
     private Job job;
-
-//    @Column(name = "room_id")
-//    private Long roomId;
 
     @OneToOne
     @JoinColumn(name = "session_id")

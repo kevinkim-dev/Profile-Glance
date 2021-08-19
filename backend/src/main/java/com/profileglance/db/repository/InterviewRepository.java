@@ -3,7 +3,6 @@ package com.profileglance.db.repository;
 import com.profileglance.db.entity.Interview;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;

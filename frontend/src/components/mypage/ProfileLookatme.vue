@@ -33,8 +33,6 @@
                 </v-card-title>
                 <v-card-text class="px-1">
                   <v-row align="center" class="mx-0">
-                    <!-- <div class="grey--text ms-4 created">게시일 : {{ $moment(video.createdAt).format("YYYY년 MMMM do dddd HH시 mm분") }}</div>
-                    <div class="grey--text ms-4 created">{{ video.createdAt | moment("from", "now") }}</div> -->
                   </v-row>
                   <div class="my-4 text-subtitle-1">
                     <div class="d-flex">
@@ -110,7 +108,6 @@ export default {
               this.list = this.list.concat(response.data);
               this.limit += 10;
               $state.loaded();
-              console.log(this.list);
             } else {
               $state.complete();
             }
@@ -120,7 +117,6 @@ export default {
     },
     lookatmeDetail(lookatmeId, thumbnail, video) {
       let lookatme_id = lookatmeId + "";
-      console.log(video);
       this.$router.push({name: 'lookatmedetail', query: {lookatme_id: lookatme_id, thumbnail: thumbnail, video: video}});
     },
   },

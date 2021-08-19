@@ -17,16 +17,12 @@ public class RoomServiceImpl implements RoomService {
 
     @Autowired
     RoomRepository roomRepository;
-
     @Autowired
     CompanyRepository companyRepository;
-
     @Autowired
     InterviewRepository interviewRepository;
-
     @Autowired
     RecruitRepository recruitRepository;
-
     @Autowired
     RoomInfoRepository roomInfoRepository;
 

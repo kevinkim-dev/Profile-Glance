@@ -126,7 +126,6 @@ export default {
             this.editForm.portfolio1 = '';
             this.editForm.portfolio2 = '';
             this.$emit('closeEditModal');
-            // location.reload()
           })
           .catch((err) => {
             alert('회원정보 수정에 실패했습니다.');
@@ -144,7 +143,6 @@ export default {
     },
   },
   mounted() {
-    console.log(localStorage.getItem('user_info'))
     const userData = this.$store.state.mypage.userData
     this.editForm.userPhone = userData.userPhone
     this.editForm.major1 = userData.major1

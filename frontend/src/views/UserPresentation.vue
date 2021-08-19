@@ -405,7 +405,6 @@ export default {
 					type: 'joinsignal'
 				})
 				.then(() => {
-					console.log('joinsignal 보냄')
 				})
 				.catch((err) => {
 					console.log(err)
@@ -422,7 +421,6 @@ export default {
 				this.total = res.data.numberOfElements
 			})
 			.catch(() => {
-				// console.log(err)
 			})
 		},
 		joinSession () {
@@ -473,7 +471,6 @@ export default {
 				this.muteList.push(JSON.parse(event.data).nickname)
       });
 			this.session.on('signal:joinsignal', event => {
-				console.log('받았다!')
 				this.updateTotalViewers()
 			})
 			// On every asynchronous exception...

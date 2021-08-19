@@ -14,21 +14,17 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class LookatmeServiceImpl implements LookatmeService{
 
     @Autowired
     LookatmeRepository lookatmeRepository;
-
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     CategoryRepository categoryRepository;
 
@@ -37,9 +33,6 @@ public class LookatmeServiceImpl implements LookatmeService{
 
     @Override
     public List<LookatmePostRes> searchByCategory(String category, Long limit) {
-
-        System.out.println("categoryQ : " + category);
-        System.out.println("limit : " + limit);
 
         List<Lookatme> lookatmeList = lookatmeRepository.findAllByCategory_CategoryName(category, limit);
 
@@ -67,8 +60,6 @@ public class LookatmeServiceImpl implements LookatmeService{
     @Override
     public List<LookatmePostRes> orderByView(Long limit) {
 
-        System.out.println("오더바이 뷰 : " + limit);
-
         List<Lookatme> lookatmeList = lookatmeRepository.findAllByOrderByView(limit);
 
         List<LookatmePostRes> lookatmePostResList = new ArrayList<>();
@@ -95,7 +86,6 @@ public class LookatmeServiceImpl implements LookatmeService{
     @Override
     public Boolean uploadLookatme(LookatmePostReq lookatmePostReq) {
 
-        System.out.println("서비스 등록 들어왔어요~~~");
         User user = userRepository.findByUserEmail(lookatmePostReq.getUserEmail()).get();
 
         boolean check = (lookatmePostReq.getThumbnail() != null && !lookatmePostReq.getThumbnail().isEmpty());
@@ -140,7 +130,6 @@ public class LookatmeServiceImpl implements LookatmeService{
                 .createdAt(now)
                 .build());
 
-
         user.getLookatmes().add(lookatme);
 
         userRepository.save(user);
@@ -151,17 +140,12 @@ public class LookatmeServiceImpl implements LookatmeService{
     @Override
     public Boolean updateLookatme(LookatmePostReq lookatmePostReq) {
 
-        System.out.println("룩앳미 업데이트 서비스 입니다.");
         User user = userRepository.findByUserEmail(lookatmePostReq.getUserEmail()).get();
 
         boolean check = (lookatmePostReq.getThumbnail() != null && !lookatmePostReq.getThumbnail().isEmpty());
 
-        System.out.println(lookatmePostReq.getTitle());
-        System.out.println(lookatmePostReq.getUserEmail());
-        System.out.println(lookatmePostReq.getLookatmeId());
 
         Lookatme lookatme = lookatmeRepository.findByLookatmeId(lookatmePostReq.getLookatmeId()).get();
-        System.out.println("썸네일 바꾸는 거 하는중입니다.");
         String thumbnailPath = baseDir + "/Thumbnail/" + lookatme.getThumbnail();
 
         // 썸네일 수정
@@ -191,8 +175,6 @@ public class LookatmeServiceImpl implements LookatmeService{
 
         List<Lookatme> lookatmeList = lookatmeRepository.findAllByTitle(titleQ, limit);
 
-        System.out.println(lookatmeList.size());
-
         List<LookatmePostRes> lookatmePostResList = new ArrayList<>();
 
         for (Lookatme l : lookatmeList){
@@ -221,8 +203,6 @@ public class LookatmeServiceImpl implements LookatmeService{
 
         List<Lookatme> lookatmeList = lookatmeRepository.findAllByUser_UserNickname(nicnameQ, limit);
 
-        System.out.println(lookatmeList.size());
-
         List<LookatmePostRes> lookatmePostResList = new ArrayList<>();
 
         for (Lookatme l : lookatmeList){
@@ -246,7 +226,6 @@ public class LookatmeServiceImpl implements LookatmeService{
 
     @Override
     public LookatmePostRes detailLookatme(Long lookatmeId) {
-        System.out.println("테스트 입니다.");
         Lookatme lookatme = lookatmeRepository.findByLookatmeId(lookatmeId).get();
 
         Long viewCount = lookatme.getView() + 1;
@@ -280,8 +259,6 @@ public class LookatmeServiceImpl implements LookatmeService{
 
     @Override
     public Boolean deleteLookatmeByUserNickname(String userNickname) {
-
-        System.out.println("룩엣미 서비스 들어옴~");
 
         lookatmeRepository.deleteAllByUser_UserNickname(userNickname);
 

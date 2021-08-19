@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("Mypage_User")
+@ApiModel("CompanyLikeListGetRes")
 public class CompanyLikeListGetRes {
 
     @ApiModelProperty(name="유저 이름")

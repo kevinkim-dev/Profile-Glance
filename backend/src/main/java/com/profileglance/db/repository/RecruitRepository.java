@@ -1,8 +1,6 @@
 package com.profileglance.db.repository;
 
-import com.profileglance.db.entity.Interview;
 import com.profileglance.db.entity.Recruit;
-import org.hibernate.criterion.LikeExpression;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.transaction.Transactional;

@@ -17,9 +17,6 @@ public class LookatmeLike {
     @Column(name = "lookatme_like_id")
     private Long lookatmeLikeId;
 
-//    @Column(name = "user_id")
-//    private Long userId;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -27,8 +24,5 @@ public class LookatmeLike {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lookatme_id")
     private Lookatme lookatme;
-
-//    @Column(name = "lookatme_id")
-//    private Long lookatmeId;
 
 }

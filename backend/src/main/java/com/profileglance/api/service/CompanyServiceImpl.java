@@ -22,19 +22,14 @@ public class CompanyServiceImpl implements CompanyService{
 
     @Autowired
     CompanyRepository companyRepository;
-
     @Autowired
     UserLikeRepository userLikeRepository;
-
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     InterviewRepository interviewRepository;
-
     @Autowired
     RecruitRepository recruitRepository;
-
     @Autowired
     PasswordEncoder passwordEncoder;
 

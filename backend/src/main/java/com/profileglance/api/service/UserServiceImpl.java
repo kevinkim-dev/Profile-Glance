@@ -5,7 +5,6 @@ import com.profileglance.api.request.UserPostReq;
 import com.profileglance.api.response.InterviewListGetRes;
 import com.profileglance.api.response.LookatmePostRes;
 import com.profileglance.api.response.MypageGetRes;
-import com.profileglance.common.response.BaseResponseBody;
 import com.profileglance.config.DirPathConfig;
 import com.profileglance.db.entity.Interview;
 import com.profileglance.db.entity.Lookatme;
@@ -15,7 +14,6 @@ import com.profileglance.db.repository.LookatmeRepository;
 import com.profileglance.db.repository.UserLikeRepository;
 import com.profileglance.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -89,7 +87,6 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean deleteUser(String userNickname) {
-        System.out.println("in service");
 
         userRepository.deleteByUserNickname(userNickname);
 

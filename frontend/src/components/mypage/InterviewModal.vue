@@ -107,7 +107,6 @@ export default {
           'interviewTime': this.interviewTime,
           'userNickname': this.$route.params.id
         }
-        console.log(body)
         http.post('/interview/createinterview', body)
         .then(res => {
           Swal.fire({ 
@@ -158,7 +157,6 @@ export default {
   position: relative;
   height: 120px;
   width: 120px;
-  /* left: 70px; */
   border-radius: 70%;
   overflow: hidden;
 }

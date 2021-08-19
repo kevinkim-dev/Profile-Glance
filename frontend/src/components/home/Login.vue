@@ -34,7 +34,6 @@
               >
                 로그인
               </v-btn>
-              <!-- <u @click="$emit('close')">아차차! 아이디를 잊으셨나요?</u> -->
             </v-col>
             <v-col cols="6">
               <v-btn
@@ -47,11 +46,10 @@
               >
                 취소
               </v-btn>
-              <!-- <u @click="$emit('close')">아차! 비밀번호를 잊으셨나요?</u> -->
             </v-col>
           </v-row>
           <v-card-text class="text-center">
-            <u class="signup" @click="openSignUpModal">이런... 아직도 회원이 아니신가요?</u>
+            <p class="signup">기업회원 가입 문의: profileglance@pgcontact.com</p>
           </v-card-text>
         </v-container>
       </v-card-text>
@@ -90,7 +88,6 @@
               >
                 로그인
               </v-btn>
-              <!-- <u @click="$emit('close')">아차차! 아이디를 잊으셨나요?</u> -->
             </v-col>
             <v-col cols="6">
               <v-btn
@@ -103,7 +100,6 @@
               >
                 취소
               </v-btn>
-              <!-- <u @click="$emit('close')">아차! 비밀번호를 잊으셨나요?</u> -->
             </v-col>
           </v-row>
           <v-card-text class="text-center">
@@ -216,8 +212,6 @@ export default {
                 title: '아이디 / 비밀번호가\n 맞지 않습니다.', // Alert 제목 
                 text: '아이디 / 비밀번호를 다시 확인해주세요.', // Alert 내용 
               });
-              // console.log('catch');
-              // console.log(err);
             });
         }
       } else if (this.loginType == 'company') {
@@ -253,8 +247,6 @@ export default {
                 title: '아이디 / 비밀번호가\n 맞지 않습니다.', // Alert 제목 
                 text: '아이디 / 비밀번호를 다시 확인해주세요.', // Alert 내용 
               });
-              // console.log('catch');
-              // console.log(err);
             });
         }
       }
@@ -272,7 +264,6 @@ export default {
 <style>
 .login-button {
   background: #439474;
-  /* background: #a2e2c8; */
 }
 
 .close-button {

@@ -221,7 +221,6 @@ export default {
           title: '필수 항목을 입력해주세요.', // Alert 제목 
           text: '필수 항목을 모두 입력해야 회원가입이 가능합니다.', // Alert 내용 
         });
-        // alert('필수 항목을 입력해주세요.')
       }
       else if (!this.isNickNameDoubleChecked) {
         Swal.fire({ 
@@ -229,7 +228,6 @@ export default {
           title: '닉네임 중복 확인을 해주세요.', // Alert 제목 
           text: '닉네임 중복 확인 후 회원가입이 가능합니다.', // Alert 내용 
         });
-        // alert('닉네임 중복 확인을 해주세요.')
       }
       else if (!this.isEmailDoubleChecked) {
         Swal.fire({ 
@@ -237,7 +235,6 @@ export default {
           title: '아이디 중복 확인을 해주세요.', // Alert 제목 
           text: '아이디 중복 확인 후 회원가입이 가능합니다.', // Alert 내용 
         });
-        // alert('아이디 중복 확인을 해주세요.')
       }
       else {
         Http.post('/user/signup', this.loginForm)
@@ -247,7 +244,6 @@ export default {
             title: '회원가입이 완료되었습니다.', // Alert 제목 
             text: '!환영합니다! 로그인해 주세요:)', // Alert 내용 
           });
-          // alert('회원가입이 완료되었습니다.')
           this.loginForm.userName = ''
           this.loginForm.userNickname = ''
           this.loginForm.birth = ''
@@ -265,8 +261,6 @@ export default {
             title: '회원가입에 실패했습니다.', // Alert 제목 
             text: '다시 회원가입해 주세요', // Alert 내용 
           });
-          // alert('회원가입에 실패했습니다.')
-          console.log(err)
         })
       }
     },
@@ -284,7 +278,6 @@ export default {
                 title: '사용할 수 있는 닉네임입니다.', // Alert 제목 
                 text: '입력한 닉네임을 사용합니다.', // Alert 내용 
               });
-              // alert('사용할 수 있는 닉네임입니다.')
             } else if (res.status === 202) {
               this.isNickNameDoubleChecked = false
               Swal.fire({ 
@@ -292,11 +285,9 @@ export default {
                 title: '중복된 닉네임입니다.', // Alert 제목 
                 text: '입력한 닉네임을 사용할 수 없습니다.', // Alert 내용 
               });
-              // alert('중복된 닉네임입니다.')
             }
           })
           .catch((err) => {
-            console.log(err)
           })
         } else {
           this.isNickNameDoubleChecked = false
@@ -305,7 +296,6 @@ export default {
             title: '닉네임을 입력해주세요.', // Alert 제목 
             text: '닉네임 체크를 위해 닉네임을 입력해 주세요.', // Alert 내용 
           });
-          // alert('닉네임을 입력해주세요.')
         }
       } else if (target === 'email') {
         if (this.loginForm.userEmail) {
@@ -319,7 +309,6 @@ export default {
                 title: '사용할 수 있는 아이디입니다.', // Alert 제목 
                 text: '입력한 아이디를 사용합니다.', // Alert 내용 
               });
-              // alert('사용할 수 있는 아이디입니다.')
             } else if (res.status === 202) {
               this.isEmailDoubleChecked = false
               Swal.fire({ 
@@ -327,11 +316,9 @@ export default {
                 title: '중복된 아이디입니다.', // Alert 제목 
                 text: '입력한 아이디를 사용할 수 없습니다.', // Alert 내용 
               });
-              // alert('중복된 아이디입니다.')
             }
           })
           .catch((err) => {
-            console.log(err)
           })
         } else {
           this.isEmailDoubleChecked = false
@@ -340,7 +327,6 @@ export default {
             title: '아이디를 입력해주세요.', // Alert 제목 
             text: '아이디 체크를 위해 아이디를 입력해 주세요.', // Alert 내용 
           });
-          // alert('아이디를 입력해주세요.')
         }
       }
     },

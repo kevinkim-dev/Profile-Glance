@@ -80,7 +80,6 @@
                   {{ video.category }}
                 </div>
               </div>
-              <!-- {{video.thumbnail}} -->
               <div class="card-text">
                 <v-card-title
                   class="px-0"
@@ -90,8 +89,6 @@
                 </v-card-title>
                 <v-card-text class="px-1">
                   <v-row align="center" class="mx-0">
-                    <!-- <div class="grey--text ms-4 created">게시일 : {{ $moment(video.createdAt).format("YYYY년 MMMM do dddd HH시 mm분") }}</div>
-                    <div class="grey--text ms-4 created">{{ video.createdAt | moment("from", "now") }}</div> -->
                   </v-row>
                   <div class="my-4 text-subtitle-1">
                     <div class="d-flex">
@@ -123,8 +120,6 @@
           spinner="circles"
         >
           <div slot="no-more">
-            <!-- <br>
-            불러올 룩앳미가 없습니다</div> -->
           </div>
         <div slot="no-results">
           <br>
@@ -132,14 +127,6 @@
         </div>
         </infinite-loading>
       </div>
-      <!-- Slide2 -->
-      <!-- <div class="wrap-slick2">
-        <div class="slick2" ref="slick">
-          <template v-for="product in products">
-            <Product :product="product" />
-          </template>
-        </div>
-      </div> -->
     </div>
   </section>
 </template>
@@ -247,7 +234,6 @@ export default {
       } else if (this.search != '' && this.category == '') {
         
         if (this.select.code === 'TITLE') {
-          console.log(this.search + ',' + this.select.code);
           http
             .post('/lookatme/searchByTitle', {
               title: this.search,
@@ -259,7 +245,6 @@ export default {
                   this.list = this.list.concat(response.data);
                   this.limit += 16;
                   $state.loaded();
-                  console.log(this.list);
                 } else {
                   $state.complete();
                 }
@@ -267,7 +252,6 @@ export default {
             })
             .catch((error) => {});
         } else if (this.select.code === 'NICKNAME') {
-          console.log('NICKNAME');
           http
             .post('/lookatme/searchByNickname', {
               userNickname: this.search,
@@ -279,7 +263,6 @@ export default {
                   this.list = this.list.concat(response.data);
                   this.limit += 16;
                   $state.loaded();
-                  console.log(this.list);
                 } else {
                   $state.complete();
                 }
@@ -333,7 +316,6 @@ export default {
     },
     lookatmeDetail(lookatmeId, thumbnail, video) {
       let lookatme_id = lookatmeId + "";
-      console.log(video);
       this.$router.push({name: 'lookatmedetail', query: {lookatme_id: lookatme_id, thumbnail: thumbnail, video: video}});
     },
   },

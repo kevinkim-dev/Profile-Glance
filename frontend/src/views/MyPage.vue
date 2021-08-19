@@ -82,7 +82,6 @@ export default {
       return localStorage.getItem('login_type')
     },
     profileType() {
-      // return this.$store.state.mypage.profileType
       return this.$route.params.loginType
     },
     profileId() {
@@ -138,7 +137,6 @@ export default {
 <style>
 .userNickname {
   font-size: 30px;
-  /* font-weight: bold; */
   padding: 4px;
   padding-left: 10px;
   padding-top: 8px;

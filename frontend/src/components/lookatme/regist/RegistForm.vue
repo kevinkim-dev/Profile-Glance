@@ -2,7 +2,6 @@
   <v-form v-model="valid">
     <v-container class="m-t-50" style="max-width: 800px; background: #EAF5F1;">
       <v-row class="justify-center">
-        <!-- <v-col cols="3" align="right"><div id="thumb">썸네일</div> </v-col> -->
         <v-col cols="12">
           <v-row class="justify-center">
             <v-col cols="4">
@@ -190,7 +189,6 @@ export default {
     },
     regist() {
       var router = this.$router;
-      console.log(this.files);
       if (!this.valid) {
         Swal.fire({ 
           icon: 'warning', // Alert 타입 
@@ -198,9 +196,7 @@ export default {
           text: '필수 항목을 모두 입력해야 등록이 가능합니다.', // Alert 내용 
           confirmButtonColor: '#439474',
         });
-        // alert('필수 항목을 입력해주세요.');
       } else {
-        console.log(this.image);
         let lookatme = new FormData();
         let userEmail = localStorage.getItem('user_email');
         lookatme.append('thumbnail', this.image);
@@ -219,8 +215,6 @@ export default {
               text: '등록한 룩앳미 확인이 가능합니다.', // Alert 내용 
               confirmButtonColor: '#439474',
             });
-            // alert('등록 성공!');
-            console.log(data)
             router.push({ name: 'lookatme' });
           })
           .catch((err) => console.log(err));

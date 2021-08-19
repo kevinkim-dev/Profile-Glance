@@ -4,12 +4,6 @@
       <v-col cols="2">
       </v-col>
       <v-col class="d-flex align-center" cols="2">
-        <!-- <span
-          style="color: #439474; cursor: pointer;"
-          class="mx-4 font-weight-bold"
-          @click="searchAll">
-          전체보기
-        </span> -->
         <v-select
           label="모집 직무"
           :items="jobFilter"
@@ -120,7 +114,6 @@ export default {
           title: '검색어를 입력해주세요.', // Alert 제목 
           text: '검색어를 입력해야 검색이 가능합니다.', // Alert 내용 
         });
-        // alert('검색어를 입력해주세요.')
       } else {
         this.$store.dispatch('wanted/searchCompany', this.searchWord)
       }

@@ -63,11 +63,9 @@ export default new Vuex.Store({
       http
         .delete('/user/delete/' + userNickname)
         .then((res) => {
-          console.log('then');
           commit('REQUEST_LOGOUT');
         })
         .catch((err) => {
-          console.log('catch');
           console.log(err);
         });
     },
@@ -78,7 +76,6 @@ export default new Vuex.Store({
       http
         .get('/company/userlike/' + companyId)
         .then((res) => {
-          console.log(res);
           commit('SET_LIKE_USER_LIST', res.data);
         })
         .catch((err) => {

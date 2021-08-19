@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("Interview_User")
+@ApiModel("InterviewListGetRes")
 public class InterviewListGetRes {
 
     @ApiModelProperty(name = "유저 이름")

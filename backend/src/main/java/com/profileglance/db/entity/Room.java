@@ -28,9 +28,6 @@ public class Room {
     @OneToOne(mappedBy = "room")
     private Recruit recruit;
 
-//    @Column(name = "company_id")
-//    private String companyId;
-
     @Column(name = "room_category")
     private String roomCategory;
 

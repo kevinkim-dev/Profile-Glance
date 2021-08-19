@@ -5,8 +5,6 @@ import com.profileglance.api.request.UserPostReq;
 import com.profileglance.api.response.InterviewListGetRes;
 import com.profileglance.api.response.LookatmePostRes;
 import com.profileglance.api.response.MypageGetRes;
-import com.profileglance.db.entity.Interview;
-import com.profileglance.db.entity.Lookatme;
 import com.profileglance.db.entity.User;
 import org.springframework.web.multipart.MultipartFile;
 

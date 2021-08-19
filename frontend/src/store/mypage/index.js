@@ -1,30 +1,11 @@
+import Http from '../../http';
+
 export default {
   namespaced: true,
   state: {
-    profileType: Number,
-    profileId: 1,
-    data: {
-      userData: {
-        userEmail: '',
-        userName: '',
-        userNickname: '',
-        userBirth: '',
-        major1: '',
-        major2: '',
-        countLike: 0,
-        countVideo: 0,
-        portfolio1: '',
-        portfolio2: '',
-        userImg: '',
-      },
-      companyData: {
-        companyId: '',
-        companyEmail: '',
-        companyName: '',
-        companyPhone: '',
-        companyImg: '',
-      }
-    },
+    profileType: String,
+    userData: Object,
+    companyData: Object,
     userInterviews: [
       {
         companyName: '네이버',
@@ -45,23 +26,49 @@ export default {
   },
   mutations: {
     EDIT(state, editForm) {
-      state.data.userData.userPhone = editForm.userPhone
-      state.data.userData.major1 = editForm.major1
-      state.data.userData.major2 = editForm.major2
-      state.data.userData.portfolio1 = editForm.portfolio1
-      state.data.userData.portfolio2 = editForm.portfolio2
+      state.userData.userPhone = editForm.userPhone
+      state.userData.major1 = editForm.major1
+      state.userData.major2 = editForm.major2
+      state.userData.portfolio1 = editForm.portfolio1
+      state.userData.portfolio2 = editForm.portfolio2
     },
-    SHOW_MYPAGE(state, mystate) {
-      state.data = mystate.data
-      state.profileType = mystate.userType
+    SET_USER_DATA(state, userData) {
+      state.profileType = 'user'
+      state.userData = userData
+    },
+    SET_COMPANY_DATA(state, companyData) {
+      state.profileType = 'company'
+      state.companyData = companyData
+    },
+    SET_ADMIN_DATA(state) {
+      state.profileType = 'admin'
     }
   },
   actions: {
     edit({commit}, editForm) {
       commit('EDIT', editForm)
     },
-    showMypage({commit}, mystate) {
-      commit('SHOW_MYPAGE', mystate)
+    getUserData({commit}, info) {
+      if (info.profileType == 'user') {
+        Http.get('/user/myinfo/nickname/' + info.id)
+        .then(res => {
+          console.log(res.data)
+          commit('SET_USER_DATA', res.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      } else if (info.profileType == 'company') {
+        Http.get('/company/companyinfo/' + info.id)
+        .then(res => {
+          commit('SET_COMPANY_DATA', res.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      } else if (info.profileType == 'admin') {
+        commit('SET_ADMIN_DATA')
+      }
     }
   }
 }

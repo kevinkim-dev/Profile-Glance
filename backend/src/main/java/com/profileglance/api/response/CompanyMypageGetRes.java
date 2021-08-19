@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("Mypage_Company")
+@ApiModel("CompanyMypageGetRes")
 public class CompanyMypageGetRes {
 
     @ApiModelProperty(name="기업아이디")
@@ -25,11 +25,16 @@ public class CompanyMypageGetRes {
     @ApiModelProperty(name="기업 로고 사진")
     String companyImg;
 
-    public CompanyMypageGetRes(String companyId, String companyName, String companyEmail, String companyPhone, String companyImg) {
+    //csid
+    @ApiModelProperty(name="기업 세션 명")
+    String csId;
+
+    public CompanyMypageGetRes(String companyId, String companyName, String companyEmail, String companyPhone, String companyImg, String csId) {
         this.companyId = companyId;
         this.companyName = companyName;
         this.companyEmail = companyEmail;
         this.companyPhone = companyPhone;
         this.companyImg = companyImg;
+        this.csId = csId;
     }
 }

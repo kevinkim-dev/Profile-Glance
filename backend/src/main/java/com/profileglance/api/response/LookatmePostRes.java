@@ -2,7 +2,6 @@ package com.profileglance.api.response;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,7 +40,10 @@ public class LookatmePostRes {
     @ApiModelProperty(name="룩앳미 등록시간")
     String createdAt;
 
-    public LookatmePostRes(Long lookatmeId, String userNickName, String title, String content, String video, String thumbnail, String category, Long view, Long videoLike, String createdAt) {
+    @ApiModelProperty(name="유저 이미지")
+    String userImg;
+
+    public LookatmePostRes(Long lookatmeId, String userNickName, String title, String content, String video, String thumbnail, String category, Long view, Long videoLike, String createdAt, String userImg) {
         this.lookatmeId = lookatmeId;
         this.userNickName = userNickName;
         this.title = title;
@@ -52,5 +54,6 @@ public class LookatmePostRes {
         this.view = view;
         this.videoLike = videoLike;
         this.createdAt = createdAt;
+        this.userImg = userImg;
     }
 }

@@ -2,7 +2,6 @@ package com.profileglance.api.service;
 
 import com.profileglance.api.request.LookatmePostReq;
 import com.profileglance.api.response.LookatmePostRes;
-import com.profileglance.db.entity.Lookatme;
 
 import java.util.List;
 
@@ -21,4 +20,9 @@ public interface LookatmeService {
     List<LookatmePostRes> searchByNickname(String nickname, Long limit);
 
     LookatmePostRes detailLookatme(Long lookatmeId);
+
+    Boolean deleteLookatme(Long lookatmeId);
+
+    Boolean deleteLookatmeByUserNickname(String userNickname);
+
 }

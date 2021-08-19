@@ -5,9 +5,11 @@ import com.profileglance.api.response.RecruitPostRes;
 import com.profileglance.db.entity.Company;
 import com.profileglance.db.entity.Job;
 import com.profileglance.db.entity.Recruit;
+import com.profileglance.db.entity.Room;
 import com.profileglance.db.repository.CompanyRepository;
 import com.profileglance.db.repository.JobRepository;
 import com.profileglance.db.repository.RecruitRepository;
+import com.profileglance.db.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,16 +17,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class RecruitServiceImpl implements RecruitService{
+public class RecruitServiceImpl implements RecruitService {
 
     @Autowired
     RecruitRepository recruitRepository;
-
     @Autowired
     CompanyRepository companyRepository;
-
     @Autowired
     JobRepository jobRepository;
+    @Autowired
+    RoomRepository roomRepository;
 
     @Override
     public Boolean uploadRecruit(RecruitPostReq recruitPostReq) {
@@ -45,6 +47,7 @@ public class RecruitServiceImpl implements RecruitService{
                 .recruitStartDate(recruitPostReq.getRecruitStartDate())
                 .recruitEndDate(recruitPostReq.getRecruitEndDate())
                 .presentationDate(recruitPostReq.getPresentationDate())
+                .csId(companyRepository.findByCompanyId(recruitPostReq.getCompanyId()).get().getSessionId())
                 .build()
         );
 
@@ -61,7 +64,13 @@ public class RecruitServiceImpl implements RecruitService{
         List<Recruit> recruitList = recruitRepository.findAllByCompany_CompanyNameContaining(companyName);
         List<RecruitPostRes> recruitPostResList = new ArrayList<>();
 
-        for(Recruit recruit : recruitList) {
+        for (Recruit recruit : recruitList) {
+
+            String sessionId = null;
+            if (recruit.getRoom() != null) {
+                sessionId = recruit.getRoom().getSessionId();
+            }
+
             recruitPostResList.add(new RecruitPostRes(
                     recruit.getRecruitId(),
                     recruit.getCompany().getCompanyName(),
@@ -73,7 +82,9 @@ public class RecruitServiceImpl implements RecruitService{
                     recruit.getJobDetail(),
                     recruit.getRecruitStartDate(),
                     recruit.getRecruitEndDate(),
-                    recruit.getPresentationDate()
+                    recruit.getPresentationDate(),
+                    sessionId,
+                    recruit.getCsId()
             ));
         }
 
@@ -87,7 +98,12 @@ public class RecruitServiceImpl implements RecruitService{
         List<Recruit> recruitList = recruitRepository.findAllByJob_JobName(jobName);
         List<RecruitPostRes> recruitPostResList = new ArrayList<>();
 
-        for(Recruit recruit : recruitList) {
+        for (Recruit recruit : recruitList) {
+            String sessionId = null;
+            if (recruit.getRoom() != null) {
+                sessionId = recruit.getRoom().getSessionId();
+            }
+
             recruitPostResList.add(new RecruitPostRes(
                     recruit.getRecruitId(),
                     recruit.getCompany().getCompanyName(),
@@ -99,7 +115,9 @@ public class RecruitServiceImpl implements RecruitService{
                     recruit.getJobDetail(),
                     recruit.getRecruitStartDate(),
                     recruit.getRecruitEndDate(),
-                    recruit.getPresentationDate()
+                    recruit.getPresentationDate(),
+                    sessionId,
+                    recruit.getCsId()
             ));
         }
 
@@ -111,7 +129,12 @@ public class RecruitServiceImpl implements RecruitService{
         List<Recruit> recruitList = recruitRepository.findAllByOrderByRecruitEndDate();
         List<RecruitPostRes> recruitPostResList = new ArrayList<>();
 
-        for(Recruit recruit : recruitList) {
+        for (Recruit recruit : recruitList) {
+            String sessionId = null;
+            if (recruit.getRoom() != null) {
+                sessionId = recruit.getRoom().getSessionId();
+            }
+
             recruitPostResList.add(new RecruitPostRes(
                     recruit.getRecruitId(),
                     recruit.getCompany().getCompanyName(),
@@ -123,7 +146,9 @@ public class RecruitServiceImpl implements RecruitService{
                     recruit.getJobDetail(),
                     recruit.getRecruitStartDate(),
                     recruit.getRecruitEndDate(),
-                    recruit.getPresentationDate()
+                    recruit.getPresentationDate(),
+                    sessionId,
+                    recruit.getCsId()
             ));
         }
 
@@ -134,6 +159,18 @@ public class RecruitServiceImpl implements RecruitService{
     public Boolean deleteRecruit(Long recruitId) {
 
         recruitRepository.deleteByRecruitId(recruitId);
+
+        return true;
+    }
+
+    @Override
+    public Boolean updateRecruit(Room room, String companyId, Long recruitId) {
+
+        Recruit recruit = recruitRepository.findByCompany_CompanyIdAndRecruitId(companyId, recruitId).get();
+
+        recruit.setRoom(room);
+
+        recruitRepository.save(recruit);
 
         return true;
     }

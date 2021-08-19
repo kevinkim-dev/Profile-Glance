@@ -2,7 +2,7 @@ package com.profileglance.api.service;
 
 import com.profileglance.api.request.RecruitPostReq;
 import com.profileglance.api.response.RecruitPostRes;
-import com.profileglance.db.entity.Recruit;
+import com.profileglance.db.entity.Room;
 
 import java.util.List;
 
@@ -17,4 +17,7 @@ public interface RecruitService {
     List<RecruitPostRes> searchAll();
 
     Boolean deleteRecruit(Long recruitId);
+
+    Boolean updateRecruit(Room room, String companyId, Long recruitId);
+
 }

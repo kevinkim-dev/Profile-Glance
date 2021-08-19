@@ -16,25 +16,16 @@ public class Interview {
     @Column(name="interview_id")
     private Long interviewId;
 
-//    @Column(name = "user_id")
-//    private Long userId;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
-//    @Column(name = "company_id")
-//    private String companyId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Company company;
 
-//    @Column(name = "room_id")
-//    private Long roomId;
-
     @OneToOne
-    @JoinColumn(name = "room_id")
+    @JoinColumn(name = "session_id")
     private Room room;
 
     @Column(name = "interview_date")
@@ -42,4 +33,8 @@ public class Interview {
 
     @Column(name = "interview_time")
     private String interviewTime;
+
+    @Column(name = "company_session_id")
+    private String csId;
+
 }

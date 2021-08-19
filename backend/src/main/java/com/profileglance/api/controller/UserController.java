@@ -7,11 +7,11 @@ import com.profileglance.api.request.UserPostReq;
 import com.profileglance.api.response.InterviewListGetRes;
 import com.profileglance.api.response.LookatmePostRes;
 import com.profileglance.api.response.MypageGetRes;
+import com.profileglance.api.service.InterviewService;
+import com.profileglance.api.service.LookatmeService;
 import com.profileglance.api.service.UserService;
 import com.profileglance.common.response.BaseResponseBody;
 import com.profileglance.config.JwtTokenProvider;
-import com.profileglance.db.entity.Interview;
-import com.profileglance.db.entity.Lookatme;
 import com.profileglance.db.entity.User;
 import com.profileglance.db.repository.UserRepository;
 import io.swagger.annotations.Api;
@@ -24,7 +24,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.util.List;
 
 @Api(value = "유저 API", tags = {"User"})
@@ -40,6 +39,10 @@ public class UserController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    InterviewService interviewService;
+    @Autowired
+    LookatmeService lookatmeService;
 
     // 회원가입
     @PostMapping("/signup")
@@ -61,7 +64,6 @@ public class UserController {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
 
-        System.out.println(member.getUserEmail());
         return jwtTokenProvider.createToken(member.getUserEmail());
     }
 
@@ -76,14 +78,18 @@ public class UserController {
         }
     }
 
-    // 회원탈퇴
-    @DeleteMapping("/delete/{userEmail}")
-    @ApiOperation(value = "회원 탈퇴", notes = "<strong>아이디</strong>를 통해 회원 탈퇴한다.")
-    public ResponseEntity<? extends BaseResponseBody> delete(@PathVariable("userEmail") String userEmail) {
+    // 회원 탈퇴
+    @DeleteMapping("/delete/{userNickname}")
+    @ApiOperation(value = "회원 삭제", notes = "회원과 관련되 모든 interview, lookatme, user_like와 user 정보 삭제")
+    public ResponseEntity<? extends BaseResponseBody> delete(@PathVariable("userNickname") String userNickname){
 
-        userService.deleteUser(userEmail);
+        lookatmeService.deleteLookatmeByUserNickname(userNickname);
+        interviewService.deleteInterviewByUserNickname(userNickname);
+        userService.deleteUserLike(userNickname);
+        userService.deleteUser(userNickname);
 
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
+
     }
 
     // 회원 이메일 중복 확인
@@ -144,9 +150,10 @@ public class UserController {
     }
 
     // (마이페이지) 면접 일정 보기
-    @GetMapping("/myinterview/{userEmail}")
-    @ApiOperation(value = "나의 면접 일정 보기", notes = "userEmail을 주세용")
-    public ResponseEntity<List<InterviewListGetRes>> myInterview(@PathVariable("userEmail") String userEmail){
-        return new ResponseEntity<List<InterviewListGetRes>>(userService.myInterviewList(userEmail), HttpStatus.OK);
+    @GetMapping("/myinterview/{userNickname}")
+    @ApiOperation(value = "나의 면접 일정 보기", notes = "userNickname을 주세용")
+    public ResponseEntity<List<InterviewListGetRes>> myInterview(@PathVariable("userNickname") String userNickname){
+        return new ResponseEntity<List<InterviewListGetRes>>(userService.myInterviewList(userNickname), HttpStatus.OK);
     }
+
 }

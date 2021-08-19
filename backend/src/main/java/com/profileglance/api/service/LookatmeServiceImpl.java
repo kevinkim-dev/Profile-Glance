@@ -13,20 +13,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.time.LocalDateTime;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class LookatmeServiceImpl implements LookatmeService{
 
     @Autowired
     LookatmeRepository lookatmeRepository;
-
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     CategoryRepository categoryRepository;
 
@@ -35,9 +33,6 @@ public class LookatmeServiceImpl implements LookatmeService{
 
     @Override
     public List<LookatmePostRes> searchByCategory(String category, Long limit) {
-
-        System.out.println("categoryQ : " + category);
-        System.out.println("limit : " + limit);
 
         List<Lookatme> lookatmeList = lookatmeRepository.findAllByCategory_CategoryName(category, limit);
 
@@ -54,7 +49,8 @@ public class LookatmeServiceImpl implements LookatmeService{
                     l.getCategory().getCategoryName(),
                     l.getView(),
                     l.getVideoLike(),
-                    l.getCreatedAt()
+                    l.getCreatedAt(),
+                    l.getUser().getUserImg()
             ));
         }
 
@@ -63,8 +59,6 @@ public class LookatmeServiceImpl implements LookatmeService{
 
     @Override
     public List<LookatmePostRes> orderByView(Long limit) {
-
-        System.out.println("오더바이 뷰 : " + limit);
 
         List<Lookatme> lookatmeList = lookatmeRepository.findAllByOrderByView(limit);
 
@@ -81,7 +75,8 @@ public class LookatmeServiceImpl implements LookatmeService{
                     l.getCategory().getCategoryName(),
                     l.getView(),
                     l.getVideoLike(),
-                    l.getCreatedAt()
+                    l.getCreatedAt(),
+                    l.getUser().getUserImg()
             ));
         }
 
@@ -91,17 +86,24 @@ public class LookatmeServiceImpl implements LookatmeService{
     @Override
     public Boolean uploadLookatme(LookatmePostReq lookatmePostReq) {
 
-        System.out.println("서비스 등록 들어왔어요~~~");
         User user = userRepository.findByUserEmail(lookatmePostReq.getUserEmail()).get();
 
         boolean check = (lookatmePostReq.getThumbnail() != null && !lookatmePostReq.getThumbnail().isEmpty());
 
-        String now = LocalDateTime.now().toString();
+        Date nowTime = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+        String now = format.format(nowTime);
+
         String categoryName = lookatmePostReq.getCategory();
         String videoPath = baseDir + "/Video/" + now + user.getUserNickname() + ".mp4";
         String videofile = now + user.getUserNickname() + ".mp4";
         String thumbnailPath = baseDir + "/Thumbnail/" + now + user.getUserNickname() + ".jpg";
         String thumbnailfile = now + user.getUserNickname() + ".jpg";
+
+        // 썸네일이 없는경우
+        if(!check){
+            thumbnailfile = "noThumbnail.png";
+        }
 
         try{
             lookatmePostReq.getVideo().transferTo(new File(videoPath));
@@ -117,15 +119,16 @@ public class LookatmeServiceImpl implements LookatmeService{
 
         Lookatme lookatme = null;
 
-        if(!check){
-            lookatme = lookatmeRepository.save(Lookatme.builder().title(lookatmePostReq.getTitle())
-                    .content(lookatmePostReq.getContent()).video(videofile).view(0L)
-                    .user(user).category(category).build());
-        }else{
-            lookatme = lookatmeRepository.save(Lookatme.builder().title(lookatmePostReq.getTitle())
-                    .content(lookatmePostReq.getContent()).video(videofile).thumbnail(thumbnailfile).view(0L)
-                    .user(user).category(category).build());
-        }
+        lookatme = lookatmeRepository.save(Lookatme.builder()
+                .title(lookatmePostReq.getTitle())
+                .content(lookatmePostReq.getContent())
+                .video(videofile)
+                .thumbnail(thumbnailfile)
+                .view(0L)
+                .user(user)
+                .category(category)
+                .createdAt(now)
+                .build());
 
         user.getLookatmes().add(lookatme);
 
@@ -137,34 +140,29 @@ public class LookatmeServiceImpl implements LookatmeService{
     @Override
     public Boolean updateLookatme(LookatmePostReq lookatmePostReq) {
 
-        System.out.println("룩앳미 업데이트 서비스 입니다.");
         User user = userRepository.findByUserEmail(lookatmePostReq.getUserEmail()).get();
 
         boolean check = (lookatmePostReq.getThumbnail() != null && !lookatmePostReq.getThumbnail().isEmpty());
 
-        String now = LocalDateTime.now().toString();
-        String videoPath = baseDir + "/Video/" + now + user.getUserNickname() + ".mp4";
-        String videofile = now + user.getUserNickname() + ".mp4";
-        String thumbnailPath = baseDir + "/Thumbnail/" + now + user.getUserNickname() + ".jpg";
-        String thumbnailfile = now + user.getUserNickname() + ".jpg";
 
+        Lookatme lookatme = lookatmeRepository.findByLookatmeId(lookatmePostReq.getLookatmeId()).get();
+        String thumbnailPath = baseDir + "/Thumbnail/" + lookatme.getThumbnail();
+
+        // 썸네일 수정
         try{
-            lookatmePostReq.getVideo().transferTo(new File(videoPath));
+            // 썸네일이 있으면 파일 저장.
             if(check)
                 lookatmePostReq.getThumbnail().transferTo(new File(thumbnailPath));
         } catch (Exception e){
             return false;
         }
-
-        Lookatme lookatme = lookatmeRepository.findById(lookatmePostReq.getLookatmeId()).get();
-
+        // 제목
         lookatme.setTitle(lookatmePostReq.getTitle());
+        // 내용
         lookatme.setContent(lookatmePostReq.getContent());
-        lookatme.setVideo(videofile);
-        if(check)
-            lookatme.setThumbnail(thumbnailfile);
+        // 카테고리
         lookatme.setCategory(categoryRepository.findByCategoryName(lookatmePostReq.getCategory()).get());
-
+        
         lookatmeRepository.save(lookatme);
 
         return true;
@@ -176,8 +174,6 @@ public class LookatmeServiceImpl implements LookatmeService{
         String titleQ = "%" + title + "%";
 
         List<Lookatme> lookatmeList = lookatmeRepository.findAllByTitle(titleQ, limit);
-
-        System.out.println(lookatmeList.size());
 
         List<LookatmePostRes> lookatmePostResList = new ArrayList<>();
 
@@ -192,7 +188,8 @@ public class LookatmeServiceImpl implements LookatmeService{
                     l.getCategory().getCategoryName(),
                     l.getView(),
                     l.getVideoLike(),
-                    l.getCreatedAt()
+                    l.getCreatedAt(),
+                    l.getUser().getUserImg()
             ));
         }
 
@@ -206,8 +203,6 @@ public class LookatmeServiceImpl implements LookatmeService{
 
         List<Lookatme> lookatmeList = lookatmeRepository.findAllByUser_UserNickname(nicnameQ, limit);
 
-        System.out.println(lookatmeList.size());
-
         List<LookatmePostRes> lookatmePostResList = new ArrayList<>();
 
         for (Lookatme l : lookatmeList){
@@ -221,7 +216,8 @@ public class LookatmeServiceImpl implements LookatmeService{
                     l.getCategory().getCategoryName(),
                     l.getView(),
                     l.getVideoLike(),
-                    l.getCreatedAt()
+                    l.getCreatedAt(),
+                    l.getUser().getUserImg()
             ));
         }
 
@@ -230,7 +226,6 @@ public class LookatmeServiceImpl implements LookatmeService{
 
     @Override
     public LookatmePostRes detailLookatme(Long lookatmeId) {
-        System.out.println("테스트 입니다.");
         Lookatme lookatme = lookatmeRepository.findByLookatmeId(lookatmeId).get();
 
         Long viewCount = lookatme.getView() + 1;
@@ -247,10 +242,27 @@ public class LookatmeServiceImpl implements LookatmeService{
                 lookatme.getCategory().getCategoryName(),
                 lookatme.getView(),
                 lookatme.getVideoLike(),
-                lookatme.getCreatedAt()
+                lookatme.getCreatedAt(),
+                lookatme.getUser().getUserImg()
         );
 
         return lookatmePostRes;
+    }
+
+    @Override
+    public Boolean deleteLookatme(Long lookatmeId) {
+
+        lookatmeRepository.deleteByLookatmeId(lookatmeId);
+
+        return true;
+    }
+
+    @Override
+    public Boolean deleteLookatmeByUserNickname(String userNickname) {
+
+        lookatmeRepository.deleteAllByUser_UserNickname(userNickname);
+
+        return true;
     }
 
 }

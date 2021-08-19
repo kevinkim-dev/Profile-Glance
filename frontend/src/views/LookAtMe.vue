@@ -1,23 +1,16 @@
 <template>
   <div class="home">
-    <!-- <SlideBanner /> -->
-    <!-- <BestProductList /> -->
-    <FeaturedProductList />
-    <!-- <MiddleBanner />
-    <BlogArticles />
-    <InstagramArticles /> -->
+    <LookatmeList />
   </div>
 </template>
 
 <script>
-import SlideBanner from '@/components/lookatme/SlideBanner.vue';
-import FeaturedProductList from '@/components/lookatme/FeaturedProductList.vue';
+import LookatmeList from '@/components/lookatme/LookAtMeList.vue';
 
 export default {
   name: 'lookatme',
   components: {
-    SlideBanner,
-    FeaturedProductList,
+    LookatmeList,
   },
 };
 </script>

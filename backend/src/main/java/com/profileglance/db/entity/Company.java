@@ -33,14 +33,23 @@ public class Company {
     @Column(name = "company_img")
     private String companyImg;
 
+    @Column(name = "company_dept")
+    private String companyDept;
+
+    @Column(name = "session_id")
+    private String sessionId;
+
+    @Column(name = "company_name_eng")
+    private String companyNameEng;
+
+    @Column(name = "company_dept_eng")
+    private String companyDeptEng;
+
     @OneToMany(mappedBy = "company")
     private List<UserLike> userLikes = new ArrayList<>();
 
     @OneToMany(mappedBy = "company")
     private List<Interview> interviews = new ArrayList<>();
-
-    @OneToMany(mappedBy = "company")
-    private List<Room> rooms = new ArrayList<>();
 
     @OneToMany(mappedBy = "company")
     private List<Recruit> recruits = new ArrayList<>();

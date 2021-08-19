@@ -16,9 +16,8 @@ import java.util.List;
 public class Room {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "room_id")
-    private Long roomId;
+    @Column(name = "session_id")
+    private String sessionId;
 
     @OneToMany(mappedBy = "room")
     private List<RoomInfo> roomInfos = new ArrayList<>();
@@ -26,19 +25,16 @@ public class Room {
     @OneToOne(mappedBy = "room")
     private Interview interview;
 
-//    @Column(name = "company_id")
-//    private String companyId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id")
-    private Company company;
+    @OneToOne(mappedBy = "room")
+    private Recruit recruit;
 
     @Column(name = "room_category")
-    private Long roomCategory;
+    private String roomCategory;
 
-    @Column(name = "room_url")
-    private String roomUrl;
+    @Column(name = "host")
+    private String host;
 
-    @Column(name = "is_active", columnDefinition = "boolean default false")
-    private boolean isActive;
+    @Column(name = "create_at")
+    private String createAt;
+
 }

@@ -27,11 +27,35 @@
           <v-form v-model="valid">
             <v-container>
               <v-row>
-                <v-col class="py-0" cols="12" md="12">
+                <v-col class="py-0" cols="6" md="6">
                   <v-text-field
                     v-model="companySignupForm.companyName"
                     :rules="nameRules"
                     label="이름*"
+                    required
+                  ></v-text-field>
+                </v-col>
+                <v-col class="py-0" cols="6" md="6">
+                  <v-text-field
+                    v-model="companySignupForm.companyEngName"
+                    :rules="nameRules"
+                    label="영문 이름*"
+                    required
+                  ></v-text-field>
+                </v-col>
+                <v-col class="py-0" cols="6" md="6">
+                  <v-text-field
+                    v-model="companySignupForm.companyDepartment"
+                    :rules="nameRules"
+                    label="부서*"
+                    required
+                  ></v-text-field>
+                </v-col>
+                <v-col class="py-0" cols="6" md="6">
+                  <v-text-field
+                    v-model="companySignupForm.companyEngDepartment"
+                    :rules="nameRules"
+                    label="영문 부서*"
                     required
                   ></v-text-field>
                 </v-col>
@@ -130,7 +154,6 @@
 </template>
 
 <script>
-import Axios from 'axios';
 import Http from '@/http.js';
 export default {
   data() {
@@ -167,19 +190,22 @@ export default {
       phoneRules: [
         (v) => !!v || '필수 항목 입니다',
         (v) =>
-          (!v.includes('.') && !v.includes('-') && v.startsWith('0')) || '올바른 형식이 아닙니다',
+          (!v.includes('.') && !v.includes('-')) || '올바른 형식이 아닙니다',
         (v) =>
           (/[0-9]/.test(v) && !/[a-zA-Z]/.test(v) && !/[~!@#$%^&*()_+|<>?:{}]/.test(v)) ||
           '숫자만 입력 가능합니다',
       ],
       companySignupForm: {
         companyName: '',
+        companyEngName: '',
         companyId: '',
         companyPassword: '',
         passwordConfirm: '',
         companyEmail: '',
         companyPhone: '',
         companyImg: File,
+        companyDepartment: '',
+        companyEngDepartment: '',
       },
       isIdDoubleChecked: false,
     };
@@ -197,37 +223,57 @@ export default {
     // 회원가입
     companySignup() {
       if (!this.valid) {
-        alert('필수 항목을 입력해주세요.');
+         Swal.fire({ 
+          icon: 'warning', // Alert 타입 
+          title: '필수 항목을 입력해주세요.', // Alert 제목 
+          text: '필수 항목을 모두 입력해야 회원가입이 가능합니다.', // Alert 내용 
+        });
       } else if (!this.isIdDoubleChecked) {
-        alert('닉네임 중복 확인을 해주세요.');
+        Swal.fire({ 
+          icon: 'warning', // Alert 타입 
+          title: '닉네임 중복 확인을 해주세요.', // Alert 제목 
+          text: '닉네임 중복 확인 후 회원가입이 가능합니다.', // Alert 내용 
+        });
       } else {
         const formData = new FormData();
 
         formData.append('companyId', this.companySignupForm.companyId);
         formData.append('companyName', this.companySignupForm.companyName);
+        formData.append('companyNameEng', this.companySignupForm.companyEngName)
         formData.append('companyEmail', this.companySignupForm.companyEmail);
         formData.append('companyPassword', this.companySignupForm.companyPassword);
         formData.append('companyPhone', this.companySignupForm.companyPhone);
         formData.append('companyImg', this.companySignupForm.companyImg);
+        formData.append('companyDept', this.companySignupForm.companyDepartment);
+        formData.append('companyDeptEng', this.companySignupForm.companyEngDepartment)
 
-        Axios.post('company/signup', formData, {
-          // baseURL: "http://localhost:8888/",
-          baseURL: 'http://52.79.113.173:8888/',
+        Http.post('company/signup', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
           .then((res) => {
             console.log(res);
-            alert('기업회원 추가가 완료되었습니다.');
+            Swal.fire({ 
+              icon: 'success', // Alert 타입 
+              title: '기업회원 추가가 완료되었습니다.', // Alert 제목 
+              text: '!환영합니다! 로그인해 주세요:)', // Alert 내용 
+            });
             this.companySignupForm.companyName = '';
+            this.companySignupForm.companyEngName = '';
             this.companySignupForm.companyId = '';
             this.companySignupForm.companyPassword = '';
             this.companySignupForm.passwordConfirm = '';
             this.companySignupForm.companyEmail = '';
             this.companySignupForm.companyPhone = '';
-            this.$router.push('mypage');
+            this.companySignupForm.companyDepartment = '';
+            this.companySignupForm.companyEngDepartment = '';
+            this.$router.push('/mypage/admin/관리자');
           })
           .catch((err) => {
-            alert('기업회원 추가가 실패했습니다.');
+            Swal.fire({ 
+              icon: 'error', // Alert 타입 
+              title: '기업회원 추가가 실패했습니다.', // Alert 제목 
+              text: '다시 회원가입해 주세요', // Alert 내용 
+            });
             console.log(err);
           });
       }
@@ -240,10 +286,18 @@ export default {
           .then((res) => {
             if (res.status === 201) {
               this.isIdDoubleChecked = true;
-              alert('사용할 수 있는 아이디입니다.');
+              Swal.fire({ 
+                icon: 'success', // Alert 타입 
+                title: '사용할 수 있는 아이디입니다.', // Alert 제목 
+                text: '입력한 아이디를 사용합니다.', // Alert 내용 
+              });
             } else if (res.status === 202) {
               this.isIdDoubleChecked = false;
-              alert('중복된 아이디입니다.');
+              Swal.fire({ 
+                icon: 'error', // Alert 타입 
+                title: '중복된 아이디입니다.', // Alert 제목 
+                text: '입력한 아이디를 사용할 수 없습니다.', // Alert 내용 
+              });
             }
           })
           .catch((err) => {
@@ -251,7 +305,11 @@ export default {
           });
       } else {
         this.isIdDoubleChecked = false;
-        alert('닉네임을 입력해주세요.');
+          Swal.fire({ 
+            icon: 'warning', // Alert 타입 
+            title: '아이디를 입력해주세요.', // Alert 제목 
+            text: '아이디 체크를 위해 아이디를 입력해 주세요.', // Alert 내용 
+          });
       }
     },
     // 중복확인 여부 false로 리셋
@@ -265,7 +323,8 @@ export default {
       this.companySignupForm.passwordConfirm = '';
       this.companySignupForm.companyEmail = '';
       this.companySignupForm.companyPhone = '';
-      this.$router.push('mypage');
+      this.companySignupForm.companyDepartment = '';
+      this.$router.push('/mypage/admin/관리자');
     },
     changeImage(e) {
       const file = e.target.files[0];

@@ -5,7 +5,6 @@ import com.profileglance.api.request.UserPostReq;
 import com.profileglance.api.response.InterviewListGetRes;
 import com.profileglance.api.response.LookatmePostRes;
 import com.profileglance.api.response.MypageGetRes;
-import com.profileglance.common.response.BaseResponseBody;
 import com.profileglance.config.DirPathConfig;
 import com.profileglance.db.entity.Interview;
 import com.profileglance.db.entity.Lookatme;
@@ -15,7 +14,6 @@ import com.profileglance.db.repository.LookatmeRepository;
 import com.profileglance.db.repository.UserLikeRepository;
 import com.profileglance.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,6 +37,7 @@ public class UserServiceImpl implements UserService{
     @Autowired
     PasswordEncoder passwordEncoder;
 
+
     static DirPathConfig dirPathConfig = new DirPathConfig();
     static String baseDir = dirPathConfig.baseDir;
 
@@ -54,7 +53,7 @@ public class UserServiceImpl implements UserService{
                 .major2(userPostReq.getMajor2())
                 .userPhone(userPostReq.getUserPhone())
                 .companyLike(0l)
-                .userImg("")
+                .userImg("noimage.png")
                 .birth(userPostReq.getBirth())
                 .build());
     }
@@ -87,10 +86,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean deleteUser(String userEmail) {
-        System.out.println("in service");
+    public boolean deleteUser(String userNickname) {
 
-        userRepository.deleteByuserEmail(userEmail);
+        userRepository.deleteByUserNickname(userNickname);
 
         return true;
     }
@@ -104,13 +102,14 @@ public class UserServiceImpl implements UserService{
                 ,user.getBirth()
                 ,user.getMajor1()
                 ,user.getMajor2()
-                ,userLikeRepository.countByUser_UserEmail(userEmail)
+                ,user.getCompanyLike()
                 ,lookatmeRepository.countByUser_UserEmail(userEmail)
                 ,user.getPortfolio1()
                 ,user.getPortfolio2()
                 ,user.getUserNickname()
                 ,user.isAdmin()
                 ,user.getUserImg()
+                ,user.getUserPhone()
         );
         return mypageGetRes;
     }
@@ -124,15 +123,24 @@ public class UserServiceImpl implements UserService{
                 ,user.getBirth()
                 ,user.getMajor1()
                 ,user.getMajor2()
-                ,userLikeRepository.countByUser_UserEmail(user.getUserEmail())
+                ,user.getCompanyLike()
                 ,lookatmeRepository.countByUser_UserEmail(user.getUserEmail())
                 ,user.getPortfolio1()
                 ,user.getPortfolio2()
                 ,user.getUserNickname()
                 ,user.isAdmin()
                 ,user.getUserImg()
+                ,user.getUserPhone()
         );
         return mypageGetRes;
+    }
+
+    @Override
+    public Boolean deleteUserLike(String userNickname) {
+
+        userLikeRepository.deleteAllByUser_UserNickname(userNickname);
+
+        return true;
     }
 
     @Override
@@ -172,23 +180,29 @@ public class UserServiceImpl implements UserService{
                     l.getCategory().getCategoryName(),
                     l.getView(),
                     l.getVideoLike(),
-                    l.getCreatedAt()
+                    l.getCreatedAt(),
+                    l.getUser().getUserImg()
             ));
         }
         return lookatmePostResList;
     }
 
     @Override
-    public List<InterviewListGetRes> myInterviewList(String userEmail){
+    public List<InterviewListGetRes> myInterviewList(String userNickname){
         List<InterviewListGetRes> interviewListGetRes = new ArrayList<>();
-        List<Interview> interviewList = interviewRepository.findAllByUser_UserEmail(userEmail);
+        List<Interview> interviewList = interviewRepository.findAllByUser_UserNickname(userNickname);
         for(Interview i : interviewList){
+            String sessionId = null;
+            if (i.getRoom() != null){
+                sessionId = i.getRoom().getSessionId();
+            }
             interviewListGetRes.add(new InterviewListGetRes(
                     i.getUser().getUserName()
                     ,i.getCompany().getCompanyId()
                     ,i.getInterviewDate()
                     ,i.getInterviewTime()
-                    ,i.getRoom().getRoomUrl()
+                    ,sessionId
+                    ,i.getCsId()
             ));
         }
         return interviewListGetRes;
@@ -198,4 +212,23 @@ public class UserServiceImpl implements UserService{
     public Long likeCount(String userEmail){
         return userLikeRepository.countByUser_UserEmail(userEmail);
     }
+
+    @Override
+    public void companyLikeChange(String userNickname, boolean flag){
+        User user = userRepository.findByUserNickname(userNickname).get();
+
+        long companylike = user.getCompanyLike();
+
+        if (flag){  // flag == true 이면 ++
+            user.setCompanyLike(companylike+1);
+
+        }else{      // flag == false 이면 --
+            if (user.getCompanyLike() > 0){
+                user.setCompanyLike(companylike-1);
+            }
+        }
+
+        userRepository.save(user);
+    }
+
 }

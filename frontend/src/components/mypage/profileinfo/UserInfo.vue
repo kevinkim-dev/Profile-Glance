@@ -1,40 +1,36 @@
 <template>
-	<div class="d-flex">
-		<div class="d-flex flex-column justify-content-around">
-      <div class="infobox">이름: {{this.userInfo.userName}}</div>
-      <div class="infobox">생년월일: {{this.userInfo.birth}}</div>
-      <div class="infobox">좋아요 갯수: {{this.userInfo.countLike}}</div>
-      <div class="infobox">포토폴리오1: {{this.userInfo.portfolio1}}</div>
-		</div>
-    <div class="d-flex flex-column justify-content-around">
-      <div class="infobox">이메일: {{this.userInfo.userEmail}}</div>
-      <div class="infobox">전공: {{majors}}</div>
-      <div class="infobox">내 영상 갯수: {{this.userInfo.countVideo}}</div>
-      <div class="infobox">포토폴리오2: {{this.userInfo.portfolio2}}</div>
-		</div>
-	</div>
+	<v-row>
+    <v-col cols="6" class="infobox-box">
+      <span class="infobox">이름: {{userInfo.userName}}</span>
+    </v-col>
+    <v-col cols="6" class="infobox-box">
+      <span class="infobox">이메일: {{userInfo.userEmail}}</span>
+    </v-col>
+    <v-col cols="6" class="infobox-box">
+      <span class="infobox">생년월일: {{userInfo.birth}}</span>
+    </v-col>
+    <v-col cols="6" class="infobox-box">
+      <span class="infobox">전공: {{majors}}</span>
+    </v-col>
+    <v-col cols="6" class="infobox-box">
+      <span class="infobox">좋아요 갯수: {{this.userLike}}</span>
+    </v-col>
+    <v-col cols="6" class="infobox-box">
+      <span class="infobox">내 영상 갯수: {{userInfo.countVideo}}</span>
+    </v-col>
+    <v-col cols="6" class="infobox-box">
+      <span class="infobox">포트폴리오1: {{userInfo.portfolio1}}</span>
+    </v-col>
+    <v-col cols="6" class="infobox-box">
+      <span class="infobox">포트폴리오2: {{userInfo.portfolio2}}</span>
+    </v-col>
+	</v-row>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      userInfo: {
-        userEmail: String,
-        userName: String,
-        userNickname: String,
-        userBirth: String,
-        userPhone: String,
-        major1: String,
-        major2: String,
-        companyLike: Number,
-        portfolio1: String,
-        portfolio2: String,
-      }
-    }
-  },
-  created() {
-    this.userInfo=this.$store.state.mypage.data.userData
+  props: {
+    userLike: Number
   },
   computed: {
     majors() {
@@ -47,13 +43,27 @@ export default {
       } else {
         return major1 + major2
       }
+    },
+    userInfo() {
+      return this.$store.state.mypage.userData
     }
-  }
+  },
 }
 </script>
 
 <style>
 .infobox {
-  width: 400px;
+  background-color: #d5e8d6;
+  border-radius: 50px;
+  border: 1px solid #cbddcc;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.infobox-box {
+  display: flex;
+  align-items: center;
 }
 </style>

@@ -51,7 +51,7 @@
             </v-col>
           </v-row>
           <v-card-text class="text-center">
-            <u class="signup" @click="openSignUpModal">이런... 아직도 회원이 아니신가요?</u>
+            <p class="signup">기업회원 가입 문의: profileglance@pgcontact.com</p>
           </v-card-text>
         </v-container>
       </v-card-text>

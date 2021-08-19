@@ -1,11 +1,8 @@
-
 ![profile_glance_logo_letter](/uploads/b727b442004241ca246613e4dbc9fe44/profile_glance_logo_letter.jpg)
 
 
 
 # :pushpin: [Profile Glance 접속하기](https://profile_glance.site)  
-
----
 
 ### :loudspeaker: SSAFY 5기 TEAM 굴렁쇠
 
@@ -40,7 +37,6 @@ Spring : v2.5.3
 Mysql : v8.0.26-0ubuntu0.20.04.2 for Linux on x86_64 ((Ubuntu))  
 
 
----
 
 ## :heavy_check_mark: How to run
 
@@ -48,15 +44,14 @@ Mysql : v8.0.26-0ubuntu0.20.04.2 for Linux on x86_64 ((Ubuntu))
 
 $ git clone https://lab.ssafy.com/s05-webmobile1-sub3/S05P13A402.git 
 
-$ sudo nginx start  
+$ sudo service nginx start
 
-$ java -jar S05P13A402/back~~.jar  
+$ java -jar S05P13A402/deploy/backend-0.0.1-SNAPSHOT.jar
 
 ```
 
-> [배포 문서 참조]  
+## [📚Manual](https://lab.ssafy.com/s05-webmobile1-sub3/S05P13A402/-/blob/master/exec/%ED%8F%AC%ED%8C%85%20%EB%A7%A4%EB%89%B4%EC%96%BC.md)  
 
----
 
 ## 📅 Development Sprint ( 2021-07-12 ~ 2021-08-20 )
 

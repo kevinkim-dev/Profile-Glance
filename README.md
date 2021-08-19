@@ -2,7 +2,7 @@
 
 
 
-# :pushpin: [Profile Glance 접속하기](https://profile_glance.site)  
+# :pushpin: [Profile Glance 접속하기](https://profileglance.site)  
 
 ### :loudspeaker: SSAFY 5기 TEAM 굴렁쇠
 

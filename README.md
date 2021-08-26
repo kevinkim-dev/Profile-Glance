@@ -1,4 +1,4 @@
-![profile_glance_logo_letter](/uploads/b727b442004241ca246613e4dbc9fe44/profile_glance_logo_letter.jpg)
+![합쳐짐 png](https://user-images.githubusercontent.com/56018285/130911164-016b6236-d222-4fff-9e42-5a2c65b2a6ef.jpg)
 
 
 
@@ -8,7 +8,7 @@
 
 |TEAM 굴렁쇠||||||
 |:------|:------|:------|:------|:------|:------|
-|![동훈](/uploads/7635fca2983ff62f7b8f97044e4892df/동훈.jpg)  |![승현](/uploads/c3899741923717eb65d50c5244934c6b/승현.jpg) |![은교](/uploads/f2dbd2c17e0c1cba119c22328cef9006/은교.jpg)   |![순주](/uploads/62f47fc3dae3bb15d851cd4f72b90171/순주.jpg) |![동엽](/uploads/470f787aab897699d0f53d59b257785f/동엽.jpg)   |![재우](/uploads/2c842909d26c2203839ba1898c9cae18/재우.jpg) |
+|![동훈](https://user-images.githubusercontent.com/56018285/130910823-3e416e85-7063-4cc2-a422-878e5bd6d9ea.jpg)|![승현](https://user-images.githubusercontent.com/56018285/130910860-7bb56745-6f7d-4d59-96c6-2d69bb22b2d7.jpg) |![은교](https://user-images.githubusercontent.com/56018285/130910922-1f4becfd-ecd2-4a3e-a4cc-e8a623506464.jpg)   |![순주](https://user-images.githubusercontent.com/56018285/130910949-8184a788-7d97-490e-bc56-5463ac339e4b.jpg) |![동엽](https://user-images.githubusercontent.com/56018285/130910983-fed56471-7119-429f-ae19-aadf9e15f9e1.jpg)   |![재우](https://user-images.githubusercontent.com/56018285/130911017-369a7a43-425a-4a95-b78f-fca1b1e7a8b5.jpg) |
 |김동훈|김승현|정은교|권순주|민동엽|심재우|
 |Front-end|Front-end|Front-end|Back-end|Back-end|Back-end|
 |[@ehdgns5252](https://github.com/ehdgns5252)|[@kevinkim](https://github.com/kevinkim-dev)|[@gyoforit](https://github.com/gyoforit)|[@ssoonD](https://github.com/ssoonD)|[@dymin01](https://github.com/dymin01)|[@jeus1112](https://github.com/jeus1112)|
@@ -16,7 +16,7 @@
 
 ---
 
-![홈화면](/uploads/3d1b1d0389dff1116c8e5d15ada21fb8/홈화면.jpg)
+![홈화면](https://user-images.githubusercontent.com/56018285/130910762-b358b8cb-ab79-465c-a659-9edb1fa7a085.jpg)
 
 ---
 
@@ -50,18 +50,18 @@ $ java -jar S05P13A402/deploy/backend-0.0.1-SNAPSHOT.jar
 
 ```
 
-## [📚Manual](https://lab.ssafy.com/s05-webmobile1-sub3/S05P13A402/-/blob/master/exec/%ED%8F%AC%ED%8C%85%20%EB%A7%A4%EB%89%B4%EC%96%BC.md)  
+## [📚Manual](https://github.com/profileglance/Profile-Glance/blob/master/exec/%ED%8F%AC%ED%8C%85%20%EB%A7%A4%EB%89%B4%EC%96%BC.md)  
 
 
 ## 📅 Development Sprint ( 2021-07-12 ~ 2021-08-20 )
 
-![간트차트](/uploads/a5aa1675a49011f17b79f67fecfadf06/간트차트.png)
+![간트차트](https://user-images.githubusercontent.com/56018285/130911432-6174a82a-aefc-4e75-a2c2-502ce1246d24.png)
 
 ---
 
 ## 🛠 Development && Deploy Flow
 
-![개발플로우](/uploads/1e00d07359681b993ee03e5ad6672405/개발플로우.PNG)
+![개발플로우](https://user-images.githubusercontent.com/56018285/130911446-ed39f518-a69f-4270-97a1-3f8b589d0bc0.PNG)
 
 --- 
 ## 📋 Project Materials
@@ -71,8 +71,6 @@ $ java -jar S05P13A402/deploy/backend-0.0.1-SNAPSHOT.jar
 |Meeting Log|[Notion - ProfileGlance](https://www.notion.so/21d0d72865a94bd19148612876a1a499?v=40c622aa1bc840e3b65c0f3b3b222424)|
 |명세서|[Google - spreadsheets](https://docs.google.com/spreadsheets/d/147h6-QHLu33sOez8W4WL40S0X_Jm-LZTK7hpZQpQ6FI/edit#gid=0)|
 |ERD|[ERDcloud](https://www.erdcloud.com/d/EX2t8EBeRTCrdYNv7)|
-|Gitlab|[SSAFY - Gitlab](https://lab.ssafy.com/s05-webmobile1-sub3/S05P13A402)|
-|Jira|[SSAFY - Jira](https://jira.ssafy.com/secure/RapidBoard.jspa?rapidView=9666&projectKey=S05P13A402)|
 |Convention|[Notion - ProfileGlance](https://www.notion.so/git-convention-3571918af3ff4d7f8c23e79feddaefce)|
-|API Docs|[Swagger UI](https://profileglance.site:8877/swagger-ui/#/)|
+|API Docs|[Swagger UI](http://localhost:8877/swagger-ui/#/)|
 
